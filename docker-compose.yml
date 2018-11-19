@@ -1,0 +1,10 @@
+version: "2"
+
+services:
+  shiny_server:
+    build: .
+    ports:
+      - "3838:3838"
+    volumes:
+      - ./src:/srv/shiny-server/
+    user: 'shiny'
