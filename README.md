@@ -6,9 +6,10 @@ R / Shiny Web Application
 
 
 ## Developer
-Emma Fox (Ph.D. student,University of Maine)
+Emma Fox (Ph.D. student, University of Maine)
+
+
 emma.fox@maine.edu
-##########################################################################################
 
 
 ## TO-DO LIST
