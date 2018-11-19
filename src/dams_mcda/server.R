@@ -1,17 +1,3 @@
-##########################################################################################
-### Dam Decision-Making Criteria & Alternatives
-### Developer: Emma Fox (Ph.D. student,University of Maine)
-### emma.fox@maine.edu
-##########################################################################################
-
-###TO-DO LIST:
-#1)Format app (check)
-#2)Get tables and figures to print
-#3)Get launched on Shiny server
-#4)Get link to Shiny app
-#5)Test web app --> undergrad RAs, colleagues
-
-
 # This is the server logic of a Shiny web application. You can run the
 # application by clicking 'Run App' above.
 #

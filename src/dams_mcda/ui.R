@@ -1,9 +1,3 @@
-##########################################################################################
-### Dam Decision-Making Criteria & Alternatives
-### Developer: Emma Fox (Ph.D. student,University of Maine)
-### emma.fox@maine.edu
-##########################################################################################
-
 # This is the user-interface definition of a Shiny web application. You can
 # run the application by clicking 'Run App' above.
 #

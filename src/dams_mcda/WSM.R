@@ -1,4 +1,3 @@
-########################TEST######################################
 #base_dir <- "~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/"
 #working_dir <- paste(base_dir, "MCDA_11132018/WSM_Tool", sep="")
 #setwd(working_dir)
