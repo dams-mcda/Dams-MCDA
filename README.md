@@ -1,5 +1,5 @@
 Dams MCDA
 =======================
-Author: Emma Stone
+Author: Emma Fox
 
 R / Shiny Web Application
