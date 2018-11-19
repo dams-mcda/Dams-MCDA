@@ -15,16 +15,17 @@
 # This is the server logic of a Shiny web application. You can run the
 # application by clicking 'Run App' above.
 #
-base_dir <- "~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/"
-response_dir <- (base_dir + "responses/")
-working_dir <- (base_dir + "MCDA_11132018/WSM_Tool/")
+base_dir <- "/srv/shiny-server/dams_mcda/"
+response_dir <- paste(base_dir, "responses/", sep="")
+working_dir <- paste(base_dir, "", sep="")
 
-# Original Working Directory
-setwd(working_dir)
 
 library(shiny)
 library(ggplot2)
 library(dplyr)
+
+# Original Working Directory
+setwd(working_dir)
 source("WSM.R")
 
 
