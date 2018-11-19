@@ -76,7 +76,7 @@ shinyServer(function(input, output) {
 								xlab=c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity"),
 								col=c("darkblue", "purple", "green", "red", "yellow", "orange", "pink"))
 		Alt1_Results <- list(Alt1_Table, Alt1_Bar)
-}) #end observe event
+	}) #end observe event
 	output$SummTable1      <- renderTable(Alt1_Results[1])
 	output$SummPlot1       <- renderPlot(Alt1_Results[2])
 
@@ -167,13 +167,13 @@ shinyServer(function(input, output) {
 
 	######fill empty matrix with user input values
 	observeEvent(input$updateBtn, {
-					 Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
-					 Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
-					 Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
-					 Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
-					 Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
-					 Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
-					 Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
+		 Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
+		 Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
+		 Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
+		 Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
+		 Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
+		 Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
+		 Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
 	})   #end observe event
 
 	RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
@@ -186,7 +186,7 @@ shinyServer(function(input, output) {
 	#### Call WSM function to produce ranked alternatives result#####
 
 	WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
-	output$WSMTable <- renderTable(WSMResults[1])  
-	output$WSMBar  <-renderPlot({WSMResults[2]}) 
+	output$WSMTable <- renderTable(WSMResults[1])
+	output$WSMBar  <-renderPlot({WSMResults[2]})
 
-}) #end server 
+}) #end server

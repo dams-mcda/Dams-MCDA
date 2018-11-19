@@ -15,10 +15,6 @@ library(dplyr)
 # Define UI for Shiny web application
 shinyUI(fluidPage(
 	titlePanel("A Watershed-Scale Dam Decision Making Tool"),
-	#h5(
-	# HTML("<b>Created by: Emma Fox</b>"),
-	#HTML("<br>Shiny app code available on GITHUB for download: https://github.com/elbfox?tab=repositories")
-	#),
 	navlistPanel(
 		#Define layout
 		widths = c(4,8),
