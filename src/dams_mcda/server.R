@@ -5,6 +5,8 @@ base_dir <- "/srv/shiny-server/dams_mcda/"
 response_dir <- paste(base_dir, "responses/", sep="")
 working_dir <- paste(base_dir, "", sep="")
 
+enable_rownames <- TRUE
+
 
 library(shiny)
 library(ggplot2)
@@ -67,7 +69,7 @@ shinyServer(function(input, output) {
 
 	#ALTERNATIVE 1
 	observeEvent(input$updateBtn, {
-		Alt1        <- cbind(c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1))
+		Alt1        <- cbind(c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1))
 		Alt1_Table      <- as.matrix(data.frame(Alt1))
 		row.names(Alt1_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt1_Table)  <- "Raw Score"
@@ -83,7 +85,7 @@ shinyServer(function(input, output) {
 
 	#ALTERNATIVE 2
 	observeEvent(input$updateBtn, {
-		Alt2        <- cbind(c(input$FishBiomass2, input$RiverRec2, input$Reservoir2, input$ProjCost2, input$Safety2, input$NumProperties2, input$HydroCapacity2))
+		Alt2        <- cbind(c(input$FishBiomass2, input$RiverRec2, input$Reservoir2, input$ProjectCost2, input$Safety2, input$NumProperties2, input$HydroCapacity2))
 		Alt2_Table      <- as.matrix(data.frame(Alt2))
 		row.names(Alt2_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt2_Table)  <- "Raw Score"
@@ -99,7 +101,7 @@ shinyServer(function(input, output) {
 
 	#ALTERNATIVE 3
 	observeEvent(input$updateBtn, {
-		Alt3        <- cbind(c(input$FishBiomass3, input$RiverRec3, input$Reservoir3, input$ProjCost3, input$Safety3, input$NumProperties3, input$HydroCapacity3))
+		Alt3        <- cbind(c(input$FishBiomass3, input$RiverRec3, input$Reservoir3, input$ProjectCost3, input$Safety3, input$NumProperties3, input$HydroCapacity3))
 		Alt3_Table      <- as.matrix(data.frame(Alt3))
 		row.names(Alt3_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt3_Table)  <- "Raw Score"
@@ -115,7 +117,7 @@ shinyServer(function(input, output) {
 
 	#ALTERNATIVE 4
 	observeEvent(input$updateBtn, {
-		Alt4        <- cbind(c(input$FishBiomass4, input$RiverRec4, input$Reservoir4, input$ProjCost4, input$Safety4, input$NumProperties4, input$HydroCapacity4))
+		Alt4        <- cbind(c(input$FishBiomass4, input$RiverRec4, input$Reservoir4, input$ProjectCost4, input$Safety4, input$NumProperties4, input$HydroCapacity4))
 		Alt4_Table      <- as.matrix(data.frame(Alt4))
 		row.names(Alt4_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt4_Table)  <- "Raw Score"
@@ -131,7 +133,7 @@ shinyServer(function(input, output) {
 
 	#ALTERNATIVE 5
 	observeEvent(input$updateBtn, {
-		Alt5        <- cbind(c(input$FishBiomass5, input$RiverRec5, input$Reservoir5, input$ProjCost5, input$Safety5, input$NumProperties5, input$HydroCapacity5))
+		Alt5        <- cbind(c(input$FishBiomass5, input$RiverRec5, input$Reservoir5, input$ProjectCost5, input$Safety5, input$NumProperties5, input$HydroCapacity5))
 		Alt5_Table      <- as.matrix(data.frame(Alt5))
 		row.names(Alt5_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt5_Table)  <- "Raw Score"
@@ -147,7 +149,7 @@ shinyServer(function(input, output) {
 
 	#ALTERNATIVE 6
 	observeEvent(input$updateBtn, {
-		Alt6        <- cbind(c(input$FishBiomass6, input$RiverRec6, input$Reservoir6, input$ProjCost6, input$Safety6, input$NumProperties6, input$HydroCapacity6))
+		Alt6        <- cbind(c(input$FishBiomass6, input$RiverRec6, input$Reservoir6, input$ProjectCost6, input$Safety6, input$NumProperties6, input$HydroCapacity6))
 		Alt6_Table      <- as.matrix(data.frame(Alt6))
 		row.names(Alt6_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt6_Table)  <- "Raw Score"
@@ -166,27 +168,30 @@ shinyServer(function(input, output) {
 	RawCriteriaMatrix            <- data.frame(matrix(data=NA, nrow=6, ncol=7))
 
 	######fill empty matrix with user input values
-	observeEvent(input$updateBtn, {
-		 Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
-		 Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
-		 Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
-		 Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
-		 Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
-		 Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
-		 Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
+	observeEvent(input$generateMatrix, {
+		# debug empty table size
+		Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
+		Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
+		Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
+		Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
+		Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
+		Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
+		Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
+
+		RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
+
+		row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
+		colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
+
+		CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
+
+		output$FilledTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
+
+		##### Call WSM function to produce ranked alternatives result#####
+		WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
+		output$WSMTable <- renderTable(WSMResults[1])
+		output$WSMBar  <-renderPlot({WSMResults[2]})
 	})   #end observe event
 
-	RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
-
-	row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-	colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
-
-	CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
-
-	#### Call WSM function to produce ranked alternatives result#####
-
-	WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
-	output$WSMTable <- renderTable(WSMResults[1])
-	output$WSMBar  <-renderPlot({WSMResults[2]})
 
 }) #end server
