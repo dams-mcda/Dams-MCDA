@@ -35,8 +35,11 @@ library(dplyr)
 
 ####################TEST###########################################
 
+colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
+
 #Garrett's version of MCDA fn, modified for DAM DECISION purposes
 WSM   <-function(CritImportance, RawCriteriaMatrix){
+	message('WSM init')
 
 	#Build empty min/max vectors
 	WSMMaxVector   <-cbind(c(NA, NA, NA, NA, NA, NA))
@@ -54,6 +57,7 @@ WSM   <-function(CritImportance, RawCriteriaMatrix){
 	#Build Score Matrix
 	WSMScoreMatrix     <-data.frame(matrix(data=NA, nrow = 6, ncol = 7))
 
+	message('WSM score matrix start')
 	for (k in 1:7){
 		for (n in 1:6){
 			if (k == 1){
@@ -74,29 +78,42 @@ WSM   <-function(CritImportance, RawCriteriaMatrix){
 
 		} #End alternative (rows) for loop.
 	} #End criteria (columns) for loop.
+	message('WSMScoreMatrix')
+	message(WSMScoreMatrix)
 
-	IntermediateMatrix      <-data.frame(matrix(data=NA, nrow=6, ncol=7))
-	IntermediateMatrix[1:6, 1:7]      <-round(WSMScoreMatrix,3)
-	IntermediateMatrix
+	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=6, ncol=7))
+	IntermediateMatrix[1:6, 1:7] <- round(WSMScoreMatrix,3)
 
+	message('IntermediateMatrix')
+	message(IntermediateMatrix)
+
+	message('WSM score sum')
 	#for (n in 1:6){
 	scoresum <- c(NA, NA, NA, NA, NA, NA)
-	scoresum  <-rbind(c(sum(as.numeric(IntermediateMatrix[1:6,1]))), c(sum(as.numeric(IntermediateMatrix[1:6,2]))), c(sum(as.numeric(IntermediateMatrix[1:6,3]))), c(sum(as.numeric(IntermediateMatrix[1:6,4]))),
-					  c(sum(as.numeric(IntermediateMatrix[1:6,5]))), c(sum(as.numeric(IntermediateMatrix[1:6,6]))))
+	scoresum <- rbind(c(sum(as.numeric(IntermediateMatrix[1:6,1]))),
+					  c(sum(as.numeric(IntermediateMatrix[1:6,2]))),
+					  c(sum(as.numeric(IntermediateMatrix[1:6,3]))),
+					  c(sum(as.numeric(IntermediateMatrix[1:6,4]))),
+					  c(sum(as.numeric(IntermediateMatrix[1:6,5]))),
+					  c(sum(as.numeric(IntermediateMatrix[1:6,6]))))
 	#}
+	message('WSM score sum done')
 
-	WSMScoreDF              <-as.matrix(data.frame(cbind(IntermediateMatrix, scoresum)))
-	t_IntermediateMatrix    <-t(IntermediateMatrix)
+	WSMScoreDF <- as.matrix(data.frame(cbind(IntermediateMatrix, scoresum)))
+	t_IntermediateMatrix <- t(IntermediateMatrix)
 
-	row.names(WSMScoreDF)   <-paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-	colnames(WSMScoreDF)    <-paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score"), sep = " ")
+	row.names(WSMScoreDF) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
+	colnames(WSMScoreDF) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score"), sep = " ")
+	message('WSM names done')
+
 	#Make Bar Chart
 	WSMBar <- barplot(t_IntermediateMatrix, main="WSM Ranked Alternatives",
 					  xlab=c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"),
-					  col=c("darkblue", "purple", "green", "red", "yellow", "orange", "pink"),
+					  col=colors,
 					  legend = c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Costs", "Safety", "Number of Houses", "Hydropower Capacity"))
 
-	WSMResults  <-list(WSMScoreDF, WSMBar)
+	WSMResults <- list(WSMScoreDF, WSMBar, IntermediateMatrix)
+	message('WSM results done')
 	return(WSMResults)
 }
 
