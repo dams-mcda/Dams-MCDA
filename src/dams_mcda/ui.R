@@ -175,8 +175,7 @@ shinyUI(fluidPage(
 		tabPanel("Output",
 				 HTML("<br><b>Use this button to get results:"),
 				 actionButton("generateMatrix", "Generate"),
-				 tableOutput("EmptyTable"),
-				 tableOutput("FilledTable"),
+				 tableOutput("FilledCriteriaTable"), # for debugging criteria table
 				 tableOutput("WSMTable"),
 				 plotOutput("WSMPlot")),
 		id = "tabs"

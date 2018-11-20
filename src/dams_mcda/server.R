@@ -169,7 +169,6 @@ shinyServer(function(input, output) {
 
 	######fill empty matrix with user input values
 	observeEvent(input$generateMatrix, {
-		# debug empty table size
 		Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
 		Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
 		Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
@@ -185,7 +184,8 @@ shinyServer(function(input, output) {
 
 		CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
 
-		output$FilledTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
+		# for debugging table size
+		output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
 
 		##### Call WSM function to produce ranked alternatives result#####
 		WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
