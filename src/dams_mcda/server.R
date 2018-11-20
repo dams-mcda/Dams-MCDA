@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(dplyr)
+library(datasets)
 source("WSM.R")
 
 
@@ -68,6 +69,15 @@ loadData <- function() {
 #	data
 }
 
+renderPlotFunction <- function(input) {
+	message('rendering Plot')
+	return( barplot(WorldPhones[,input$region]*1000,
+		main=input$region,
+		ylab="Number of Telephones",
+		xlab="Year")
+	)
+}
+
 #--------------------------------------------------------------------------------
 # SERVER
 # Define server logic required to draw a histogram
@@ -86,18 +96,23 @@ shinyServer(function(input, output) {
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
+		# get decision array
 		Alt1        <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
 		message('alt1-table')
 		message(Alt1)
 
+		# create table matrix
 		Alt1_Table      <- as.matrix(data.frame(Alt1))
+		# assign column, rows
 		row.names(Alt1_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 		colnames(Alt1_Table)  <- "Raw Score"
 
+		# create table
 		t_Alt1_Table <- t(Alt1_Table)
 		message('t_alt1 plot data')
 		message(t_Alt1_Table)
 
+		# set up data structure for barplot
 		Alt1Matrix <- matrix(NA, nrow=2, ncol=7)
 		Alt1Matrix[1,] <- c(1,2,3,4,5,6,7)
 		Alt1Matrix[2,] <- Alt1
@@ -115,6 +130,8 @@ shinyServer(function(input, output) {
 		message(Alt1_Bar)
 
 		print(Alt1_Results[2])
+
+		output$SummPlot1Test <- renderPlot(renderPlotFunction(input))
 
 		# results
 		output$SummTable1      <- renderTable(Alt1_Results[1])
