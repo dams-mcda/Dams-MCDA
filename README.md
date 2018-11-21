@@ -4,9 +4,14 @@ Dam Decision-Making Criteria & Alternatives
 
 * R / Shiny Web Application
 
+
+	* Located in src/dams_mcda/*
+
+
 * Docker container for hosting
 
-* Apache Configuration for Proxying from host to Docker Containe
+
+* Apache Configuration for Proxying to Docker
 
 
 ## Developers
