@@ -48,11 +48,7 @@ shinyUI(fluidPage(
 
 				actionButton("updateBtn1", "Update"),
 
-
 				tableOutput("SummTable1"),
-				HTML("Plot TEST"),
-				plotOutput(outputId="SummPlot1Test"), # end
-				HTML("plot"),
 				plotOutput("SummPlot1")), # end
 		#End Alternative 1: Dam Removal Tab
 
@@ -186,11 +182,7 @@ shinyUI(fluidPage(
 				 HTML('WSMPlot'),
 				 HTML('END'),
 				 plotOutput("WSMPlot", height=300)),
-		sidebarPanel(
-			selectInput("region", "Region:", choices=colnames(WorldPhones)),
-			hr(),
-			helpText("Data from AT&T (1961) The World's Telephones.")
-		),
+
 		id = "tabs"
     )
 ))
