@@ -2,7 +2,11 @@ Dam Decision-Making Criteria & Alternatives
 ==========================
 
 
-R / Shiny Web Application
+* R / Shiny Web Application
+
+* Docker container for hosting
+
+* Apache Configuration for Proxying from host to Docker Containe
 
 
 ## Developers
