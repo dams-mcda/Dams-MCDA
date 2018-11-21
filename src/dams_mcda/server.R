@@ -91,6 +91,7 @@ loadData <- function() {
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
 renderBarPlot <- function(data, title, names, x_label, y_label, colors, x_limit, y_limit) {
+	# debug data
 	message('BarPlot. data:')
 	message(data)
 	return( renderPlot(barplot(

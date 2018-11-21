@@ -38,43 +38,55 @@ library(dplyr)
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 
 #Garrett's version of MCDA fn, modified for DAM DECISION purposes
-WSM   <-function(CritImportance, RawCriteriaMatrix){
+WSM <- function(CritImportance, RawCriteriaMatrix){
+	message('--------------------------------------------------------------------------------')
 	message('WSM init')
+	message('--------------------------------------------------------------------------------')
 
 	#Build empty min/max vectors
-	WSMMaxVector   <-cbind(c(NA, NA, NA, NA, NA, NA))
-	WSMMinVector   <-cbind(c(NA, NA, NA, NA, NA, NA))
+	WSMMaxVector <- cbind(c(NA, NA, NA, NA, NA, NA))
+	WSMMinVector <- cbind(c(NA, NA, NA, NA, NA, NA))
 
 	#Fill min/max vectors
 	#for (k in 1:7){
-	WSMMaxVector   <-c(max(RawCriteriaMatrix[,1], na.rm = FALSE), max(RawCriteriaMatrix[,2], na.rm = FALSE), max(RawCriteriaMatrix[,3], na.rm = FALSE),
+	WSMMaxVector <- c(max(RawCriteriaMatrix[,1], na.rm = FALSE), max(RawCriteriaMatrix[,2], na.rm = FALSE), max(RawCriteriaMatrix[,3], na.rm = FALSE),
 					   max(RawCriteriaMatrix[,4], na.rm = FALSE), max(RawCriteriaMatrix[,5], na.rm = FALSE), max(RawCriteriaMatrix[,6], na.rm = FALSE), 
 					   max(RawCriteriaMatrix[,7], na.rm = FALSE))
 
-	WSMMinVector   <-c(min(RawCriteriaMatrix[,1], na.rm = FALSE), min(RawCriteriaMatrix[,2], na.rm = FALSE), min(RawCriteriaMatrix[,3], na.rm = FALSE), 
-					   min(RawCriteriaMatrix[,4], na.rm = FALSE), min(RawCriteriaMatrix[,5], na.rm = FALSE), min(RawCriteriaMatrix[,6], na.rm = FALSE), 
-					   min(RawCriteriaMatrix[,7], na.rm = FALSE))
+	WSMMinVector <- c(min(RawCriteriaMatrix[,1], na.rm = FALSE), min(RawCriteriaMatrix[,2], na.rm = FALSE), min(RawCriteriaMatrix[,3], na.rm = FALSE), 
+					  min(RawCriteriaMatrix[,4], na.rm = FALSE), min(RawCriteriaMatrix[,5], na.rm = FALSE), min(RawCriteriaMatrix[,6], na.rm = FALSE), 
+					  min(RawCriteriaMatrix[,7], na.rm = FALSE))
+
+	message('min vector')
+	message(WSMMinVector)
+	message('max vector')
+	message(WSMMaxVector)
+
 	#Build Score Matrix
-	WSMScoreMatrix     <-data.frame(matrix(data=NA, nrow = 6, ncol = 7))
+	WSMScoreMatrix <- data.frame(matrix(data=NA, nrow = 6, ncol = 7))
 
 	message('WSM score matrix start')
 	for (k in 1:7){
 		for (n in 1:6){
 			if (k == 1){
-				WSMScoreMatrix[n,k] <-((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}else if (k == 2){
-				WSMScoreMatrix[n,k] <-((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}else if (k == 3){
-				WSMScoreMatrix[n,k] <-((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}else if (k == 4){
-				WSMScoreMatrix[n,k] <-((WSMMaxVector[k]-RawCriteriaMatrix[n,k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((WSMMaxVector[k]-RawCriteriaMatrix[n,k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}else if (k == 5){
-				WSMScoreMatrix[n,k] <-((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}else if (k == 6){
-				WSMScoreMatrix[n,k] <-((WSMMaxVector[k]-RawCriteriaMatrix[n,k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((WSMMaxVector[k]-RawCriteriaMatrix[n,k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}else if (k == 7){
-				WSMScoreMatrix[n,k] <-((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
+				WSMScoreMatrix[n,k] <- ((RawCriteriaMatrix[n,k]-WSMMinVector[k])/(WSMMaxVector[k]-WSMMinVector[k]))*CritImportance[k]
 			}
+			message('raw value')
+			message(RawCriteriaMatrix[n,k])
+			message('new value')
+			message(WSMScoreMatrix[n,k])
 
 		} #End alternative (rows) for loop.
 	} #End criteria (columns) for loop.
