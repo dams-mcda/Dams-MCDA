@@ -19,18 +19,34 @@ working_dir <- paste(base_dir, "", sep="") # default
 setwd(working_dir) # initial directory
 responsesDir <- file.path(response_dir) # directory where responses get stored
 
+#----------------------------------------
+# Output
+#----------------------------------------
 # table output: set to TRUE to show row names
 enable_rownames <- TRUE
 
-# default color array
+#----------------------------------------
+# Defaults
+#----------------------------------------
+# default graph color array
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
+# default graph score range
+score_range = c(1, 5)
+# default names of the fields
+variable_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 
-# fix R.plots.pdf error (https://stackoverflow.com/questions/36777416/plotly-plot-not-rendering-on-shiny-server)
+#----------------------------------------
+# Misc.
+#----------------------------------------
+# fix R.plots.pdf error
+# (see: https://stackoverflow.com/questions/36777416/plotly-plot-not-rendering-on-shiny-server)
 # needed when calling barplot
 pdf(NULL)
 
+# TODO: do we need this?
 # identify which fields get saved
 #fieldsAll <- c(Fish, Rec, Res, Cost, Safe, Houses, Power, WSMResults)
+# End of static variables
 
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
@@ -68,6 +84,28 @@ loadData <- function() {
 #	data
 }
 
+
+# renderBarPlotFunction
+# wrapper for barplot with a debug message
+# when no value is needed pass NULL for a field
+# x_limit and y_limit are arrays when not NULL
+# xpd == False disables bars being drawn outsize graph canvas
+renderBarPlot <- function(data, title, names, x_label, y_label, colors, x_limit, y_limit) {
+	message('BarPlot. data:')
+	message(data)
+	return( renderPlot(barplot(
+			data,
+			main=title,
+			names.arg=names,
+			xlab=x_label, ylab=y_label,
+			xlim=x_limit, ylim=y_limit,
+			col=colors,
+			xpd=FALSE
+			)
+		)
+	)
+}
+
 #--------------------------------------------------------------------------------
 # SERVER
 # Define server logic required to draw a histogram
@@ -86,39 +124,26 @@ shinyServer(function(input, output) {
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
-		Alt1        <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
-		message('alt1-table')
-		message(Alt1)
+		# get decision inputs
+		Alt1 <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
 
-		Alt1_Table      <- as.matrix(data.frame(Alt1))
-		row.names(Alt1_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
-		colnames(Alt1_Table)  <- "Raw Score"
-
-		t_Alt1_Table <- t(Alt1_Table)
-		message('t_alt1 plot data')
-		message(t_Alt1_Table)
-
-		Alt1Matrix <- matrix(NA, nrow=2, ncol=7)
-		Alt1Matrix[1,] <- c(1,2,3,4,5,6,7)
-		Alt1Matrix[2,] <- Alt1
-		message('matrix')
-		message(Alt1Matrix)
-
-		Alt1_Bar <- barplot(Alt1Matrix, main="Raw Scores Alternative 1",
-							xlab=c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity"),
-							col=colors)
-
-		Alt1_Results <- list(Alt1_Table, Alt1_Bar)
-
-		message('event1 plot array')
-		message(Alt1_Results)
-		message(Alt1_Bar)
-
-		print(Alt1_Results[2])
+		# create table matrix 1x5
+		Alt1_Table <- as.matrix(data.frame(Alt1))
+		row.names(Alt1_Table) <- variable_names
+		colnames(Alt1_Table) <- "Raw Score"
 
 		# results
-		output$SummTable1      <- renderTable(Alt1_Results[1])
-		output$SummPlot1       <- renderPlot({Alt1_Results[2]})
+		output$SummTable1 <- renderTable(Alt1_Table, rownames=enable_rownames)
+		output$SummPlot1 <- renderBarPlot(
+								Alt1, # data
+								"Raw Scores of Alternative 1", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
 	}) # end observe event
 
 
@@ -128,7 +153,7 @@ shinyServer(function(input, output) {
 	observeEvent(input$updateBtn2, {
 		Alt2        <- cbind(c(input$FishBiomass2, input$RiverRec2, input$Reservoir2, input$ProjectCost2, input$Safety2, input$NumProperties2, input$HydroCapacity2))
 		Alt2_Table      <- as.matrix(data.frame(Alt2))
-		row.names(Alt2_Table) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
+		row.names(Alt2_Table) <- variable_names
 		colnames(Alt2_Table)  <- "Raw Score"
 		t_Alt2_Table    <-t(Alt2_Table)
 		Alt2_Bar        <-barplot(t_Alt2_Table, main="Raw Scores Alternative 1",

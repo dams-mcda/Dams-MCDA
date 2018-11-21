@@ -182,6 +182,7 @@ shinyUI(fluidPage(
 				 HTML('WSMPlot'),
 				 HTML('END'),
 				 plotOutput("WSMPlot", height=300)),
+
 		id = "tabs"
     )
 ))
