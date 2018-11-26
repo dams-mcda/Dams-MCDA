@@ -36,6 +36,9 @@ score_range = c(1, 5)
 variable_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
 wsm_bar_plot_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam")
 
+# Keep track of completed sections
+alternatives_completed = vector()
+
 #----------------------------------------
 # Misc.
 #----------------------------------------
@@ -109,24 +112,45 @@ renderBarPlot <- function(data, title, names, x_label, y_label, colors, x_limit,
 	)
 }
 
+# remove and refill progress of a status
+# action is "remove" or "add"
+# TODO: finish
+updateProgress <- function(action, id){
+	if (id %in% alternatives_completed & action == "remove"){
+	}else if (action =="add"){
+	}
+}
+
 #--------------------------------------------------------------------------------
 # SERVER
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 shinyServer(function(input, output) {
-
 	#----------------------------------------
 	# INTRO TEXT
 	#----------------------------------------
 	output$Introduction    <- renderText("This R Shiny app supports decision making about hydropower dams at a watershed scale, using a set of criteria and decision alternatives identified through stakeholder interviews. The tool uses a Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision maker preferences for criteria over a set of decision alternatives. Toggle through the ALTERNATIVE pages at left to compare criteria under a single decision alternative and view alternative-specific results. Select the OUTPUT tab and click UPDATE to view results after completing all alternative comparisons.")
 	output$Citations       <- renderText("SEE ALSO: Raymond, G. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/")
 
+	# initial tabs status
+	output$Alt1 <- renderUI(list(
+		"Alternative 1: Dam Removal",
+		tags$span('Not Complete', class="alt-not-complete")
+	))
+
 	######## RAW OUTPUT for each Alternative ########
 
 	#----------------------------------------
 	# ALTERNATIVE 1
 	#----------------------------------------
+	# update event
 	observeEvent(input$updateBtn1, {
+		# update the tab status
+		output$Alt1 <- renderUI(list(
+			'Alternative 1: Dam Removal',
+			tags$span('Complete', class="alt-complete")
+		))
+
 		# get decision inputs
 		Alt1 <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
 
@@ -288,7 +312,6 @@ shinyServer(function(input, output) {
 	#--------------------------------------------------------------------------------
 	# MCDA Table Output
 	#--------------------------------------------------------------------------------
-
 	# initial empty matrix.
 	RawCriteriaMatrix            <- data.frame(matrix(data=NA, nrow=6, ncol=7))
 
@@ -330,7 +353,6 @@ shinyServer(function(input, output) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
-	})   # end generate button event
+	})   # end 'output' tab > on generate button event
 
-
-}) #end server
+}) # end server

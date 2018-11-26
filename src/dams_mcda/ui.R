@@ -12,25 +12,33 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 
+
 # Define UI for Shiny web application
 shinyUI(fluidPage(
+	# link css
+	tags$head(
+		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")
+	),
 	titlePanel("A Watershed-Scale Dam Decision Making Tool"),
 	navlistPanel(
-		#Define layout
+		# Define layout widths
 		widths = c(4,8),
 
 		#Define Instructions tab
 		tabPanel("Multi-Criteria Decision Analysis",
 				textOutput("Introduction"),
-				#h5(
-				# HTML("<b>Created by: Emma Fox</b>"),
-				#HTML("<br>Shiny app code available on GITHUB for download: https://github.com/elbfox?tab=repositories")
-				#),
+				# HTML("<h5><b>Created by: Emma Fox</b></h5>"),
+				# HTML("Shiny app code available on GITHUB for download: https://github.com/elbfox?tab=repositories")
 				textOutput("Citations")),
 
-		tabPanel("Alternative 1: Dam Removal",
+		tabPanel(
+				#"Alternative 1: Dam Removal",
+				htmlOutput("Alt1"),
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of dam removal.<br>
 					 <br>In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				# status indicator
+				#tags$div(id="Alt1_status"),
+
 				#Fish Biomass
 				sliderInput(inputId = "FishBiomass1", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
 				#River Recreation
@@ -55,6 +63,9 @@ shinyUI(fluidPage(
 		tabPanel("Alternative 2: Improve Fish Passage Facilities",
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of improvements to fish passage facilities.<br>
 					 <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				# status indicator
+				tags$div(id="Alt2_status"),
+
 				#Fish Biomass
 				sliderInput(inputId = "FishBiomass2", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
 				#River Recreation
@@ -79,6 +90,9 @@ shinyUI(fluidPage(
 		tabPanel("Alternative 3: Upgrade or Replace Turbines at Existing Powered Dams",
 				 HTML("Indicate your level of preference associated with each of the following criteria in the case of turbine upgrades or replacements.<br>
 					  <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				# status indicator
+				tags$div(id="Alt3_status"),
+
 				 #Fish Biomass
 				 sliderInput(inputId = "FishBiomass3", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
 				 #River Recreation
@@ -103,6 +117,9 @@ shinyUI(fluidPage(
 		tabPanel("Alternative 4: Installing Turbines or Expanding Existing Capacity",
 				 HTML("Indicate your level of preference associated with each of the following criteria in the case of installing turbines or expanding hyropower capacity.<br>
 					  <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				# status indicator
+				tags$div(id="Alt4_status"),
+
 				 #Fish Biomass
 				 sliderInput(inputId = "FishBiomass4", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
 				 #River Recreation
@@ -127,6 +144,9 @@ shinyUI(fluidPage(
 		tabPanel("Alternative 5: Refurbishment, Restoration, or Maintenance",
 				 HTML("Indicate your level of preference associated with each of the following criteria in the case of refurbishment, restoration, or maintenance.<br>
 					  <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				# status indicator
+				tags$div(id="Alt5_status"),
+
 				 #Fish Biomass
 				 sliderInput(inputId = "FishBiomass5", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
 				 #River Recreation
@@ -151,6 +171,9 @@ shinyUI(fluidPage(
 		tabPanel("Alternative 6: Keep Dam (Do Nothing)",
 				 HTML("Indicate your level of preference associated with each of the following criteria in the case of keeping the dam (doing nothing).<br>
 					  <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				# status indicator
+				tags$div(id="Alt6_status"),
+
 				 #Fish Biomass
 				 sliderInput(inputId = "FishBiomass6", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
 				 #River Recreation
@@ -173,8 +196,14 @@ shinyUI(fluidPage(
 		#End Alternative 6: Keep Dam (Do Nothing) Tab
 
 		tabPanel("Output",
-				 HTML("<br><b>Use this button to get results:</b>"),
+				 #TODO:?  could warn user here if they havent completed everything
+				 HTML("<br><b>After completing all Alternatives use this button to get results:</b>"),
+
+				 # event
+				 #TODO:? we could make event fire by checking if all alternatives have been 'updated'
 				 actionButton("generateMatrix", "Generate"),
+
+				 # output tables
 				 HTML('<br>FilledCriteriaTable<br>'),
 				 tableOutput("FilledCriteriaTable"), # for debugging criteria table
 				 HTML('<br>WSMTable<br>'),
