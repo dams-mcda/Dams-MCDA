@@ -81,8 +81,8 @@ WSM   <-function(CritImportance, RawCriteriaMatrix){
 
 	#for (n in 1:6){
 	scoresum <- c(NA, NA, NA, NA, NA, NA)
-	scoresum  <-rbind(c(sum(as.numeric(IntermediateMatrix[1:6,1]))), c(sum(as.numeric(IntermediateMatrix[1:6,2]))), c(sum(as.numeric(IntermediateMatrix[1:6,3]))), c(sum(as.numeric(IntermediateMatrix[1:6,4]))), 
-					  c(sum(as.numeric(IntermediateMatrix[1:6,5]))), c(sum(as.numeric(IntermediateMatrix[1:6,6]))))  
+	scoresum  <-rbind(c(sum(as.numeric(IntermediateMatrix[1:6,1]))), c(sum(as.numeric(IntermediateMatrix[1:6,2]))), c(sum(as.numeric(IntermediateMatrix[1:6,3]))), c(sum(as.numeric(IntermediateMatrix[1:6,4]))),
+					  c(sum(as.numeric(IntermediateMatrix[1:6,5]))), c(sum(as.numeric(IntermediateMatrix[1:6,6]))))
 	#}
 
 	WSMScoreDF              <-as.matrix(data.frame(cbind(IntermediateMatrix, scoresum)))

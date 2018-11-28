@@ -5,7 +5,7 @@ Dam Decision-Making Criteria & Alternatives
 R / Shiny Web Application
 
 
-## Developer
+## Developers
 Emma Fox (Ph.D. student, University of Maine)
 
 
