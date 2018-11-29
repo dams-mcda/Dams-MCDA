@@ -1,0 +1,9 @@
+# server log
+logs/*
+
+# swap files
+*.swp
+*.swo
+
+# dont track responses in repo
+src/dams_mcda/responses/*

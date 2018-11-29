@@ -46,10 +46,10 @@ shinyUI(fluidPage(
 				#Hydropower Capacity
 				sliderInput(inputId = "HydroCapacity1", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
 
-				actionButton("updateBtn", "Update"),
+				actionButton("updateBtn1", "Update"),
 
 				tableOutput("SummTable1"),
-				plotOutput("SummPlot1")), #THIS DOESN'T EXIST YET###
+				plotOutput("SummPlot1")), # end
 		#End Alternative 1: Dam Removal Tab
 
 		tabPanel("Alternative 2: Improve Fish Passage Facilities",
@@ -70,7 +70,7 @@ shinyUI(fluidPage(
 				#Hydropower Capacity
 				sliderInput(inputId = "HydroCapacity2", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
 
-				actionButton("updateBtn", "Update"),
+				actionButton("updateBtn2", "Update"),
 
 				tableOutput("SummTable2"),
 				plotOutput("SummPlot2")), #End main panel
@@ -94,7 +94,7 @@ shinyUI(fluidPage(
 				 #Hydropower Capacity
 				 sliderInput(inputId = "HydroCapacity3", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
 
-				 actionButton("updateBtn", "Update"),
+				 actionButton("updateBtn3", "Update"),
 
 				 tableOutput("SummTable3"),
 				 plotOutput("SummPlot3")), #End main panel
@@ -118,7 +118,7 @@ shinyUI(fluidPage(
 				 #Hydropower Capacity
 				 sliderInput(inputId = "HydroCapacity4", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
 
-				 actionButton("updateBtn", "Update"),
+				 actionButton("updateBtn4", "Update"),
 
 				 tableOutput("SummTable4"),
 				 plotOutput("SummPlot4")), #End main panel
@@ -142,7 +142,7 @@ shinyUI(fluidPage(
 				 #Hydropower Capacity
 				 sliderInput(inputId = "HydroCapacity5", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
 
-				 actionButton("updateBtn", "Update"),
+				 actionButton("updateBtn5", "Update"),
 
 				 tableOutput("SummTable5"),
 				 plotOutput("SummPlot5")), #End main panel
@@ -166,18 +166,23 @@ shinyUI(fluidPage(
 				 #Hydropower Capacity
 				 sliderInput(inputId = "HydroCapacity6", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
 
-				 actionButton("updateBtn", "Update"),
+				 actionButton("updateBtn6", "Update"),
 
 				 tableOutput("SummTable6"),
 				 plotOutput("SummPlot6")), #End main panel
 		#End Alternative 6: Keep Dam (Do Nothing) Tab
 
 		tabPanel("Output",
-				 HTML("<br><b>Use this button to get results:"),
+				 HTML("<br><b>Use this button to get results:</b>"),
 				 actionButton("generateMatrix", "Generate"),
+				 HTML('<br>FilledCriteriaTable<br>'),
 				 tableOutput("FilledCriteriaTable"), # for debugging criteria table
+				 HTML('<br>WSMTable<br>'),
 				 tableOutput("WSMTable"),
-				 plotOutput("WSMPlot")),
+				 HTML('<br>WSMPlot<br>'),
+				 plotOutput("WSMPlot", height=300),
+				 HTML('<br>END')),
+
 		id = "tabs"
     )
 ))
