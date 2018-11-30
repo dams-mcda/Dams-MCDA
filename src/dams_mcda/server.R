@@ -9,8 +9,7 @@ source("WSM.R")
 #--------------------------------------------------------------------------------
 
 #----------------------------------------
-# working directories
-# path where files are saved/opened (if any)
+# Working Directories: path where files are saved/opened (if any)
 #----------------------------------------
 base_dir <- "/srv/shiny-server/dams_mcda/" # root
 response_dir <- paste(base_dir, "responses/", sep="") # where responses are saved
@@ -22,8 +21,7 @@ responsesDir <- file.path(response_dir) # directory where responses get stored
 #----------------------------------------
 # Output
 #----------------------------------------
-# table output: set to TRUE to show row names
-enable_rownames <- TRUE
+enable_rownames <- TRUE # set to TRUE to show row names on tables
 
 #----------------------------------------
 # Defaults
@@ -56,18 +54,24 @@ pdf(NULL)
 # FILE/DATA STORAGE
 #--------------------------------------------------------------------------------
 
+# epochTime
+#----------------------------------------
 # get current Epoch time
 epochTime <- function() {
 	return(as.integer(Sys.time()))
 }
 
 
+# humanTime
+#----------------------------------------
 # get a formatted string of the timestamp (exclude colons as they are invalid characters in Windows filenames)
 humanTime <- function() {
 	format(Sys.time(), "%Y%m%d-%H%M%OS")
 }
 
 
+# saveData
+#----------------------------------------
 # save the results to a file
 saveData <- function(data) {
 	fileName <- sprintf("ResultsRaw.csv",
@@ -78,7 +82,8 @@ saveData <- function(data) {
 			  row.names = FALSE, quote = TRUE)
 }
 
-
+# loadData
+#----------------------------------------
 # load all responses into a data.frame
 loadData <- function() {
 	files <- list.files(file.path(responsesDir), full.names = TRUE)
@@ -90,6 +95,7 @@ loadData <- function() {
 
 
 # renderBarPlotFunction
+#----------------------------------------
 # wrapper for barplot with a debug message
 # when no value is needed pass NULL for a field
 # x_limit and y_limit are arrays when not NULL
@@ -112,10 +118,12 @@ renderBarPlot <- function(data, title, names, x_label, y_label, colors, x_limit,
 	)
 }
 
+# updateAlternativeStatus
+#----------------------------------------
 # remove and refill progress of a status
-# action is "remove" or "add"
+# action is status to apply "remove" or "add"
 # TODO: finish
-updateProgress <- function(action, id){
+updateAlternativeStatus <- function(action, id){
 	if (id %in% alternatives_completed & action == "remove"){
 	}else if (action =="add"){
 	}
