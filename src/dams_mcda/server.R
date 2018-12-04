@@ -170,13 +170,17 @@ alternativesCompleted <- function(completed){
 #--------------------------------------------------------------------------------
 shinyServer(function(input, output, session) {
 
+	#--------------------------------------------------------------------------------
+	# Initial Application State for session
+	#--------------------------------------------------------------------------------
 	observe({
+		#----------------------------------------
 		# Keep track of completed sections
+		#----------------------------------------
 		session$userData[['alternatives_completed']] <- c()
-		message('client alt completed', session$clientData[['alternatives_completed']])
 
 		#----------------------------------------
-		# INTRO TEXT
+		# Initial Intro Text
 		#----------------------------------------
 		output$Introduction    <- renderText("This R Shiny app supports decision making about hydropower dams at a watershed scale, using a set of criteria and decision alternatives identified through stakeholder interviews. The tool uses a Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision maker preferences for criteria over a set of decision alternatives. Toggle through the ALTERNATIVE pages at left to compare criteria under a single decision alternative and view alternative-specific results. Select the OUTPUT tab and click UPDATE to view results after completing all alternative comparisons.")
 		output$Citations       <- renderText("SEE ALSO: Raymond, G. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/")
@@ -211,7 +215,7 @@ shinyServer(function(input, output, session) {
 	})
 
 	#--------------------------------------------------------------------------------
-	# Alternative Update Events
+	# Alternative Update Event Listeners
 	#--------------------------------------------------------------------------------
 
 	#----------------------------------------
