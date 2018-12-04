@@ -130,7 +130,10 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	# Output: Intermediate + Score Sum
 	#----------------------------------------
 	WSMScoreDF <- data.frame(cbind(IntermediateMatrix, scoresum))
-	WSMBarPlotData <- t(IntermediateMatrix)
+
+	# barplot shows score sum?
+	#WSMBarPlotData <- t(IntermediateMatrix)
+	WSMBarPlotData <- scoresum
 
 	# column/row names of Table Ouput: WSMTable
 	row.names(WSMScoreDF) <- table_rownames
