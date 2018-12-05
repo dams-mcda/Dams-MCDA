@@ -1,39 +1,3 @@
-#base_dir <- "~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/"
-#working_dir <- paste(base_dir, "MCDA_11132018/WSM_Tool", sep="")
-#setwd(working_dir)
-
-base_dir <- "/srv/shiny-server/dams_mcda/"
-setwd(base_dir)
-
-library(shiny)
-library(ggplot2)
-library(dplyr)
-
-####SAVE THIS EXAMPLE CODE TO TROUBLESHOOT PLOT DESIGN LATER########
-
-#RawCriteriaMatrix            <- data.frame(matrix(NA), nrow=6, ncol=7)
-
-#Fish <- c(3, 3, 3, 3, 3, 1)
-#Rec <-c(3, 3, 3, 2, 3, 3)
-#Res <- c(4, 3, 5, 3, 1, 3)
-#Cost <- c(3, 3, 3, 5, 3, 3)
-#Safe <- c(3, 3, 5, 3, 3, 3)
-#Houses <- c(3, 3, 2, 2, 3, 3)
-#Power <- c(3, 3, 2, 2, 3, 3)
-
-#RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
-
-#row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-#colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
-
-#CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
-#CritImportance
-#sum(CritImportance)
-#RawCriteriaMatrix
-
-####SAVE THIS EXAMPLE CODE TO TROUBLESHOOT PLOT DESIGN LATER########
-
-####################TEST###########################################
 
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink") # output graph colors
 # output column names
@@ -89,10 +53,12 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 
 			WSMScoreMatrix[n,k] <- tryCatch({
 				if (k %in% alt_method_rows){
-					# alternative? method
+					# alternative method
+					# maximize normalization
 					(((max_x - x) / (max_x - min_x)) * crit_imp)
 				}else{
-					# default min/max normilization
+					# default method
+					# minimize normilization
 					(((x - min_x) / (max_x - min_x)) * crit_imp)
 				}
 			}, error=function(e){
@@ -129,7 +95,7 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	#----------------------------------------
 	# Output: Intermediate + Score Sum
 	#----------------------------------------
-	WSMScoreDF <- data.frame(cbind(IntermediateMatrix, scoresum))
+	WSMScoreDF <- data.frame(cbind(IntermediateMatrix, scoresum), check.names=FALSE)
 
 	# barplot shows score sum?
 	#WSMBarPlotData <- t(IntermediateMatrix)
@@ -143,3 +109,29 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 
 	return(WSMResults)
 }
+
+####SAVE THIS EXAMPLE CODE TO TROUBLESHOOT PLOT DESIGN LATER########
+
+#RawCriteriaMatrix            <- data.frame(matrix(NA), nrow=6, ncol=7)
+
+#Fish <- c(3, 3, 3, 3, 3, 1)
+#Rec <-c(3, 3, 3, 2, 3, 3)
+#Res <- c(4, 3, 5, 3, 1, 3)
+#Cost <- c(3, 3, 3, 5, 3, 3)
+#Safe <- c(3, 3, 5, 3, 3, 3)
+#Houses <- c(3, 3, 2, 2, 3, 3)
+#Power <- c(3, 3, 2, 2, 3, 3)
+
+#RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
+
+#row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
+#colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
+
+#CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
+#CritImportance
+#sum(CritImportance)
+#RawCriteriaMatrix
+
+####SAVE THIS EXAMPLE CODE TO TROUBLESHOOT PLOT DESIGN LATER########
+
+####################TEST###########################################

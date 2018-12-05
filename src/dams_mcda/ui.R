@@ -11,11 +11,11 @@ setwd(base_dir)
 library(shiny)
 library(ggplot2)
 library(dplyr)
+source("server.R")
 
 
 # Define UI for Shiny web application
-shinyUI(fluidPage(
-
+ui <- shinyUI(fluidPage(
 	# link css
 	tags$head(
 		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")
@@ -41,19 +41,19 @@ shinyUI(fluidPage(
 					 <br>In each case, 1 = not at all important and 5 = extremely important.<br>"),
 
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass1", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass1", label = "Please rate the importance of fish biomass:", value=1, min=1, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec1", label = "Please rate the importance of River Recreation:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec1", label = "Please rate the importance of River Recreation:", value=1, min=1, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir1", label = "Please rate the importance of Reservoir Storage:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir1", label = "Please rate the importance of Reservoir Storage:", value=1, min=1, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost1", label = "Please rate the importance of One-Time Project Costs:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost1", label = "Please rate the importance of One-Time Project Costs:", value=1, min=1, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety1", label = "Please rate the importance of Dam Safety:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety1", label = "Please rate the importance of Dam Safety:", value=1, min=1, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties1", label = "Please rate the importance of Number of Properties Impacted:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties1", label = "Please rate the importance of Number of Properties Impacted:", value=1, min=1, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity1", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity1", label = "Please rate the importance of Hydropower Capacity:", value=1, min=1, max=5, step = 0.25),
 
 				actionButton("updateBtn1", "Update"),
 
@@ -202,14 +202,20 @@ shinyUI(fluidPage(
 				HTML("<br><b>After completing all Alternatives use this button to get results:</b>"),
 
 				# event
-				#TODO:? we could make event fire by checking if all alternatives have been 'updated'
+				# TODO:? we could make event fire by checking if all alternatives have been 'updated'
 				actionButton("generateMatrix", "Generate"),
+
+				# TODO remove
+				HTML("<br><b>auto complete and generate:</b>"),
+				actionButton("autoGenerateMatrix", "Auto Complete"),
 
 				# output tables
 				HTML('<br>FilledCriteriaTable<br>'),
 				tableOutput("FilledCriteriaTable"), # for debugging criteria table
 				HTML('<br>WSMTable<br>'),
 				tableOutput("WSMTable"),
+				HTML('<br>WSMTable2<br>'),
+				tableOutput("WSMTable2"),
 				HTML('<br>WSMPlot<br>'),
 				plotOutput("WSMPlot", height=300),
 				HTML('<br>END')),
@@ -217,3 +223,7 @@ shinyUI(fluidPage(
 		id = "tabs"
     )
 ))
+
+
+# create the application with ui in this file and imported server from server.R
+shinyApp(ui, server)

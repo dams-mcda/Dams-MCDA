@@ -1,6 +1,3 @@
-library(shiny)
-library(ggplot2)
-library(dplyr)
 source("WSM.R")
 
 
@@ -121,24 +118,18 @@ renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limi
 #----------------------------------------
 # remove and refill progress of a status
 # action is status to apply "remove" or "add"
-# TODO: finish
 updateAlternativeStatus <- function(completed, action, id){
 	message('------------------')
 	message('updateAlternativeStatus vector')
 	message('------------------')
-	message('pre', completed)
 
 	if (id %in% completed & action == "remove"){
 		completed <- completed[which(x==id)]
-
 	}else if (action =="add" & !(id %in% completed)){
 		completed <- c(completed, id)
-
 	}else{
-		message('no Alternative Status Changes')
-
+		#message('no Alternative Status Changes')
 	}
-	message('post', completed)
 	return(completed)
 }
 
@@ -149,18 +140,19 @@ updateAlternativeStatus <- function(completed, action, id){
 # returns boolean
 alternativesCompleted <- function(completed){
 	message('------------------')
-	message('alternatives Completed? bool')
+	message('bool alternativesCompleted(array_completed)')
 	message('------------------')
 
 	# available_alternatives (we have 6)
 	available <- seq(1:6)
 	for (value in available){
 		if (!(value %in% completed)){
-			return( FALSE);
+			return(FALSE)
 		}
 	}
-	return( TRUE);
+	return(TRUE)
 }
+
 
 
 
@@ -168,7 +160,303 @@ alternativesCompleted <- function(completed){
 # SERVER
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
-shinyServer(function(input, output, session) {
+server <- function(input, output, session) {
+
+	#------------------------------------------------------------
+	# updateAlt1
+	# logic for updating alternative 1
+	#------------------------------------------------------------
+	updateAlt1 <- function (){
+		# update the tab status
+		output$Alt1 <- renderUI(list(
+			'Alternative 1: Dam Removal',
+			tags$span('Complete', class="alt-complete")
+		))
+
+		# get decision inputs
+		Alt1 <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
+
+		# create table matrix 1x5
+		Alt1_Table <- as.matrix(data.frame(Alt1))
+		row.names(Alt1_Table) <- variable_names
+		colnames(Alt1_Table) <- "Raw Score"
+
+		# results
+		output$SummTable1 <- renderTable(Alt1_Table, rownames=enable_rownames)
+		output$SummPlot1 <- renderBarPlot(
+								Alt1, # data
+								"Raw Scores of Alternative 1", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
+
+		# mark the alternative as complete when update
+		# or apply logic here to make other contstraints for "complete"
+		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 1)
+	}
+
+	#------------------------------------------------------------
+	# updateAlt2
+	# logic for updating alternative 2
+	#------------------------------------------------------------
+	updateAlt2 <- function() {
+		output$Alt2 <- renderUI(list(
+			"Alternative 2: Improve Fish Passage Facilities",
+			tags$span('Complete', class="alt-complete")
+		))
+		# get decision inputs
+		Alt2 <- c(input$FishBiomass2, input$RiverRec2, input$Reservoir2, input$ProjectCost2, input$Safety2, input$NumProperties2, input$HydroCapacity2)
+
+		# create table matrix 1x5
+		Alt2_Table <- as.matrix(data.frame(Alt2))
+		row.names(Alt2_Table) <- variable_names
+		colnames(Alt2_Table) <- "Raw Score"
+
+		# results
+		output$SummTable2 <- renderTable(Alt2_Table, rownames=enable_rownames)
+		output$SummPlot2 <- renderBarPlot(
+								Alt2, # data
+								"Raw Scores of Alternative 2", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
+
+		# mark the alternative as complete when update
+		# or apply logic here to make other contstraints for "complete"
+		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 2)
+	}
+
+	#------------------------------------------------------------
+	# updateAlt3
+	# logic for updating alternative 3
+	#------------------------------------------------------------
+	updateAlt3 <- function() {
+		output$Alt3 <- renderUI(list(
+			"Alternative 3: Upgrade or Replace Turbines at Existing Powered Dams",
+			tags$span('Complete', class="alt-complete")
+		))
+
+		# get decision inputs
+		Alt3 <- c(input$FishBiomass3, input$RiverRec3, input$Reservoir3, input$ProjectCost3, input$Safety3, input$NumProperties3, input$HydroCapacity3)
+
+		# create table matrix 1x5
+		Alt3_Table <- as.matrix(data.frame(Alt3))
+		row.names(Alt3_Table) <- variable_names
+		colnames(Alt3_Table) <- "Raw Score"
+
+		# results
+		output$SummTable3 <- renderTable(Alt3_Table, rownames=enable_rownames)
+		output$SummPlot3 <- renderBarPlot(
+								Alt3, # data
+								"Raw Scores of Alternative 3", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
+		# mark the alternative as complete when update
+		# or apply logic here to make other contstraints for "complete"
+		#updateAlternativeStatus("add", 3)
+		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 3)
+	}
+
+	#------------------------------------------------------------
+	# updateAlt4
+	# logic for updating alternative 4
+	#------------------------------------------------------------
+	updateAlt4 <- function() {
+		output$Alt4 <- renderUI(list(
+			"Alternative 4: Installing Turbines or Expanding Existing Capacity",
+			tags$span('Complete', class="alt-complete")
+		))
+
+		# get decision inputs
+		Alt4 <- c(input$FishBiomass4, input$RiverRec4, input$Reservoir4, input$ProjectCost4, input$Safety4, input$NumProperties4, input$HydroCapacity4)
+
+		# create table matrix 1x5
+		Alt4_Table <- as.matrix(data.frame(Alt4))
+		row.names(Alt4_Table) <- variable_names
+		colnames(Alt4_Table) <- "Raw Score"
+
+		# results
+		output$SummTable4 <- renderTable(Alt4_Table, rownames=enable_rownames)
+		output$SummPlot4 <- renderBarPlot(
+								Alt4, # data
+								"Raw Scores of Alternative 4", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
+		# mark the alternative as complete when update
+		# or apply logic here to make other contstraints for "complete"
+		#updateAlternativeStatus("add", 4)
+		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 4)
+	}
+
+
+	#------------------------------------------------------------
+	# updateAlt5
+	# logic for updating alternative 5
+	#------------------------------------------------------------
+	updateAlt5 <- function() {
+		output$Alt5 <- renderUI(list(
+			"Alternative 5: Refurbishment, Restoration, or Maintenance",
+			tags$span('Complete', class="alt-complete")
+		))
+
+		# get decision inputs
+		Alt5 <- c(input$FishBiomass5, input$RiverRec5, input$Reservoir5, input$ProjectCost5, input$Safety5, input$NumProperties5, input$HydroCapacity5)
+
+		# create table matrix 1x5
+		Alt5_Table <- as.matrix(data.frame(Alt5))
+		row.names(Alt5_Table) <- variable_names
+		colnames(Alt5_Table) <- "Raw Score"
+
+		# results
+		output$SummTable5 <- renderTable(Alt5_Table, rownames=enable_rownames)
+		output$SummPlot5 <- renderBarPlot(
+								Alt5, # data
+								"Raw Scores of Alternative 5", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
+		# mark the alternative as complete when update
+		# or apply logic here to make other contstraints for "complete"
+		#updateAlternativeStatus("add", 5)
+		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 5)
+	}
+
+
+	#------------------------------------------------------------
+	# updateAlt6
+	# logic for updating alternative 6
+	#------------------------------------------------------------
+	updateAlt6 <- function() {
+		output$Alt6 <- renderUI(list(
+			"Alternative 6: Keep Dam (Do Nothing)",
+			tags$span('Complete', class="alt-complete")
+		))
+		# get decision inputs
+		Alt6 <- c(input$FishBiomass6, input$RiverRec6, input$Reservoir6, input$ProjectCost6, input$Safety6, input$NumProperties6, input$HydroCapacity6)
+
+		# create table matrix 1x6
+		Alt6_Table <- as.matrix(data.frame(Alt6))
+		row.names(Alt6_Table) <- variable_names
+		colnames(Alt6_Table) <- "Raw Score"
+
+		# results
+		output$SummTable6 <- renderTable(Alt6_Table, rownames=enable_rownames)
+		output$SummPlot6 <- renderBarPlot(
+								Alt6, # data
+								"Raw Scores of Alternative 6", # title
+								variable_names, # x_labels
+								"Topic", # x axis label
+								"Score", # y axis label
+								colors, # colors
+								NULL, # x value limit
+								score_range # y value limit (1-5 value range)
+							)
+		# mark the alternative as complete when update
+		# or apply logic here to make other contstraints for "complete"
+		#updateAlternativeStatus("add", 6)
+		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 6)
+	}
+
+	#------------------------------------------------------------
+	# generateOutput
+	# generate the final table and barplot
+	#------------------------------------------------------------
+	generateOutput <- function (){
+	    if ( !alternativesCompleted(session$userData[['alternatives_completed']]) ){
+			message()
+			showModal(modalDialog(
+				title = "Not Finished!",
+				'Please Complete All Alternatives before generating results'
+			))
+
+		}else{
+			Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
+			Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
+			Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
+			Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
+			Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
+			Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
+			Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
+
+			# assign values in new matrix
+			RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
+
+			# assign table row, column names
+			row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
+			colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
+
+			CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
+
+			# for debugging table size
+			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
+
+			# Call WSM function to produce ranked alternatives result
+			WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
+			message('Results Done')
+			message(WSMResults[1])
+			message(WSMResults[2])
+
+
+			TableMatrix <- WSMResults[1]
+			message('format results for table')
+			WSMTableFormat <- data.frame(
+							 "Fish Biomass" = TableMatrix[1],
+							 "River Recreation" = TableMatrix[2],
+							 "Reservoir Storage" = TableMatrix[3],
+							 "One-Time Project Costs" = TableMatrix[4],
+							 "Number of Properties Impacted" = TableMatrix[5],
+							 "Dam Safety" = TableMatrix[6],
+							 "Hydropower Capacity" = TableMatrix[7],
+							 "Summed Score" = TableMatrix[8], check.names=FALSE)
+			message('format done')
+
+			output$WSMTable <- renderTable(WSMTableFormat, rownames=enable_rownames)
+
+			testTableOutput <- data.frame("first column" = 1:6,
+										  "second column" = 1:6,
+										  "third column" = 1:6,
+										  "fourth column" = 1:6,
+										  "five column" = 1:6,
+										  "six column" = 1:6,
+										  "seven column" = 1:6,
+										  "sum column" = 1:6, check.names=FALSE)
+			output$WSMTable2 <- renderTable(testTableOutput, rownames=enable_rownames)
+
+			output$WSMPlot <- renderBarPlot(
+									WSMResults[2], # data
+									"WSM Ranked Alternatives", # title
+									wsm_bar_plot_names, # x_labels
+									"Topic", # x axis label
+									"Score", # y axis label
+									colors, # colors
+									NULL, # x value limit
+									score_range # y value limit (1-5 value range)
+								)
+		}
+	}
+
 
 	#--------------------------------------------------------------------------------
 	# Initial Application State for session
@@ -216,224 +504,44 @@ shinyServer(function(input, output, session) {
 
 	#--------------------------------------------------------------------------------
 	# Alternative Update Event Listeners
+	# these trigger the updates on button click
 	#--------------------------------------------------------------------------------
 
-	#----------------------------------------
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
-		# update the tab status
-		output$Alt1 <- renderUI(list(
-			'Alternative 1: Dam Removal',
-			tags$span('Complete', class="alt-complete")
-		))
+		 updateAlt1()
+	})
 
-		# get decision inputs
-		Alt1 <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
-
-		# create table matrix 1x5
-		Alt1_Table <- as.matrix(data.frame(Alt1))
-		row.names(Alt1_Table) <- variable_names
-		colnames(Alt1_Table) <- "Raw Score"
-
-		# results
-		output$SummTable1 <- renderTable(Alt1_Table, rownames=enable_rownames)
-		output$SummPlot1 <- renderBarPlot(
-								Alt1, # data
-								"Raw Scores of Alternative 1", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus(alternatives_complete, "add", 1)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 1)
-	}) # end observe event
-
-
-	#----------------------------------------
 	# ALTERNATIVE 2
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
-		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage Facilities",
-			tags$span('Complete', class="alt-complete")
-		))
-		# get decision inputs
-		Alt2 <- c(input$FishBiomass2, input$RiverRec2, input$Reservoir2, input$ProjectCost2, input$Safety2, input$NumProperties2, input$HydroCapacity2)
+		 updateAlt2()
+	})
 
-		# create table matrix 1x5
-		Alt2_Table <- as.matrix(data.frame(Alt2))
-		row.names(Alt2_Table) <- variable_names
-		colnames(Alt2_Table) <- "Raw Score"
-
-		# results
-		output$SummTable2 <- renderTable(Alt2_Table, rownames=enable_rownames)
-		output$SummPlot2 <- renderBarPlot(
-								Alt2, # data
-								"Raw Scores of Alternative 2", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 2)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 2)
-	}) #end observe event
-
-
-	#----------------------------------------
 	# ALTERNATIVE 3
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
-		output$Alt3 <- renderUI(list(
-			"Alternative 3: Upgrade or Replace Turbines at Existing Powered Dams",
-			tags$span('Complete', class="alt-complete")
-		))
+		 updateAlt3()
+	})
 
-		# get decision inputs
-		Alt3 <- c(input$FishBiomass3, input$RiverRec3, input$Reservoir3, input$ProjectCost3, input$Safety3, input$NumProperties3, input$HydroCapacity3)
-
-		# create table matrix 1x5
-		Alt3_Table <- as.matrix(data.frame(Alt3))
-		row.names(Alt3_Table) <- variable_names
-		colnames(Alt3_Table) <- "Raw Score"
-
-		# results
-		output$SummTable3 <- renderTable(Alt3_Table, rownames=enable_rownames)
-		output$SummPlot3 <- renderBarPlot(
-								Alt3, # data
-								"Raw Scores of Alternative 3", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 3)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 3)
-	}) #end observe event
-
-
-	#----------------------------------------
 	# ALTERNATIVE 4
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
-		output$Alt4 <- renderUI(list(
-			"Alternative 4: Installing Turbines or Expanding Existing Capacity",
-			tags$span('Complete', class="alt-complete")
-		))
+		 updateAlt4()
+	})
 
-		# get decision inputs
-		Alt4 <- c(input$FishBiomass4, input$RiverRec4, input$Reservoir4, input$ProjectCost4, input$Safety4, input$NumProperties4, input$HydroCapacity4)
-
-		# create table matrix 1x5
-		Alt4_Table <- as.matrix(data.frame(Alt4))
-		row.names(Alt4_Table) <- variable_names
-		colnames(Alt4_Table) <- "Raw Score"
-
-		# results
-		output$SummTable4 <- renderTable(Alt4_Table, rownames=enable_rownames)
-		output$SummPlot4 <- renderBarPlot(
-								Alt4, # data
-								"Raw Scores of Alternative 4", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 4)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 4)
-	}) #end observe event
-
-
-	#----------------------------------------
 	# ALTERNATIVE 5
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
-		output$Alt5 <- renderUI(list(
-			"Alternative 5: Refurbishment, Restoration, or Maintenance",
-			tags$span('Complete', class="alt-complete")
-		))
+		 updateAlt5()
+	})
 
-		# get decision inputs
-		Alt5 <- c(input$FishBiomass5, input$RiverRec5, input$Reservoir5, input$ProjectCost5, input$Safety5, input$NumProperties5, input$HydroCapacity5)
-
-		# create table matrix 1x5
-		Alt5_Table <- as.matrix(data.frame(Alt5))
-		row.names(Alt5_Table) <- variable_names
-		colnames(Alt5_Table) <- "Raw Score"
-
-		# results
-		output$SummTable5 <- renderTable(Alt5_Table, rownames=enable_rownames)
-		output$SummPlot5 <- renderBarPlot(
-								Alt5, # data
-								"Raw Scores of Alternative 5", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 5)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 5)
-	}) #end observe event
-
-
-	#----------------------------------------
 	# ALTERNATIVE 6
 	#----------------------------------------
 	observeEvent(input$updateBtn6, {
-		output$Alt6 <- renderUI(list(
-			"Alternative 6: Keep Dam (Do Nothing)",
-			tags$span('Complete', class="alt-complete")
-		))
-		# get decision inputs
-		Alt6 <- c(input$FishBiomass6, input$RiverRec6, input$Reservoir6, input$ProjectCost6, input$Safety6, input$NumProperties6, input$HydroCapacity6)
-
-		# create table matrix 1x6
-		Alt6_Table <- as.matrix(data.frame(Alt6))
-		row.names(Alt6_Table) <- variable_names
-		colnames(Alt6_Table) <- "Raw Score"
-
-		# results
-		output$SummTable6 <- renderTable(Alt6_Table, rownames=enable_rownames)
-		output$SummPlot6 <- renderBarPlot(
-								Alt6, # data
-								"Raw Scores of Alternative 6", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 6)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 6)
-	}) #end observe event
-
+		 updateAlt6()
+	})
 
 	#--------------------------------------------------------------------------------
 	# MCDA Table Output
@@ -443,53 +551,20 @@ shinyServer(function(input, output, session) {
 
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix, {
-
-	    if ( !alternativesCompleted(session$userData[['alternatives_completed']]) ){
-			message()
-			showModal(modalDialog(
-				title = "Not Finished!",
-				'Please Complete All Alternatives before generating results'
-			))
-
-		}else{
-			Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
-			Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
-			Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
-			Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
-			Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
-			Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
-			Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
-
-			# assign values in new matrix
-			RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
-
-			# assign table row, column names
-			row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-			colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
-
-			CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
-
-			# for debugging table size
-			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
-
-			# Call WSM function to produce ranked alternatives result
-			WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
-			message('Results Done')
-			message(WSMResults[1])
-			message(WSMResults[2])
-			output$WSMTable <- renderTable(WSMResults[1], rownames=enable_rownames)
-			output$WSMPlot <- renderBarPlot(
-									WSMResults[2], # data
-									"WSM Ranked Alternatives", # title
-									wsm_bar_plot_names, # x_labels
-									"Topic", # x axis label
-									"Score", # y axis label
-									colors, # colors
-									NULL, # x value limit
-									score_range # y value limit (1-5 value range)
-								)
-		}
-
 	})   # end 'output' tab > on generate button event
 
-}) # end server
+	#TODO: remove as this is for fast debugging output results
+	observeEvent(input$autoGenerateMatrix, {
+		# update all alt
+		updateAlt1()
+		updateAlt2()
+		updateAlt3()
+		updateAlt4()
+		updateAlt5()
+		updateAlt6()
+		message('alts updated')
+		# generate
+		generateOutput()
+	})
+
+} # end server
