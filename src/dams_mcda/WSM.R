@@ -35,22 +35,29 @@ library(dplyr)
 
 ####################TEST###########################################
 
-colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
+colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink") # output graph colors
+# output column names
+table_colnames <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score")
+# output row names
+table_rownames <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam")
 
-#--------------------------------------------------------------------------------
+# WSM
+#----------------------------------------
+# generates the MDCA Output
+#
 # Garrett's version of MCDA fn, modified for DAM DECISION purposes
-#--------------------------------------------------------------------------------
+#
+# returns list(data.frame, data.frame) -> WSMScoreDF, WSMBarPlotData
+#     WSMScoreDF: matrix for renderTable
+#     WSMBarPlotData: matrix for rendering barplot
+#
+# Inputs:
+#     CritImportance: #TODO: explain
+#     RawCriteriaMatrix: raw score matrix
 WSM <- function(CritImportance, RawCriteriaMatrix){
-	message('--------------------------------------------------------------------------------')
-	message('WSM init')
-	message('--------------------------------------------------------------------------------')
-
-	#Build empty min/max vectors
-	WSMMaxVector <- cbind(c(NA, NA, NA, NA, NA, NA))
-	WSMMinVector <- cbind(c(NA, NA, NA, NA, NA, NA))
-
-	#Fill min/max vectors
-	#for (k in 1:7){
+	#----------------------------------------
+	# Min / Max Vectors
+	#----------------------------------------
 	WSMMaxVector <- c(max(RawCriteriaMatrix[,1], na.rm = FALSE), max(RawCriteriaMatrix[,2], na.rm = FALSE), max(RawCriteriaMatrix[,3], na.rm = FALSE),
 					   max(RawCriteriaMatrix[,4], na.rm = FALSE), max(RawCriteriaMatrix[,5], na.rm = FALSE), max(RawCriteriaMatrix[,6], na.rm = FALSE),
 					   max(RawCriteriaMatrix[,7], na.rm = FALSE))
@@ -59,16 +66,17 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 					  min(RawCriteriaMatrix[,4], na.rm = FALSE), min(RawCriteriaMatrix[,5], na.rm = FALSE), min(RawCriteriaMatrix[,6], na.rm = FALSE),
 					  min(RawCriteriaMatrix[,7], na.rm = FALSE))
 
-	message('min vector', WSMMinVector)
-	message('max vector', WSMMaxVector)
-	message('critical matrix', CritImportance)
+	# debug
+	message('min vector ', WSMMinVector)
+	message('max vector ', WSMMaxVector)
+	message('critical matrix ', CritImportance)
 
-	#Build Score Matrix
+	#----------------------------------------
+	# Build Score Matrix
+	# score will be min/max normalized values from 0-1
+	#----------------------------------------
 	WSMScoreMatrix <- data.frame(matrix(data=NA, nrow = 6, ncol = 7))
-
-	message('WSM score matrix start')
-
-	# array of rows that used alternative method
+	# array of rows that use alternative method
 	alt_method_rows <- c(4, 6)
 
 	# make normalized values of each value in matrix
@@ -96,11 +104,17 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 
 	message('WSMScoreMatrix', WSMScoreMatrix)
 
+	#----------------------------------------
+	# IntermediateMatrix
+	#----------------------------------------
 	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=6, ncol=7))
 	IntermediateMatrix[1:6, 1:7] <- round(WSMScoreMatrix,3)
 
 	message('IntermediateMatrix', IntermediateMatrix)
 
+	#----------------------------------------
+	# Score Sum
+	#----------------------------------------
 	# total score is last column of returned Data Table
 	scoresum <- c(NA, NA, NA, NA, NA, NA)
 	scoresum <- rbind(c(sum(as.numeric(IntermediateMatrix[1:6,1]))),
@@ -111,15 +125,19 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 					  c(sum(as.numeric(IntermediateMatrix[1:6,6]))))
 	message('WSM score sum done', scoresum)
 
+
+	#----------------------------------------
+	# Output: Intermediate + Score Sum
+	#----------------------------------------
 	WSMScoreDF <- data.frame(cbind(IntermediateMatrix, scoresum))
-	t_IntermediateMatrix <- t(IntermediateMatrix)
 
-	# column/row names of WSMTable
-	row.names(WSMScoreDF) <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam")
-	colnames(WSMScoreDF) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score")
+	# barplot shows score sum?
+	#WSMBarPlotData <- t(IntermediateMatrix)
+	WSMBarPlotData <- scoresum
 
-	# Assign data to be used for BarPlot
-	WSMBarPlotData <- t_IntermediateMatrix
+	# column/row names of Table Ouput: WSMTable
+	row.names(WSMScoreDF) <- table_rownames
+	colnames(WSMScoreDF) <- table_colnames
 
 	WSMResults <- list(WSMScoreDF, WSMBarPlotData)
 
