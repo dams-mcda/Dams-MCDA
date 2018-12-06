@@ -31,9 +31,9 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 					  min(RawCriteriaMatrix[,7], na.rm = FALSE))
 
 	# debug
-	message('min vector ', WSMMinVector)
-	message('max vector ', WSMMaxVector)
-	message('critical matrix ', CritImportance)
+	#message('min vector ', WSMMinVector)
+	#message('max vector ', WSMMaxVector)
+	#message('critical matrix ', CritImportance)
 
 	#----------------------------------------
 	# Build Score Matrix
@@ -68,44 +68,34 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 		} #End alternative (rows) for loop.
 	} #End criteria (columns) for loop.
 
-	message('WSMScoreMatrix', WSMScoreMatrix)
+	# debug
+	#message('WSMScoreMatrix', WSMScoreMatrix)
 
 	#----------------------------------------
 	# IntermediateMatrix
 	#----------------------------------------
 	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=6, ncol=7))
-	IntermediateMatrix[1:6, 1:7] <- round(WSMScoreMatrix,3)
+	IntermediateMatrix <- round(WSMScoreMatrix,3)
 
-	message('IntermediateMatrix', IntermediateMatrix)
+	# debug
+	#message('IntermediateMatrix', IntermediateMatrix)
 
 	#----------------------------------------
 	# Score Sum
 	#----------------------------------------
 	# total score is last column of returned Data Table
 	scoresum <- c(NA, NA, NA, NA, NA, NA)
-	scoresum <- rbind(c(sum(as.numeric(IntermediateMatrix[1:6,1]))),
-					  c(sum(as.numeric(IntermediateMatrix[1:6,2]))),
-					  c(sum(as.numeric(IntermediateMatrix[1:6,3]))),
-					  c(sum(as.numeric(IntermediateMatrix[1:6,4]))),
-					  c(sum(as.numeric(IntermediateMatrix[1:6,5]))),
-					  c(sum(as.numeric(IntermediateMatrix[1:6,6]))))
+	scoresum <- rbind(sum(as.numeric(IntermediateMatrix[1:6,1])),
+					  sum(as.numeric(IntermediateMatrix[1:6,2])),
+					  sum(as.numeric(IntermediateMatrix[1:6,3])),
+					  sum(as.numeric(IntermediateMatrix[1:6,4])),
+					  sum(as.numeric(IntermediateMatrix[1:6,5])),
+					  sum(as.numeric(IntermediateMatrix[1:6,6])))
 	message('WSM score sum done', scoresum)
 
 
-	#----------------------------------------
-	# Output: Intermediate + Score Sum
-	#----------------------------------------
-	WSMScoreDF <- data.frame(cbind(IntermediateMatrix, scoresum), check.names=FALSE)
-
-	# barplot shows score sum?
-	#WSMBarPlotData <- t(IntermediateMatrix)
-	WSMBarPlotData <- scoresum
-
-	# column/row names of Table Ouput: WSMTable
-	row.names(WSMScoreDF) <- table_rownames
-	colnames(WSMScoreDF) <- table_colnames
-
-	WSMResults <- list(WSMScoreDF, WSMBarPlotData)
+	# warning adding things to list has side effects!
+	WSMResults <- list(IntermediateMatrix, scoresum, scoresum2)
 
 	return(WSMResults)
 }

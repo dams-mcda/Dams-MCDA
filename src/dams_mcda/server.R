@@ -27,9 +27,10 @@ enable_rownames <- TRUE # set to TRUE to show row names on tables
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 # default graph score range
 score_range <- c(1, 5)
+summed_score_range <- c(0, 1)
 # default names of the fields
 variable_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
-wsm_bar_plot_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam")
+wsm_bar_plot_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish/Maintain", "Keep Dam")
 
 
 #----------------------------------------
@@ -98,7 +99,7 @@ loadData <- function() {
 renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
 	# debug data
 	message('------------------')
-	message('BarPlot title:', title, '\ndata:', data, "\n#(values):", length(data), "\ndatatype:", typeof(data), "\nnames:", x_names, "\n#(names):", length(x_names))
+	message('BarPlot title:', title, '\ndata:', data, "\n#(values):", length(data), "\nclasstype: ", class(data), "\ndatatype: ", typeof(data), "\nnames:", x_names, "\n#(names):", length(x_names))
 	message('------------------')
 	return( renderPlot(barplot(
 				data,
@@ -179,7 +180,7 @@ server <- function(input, output, session) {
 		# create table matrix 1x5
 		Alt1_Table <- as.matrix(data.frame(Alt1))
 		row.names(Alt1_Table) <- variable_names
-		colnames(Alt1_Table) <- "Raw Score"
+		names(Alt1_Table) <- "Raw Score"
 
 		# results
 		output$SummTable1 <- renderTable(Alt1_Table, rownames=enable_rownames)
@@ -214,7 +215,7 @@ server <- function(input, output, session) {
 		# create table matrix 1x5
 		Alt2_Table <- as.matrix(data.frame(Alt2))
 		row.names(Alt2_Table) <- variable_names
-		colnames(Alt2_Table) <- "Raw Score"
+		names(Alt2_Table) <- "Raw Score"
 
 		# results
 		output$SummTable2 <- renderTable(Alt2_Table, rownames=enable_rownames)
@@ -250,7 +251,7 @@ server <- function(input, output, session) {
 		# create table matrix 1x5
 		Alt3_Table <- as.matrix(data.frame(Alt3))
 		row.names(Alt3_Table) <- variable_names
-		colnames(Alt3_Table) <- "Raw Score"
+		names(Alt3_Table) <- "Raw Score"
 
 		# results
 		output$SummTable3 <- renderTable(Alt3_Table, rownames=enable_rownames)
@@ -286,7 +287,7 @@ server <- function(input, output, session) {
 		# create table matrix 1x5
 		Alt4_Table <- as.matrix(data.frame(Alt4))
 		row.names(Alt4_Table) <- variable_names
-		colnames(Alt4_Table) <- "Raw Score"
+		names(Alt4_Table) <- "Raw Score"
 
 		# results
 		output$SummTable4 <- renderTable(Alt4_Table, rownames=enable_rownames)
@@ -323,7 +324,7 @@ server <- function(input, output, session) {
 		# create table matrix 1x5
 		Alt5_Table <- as.matrix(data.frame(Alt5))
 		row.names(Alt5_Table) <- variable_names
-		colnames(Alt5_Table) <- "Raw Score"
+		names(Alt5_Table) <- "Raw Score"
 
 		# results
 		output$SummTable5 <- renderTable(Alt5_Table, rownames=enable_rownames)
@@ -359,7 +360,7 @@ server <- function(input, output, session) {
 		# create table matrix 1x6
 		Alt6_Table <- as.matrix(data.frame(Alt6))
 		row.names(Alt6_Table) <- variable_names
-		colnames(Alt6_Table) <- "Raw Score"
+		names(Alt6_Table) <- "Raw Score"
 
 		# results
 		output$SummTable6 <- renderTable(Alt6_Table, rownames=enable_rownames)
@@ -405,54 +406,44 @@ server <- function(input, output, session) {
 
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-			colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
+			names(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
 
 			CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
 
+			# origial scores in table form
 			# for debugging table size
 			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
 
-			# Call WSM function to produce ranked alternatives result
+			#----------------------------------------
+			# Call WSM and format response
+			#----------------------------------------
 			WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
-			message('Results Done')
-			message(WSMResults[1])
-			message(WSMResults[2])
-
 
 			TableMatrix <- WSMResults[1]
-			message('format results for table')
-			WSMTableFormat <- data.frame(
-							 "Fish Biomass" = TableMatrix[1],
-							 "River Recreation" = TableMatrix[2],
-							 "Reservoir Storage" = TableMatrix[3],
-							 "One-Time Project Costs" = TableMatrix[4],
-							 "Number of Properties Impacted" = TableMatrix[5],
-							 "Dam Safety" = TableMatrix[6],
-							 "Hydropower Capacity" = TableMatrix[7],
-							 "Summed Score" = TableMatrix[8], check.names=FALSE)
-			message('format done')
 
-			output$WSMTable <- renderTable(WSMTableFormat, rownames=enable_rownames)
+			TableMatrix$summedScore <- WSMResults[2]
 
-			testTableOutput <- data.frame("first column" = 1:6,
-										  "second column" = 1:6,
-										  "third column" = 1:6,
-										  "fourth column" = 1:6,
-										  "five column" = 1:6,
-										  "six column" = 1:6,
-										  "seven column" = 1:6,
-										  "sum column" = 1:6, check.names=FALSE)
-			output$WSMTable2 <- renderTable(testTableOutput, rownames=enable_rownames)
+			testTableOutput <- data.frame( TableMatrix, row.names=wsm_bar_plot_names, check.names=FALSE)
+			names(testTableOutput) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score")
 
+			#----------------------------------------
+			# Final Outputs
+			#----------------------------------------
+			# final output table
+			output$WSMTable <- renderTable(testTableOutput, rownames=enable_rownames)
+
+			# final output barplot
 			output$WSMPlot <- renderBarPlot(
-									WSMResults[2], # data
+									# !important!
+									# scoresum get convered to list in WSM response so we need to unlist it
+									unlist(WSMResults[2]), # scoresum data
 									"WSM Ranked Alternatives", # title
 									wsm_bar_plot_names, # x_labels
 									"Topic", # x axis label
 									"Score", # y axis label
 									colors, # colors
 									NULL, # x value limit
-									score_range # y value limit (1-5 value range)
+									summed_score_range # y value limit (1-5 value range)
 								)
 		}
 	}

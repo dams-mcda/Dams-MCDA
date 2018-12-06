@@ -13,6 +13,10 @@ library(ggplot2)
 library(dplyr)
 source("server.R")
 
+# default graph dimensions
+graph_width <- 1200
+graph_height <- 300
+
 
 # Define UI for Shiny web application
 ui <- shinyUI(fluidPage(
@@ -58,7 +62,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn1", "Update"),
 
 				tableOutput("SummTable1"),
-				plotOutput("SummPlot1")), # end
+				plotOutput("SummPlot1", height=graph_height, width=graph_width)), # end
 		#End Alternative 1: Dam Removal Tab
 
 		tabPanel(
@@ -85,7 +89,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn2", "Update"),
 
 				tableOutput("SummTable2"),
-				plotOutput("SummPlot2")), #End main panel
+				plotOutput("SummPlot2", height=graph_height, width=graph_width)), # end
 		#End Alternative 2: Fish Passage Facility Improvements Tab
 
 
@@ -113,7 +117,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn3", "Update"),
 
 				tableOutput("SummTable3"),
-				plotOutput("SummPlot3")), #End main panel
+				plotOutput("SummPlot3", height=graph_height, width=graph_width)), # end
 		#End Alternative 3: Turbine Upgrades or Replacements Tab
 
 
@@ -140,7 +144,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn4", "Update"),
 
 				tableOutput("SummTable4"),
-				plotOutput("SummPlot4")), #End main panel
+				plotOutput("SummPlot4", height=graph_height, width=graph_width)), # end
 		#End Alternative 4: Installing or expanding hydropower capacity Tab
 
 		tabPanel(
@@ -167,7 +171,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn5", "Update"),
 
 				tableOutput("SummTable5"),
-				plotOutput("SummPlot5")), #End main panel
+				plotOutput("SummPlot5", height=graph_height, width=graph_width)), # end
 		#End Alternative 5: Refurbishment, Restoration, or Maintenance Tab
 
 		tabPanel(
@@ -194,7 +198,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn6", "Update"),
 
 				tableOutput("SummTable6"),
-				plotOutput("SummPlot6")), #End main panel
+				plotOutput("SummPlot6", height=graph_height, width=graph_width)), # end
 		#End Alternative 6: Keep Dam (Do Nothing) Tab
 
 		tabPanel("Output",
@@ -214,15 +218,12 @@ ui <- shinyUI(fluidPage(
 				tableOutput("FilledCriteriaTable"), # for debugging criteria table
 				HTML('<br>WSMTable<br>'),
 				tableOutput("WSMTable"),
-				HTML('<br>WSMTable2<br>'),
-				tableOutput("WSMTable2"),
-				HTML('<br>WSMPlot<br>'),
-				plotOutput("WSMPlot", height=300),
-				HTML('<br>END')),
+				HTML('<br>Summed Scores<br>'),
+				plotOutput("WSMPlot", height=300, width=1000),
 
 		id = "tabs"
     )
-))
+)))
 
 
 # create the application with ui in this file and imported server from server.R
