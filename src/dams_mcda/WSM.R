@@ -95,7 +95,7 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 
 
 	# warning adding things to list has side effects!
-	WSMResults <- list(IntermediateMatrix, scoresum, scoresum2)
+	WSMResults <- list(IntermediateMatrix, scoresum)
 
 	return(WSMResults)
 }

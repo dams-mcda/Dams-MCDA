@@ -435,7 +435,6 @@ server <- function(input, output, session) {
 			# final output barplot
 			output$WSMPlot <- renderBarPlot(
 									# !important!
-									# scoresum get convered to list in WSM response so we need to unlist it
 									unlist(WSMResults[2]), # scoresum data
 									"WSM Ranked Alternatives", # title
 									wsm_bar_plot_names, # x_labels
