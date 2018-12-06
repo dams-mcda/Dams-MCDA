@@ -210,7 +210,7 @@ ui <- shinyUI(fluidPage(
 				actionButton("generateMatrix", "Generate"),
 
 				# TODO remove
-				HTML("<br><b>auto complete and generate:</b>"),
+				HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
 				actionButton("autoGenerateMatrix", "Auto Complete"),
 
 				# output tables
