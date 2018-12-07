@@ -174,33 +174,6 @@ ui <- shinyUI(fluidPage(
 				plotOutput("SummPlot5", height=graph_height, width=graph_width)), # end
 		#End Alternative 5: Refurbishment, Restoration, or Maintenance Tab
 
-		tabPanel(
-				#"Alternative 6: Keep Dam (Do Nothing)",
-				htmlOutput("Alt6"), # status and title
-				HTML("Indicate your level of preference associated with each of the following criteria in the case of keeping the dam (doing nothing).<br>
-					<br> In each case, 0 = not at all important and 5 = extremely important.<br>"),
-
-				#Fish Biomass
-				sliderInput(inputId = "FishBiomass6", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
-				#River Recreation
-				sliderInput(inputId = "RiverRec6", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
-				#Reservoir Storage
-				sliderInput(inputId = "Reservoir6", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
-				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost6", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
-				#Dam Safety
-				sliderInput(inputId = "Safety6", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
-				#Number of Properties
-				sliderInput(inputId = "NumProperties6", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
-				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity6", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
-
-				actionButton("updateBtn6", "Update"),
-
-				tableOutput("SummTable6"),
-				plotOutput("SummPlot6", height=graph_height, width=graph_width)), # end
-		#End Alternative 6: Keep Dam (Do Nothing) Tab
-
 		tabPanel("Output",
 				#TODO:?  could warn user here if they havent completed everything
 				HTML("<br><b>After completing all Alternatives use this button to get results:</b>"),

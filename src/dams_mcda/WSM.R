@@ -19,40 +19,51 @@ table_rownames <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine A
 #     CritImportance: #TODO: explain
 #     RawCriteriaMatrix: raw score matrix
 WSM <- function(CritImportance, RawCriteriaMatrix){
+
+	# matrix setup
+	matrix_cols <- length(criterion_inputs) # 7 default (output size, adds summedscore)
+	matrix_rows <- length(available_alternatives) # 5 default
+
 	#----------------------------------------
 	# Min / Max Vectors
 	#----------------------------------------
-	WSMMaxVector <- c(max(RawCriteriaMatrix[,1], na.rm = FALSE), max(RawCriteriaMatrix[,2], na.rm = FALSE), max(RawCriteriaMatrix[,3], na.rm = FALSE),
-					   max(RawCriteriaMatrix[,4], na.rm = FALSE), max(RawCriteriaMatrix[,5], na.rm = FALSE), max(RawCriteriaMatrix[,6], na.rm = FALSE),
-					   max(RawCriteriaMatrix[,7], na.rm = FALSE))
+	# iterate each criteria for min,max
+	WSMMaxVector <- list("list", matrix_cols)
+	for ( index in 1:matrix_cols ){
+		WSMMaxVector[[index]] <- max(RawCriteriaMatrix[,index], na.rm=FALSE)
+	}
+	WSMMaxVector <- unlist(WSMMaxVector)
 
-	WSMMinVector <- c(min(RawCriteriaMatrix[,1], na.rm = FALSE), min(RawCriteriaMatrix[,2], na.rm = FALSE), min(RawCriteriaMatrix[,3], na.rm = FALSE),
-					  min(RawCriteriaMatrix[,4], na.rm = FALSE), min(RawCriteriaMatrix[,5], na.rm = FALSE), min(RawCriteriaMatrix[,6], na.rm = FALSE),
-					  min(RawCriteriaMatrix[,7], na.rm = FALSE))
+	WSMMinVector <- list("list", matrix_cols)
+	for ( index in 1:matrix_cols ){
+		WSMMinVector[[index]] <- min(RawCriteriaMatrix[,index], na.rm=FALSE)
+	}
+	WSMMinVector <- unlist(WSMMinVector)
 
 	# debug
 	#message('min vector ', WSMMinVector)
 	#message('max vector ', WSMMaxVector)
 	#message('critical matrix ', CritImportance)
 
+
 	#----------------------------------------
 	# Build Score Matrix
 	# score will be min/max normalized values from 0-1
 	#----------------------------------------
-	WSMScoreMatrix <- data.frame(matrix(data=NA, nrow = 6, ncol = 7))
+	WSMScoreMatrix <- data.frame(matrix(data=NA, nrow = matrix_rows, ncol = matrix_cols))
 	# array of rows that use alternative method
-	alt_method_rows <- c(4, 6)
+	alt_method_columns <- c(4, 6)
 
 	# make normalized values of each value in matrix
-	for (k in 1:7){
-		for (n in 1:6){
+	for (k in 1:matrix_cols){
+		for (n in 1:matrix_rows){
 			x <- RawCriteriaMatrix[n,k]
 			min_x <- WSMMinVector[k]
 			max_x <- WSMMaxVector[k]
 			crit_imp <- CritImportance[k]
 
 			WSMScoreMatrix[n,k] <- tryCatch({
-				if (k %in% alt_method_rows){
+				if (k %in% alt_method_columns){
 					# alternative method
 					# maximize normalization
 					(((max_x - x) / (max_x - min_x)) * crit_imp)
@@ -74,7 +85,7 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	#----------------------------------------
 	# IntermediateMatrix
 	#----------------------------------------
-	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=6, ncol=7))
+	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
 	IntermediateMatrix <- round(WSMScoreMatrix,3)
 
 	# debug
@@ -84,15 +95,13 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	# Score Sum
 	#----------------------------------------
 	# total score is last column of returned Data Table
-	scoresum <- c(NA, NA, NA, NA, NA, NA)
-	scoresum <- rbind(sum(as.numeric(IntermediateMatrix[1:6,1])),
-					  sum(as.numeric(IntermediateMatrix[1:6,2])),
-					  sum(as.numeric(IntermediateMatrix[1:6,3])),
-					  sum(as.numeric(IntermediateMatrix[1:6,4])),
-					  sum(as.numeric(IntermediateMatrix[1:6,5])),
-					  sum(as.numeric(IntermediateMatrix[1:6,6])))
-	message('WSM score sum done', scoresum)
+	scoresum <- list("list", matrix_rows)
 
+	for (i in 1:matrix_rows){
+		scoresum[[i]] <- sum(as.numeric(IntermediateMatrix[i, 1:matrix_cols]))
+	}
+
+	scoresum <- unlist(scoresum)
 
 	# warning adding things to list has side effects!
 	WSMResults <- list(IntermediateMatrix, scoresum)

@@ -26,11 +26,18 @@ enable_rownames <- TRUE # set to TRUE to show row names on tables
 # default graph color array
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 # default graph score range
-score_range <- c(1, 5)
+score_range <- c(0, 5)
 summed_score_range <- c(0, 1)
 # default names of the fields
 variable_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
-wsm_bar_plot_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish/Maintain", "Keep Dam")
+wsm_bar_plot_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Keep and Maintain Dam")
+
+
+# list of alternatives
+available_alternatives <- seq(1:5)
+
+# list of criterion input identifiers
+criterion_inputs <- c('FishBiomass', 'RiverRec', 'Reservoir', 'ProjectCost', 'Safety', 'NumProperties', 'HydroCapacity')
 
 
 #----------------------------------------
@@ -144,9 +151,8 @@ alternativesCompleted <- function(completed){
 	message('bool alternativesCompleted(array_completed)')
 	message('------------------')
 
-	# available_alternatives (we have 6)
-	available <- seq(1:6)
-	for (value in available){
+	# available_alternatives is array of alt sections ids
+	for (value in available_alternatives){
 		if (!(value %in% completed)){
 			return(FALSE)
 		}
@@ -346,69 +352,56 @@ server <- function(input, output, session) {
 
 
 	#------------------------------------------------------------
-	# updateAlt6
-	# logic for updating alternative 6
-	#------------------------------------------------------------
-	updateAlt6 <- function() {
-		output$Alt6 <- renderUI(list(
-			"Alternative 6: Keep Dam (Do Nothing)",
-			tags$span('Complete', class="alt-complete")
-		))
-		# get decision inputs
-		Alt6 <- c(input$FishBiomass6, input$RiverRec6, input$Reservoir6, input$ProjectCost6, input$Safety6, input$NumProperties6, input$HydroCapacity6)
-
-		# create table matrix 1x6
-		Alt6_Table <- as.matrix(data.frame(Alt6))
-		row.names(Alt6_Table) <- variable_names
-		names(Alt6_Table) <- "Raw Score"
-
-		# results
-		output$SummTable6 <- renderTable(Alt6_Table, rownames=enable_rownames)
-		output$SummPlot6 <- renderBarPlot(
-								Alt6, # data
-								"Raw Scores of Alternative 6", # title
-								variable_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		# mark the alternative as complete when update
-		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 6)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 6)
-	}
-
-	#------------------------------------------------------------
 	# generateOutput
 	# generate the final table and barplot
 	#------------------------------------------------------------
 	generateOutput <- function (){
+
 	    if ( !alternativesCompleted(session$userData[['alternatives_completed']]) ){
-			message()
+			# user isnt finished filling out alternatives
 			showModal(modalDialog(
 				title = "Not Finished!",
 				'Please Complete All Alternatives before generating results'
 			))
 
 		}else{
-			Fish <- c(input$FishBiomass1, input$FishBiomass2, input$FishBiomass3, input$FishBiomass4, input$FishBiomass5, input$FishBiomass6)
-			Rec <- c(input$RiverRec1, input$RiverRec2, input$RiverRec3, input$RiverRec4, input$RiverRec5, input$RiverRec6)
-			Res <- c(input$Reservoir1, input$Reservoir2, input$Reservoir3, input$Reservoir4, input$Reservoir5, input$Reservoir6)
-			Cost <- c(input$ProjectCost1, input$ProjectCost2, input$ProjectCost3, input$ProjectCost4, input$ProjectCost5, input$ProjectCost6)
-			Safe <- c(input$Safety1, input$Safety2, input$Safety3, input$Safety4, input$Safety5, input$Safety6)
-			Houses <- c(input$NumProperties1, input$NumProperties2, input$NumProperties3, input$NumProperties4, input$NumProperties5, input$NumProperties6)
-			Power <- c(input$HydroCapacity1, input$HydroCapacity2, input$HydroCapacity3, input$HydroCapacity4, input$HydroCapacity5, input$HydroCapacity6)
+			#------------------------------------------------------------
+			# get 2d array of values based on length/values of criterion_inputs and available_alternatives
+			# criterion -> columns
+			# alternatives -> rows
+			# example 6 criterion 5 alternatives results in 6 column by 5 row 2d data structure
+			#------------------------------------------------------------
+			#criterion <- vector("list", length(criterion_inputs))
+			alternatives <- vector("list", length(available_alternatives))
+			for (row_id in 1:length(available_alternatives)){
+				# for each criteria in alternatives
+				r <- vector("list", length(available_alternatives))
+
+				for (id in criterion_inputs){
+					input_name <- paste(id, toString(row_id), sep='')
+					value <- input[[input_name]]
+					r[[id]] <- value
+
+					if (is.null(value)){
+						# debug nulls, doesn't modify data
+						message('input ', input_name, " isNull ")
+					}
+				}
+
+				alternatives[[row_id]] <- unlist(r) # we want in c and not list
+			}
+			alternatives <- unlist(alternatives)
 
 			# assign values in new matrix
-			RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
+			RawCriteriaMatrix <- data.frame(
+				matrix(alternatives, nrow=length(available_alternatives), byrow=length(criterion_inputs))
+			)
 
 			# assign table row, column names
-			row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-			names(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
+			row.names(RawCriteriaMatrix) <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Keep and Maintain Dam")
+			names(RawCriteriaMatrix) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity")
 
-			CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
+			CritImportance    <- alternatives/sum(alternatives)
 
 			# origial scores in table form
 			# for debugging table size
@@ -527,20 +520,15 @@ server <- function(input, output, session) {
 		 updateAlt5()
 	})
 
-	# ALTERNATIVE 6
-	#----------------------------------------
-	observeEvent(input$updateBtn6, {
-		 updateAlt6()
-	})
-
 	#--------------------------------------------------------------------------------
 	# MCDA Table Output
 	#--------------------------------------------------------------------------------
 	# initial empty matrix.
-	RawCriteriaMatrix            <- data.frame(matrix(data=NA, nrow=6, ncol=7))
+	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_alternatives), ncol=length(criterion_inputs) ))
 
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix, {
+		generateOutput()
 	})   # end 'output' tab > on generate button event
 
 	#TODO: remove as this is for fast debugging output results
@@ -551,7 +539,6 @@ server <- function(input, output, session) {
 		updateAlt3()
 		updateAlt4()
 		updateAlt5()
-		updateAlt6()
 		message('alts updated')
 		# generate
 		generateOutput()
