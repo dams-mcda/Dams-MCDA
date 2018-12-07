@@ -13,6 +13,7 @@ response_dir <- paste(base_dir, "responses/", sep="") # where responses are save
 working_dir <- paste(base_dir, "", sep="") # default
 
 setwd(working_dir) # initial directory
+
 responsesDir <- file.path(response_dir) # directory where responses get stored
 
 #----------------------------------------
@@ -27,18 +28,22 @@ enable_rownames <- TRUE # set to TRUE to show row names on tables
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 # default graph score range
 score_range <- c(0, 5)
+# range of final graph of summed scores
 summed_score_range <- c(0, 1)
-# default names of the fields
-variable_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Hydropower Capacity")
-wsm_bar_plot_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Keep and Maintain Dam")
-
-
 # list of alternatives
 available_alternatives <- seq(1:5)
 
-# list of criterion input identifiers
-criterion_inputs <- c('FishBiomass', 'RiverRec', 'Reservoir', 'ProjectCost', 'Safety', 'NumProperties', 'HydroCapacity')
+# criteria input identifiers
+criteria_inputs <- c('FishBiomass', 'RiverRec', 'Reservoir', 'ProjectCost', 'Safety', 'NumProperties', 'HydroCapacity', 'AvoidEmissions')
+# criteria display names (for labeling tables and graphs)
+criteria_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Annual Electricity Generation", "Avoid GHG Emissions")
+# alternative display names (for labeling tables and graphs)
+alternative_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Keep and Maintain Dam")
 
+# append summed score to criteria_names array
+criteria_names_and_sum <- as.list(criteria_names) # vector to list
+criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
+criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 
 #----------------------------------------
 # Misc.
@@ -181,11 +186,20 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Alt1 <- c(input$FishBiomass1, input$RiverRec1, input$Reservoir1, input$ProjectCost1, input$Safety1, input$NumProperties1, input$HydroCapacity1)
+		Alt1 <- c(
+				  input$FishBiomass1,
+				  input$RiverRec1,
+				  input$Reservoir1,
+				  input$ProjectCost1,
+				  input$Safety1,
+				  input$NumProperties1,
+				  input$HydroCapacity1,
+				  input$AvoidEmissions1
+		)
 
 		# create table matrix 1x5
 		Alt1_Table <- as.matrix(data.frame(Alt1))
-		row.names(Alt1_Table) <- variable_names
+		row.names(Alt1_Table) <- criteria_names
 		names(Alt1_Table) <- "Raw Score"
 
 		# results
@@ -193,7 +207,7 @@ server <- function(input, output, session) {
 		output$SummPlot1 <- renderBarPlot(
 								Alt1, # data
 								"Raw Scores of Alternative 1", # title
-								variable_names, # x_labels
+								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
 								colors, # colors
@@ -216,11 +230,20 @@ server <- function(input, output, session) {
 			tags$span('Complete', class="alt-complete")
 		))
 		# get decision inputs
-		Alt2 <- c(input$FishBiomass2, input$RiverRec2, input$Reservoir2, input$ProjectCost2, input$Safety2, input$NumProperties2, input$HydroCapacity2)
+		Alt2 <- c(
+				  input$FishBiomass2,
+				  input$RiverRec2,
+				  input$Reservoir2,
+				  input$ProjectCost2,
+				  input$Safety2,
+				  input$NumProperties2,
+				  input$HydroCapacity2,
+				  input$AvoidEmissions2
+		)
 
 		# create table matrix 1x5
 		Alt2_Table <- as.matrix(data.frame(Alt2))
-		row.names(Alt2_Table) <- variable_names
+		row.names(Alt2_Table) <- criteria_names
 		names(Alt2_Table) <- "Raw Score"
 
 		# results
@@ -228,7 +251,7 @@ server <- function(input, output, session) {
 		output$SummPlot2 <- renderBarPlot(
 								Alt2, # data
 								"Raw Scores of Alternative 2", # title
-								variable_names, # x_labels
+								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
 								colors, # colors
@@ -252,11 +275,21 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Alt3 <- c(input$FishBiomass3, input$RiverRec3, input$Reservoir3, input$ProjectCost3, input$Safety3, input$NumProperties3, input$HydroCapacity3)
+		Alt3 <- c(
+				  input$FishBiomass3,
+				  input$RiverRec3,
+				  input$Reservoir3,
+				  input$ProjectCost3,
+				  input$Safety3,
+				  input$NumProperties3,
+				  input$HydroCapacity3,
+				  input$AvoidEmissions3
+		)
+
 
 		# create table matrix 1x5
 		Alt3_Table <- as.matrix(data.frame(Alt3))
-		row.names(Alt3_Table) <- variable_names
+		row.names(Alt3_Table) <- criteria_names
 		names(Alt3_Table) <- "Raw Score"
 
 		# results
@@ -264,7 +297,7 @@ server <- function(input, output, session) {
 		output$SummPlot3 <- renderBarPlot(
 								Alt3, # data
 								"Raw Scores of Alternative 3", # title
-								variable_names, # x_labels
+								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
 								colors, # colors
@@ -288,11 +321,20 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Alt4 <- c(input$FishBiomass4, input$RiverRec4, input$Reservoir4, input$ProjectCost4, input$Safety4, input$NumProperties4, input$HydroCapacity4)
+		Alt4 <- c(
+				  input$FishBiomass4,
+				  input$RiverRec4,
+				  input$Reservoir4,
+				  input$ProjectCost4,
+				  input$Safety4,
+				  input$NumProperties4,
+				  input$HydroCapacity4,
+				  input$AvoidEmissions4
+		)
 
 		# create table matrix 1x5
 		Alt4_Table <- as.matrix(data.frame(Alt4))
-		row.names(Alt4_Table) <- variable_names
+		row.names(Alt4_Table) <- criteria_names
 		names(Alt4_Table) <- "Raw Score"
 
 		# results
@@ -300,7 +342,7 @@ server <- function(input, output, session) {
 		output$SummPlot4 <- renderBarPlot(
 								Alt4, # data
 								"Raw Scores of Alternative 4", # title
-								variable_names, # x_labels
+								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
 								colors, # colors
@@ -325,11 +367,20 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Alt5 <- c(input$FishBiomass5, input$RiverRec5, input$Reservoir5, input$ProjectCost5, input$Safety5, input$NumProperties5, input$HydroCapacity5)
+		Alt5 <- c(
+				  input$FishBiomass5,
+				  input$RiverRec5,
+				  input$Reservoir5,
+				  input$ProjectCost5,
+				  input$Safety5,
+				  input$NumProperties5,
+				  input$HydroCapacity5,
+				  input$AvoidEmissions5
+		)
 
 		# create table matrix 1x5
 		Alt5_Table <- as.matrix(data.frame(Alt5))
-		row.names(Alt5_Table) <- variable_names
+		row.names(Alt5_Table) <- criteria_names
 		names(Alt5_Table) <- "Raw Score"
 
 		# results
@@ -337,7 +388,7 @@ server <- function(input, output, session) {
 		output$SummPlot5 <- renderBarPlot(
 								Alt5, # data
 								"Raw Scores of Alternative 5", # title
-								variable_names, # x_labels
+								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
 								colors, # colors
@@ -366,18 +417,18 @@ server <- function(input, output, session) {
 
 		}else{
 			#------------------------------------------------------------
-			# get 2d array of values based on length/values of criterion_inputs and available_alternatives
+			# get 2d array of values based on length/values of criteria_inputs and available_alternatives
 			# criterion -> columns
 			# alternatives -> rows
 			# example 6 criterion 5 alternatives results in 6 column by 5 row 2d data structure
 			#------------------------------------------------------------
-			#criterion <- vector("list", length(criterion_inputs))
+			#criterion <- vector("list", length(criteria_inputs))
 			alternatives <- vector("list", length(available_alternatives))
 			for (row_id in 1:length(available_alternatives)){
 				# for each criteria in alternatives
 				r <- vector("list", length(available_alternatives))
 
-				for (id in criterion_inputs){
+				for (id in criteria_inputs){
 					input_name <- paste(id, toString(row_id), sep='')
 					value <- input[[input_name]]
 					r[[id]] <- value
@@ -394,14 +445,14 @@ server <- function(input, output, session) {
 
 			# assign values in new matrix
 			RawCriteriaMatrix <- data.frame(
-				matrix(alternatives, nrow=length(available_alternatives), byrow=length(criterion_inputs))
+				matrix(alternatives, nrow=length(available_alternatives), byrow=length(criteria_inputs))
 			)
 
 			# assign table row, column names
-			row.names(RawCriteriaMatrix) <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Keep and Maintain Dam")
-			names(RawCriteriaMatrix) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity")
+			row.names(RawCriteriaMatrix) <- alternative_names
+			names(RawCriteriaMatrix) <- criteria_names
 
-			CritImportance    <- alternatives/sum(alternatives)
+			CritImportance <- alternatives/sum(alternatives)
 
 			# origial scores in table form
 			# for debugging table size
@@ -416,21 +467,22 @@ server <- function(input, output, session) {
 
 			TableMatrix$summedScore <- WSMResults[2]
 
-			testTableOutput <- data.frame( TableMatrix, row.names=wsm_bar_plot_names, check.names=FALSE)
-			names(testTableOutput) <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score")
+			WSMTableOutput <- data.frame( TableMatrix, row.names=alternative_names, check.names=FALSE)
+			# this ones different becaues
+			names(WSMTableOutput) <- criteria_names_and_sum
 
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
 			# final output table
-			output$WSMTable <- renderTable(testTableOutput, rownames=enable_rownames)
+			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
 
 			# final output barplot
 			output$WSMPlot <- renderBarPlot(
 									# !important!
 									unlist(WSMResults[2]), # scoresum data
 									"WSM Ranked Alternatives", # title
-									wsm_bar_plot_names, # x_labels
+									alternative_names, # x_labels
 									"Topic", # x axis label
 									"Score", # y axis label
 									colors, # colors
@@ -524,7 +576,7 @@ server <- function(input, output, session) {
 	# MCDA Table Output
 	#--------------------------------------------------------------------------------
 	# initial empty matrix.
-	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_alternatives), ncol=length(criterion_inputs) ))
+	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_alternatives), ncol=length(criteria_inputs) ))
 
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix, {

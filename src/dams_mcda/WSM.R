@@ -1,10 +1,3 @@
-
-colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink") # output graph colors
-# output column names
-table_colnames <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity", "Summed Score")
-# output row names
-table_rownames <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam")
-
 # WSM
 #----------------------------------------
 # generates the MDCA Output
@@ -21,7 +14,7 @@ table_rownames <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine A
 WSM <- function(CritImportance, RawCriteriaMatrix){
 
 	# matrix setup
-	matrix_cols <- length(criterion_inputs) # 7 default (output size, adds summedscore)
+	matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
 	matrix_rows <- length(available_alternatives) # 5 default
 
 	#----------------------------------------
