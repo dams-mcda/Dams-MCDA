@@ -42,22 +42,22 @@ ui <- shinyUI(fluidPage(
 				#"Alternative 1: Dam Removal",
 				htmlOutput("Alt1"), # status and title
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of dam removal.<br>
-					 <br>In each case, 1 = not at all important and 5 = extremely important.<br>"),
+					 <br>In each case, 0 = not at all important and 5 = extremely important.<br>"),
 
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass1", label = "Please rate the importance of fish biomass:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass1", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec1", label = "Please rate the importance of River Recreation:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec1", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir1", label = "Please rate the importance of Reservoir Storage:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir1", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost1", label = "Please rate the importance of One-Time Project Costs:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost1", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety1", label = "Please rate the importance of Dam Safety:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety1", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties1", label = "Please rate the importance of Number of Properties Impacted:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties1", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity1", label = "Please rate the importance of Hydropower Capacity:", value=1, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity1", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn1", "Update"),
 
@@ -69,22 +69,22 @@ ui <- shinyUI(fluidPage(
 				#"Alternative 2: Improve Fish Passage Facilities",
 				htmlOutput("Alt2"), # status and title
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of improvements to fish passage facilities.<br>
-					 <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+					 <br> In each case, 0 = not at all important and 5 = extremely important.<br>"),
 
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass2", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass2", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec2", label = "Please rate the importance of River Recreation:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec2", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir2", label = "Please rate the importance of Reservoir Storage:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir2", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost2", label = "Please rate the importance of One-Time Project Costs:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost2", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety2", label = "Please rate the importance of Dam Safety:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety2", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties2", label = "Please rate the importance of Number of Properties Impacted:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties2", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity2", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity2", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn2", "Update"),
 
@@ -97,22 +97,22 @@ ui <- shinyUI(fluidPage(
 				#"Alternative 3: Upgrade or Replace Turbines at Existing Powered Dams",
 				htmlOutput("Alt3"), # status and title
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of turbine upgrades or replacements.<br>
-					<br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+					<br> In each case, 0 = not at all important and 5 = extremely important.<br>"),
 
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass3", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass3", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec3", label = "Please rate the importance of River Recreation:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec3", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir3", label = "Please rate the importance of Reservoir Storage:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir3", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost3", label = "Please rate the importance of One-Time Project Costs:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost3", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety3", label = "Please rate the importance of Dam Safety:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety3", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties3", label = "Please rate the importance of Number of Properties Impacted:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties3", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity3", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity3", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn3", "Update"),
 
@@ -125,21 +125,21 @@ ui <- shinyUI(fluidPage(
 				#"Alternative 4: Installing Turbines or Expanding Existing Capacity",
 				htmlOutput("Alt4"), # status and title
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of installing turbines or expanding hyropower capacity.<br>
-				     <br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+				     <br> In each case, 0 = not at all important and 5 = extremely important.<br>"),
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass4", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass4", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec4", label = "Please rate the importance of River Recreation:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec4", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir4", label = "Please rate the importance of Reservoir Storage:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir4", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost4", label = "Please rate the importance of One-Time Project Costs:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost4", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety4", label = "Please rate the importance of Dam Safety:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety4", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties4", label = "Please rate the importance of Number of Properties Impacted:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties4", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity4", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity4", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn4", "Update"),
 
@@ -151,22 +151,22 @@ ui <- shinyUI(fluidPage(
 				#"Alternative 5: Refurbishment, Restoration, or Maintenance",
 				htmlOutput("Alt5"), # status and title
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of refurbishment, restoration, or maintenance.<br>
-					<br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+					<br> In each case, 0 = not at all important and 5 = extremely important.<br>"),
 
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass5", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass5", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec5", label = "Please rate the importance of River Recreation:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec5", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir5", label = "Please rate the importance of Reservoir Storage:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir5", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost5", label = "Please rate the importance of One-Time Project Costs:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost5", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety5", label = "Please rate the importance of Dam Safety:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety5", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties5", label = "Please rate the importance of Number of Properties Impacted:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties5", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity5", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity5", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn5", "Update"),
 
@@ -178,22 +178,22 @@ ui <- shinyUI(fluidPage(
 				#"Alternative 6: Keep Dam (Do Nothing)",
 				htmlOutput("Alt6"), # status and title
 				HTML("Indicate your level of preference associated with each of the following criteria in the case of keeping the dam (doing nothing).<br>
-					<br> In each case, 1 = not at all important and 5 = extremely important.<br>"),
+					<br> In each case, 0 = not at all important and 5 = extremely important.<br>"),
 
 				#Fish Biomass
-				sliderInput(inputId = "FishBiomass6", label = "Please rate the importance of fish biomass:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "FishBiomass6", label = "Please rate the importance of fish biomass:", value=0, min=0, max=5, step = 0.25),
 				#River Recreation
-				sliderInput(inputId = "RiverRec6", label = "Please rate the importance of River Recreation:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "RiverRec6", label = "Please rate the importance of River Recreation:", value=0, min=0, max=5, step = 0.25),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir6", label = "Please rate the importance of Reservoir Storage:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Reservoir6", label = "Please rate the importance of Reservoir Storage:", value=0, min=0, max=5, step = 0.25),
 				#One-Time Project Costs
-				sliderInput(inputId = "ProjectCost6", label = "Please rate the importance of One-Time Project Costs:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "ProjectCost6", label = "Please rate the importance of One-Time Project Costs:", value=0, min=0, max=5, step = 0.25),
 				#Dam Safety
-				sliderInput(inputId = "Safety6", label = "Please rate the importance of Dam Safety:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "Safety6", label = "Please rate the importance of Dam Safety:", value=0, min=0, max=5, step = 0.25),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties6", label = "Please rate the importance of Number of Properties Impacted:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "NumProperties6", label = "Please rate the importance of Number of Properties Impacted:", value=0, min=0, max=5, step = 0.25),
 				#Hydropower Capacity
-				sliderInput(inputId = "HydroCapacity6", label = "Please rate the importance of Hydropower Capacity:", value=3, min=1, max=5, step = 0.25),
+				sliderInput(inputId = "HydroCapacity6", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn6", "Update"),
 
