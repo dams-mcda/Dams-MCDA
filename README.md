@@ -29,7 +29,7 @@ Involvement:
 
 Contact:
 
-		<emma.fox@maine.edu>
+<emma.fox@maine.edu>
 
 ***
 
@@ -41,7 +41,7 @@ Involvement:
 
 Contact:
 
-		<garrett.raymond14@gmail.com>
+<garrett.raymond14@gmail.com>
 
 ***
 
@@ -61,7 +61,7 @@ Involvement:
 
 Contact:
 
-		<william.winslow@unh.edu>
+<william.winslow@unh.edu>
 
 
 ## TO-DO LIST
