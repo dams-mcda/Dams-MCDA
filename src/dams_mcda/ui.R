@@ -60,6 +60,8 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "HydroCapacity1", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 				#Emissions
 				sliderInput(inputId = "AvoidEmissions1", label = "Please rate the importance of Avoiding GHG Emissions:", value=0, min=0, max=5, step = 0.25),
+				#AnnuitizedCost
+				sliderInput(inputId = "AnnuitizedCost1", label = "Please rate the importance of Annuitized Cost:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn1", "Update"),
 
@@ -89,6 +91,8 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "HydroCapacity2", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 				#Emissions
 				sliderInput(inputId = "AvoidEmissions2", label = "Please rate the importance of Avoiding GHG Emissions:", value=0, min=0, max=5, step = 0.25),
+				#AnnuitizedCost
+				sliderInput(inputId = "AnnuitizedCost2", label = "Please rate the importance of Annuitized Cost:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn2", "Update"),
 
@@ -119,6 +123,8 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "HydroCapacity3", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 				#Emissions
 				sliderInput(inputId = "AvoidEmissions3", label = "Please rate the importance of Avoiding GHG Emissions:", value=0, min=0, max=5, step = 0.25),
+				#AnnuitizedCost
+				sliderInput(inputId = "AnnuitizedCost3", label = "Please rate the importance of Annuitized Cost:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn3", "Update"),
 
@@ -148,6 +154,8 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "HydroCapacity4", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 				#Emissions
 				sliderInput(inputId = "AvoidEmissions4", label = "Please rate the importance of Avoiding GHG Emissions:", value=0, min=0, max=5, step = 0.25),
+				#AnnuitizedCost
+				sliderInput(inputId = "AnnuitizedCost4", label = "Please rate the importance of Annuitized Cost:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn4", "Update"),
 
@@ -177,6 +185,8 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "HydroCapacity5", label = "Please rate the importance of Hydropower Capacity:", value=0, min=0, max=5, step = 0.25),
 				#Emissions
 				sliderInput(inputId = "AvoidEmissions5", label = "Please rate the importance of Avoiding GHG Emissions:", value=0, min=0, max=5, step = 0.25),
+				#AnnuitizedCost
+				sliderInput(inputId = "AnnuitizedCost5", label = "Please rate the importance of Annuitized Cost:", value=0, min=0, max=5, step = 0.25),
 
 				actionButton("updateBtn5", "Update"),
 

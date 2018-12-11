@@ -34,16 +34,44 @@ summed_score_range <- c(0, 1)
 available_alternatives <- seq(1:5)
 
 # criteria input identifiers
-criteria_inputs <- c('FishBiomass', 'RiverRec', 'Reservoir', 'ProjectCost', 'Safety', 'NumProperties', 'HydroCapacity', 'AvoidEmissions')
+criteria_inputs <- c(
+	"FishBiomass",
+	"RiverRec",
+	"Reservoir",
+	"ProjectCost",
+	"Safety",
+	"NumProperties",
+	"HydroCapacity", # nam is annual electricity generation
+	"AvoidEmissions",
+	"AnnuitizedCost"
+)
 # criteria display names (for labeling tables and graphs)
-criteria_names <- c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Safety", "Number of Properties Impacted", "Annual Electricity Generation", "Avoid GHG Emissions")
+criteria_names <- c(
+	"Fish Biomass",
+	"River Recreation",
+	"Reservoir Storage",
+	"One-Time Project Costs",
+	"Safety",
+	"Number of Properties Impacted",
+	"Annual Electricity Generation",
+	"Avoid GHG Emissions",
+	"Annuitized Cost"
+)
 # alternative display names (for labeling tables and graphs)
-alternative_names <- c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Keep and Maintain Dam")
+alternative_names <- c(
+   "Dam Removal",
+   "Fish Improve",
+   "Turbine Improve",
+   "Turbine Add or Expand",
+   "Keep and Maintain Dam"
+)
 
 # append summed score to criteria_names array
 criteria_names_and_sum <- as.list(criteria_names) # vector to list
 criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
 criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
+
+# End of global variables
 
 #----------------------------------------
 # Misc.
@@ -53,10 +81,6 @@ criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 # needed when calling barplot
 pdf(NULL)
 
-# TODO: do we need this?
-# identify which fields get saved
-#fieldsAll <- c(Fish, Rec, Res, Cost, Safe, Houses, Power, WSMResults)
-# End of static variables
 
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
@@ -187,14 +211,15 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Alt1 <- c(
-				  input$FishBiomass1,
-				  input$RiverRec1,
-				  input$Reservoir1,
-				  input$ProjectCost1,
-				  input$Safety1,
-				  input$NumProperties1,
-				  input$HydroCapacity1,
-				  input$AvoidEmissions1
+			input$FishBiomass1,
+			input$RiverRec1,
+			input$Reservoir1,
+			input$ProjectCost1,
+			input$Safety1,
+			input$NumProperties1,
+			input$HydroCapacity1,
+			input$AvoidEmissions1,
+			input$AnnuitizedCost1
 		)
 
 		# create table matrix 1x5
@@ -231,14 +256,15 @@ server <- function(input, output, session) {
 		))
 		# get decision inputs
 		Alt2 <- c(
-				  input$FishBiomass2,
-				  input$RiverRec2,
-				  input$Reservoir2,
-				  input$ProjectCost2,
-				  input$Safety2,
-				  input$NumProperties2,
-				  input$HydroCapacity2,
-				  input$AvoidEmissions2
+			input$FishBiomass2,
+			input$RiverRec2,
+			input$Reservoir2,
+			input$ProjectCost2,
+			input$Safety2,
+			input$NumProperties2,
+			input$HydroCapacity2,
+			input$AvoidEmissions2,
+			input$AnnuitizedCost2
 		)
 
 		# create table matrix 1x5
@@ -276,14 +302,15 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Alt3 <- c(
-				  input$FishBiomass3,
-				  input$RiverRec3,
-				  input$Reservoir3,
-				  input$ProjectCost3,
-				  input$Safety3,
-				  input$NumProperties3,
-				  input$HydroCapacity3,
-				  input$AvoidEmissions3
+			input$FishBiomass3,
+			input$RiverRec3,
+			input$Reservoir3,
+			input$ProjectCost3,
+			input$Safety3,
+			input$NumProperties3,
+			input$HydroCapacity3,
+			input$AvoidEmissions3,
+			input$AnnuitizedCost3
 		)
 
 
@@ -322,14 +349,15 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Alt4 <- c(
-				  input$FishBiomass4,
-				  input$RiverRec4,
-				  input$Reservoir4,
-				  input$ProjectCost4,
-				  input$Safety4,
-				  input$NumProperties4,
-				  input$HydroCapacity4,
-				  input$AvoidEmissions4
+			input$FishBiomass4,
+			input$RiverRec4,
+			input$Reservoir4,
+			input$ProjectCost4,
+			input$Safety4,
+			input$NumProperties4,
+			input$HydroCapacity4,
+			input$AvoidEmissions4,
+			input$AnnuitizedCost4
 		)
 
 		# create table matrix 1x5
@@ -368,14 +396,15 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Alt5 <- c(
-				  input$FishBiomass5,
-				  input$RiverRec5,
-				  input$Reservoir5,
-				  input$ProjectCost5,
-				  input$Safety5,
-				  input$NumProperties5,
-				  input$HydroCapacity5,
-				  input$AvoidEmissions5
+			input$FishBiomass5,
+			input$RiverRec5,
+			input$Reservoir5,
+			input$ProjectCost5,
+			input$Safety5,
+			input$NumProperties5,
+			input$HydroCapacity5,
+			input$AvoidEmissions5,
+			input$AnnuitizedCost5
 		)
 
 		# create table matrix 1x5
