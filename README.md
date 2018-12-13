@@ -23,11 +23,11 @@ Developers
 
 Lead developer
 
-Involvement:
+**Involvement**
 
-	Designed initial UI and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. Wrote app text, and designed accompanying multi-dam decision example fact sheets. 
+Designed initial UI and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. Wrote app text, and designed accompanying multi-dam decision example fact sheets. 
 
-Contact:
+**Contact**
 
 <emma.fox@maine.edu>
 
@@ -37,11 +37,11 @@ Contact:
 
 Development advisor
 
-Involvement:
+**Involvement**
 
-	Development advisor. Advised UI/UX enhancements to WSM model, refined criteria definitions, revised app text. 
+Development advisor. Advised UI/UX enhancements to WSM model, refined criteria definitions, revised app text. 
 
-Contact:
+**Contact**
 
 <sharon.klein@maine.edu>
 
@@ -51,11 +51,11 @@ Contact:
 
 Technical consultant
 
-Involvement:
+**Involvement**
 
-	Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: [Multi-Criteria Decision Analysis of Fuel Pathways](https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/).
+Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: [Multi-Criteria Decision Analysis of Fuel Pathways](https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/).
 
-Contact:
+**Contact**
 
 <garrett.raymond14@gmail.com>
 
@@ -65,7 +65,7 @@ Contact:
 
 Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire)
 
-Involvement:
+**Involvement**
 
 * Deployment (Docker, Apache)
 
@@ -75,7 +75,7 @@ Involvement:
 
 * Misc. feature implementations (UI/UX)
 
-Contact:
+**Contact**
 
 <william.winslow@unh.edu>
 
