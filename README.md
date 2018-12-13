@@ -21,11 +21,11 @@ Developers
 
 **Emma Fox**
 
-Ph.D. student, University of Maine
+Lead developer
 
 Involvement:
 
-* TODO
+	Designed initial UI and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. Wrote app text, and designed accompanying multi-dam decision example fact sheets. 
 
 Contact:
 
@@ -33,11 +33,27 @@ Contact:
 
 ***
 
-**Garrett Raymond**
+**Sharon Klein**
+
+Development advisor
 
 Involvement:
 
-* TODO
+	Development advisor. Advised UI/UX enhancements to WSM model, refined criteria definitions, revised app text. 
+
+Contact:
+
+<sharon.klein@maine.edu>
+
+***
+
+**Garrett Raymond**
+
+Technical consultant
+
+Involvement:
+
+	Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: [Multi-Criteria Decision Analysis of Fuel Pathways](https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/).
 
 Contact:
 
@@ -47,27 +63,26 @@ Contact:
 
 **William Winslow**
 
-Lead Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire 
+Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire)
 
 Involvement:
 
-* Deployment
+* Deployment (Docker, Apache)
 
-* Reorganization of existing code
+* Server code reorganization
 
 * Debugging/Bug fixes
 
-* Misc. feature implementations
+* Misc. feature implementations (UI/UX)
 
 Contact:
 
 <william.winslow@unh.edu>
 
 
-## TO-DO LIST
-1. ~~Format app (check)~~
-2. Get tables and figures to print
-3. ~~Get launched on Shiny server~~
-4. ~~Get link to Shiny app~~
-5. Test web app --> undergrad RAs, colleagues
 
+Acknowledgement
+--------------------------
++ Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
+
++ Data Discovery Center of the University of New Hampshire: <https://ddc.unh.edu>
