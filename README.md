@@ -21,7 +21,7 @@ Developers
 
 **Emma Fox**
 
-Lead developer
+Lead developer (Ph.D. student, University of Maine Ecology and Environmental Science Program)
 
 **Involvement**
 
@@ -35,7 +35,7 @@ Designed initial UI and server functionality based on Raymond & Klein (2018). Ad
 
 **Sharon Klein**
 
-Development advisor
+Development advisor (Associate Professor, University of Maine School of Economics)
 
 **Involvement**
 
