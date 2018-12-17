@@ -308,9 +308,9 @@ ui <- shinyUI(fluidPage(
 				# TODO:? we could make event fire by checking if all alternatives have been 'updated'
 				actionButton("generateMatrix", "Generate"),
 
-				# TODO remove
-				HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
-				actionButton("autoGenerateMatrix", "Auto Complete"),
+				# uncomment for debugg output helper button
+				#HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
+				#actionButton("autoGenerateMatrix", "Auto Complete"),
 
 				# output tables
 				HTML('<br>FilledCriteriaTable<br>'),
