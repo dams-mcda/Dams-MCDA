@@ -65,7 +65,7 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "NumProperties1", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration1", label = "Annual Electricity Generation (MWh/yr): estimate based on nameplate capacity.", 
+				sliderInput(inputId = "ElectricityGeneration1", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
 				            value=0, min=0, max=1, step = 0.05),
 				#GHGEmissions
 				sliderInput(inputId = "AvoidEmissions1", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
@@ -117,7 +117,7 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "NumProperties2", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration2", label = "Annual Electricity Generation (MWh/yr): estimate based on nameplate capacity.", 
+				sliderInput(inputId = "ElectricityGeneration2", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
 				            value=0, min=0, max=1, step = 0.05),
 				#GHGEmissions
 				sliderInput(inputId = "AvoidEmissions2", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
@@ -168,7 +168,7 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "NumProperties3", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration3", label = "Annual Electricity Generation (MWh/yr): estimate based on nameplate capacity.", 
+				sliderInput(inputId = "ElectricityGeneration3", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
 				            value=0, min=0, max=1, step = 0.05),
 				#GHGEmissions
 				sliderInput(inputId = "AvoidEmissions3", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
@@ -221,7 +221,7 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "NumProperties4", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration4", label = "Annual Electricity Generation (MWh/yr): estimate based on nameplate capacity.", 
+				sliderInput(inputId = "ElectricityGeneration4", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
 				            value=0, min=0, max=1, step = 0.05),
 				#GHGEmissions
 				sliderInput(inputId = "AvoidEmissions4", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
@@ -272,7 +272,7 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "NumProperties5", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration5", label = "Annual Electricity Generation (MWh/yr): estimate based on nameplate capacity.", 
+				sliderInput(inputId = "ElectricityGeneration5", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
 				            value=0, min=0, max=1, step = 0.05),
 				#GHGEmissions
 				sliderInput(inputId = "AvoidEmissions5", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
