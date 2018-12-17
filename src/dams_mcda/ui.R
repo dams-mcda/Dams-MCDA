@@ -43,7 +43,8 @@ ui <- shinyUI(fluidPage(
 				HTML("When a dam is removed, water is allowed to flow (somewhat) freely downstream, creating greater connectivity for fish passage and river recreation, bolstering sea-run fish populations, and improving benthic (riverbed) aquatic communities. Dam removal may increase local water quality, <br>
             regulate water temperature, and provide additional tourism/fishing opportunities. The river and its tributaries will likely return to their "natural" flows. However, dam removal may also create temporary mud flats as the reservoir empties, or release toxic or harmful impounded sediments. <br>
             Dam removal eliminates lake-dwelling wildlife habitat and local flatwater recreation opportunities, reduces overall reservoir storage volume, and lowers total annual hydropower generation. Dam removal costs are typically high for dam removals, with no payback in terms of direct market <br>
-            returns. Please consider and rate the given set of decision criteria based on the case of removing the dam.<br>
+            returns. Decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another <br>
+            criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of decision criteria based on the case of removing the dam.<br>
 					 <br>In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
 				#Fish Survival
@@ -95,7 +96,8 @@ ui <- shinyUI(fluidPage(
 				HTML("When improvements are made to a dam's fish passage using state-of-the-art facilities, it may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities<br>
             for citizens and students. However, annual electricity generation may be diminished (depending on the technology selected to pass fish), and costs for state-of-the-art fish passage facilities are typically high. Fish passage facility improvements may be required by law <br>
             depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered. In the case where owners are required to improve passage for sea-run fish species, owners must bear the cost or risk surrendering <br>
-            the dam operation license. Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam.<br>
+            the dam operation license. Decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one <br>
+            criterion requires another criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam.<br>
 					 <br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
 				#Fish Survival
@@ -146,7 +148,8 @@ ui <- shinyUI(fluidPage(
 				htmlOutput("Alt3"), # status and title
 				HTML("Upgrading or replacing turbines improves longevity for a hydropower plant. Costs for turbine upgrade or replacement are recouped through improved efficiency in operation over the lifetime of each hydropower project. Nameplate hydropower capacity at the dam may increase <br>
           with turbine replacement or upgrade. However, when turbines are upgraded or replaced, the impact to sea-run fish survival is unclear. If new turbines are fast moving or impulse driven (where a nozzle sprays high-pressure water at buckets on a runner to turn the turbine), <br>
-          fish may be more at risk than if turbines are slow moving or reaction driven (where flow and pressure of water over angled blades on a runner) turbine. Please consider and rate the given set of criteria based on the case of improved or upgraded turbines at the dam.<br>
+          fish may be more at risk than if turbines are slow moving or reaction driven (where flow and pressure of water over angled blades on a runner) turbine. Decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be <br>
+          aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of criteria based on the case of improved or upgraded turbines at the dam.<br>
 					<br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
 				#Fish Survival
@@ -198,8 +201,9 @@ ui <- shinyUI(fluidPage(
 				htmlOutput("Alt4"), # status and title
 				HTML("When new turbines are installed on existing non-powered dam infrastructure, or hydropower capacity is increased at a powered dam, annual hydropower generation increases. Costs may be recouped through market returns over the project's lifetime, and the change in the dam's <br>
               operation may present opportunities for whitewater recreation downstream (dam releases are popular for river rafting). However, installing turbines or expanding existing power capacity may alter flows and confuse sea-run fish species. Fish may become caught in the grates <br>
-              protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall hydropower operations. Please consider and rate the given set of criteria <br>
-              based on the case of new turbine installation or expansion of existing hydropower capacity at the dam.<br>
+              protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall hydropower operations.Decision criteria ratings must sum to 1! The tracking <br>
+              indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion rating to decrease in order to keep the sum equal to 1). <br>
+              Please consider and rate the given set of criteria based on the case of new turbine installation or expansion of existing hydropower capacity at the dam.<br>
 				     <br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
 			
 				#Fish Survival
@@ -250,7 +254,8 @@ ui <- shinyUI(fluidPage(
 				HTML("Keeping and maintaining the dam is the lowest-cost option. Keeping and maintaining the dam may appeal to parties interested in preserving the area's industrial history, preserving the town/city identity for community residents (if local identity is closely tied to the dam), <br>
           or preserving the aesthetic value of the impoundment. Maintenance costs may be recouped somewhat if the dam is powered; however, refurbishment, restoration, or maintenance to a non-powered dam presents no direct opportunity for cost offset. Keeping the dam will likely have no <br>
           impact on reservoir storage volume, river recreation area, annual electricity generation, or number of properties abutting the reservoir. The impoundment will continue to present a barrier to sea-run fish species, thereby negatively impacting their survival. And, in the long run, <br>
-          the dam is a temporary piece of infrastructure that must be removed. Please consider and rate the given set of criteria based on the case of refurbishment or maintenance at the dam.<br>
+          the dam is a temporary piece of infrastructure that must be removed. Decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then <br>
+          increasing the rating on one criterion requires another criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of criteria based on the case of refurbishment or maintenance at the dam.<br>
 					<br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
 				#Fish Survival
