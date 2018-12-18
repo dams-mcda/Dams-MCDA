@@ -41,13 +41,14 @@ criteria_inputs <- c(
 	"ProjectCost",
 	"Safety",
 	"NumProperties",
-	"ElectricityGeneration", 
+	"ElectricityGeneration",
 	"AvoidEmissions",
-	"IndigenousHeritage", 
+	"IndigenousHeritage",
 	"IndustrialHistory",
-	"CommunityIdentity", 
+	"CommunityIdentity",
 	"Aesthetics"
 )
+
 # criteria display names (for labeling tables and graphs)
 criteria_names <- c(
 	"Fish Survival",
@@ -58,12 +59,12 @@ criteria_names <- c(
 	"Number of Properties Impacted",
 	"Annual Electricity Generation",
 	"Greenhouse Gas Emissions Reduction",
-	"Indigenous Cultural Heritage", 
-	"Industrial Historical Value", 
-	"Town/City Identity", 
+	"Indigenous Cultural Heritage",
+	"Industrial Historical Value",
+	"Town/City Identity",
 	"Aesthetic Value"
-	
 )
+
 # alternative display names (for labeling tables and graphs)
 alternative_names <- c(
    "Remove Dam",
@@ -224,12 +225,12 @@ server <- function(input, output, session) {
 			input$ProjectCost1,
 			input$Safety1,
 			input$NumProperties1,
-			input$HydroCapacity1,
+			input$ElectricityGeneration1,
 			input$AvoidEmissions1,
 			input$IndigenousHeritage1,
 			input$IndustrialHistory1,
 			input$CommunityIdentity1,
-			input$Aesthetics1,
+			input$Aesthetics1
 		)
 
 		# create table matrix 1x5
@@ -272,7 +273,7 @@ server <- function(input, output, session) {
 			input$ProjectCost2,
 			input$Safety2,
 			input$NumProperties2,
-			input$HydroCapacity2,
+			input$ElectricityGeneration2,
 			input$AvoidEmissions2,
 			input$IndigenousHeritage2,
 			input$IndustrialHistory2,
@@ -321,7 +322,7 @@ server <- function(input, output, session) {
 			input$ProjectCost3,
 			input$Safety3,
 			input$NumProperties3,
-			input$HydroCapacity3,
+			input$ElectricityGeneration3,
 			input$AvoidEmissions3,
 			input$IndigenousHeritage3,
 			input$IndustrialHistory3,
@@ -371,7 +372,7 @@ server <- function(input, output, session) {
 			input$ProjectCost4,
 			input$Safety4,
 			input$NumProperties4,
-			input$HydroCapacity4,
+			input$ElectricityGeneration4,
 			input$AvoidEmissions4,
 			input$IndigenousHeritage4,
 			input$IndustrialHistory4,
@@ -421,13 +422,13 @@ server <- function(input, output, session) {
 			input$ProjectCost5,
 			input$Safety5,
 			input$NumProperties5,
-			input$HydroCapacity5,
+			input$ElectricityGeneration5,
 			input$AvoidEmissions5,
 			input$IndigenousHeritage5,
 			input$IndustrialHistory5,
 			input$CommunityIdentity5,
 			input$Aesthetics5
-			)
+		)
 
 		# create table matrix 1x5
 		Alt5_Table <- as.matrix(data.frame(Alt5))
