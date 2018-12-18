@@ -16,9 +16,36 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	# matrix setup
 	matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
 	matrix_rows <- length(available_alternatives) # 5 default
-
+	
+	
+	
 	#----------------------------------------
-	# Min / Max Vectors
+	# PATH A: Build Score Matrix, no normalization
+	# score will be raw values from 0-1 based on user input
+	#----------------------------------------
+	WSMMatrix <- data.frame(matrix(data=NA, nrow = matrix_rows, ncol = matrix_cols))
+
+	# weight values of each raw score in matrix
+	for (k in 1:matrix_cols){
+	  for (n in 1:matrix_rows){
+	    x <- RawCriteriaMatrix[n,k]
+	    crit_imp <- CritImportance[k]
+	    
+	    WSMMatrix[n,k] <- tryCatch({
+	      if (k %in% RawCriteriaMatrix){
+	       #weight RawCriteriaMatrix based on importance
+	        (x* crit_imp)
+	      }
+	    }, error=function(e){
+	      return(NA)
+	    })
+	    
+	  } #End alternative (rows) for loop.
+	} #End criteria (columns) for loop.
+	
+	
+	#----------------------------------------
+	# PATH B: Normalization using Min / Max Vectors
 	#----------------------------------------
 	# iterate each criteria for min,max
 	WSMMaxVector <- list("list", matrix_cols)
@@ -40,7 +67,7 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 
 
 	#----------------------------------------
-	# Build Score Matrix
+	# PATH B: Build Score Matrix
 	# score will be min/max normalized values from 0-1
 	#----------------------------------------
 	WSMScoreMatrix <- data.frame(matrix(data=NA, nrow = matrix_rows, ncol = matrix_cols))
@@ -77,9 +104,10 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 
 	#----------------------------------------
 	# IntermediateMatrix
+	# Note: adjust matrix to be rounded if using alternative path
 	#----------------------------------------
 	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
-	IntermediateMatrix <- round(WSMScoreMatrix,3)
+	IntermediateMatrix <- round(WSMMatrix,3) #adjust matrix name if using alternate path
 
 	# debug
 	#message('IntermediateMatrix', IntermediateMatrix)
@@ -102,28 +130,3 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	return(WSMResults)
 }
 
-####SAVE THIS EXAMPLE CODE TO TROUBLESHOOT PLOT DESIGN LATER########
-
-#RawCriteriaMatrix            <- data.frame(matrix(NA), nrow=6, ncol=7)
-
-#Fish <- c(3, 3, 3, 3, 3, 1)
-#Rec <-c(3, 3, 3, 2, 3, 3)
-#Res <- c(4, 3, 5, 3, 1, 3)
-#Cost <- c(3, 3, 3, 5, 3, 3)
-#Safe <- c(3, 3, 5, 3, 3, 3)
-#Houses <- c(3, 3, 2, 2, 3, 3)
-#Power <- c(3, 3, 2, 2, 3, 3)
-
-#RawCriteriaMatrix <- data.frame(cbind(Fish, Rec, Res, Cost, Safe, Houses, Power))
-
-#row.names(RawCriteriaMatrix) <- paste(c("Dam Removal", "Fish Improve", "Turbine Improve", "Turbine Add or Expand", "Dam Refurbish or Maintain", "Keep Dam"), sep = " ")
-#colnames(RawCriteriaMatrix) <- paste(c("Fish Biomass", "River Recreation", "Reservoir Storage", "One-Time Project Costs", "Number of Properties Impacted", "Dam Safety", "Hydropower Capacity"), sep = " ")
-
-#CritImportance    <- c(Fish, Rec, Res, Cost, Houses, Safe, Power)/sum(Fish, Rec, Res, Cost, Houses, Safe, Power)
-#CritImportance
-#sum(CritImportance)
-#RawCriteriaMatrix
-
-####SAVE THIS EXAMPLE CODE TO TROUBLESHOOT PLOT DESIGN LATER########
-
-####################TEST###########################################
