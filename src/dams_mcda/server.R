@@ -599,27 +599,27 @@ server <- function(input, output, session) {
 		#----------------------------------------
 		output$Alt1 <- renderUI(list(
 			"Alternative 1: Dam Removal",
-			tags$span('Not Complete', class="alt-not-complete")
+			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt2 <- renderUI(list(
 			"Alternative 2: Improve Fish Passage Facilities",
-			tags$span('Not Complete', class="alt-not-complete")
+			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt3 <- renderUI(list(
 			"Alternative 3: Upgrade or Replace Turbines at Existing Powered Dams",
-			tags$span('Not Complete', class="alt-not-complete")
+			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt4 <- renderUI(list(
 			"Alternative 4: Installing Turbines or Expanding Existing Capacity",
-			tags$span('Not Complete', class="alt-not-complete")
+			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt5 <- renderUI(list(
 			"Alternative 5: Refurbishment, Restoration, or Maintenance",
-			tags$span('Not Complete', class="alt-not-complete")
+			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt6 <- renderUI(list(
 			"Alternative 6: Keep Dam (Do Nothing)",
-			tags$span('Not Complete', class="alt-not-complete")
+			tags$span('Requires User Input', class="alt-not-complete")
 		))
 	})
 
