@@ -694,7 +694,10 @@ server <- function(input, output, session) {
 	# Downloadable csv of selected dataset ----
 	output$downloadData <- downloadHandler(
 		filename = function() {
-		   paste("dams-mcda-results", ".csv", sep = "")
+			# format date & time in filename
+			# date format( year, month, day, hour, minute, second, UTC offset )
+
+		   format(Sys.time(), "dams_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 		},
 		content = function(file) {
 		   write.csv(
