@@ -312,6 +312,9 @@ ui <- shinyUI(fluidPage(
 				#HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
 				#actionButton("autoGenerateMatrix", "Auto Complete"),
 
+				HTML("<br><b>Download Results CSV</b>"),
+				downloadButton("downloadData", "Download"),
+
 				# output tables
 				HTML('<br>FilledCriteriaTable<br>'),
 				tableOutput("FilledCriteriaTable"), # for debugging criteria table
@@ -323,7 +326,6 @@ ui <- shinyUI(fluidPage(
 		id = "tabs"
     )
 )))
-
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)
