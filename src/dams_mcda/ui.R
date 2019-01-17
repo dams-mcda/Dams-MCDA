@@ -11,6 +11,7 @@ setwd(base_dir)
 library(shiny)
 library(ggplot2)
 library(dplyr)
+library(shinyjs)
 source("server.R")
 
 # default graph dimensions
@@ -20,6 +21,9 @@ graph_height <- 300
 
 # Define UI for Shiny web application
 ui <- shinyUI(fluidPage(
+	# used for toggling display of elements
+	shinyjs::useShinyjs(),
+
 	# link css
 	tags$head(
 		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")
@@ -312,16 +316,21 @@ ui <- shinyUI(fluidPage(
 				#HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
 				#actionButton("autoGenerateMatrix", "Auto Complete"),
 
-				HTML("<br><b>Download Results CSV</b>"),
-				downloadButton("downloadData", "Download"),
+				# output post generate
+				div(id="generated-output",
+					#HTML('<h3 class="output-table-head">FilledCriteriaTable</h3>'),
+					#tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
-				# output tables
-				HTML('<br>FilledCriteriaTable<br>'),
-				tableOutput("FilledCriteriaTable"), # for debugging criteria table
-				HTML('<br>WSMTable<br>'),
-				tableOutput("WSMTable"),
-				HTML('<br>Summed Scores<br>'),
-				plotOutput("WSMPlot", height=300, width=1000),
+					HTML('<h3 class="output-table-head">Weighted Sum Matrix Output</h3>'),
+					tableOutput("WSMTable"),
+
+					HTML('<h3 class="output-table-head">Summed Scores</h3>'),
+					plotOutput("WSMPlot", height=300, width=1000),
+
+					# download
+					HTML('<h3 class="output-table-head">Download Results</h3>'),
+					downloadButton("downloadData", "Download")
+				),
 
 		id = "tabs"
     )

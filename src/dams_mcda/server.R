@@ -551,6 +551,9 @@ server <- function(input, output, session) {
 				NULL, # x value limit
 				summed_score_range # y value limit (1-5 value range)
 			)
+
+			# show output html elements
+			shinyjs::show(id="generated-output")
 		}
 	}
 
@@ -559,6 +562,9 @@ server <- function(input, output, session) {
 	# Initial Application State for session
 	#--------------------------------------------------------------------------------
 	observe({
+		# hide output html elements
+		shinyjs::hide(id="generated-output")
+
 		#----------------------------------------
 		# Keep track of completed sections
 		#----------------------------------------
