@@ -16,34 +16,33 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	# matrix setup
 	matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
 	matrix_rows <- length(available_alternatives) # 5 default
-	
-	
-	
+
+
+	message("Path A cols ", matrix_cols, " rows ", matrix_rows )
+
 	#----------------------------------------
 	# PATH A: Build Score Matrix, no normalization
 	# score will be raw values from 0-1 based on user input
 	#----------------------------------------
 	WSMMatrix <- data.frame(matrix(data=NA, nrow = matrix_rows, ncol = matrix_cols))
 
+	message("Fill WSM Matrix")
 	# weight values of each raw score in matrix
 	for (k in 1:matrix_cols){
-	  for (n in 1:matrix_rows){
-	    x <- RawCriteriaMatrix[n,k]
-	    crit_imp <- CritImportance[k]
-	    
-	    WSMMatrix[n,k] <- tryCatch({
-	      if (k %in% RawCriteriaMatrix){
-	       #weight RawCriteriaMatrix based on importance
-	        (x* crit_imp)
-	      }
-	    }, error=function(e){
-	      return(NA)
-	    })
-	    
-	  } #End alternative (rows) for loop.
+		for (n in 1:matrix_rows){
+			x <- RawCriteriaMatrix[n,k]
+			crit_imp <- CritImportance[k]
+
+			WSMMatrix[n,k] <- tryCatch({
+				(x * crit_imp)
+			}, error=function(e){
+				(NA)
+			})
+		} #End alternative (rows) for loop.
 	} #End criteria (columns) for loop.
-	
-	
+
+
+	message("Path B")
 	#----------------------------------------
 	# PATH B: Normalization using Min / Max Vectors
 	#----------------------------------------
@@ -61,8 +60,8 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	WSMMinVector <- unlist(WSMMinVector)
 
 	# debug
-	#message('min vector ', WSMMinVector)
-	#message('max vector ', WSMMaxVector)
+	message('min vector ', WSMMinVector)
+	message('max vector ', WSMMaxVector)
 	#message('critical matrix ', CritImportance)
 
 
@@ -93,14 +92,13 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 					(((x - min_x) / (max_x - min_x)) * crit_imp)
 				}
 			}, error=function(e){
-				return(NA)
+				(NA)
 			})
-
 		} #End alternative (rows) for loop.
 	} #End criteria (columns) for loop.
 
 	# debug
-	#message('WSMScoreMatrix', WSMScoreMatrix)
+	message('WSMScoreMatrix', WSMScoreMatrix)
 
 	#----------------------------------------
 	# IntermediateMatrix
