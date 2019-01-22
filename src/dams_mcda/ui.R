@@ -51,6 +51,8 @@ ui <- shinyUI(fluidPage(
             criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of decision criteria based on the case of removing the dam.<br>\
 					 <br>In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
+				htmlOutput("Alt1Progress"),
+
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass1", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).",
 				            value=0, min=0, max=1, step = 0.05),
@@ -104,6 +106,8 @@ ui <- shinyUI(fluidPage(
             criterion requires another criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam.<br>\
 					 <br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
+				htmlOutput("Alt2Progress"),
+
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass2", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
@@ -156,6 +160,8 @@ ui <- shinyUI(fluidPage(
           aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of criteria based on the case of improved or upgraded turbines at the dam.<br>\
 					<br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
+				htmlOutput("Alt3Progress"),
+
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass3", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
@@ -192,7 +198,7 @@ ui <- shinyUI(fluidPage(
 				#Aesthetics
 				sliderInput(inputId = "Aesthetics3", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
 				            value=0, min=0, max=1, step = 0.05),
-				
+
 				actionButton("updateBtn3", "Update"),
 
 				tableOutput("SummTable3"),
@@ -209,7 +215,9 @@ ui <- shinyUI(fluidPage(
               indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion rating to decrease in order to keep the sum equal to 1). <br>\
               Please consider and rate the given set of criteria based on the case of new turbine installation or expansion of existing hydropower capacity at the dam.<br>\
 				     <br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
-			
+
+				htmlOutput("Alt4Progress"),
+
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass4", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
 				            value=0, min=0, max=1, step = 0.05),
@@ -261,6 +269,8 @@ ui <- shinyUI(fluidPage(
           the dam is a temporary piece of infrastructure that must be removed. Decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then <br>\
           increasing the rating on one criterion requires another criterion rating to decrease in order to keep the sum equal to 1). Please consider and rate the given set of criteria based on the case of refurbishment or maintenance at the dam.<br>\
 					<br> In each case, 0 = not at all important and 1 = extremely important.<br>"),
+
+				htmlOutput("Alt5Progress"),
 
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass5", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 

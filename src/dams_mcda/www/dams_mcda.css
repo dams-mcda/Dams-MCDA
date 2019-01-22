@@ -4,3 +4,52 @@
 .alt-complete {
 	color:green;
 }
+#Alt1Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
+#Alt2Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
+#Alt3Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
+#Alt4Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
+#Alt5Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
+#Alt6Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
+#Alt7Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+}
