@@ -655,7 +655,10 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 1, ": "),
-		paste0(progress1(), "/1.0")
+		if( progress1() != 1.0 )
+			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt2
 	progress2 <- reactive({
@@ -667,7 +670,10 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 2, ": "),
-		paste0(progress2(), "/1.0")
+		if( progress2() != 1.0 )
+			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt3
 	progress3 <- reactive({
@@ -679,7 +685,10 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 3, ": "),
-		paste0(progress3(), "/1.0")
+		if( progress3() != 1.0 )
+			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt4
 	progress4 <- reactive({
@@ -691,7 +700,10 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 4, ": "),
-		paste0(progress4(), "/1.0")
+		if( progress4() != 1.0 )
+			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt5
 	progress5 <- reactive({
@@ -703,7 +715,10 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 5, ": "),
-		paste0(progress5(), "/1.0")
+		if( progress5() != 1.0 )
+			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
 	))
 
 	#--------------------------------------------------------------------------------
