@@ -152,17 +152,24 @@ renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limi
 	message('------------------')
 	message('BarPlot title:', title, '\ndata:', data, "\n#(values):", length(data), "\nclasstype: ", class(data), "\ndatatype: ", typeof(data), "\nnames:", x_names, "\n#(names):", length(x_names))
 	message('------------------')
-	return( renderPlot(barplot(
-				data,
-				main=title,
-				names.arg=x_names,
-				xlab=x_label, ylab=y_label,
-				xlim=x_limit, ylim=y_limit,
-				col=colors,
-				xpd=FALSE
-			)
+	# new graph (ggplot2) requires a data frame not vectors
+	if (is.vector(data)){
+		df <- data.frame(Criteria=x_names, Score=data)
+	}
+
+	result <-  renderPlot(
+		ggplot(
+		  df,
+		  aes(x=Criteria, y=Score, fill=Criteria)
 		)
+		+ geom_bar(stat="identity")
+		+ geom_text(data=subset(df, Score != 0), aes(label=Score), color="white", hjust=1.5, vjust=0.4, size=6)
+		+ coord_flip()
+		+ theme_minimal()
+		+ theme(legend.position="none", text=element_text(size=20))
+		+ scale_x_discrete(limits=rev(x_names))
 	)
+	return(result)
 }
 
 
@@ -216,6 +223,7 @@ alternativesCompleted <- function(completed){
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
 
+	par("mar"=c(15.1, 4.1, 4.1, 2.1))
 
 	#------------------------------------------------------------
 	# updateAlt1
@@ -655,7 +663,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 1, ": "),
-		if( progress1() != 1.0 )
+		if( as.integer(progress1()) != 1)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -670,7 +678,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 2, ": "),
-		if( progress2() != 1.0 )
+		if( as.integer(progress2()) != 1)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -685,7 +693,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 3, ": "),
-		if( progress3() != 1.0 )
+		if( as.integer(progress3()) != 1)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -700,7 +708,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 4, ": "),
-		if( progress4() != 1.0 )
+		if( as.integer(progress4()) != 1)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -715,7 +723,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 5, ": "),
-		if( progress5() != 1.0 )
+		if( as.integer(progress5()) != 1)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -729,7 +737,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
-		if(progress1() == 1.0){
+		if( as.integer(progress1()) == 1){
 			 updateAlt1()
 		}else{
 			showModal(modalDialog(
@@ -742,7 +750,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 2
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
-		if(progress2() == 1.0){
+		if( as.integer(progress2()) == 1){
 			 updateAlt2()
 		}else{
 			showModal(modalDialog(
@@ -755,7 +763,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 3
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
-		if(progress3() == 1.0){
+		if( as.integer(progress3()) == 1){
 			 updateAlt3()
 		}else{
 			showModal(modalDialog(
@@ -768,7 +776,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 4
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
-		if(progress4() == 1.0){
+		if( as.integer(progress4()) == 1){
 			 updateAlt4()
 		}else{
 			showModal(modalDialog(
@@ -781,7 +789,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 5
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
-		if(progress5() == 1.0){
+		if( as.integer(progress5()) == 1){
 			 updateAlt5()
 		}else{
 			showModal(modalDialog(

@@ -12,11 +12,15 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(shinyjs)
+library(Cairo)
+
+options(shiny.usecairo=T)
+
 source("server.R")
 
 # default graph dimensions
-graph_width <- 1200
-graph_height <- 300
+graph_width <- "100%"
+graph_height <- 500
 
 
 # Define UI for Shiny web application
@@ -93,7 +97,8 @@ ui <- shinyUI(fluidPage(
 				actionButton("updateBtn1", "Update"),
 
 				tableOutput("SummTable1"),
-				plotOutput("SummPlot1", height=graph_height, width=graph_width)), # end
+				plotOutput("SummPlot1", height=graph_height, width=graph_width)
+			), # end
 		#End Alternative 1: Remove Dam Tab
 
 		tabPanel(
