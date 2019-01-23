@@ -16,7 +16,6 @@ setwd(working_dir) # initial directory
 
 responsesDir <- file.path(response_dir) # directory where responses get stored
 
-
 #----------------------------------------
 # Output
 #----------------------------------------
@@ -117,8 +116,7 @@ response_data <<- ("no data")
 # save the results to a file
 saveResponse <- function(table_data) {
 	response_data <<- table_data;
-}
-
+} 
 # saveData
 #----------------------------------------
 # save the results to a file
@@ -209,11 +207,15 @@ alternativesCompleted <- function(completed){
 
 
 
+
+
+
 #--------------------------------------------------------------------------------
 # SERVER
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
+
 
 	#------------------------------------------------------------
 	# updateAlt1
@@ -639,6 +641,86 @@ server <- function(input, output, session) {
 		))
 	})
 
+	#------------------------------------------------------------
+	# setUp ProgressBars
+	# reactive value for input progress
+	#------------------------------------------------------------
+	# alt1
+	progress1 <- reactive({
+		sum <- 0
+		for (id in criteria_inputs){
+			sum <- (sum + input[[paste0(id, toString(1))]])
+		}
+		return(sum)
+	})
+	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
+		paste0("Progress for Alternative ", 1, ": "),
+		if( progress1() != 1.0 )
+			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	# alt2
+	progress2 <- reactive({
+		sum <- 0
+		for (id in criteria_inputs){
+			sum <- (sum + input[[paste0(id, toString(2))]])
+		}
+		return(sum)
+	})
+	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
+		paste0("Progress for Alternative ", 2, ": "),
+		if( progress2() != 1.0 )
+			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	# alt3
+	progress3 <- reactive({
+		sum <- 0
+		for (id in criteria_inputs){
+			sum <- (sum + input[[paste0(id, toString(3))]])
+		}
+		return(sum)
+	})
+	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
+		paste0("Progress for Alternative ", 3, ": "),
+		if( progress3() != 1.0 )
+			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	# alt4
+	progress4 <- reactive({
+		sum <- 0
+		for (id in criteria_inputs){
+			sum <- (sum + input[[paste0(id, toString(4))]])
+		}
+		return(sum)
+	})
+	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
+		paste0("Progress for Alternative ", 4, ": "),
+		if( progress4() != 1.0 )
+			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	# alt5
+	progress5 <- reactive({
+		sum <- 0
+		for (id in criteria_inputs){
+			sum <- (sum + input[[paste0(id, toString(5))]])
+		}
+		return(sum)
+	})
+	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
+		paste0("Progress for Alternative ", 5, ": "),
+		if( progress5() != 1.0 )
+			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+
 	#--------------------------------------------------------------------------------
 	# Alternative Update Event Listeners
 	# these trigger the updates on button click
@@ -647,31 +729,66 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
-		 updateAlt1()
+		if(progress1() == 1.0){
+			 updateAlt1()
+		}else{
+			showModal(modalDialog(
+				title = "Not Finished!",
+				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress1())
+			))
+		}
 	})
 
 	# ALTERNATIVE 2
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
-		 updateAlt2()
+		if(progress2() == 1.0){
+			 updateAlt2()
+		}else{
+			showModal(modalDialog(
+				title = "Not Finished!",
+				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress2())
+			))
+		}
 	})
 
 	# ALTERNATIVE 3
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
-		 updateAlt3()
+		if(progress3() == 1.0){
+			 updateAlt3()
+		}else{
+			showModal(modalDialog(
+				title = "Not Finished!",
+				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress3())
+			))
+		}
 	})
 
 	# ALTERNATIVE 4
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
-		 updateAlt4()
+		if(progress4() == 1.0){
+			 updateAlt4()
+		}else{
+			showModal(modalDialog(
+				title = "Not Finished!",
+				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress4())
+			))
+		}
 	})
 
 	# ALTERNATIVE 5
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
-		 updateAlt5()
+		if(progress5() == 1.0){
+			 updateAlt5()
+		}else{
+			showModal(modalDialog(
+				title = "Not Finished!",
+				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
+			))
+		}
 	})
 
 	#--------------------------------------------------------------------------------
@@ -714,5 +831,6 @@ server <- function(input, output, session) {
 		   )
 		}
 	)
+
 
 } # end server

@@ -4,3 +4,105 @@
 .alt-complete {
 	color:green;
 }
+.complete {
+	color:green;
+}
+.not-complete {
+	color:red;
+}
+
+.form-group.shiny-input-container {
+	width:80%;
+}
+
+#Alt1Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
+#Alt2Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
+#Alt3Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
+#Alt4Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
+#Alt5Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
+#Alt6Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
+#Alt7Progress {
+	position: -webkit-sticky;
+	position: sticky;
+	float:right;
+	top:2em;
+	font-weight:700;
+	background-color:white;
+	padding:1em;
+	border:1px solid #818181;
+	border-radius:0.6em;
+	box-shadow:1px 1px 1px silver;
+	z-index:7;
+}
