@@ -6,6 +6,7 @@ RUN mkdir -p /var/lib/shiny-server/bookmarks/shiny
 RUN Rscript -e "install.packages('ggplot2')"
 RUN Rscript -e "install.packages('dplyr')"
 RUN Rscript -e "install.packages('shinyjs')"
+RUN Rscript -e "install.packages('Cairo')"
 
 RUN chown -R shiny:shiny /srv/shiny-server && chmod -R 775 /srv/shiny-server
 RUN addgroup docker

@@ -11,11 +11,21 @@
 	color:red;
 }
 
+/* input form width */
 .form-group.shiny-input-container {
 	width:80%;
 }
 
-#Alt1Progress {
+/* progress indicators */
+
+#Alt1Progress,
+#Alt2Progress,
+#Alt3Progress,
+#Alt4Progress,
+#Alt5Progress,
+#Alt6Progress,
+#Alt7Progress
+{
 	position: -webkit-sticky;
 	position: sticky;
 	float:right;
@@ -28,81 +38,20 @@
 	box-shadow:1px 1px 1px silver;
 	z-index:7;
 }
-#Alt2Progress {
-	position: -webkit-sticky;
-	position: sticky;
-	float:right;
-	top:2em;
-	font-weight:700;
-	background-color:white;
-	padding:1em;
-	border:1px solid #818181;
-	border-radius:0.6em;
-	box-shadow:1px 1px 1px silver;
-	z-index:7;
+
+/* update button*/
+#updateBtn1, #updateBtn2, #updateBtn3, #updateBtn4, #updateBtn5 {
+	width:80%; /* same width as form */
+	color:#fff;
+	background-color:#337ab7;
+	border-color:#2e6da4;
+	margin-bottom:0.8em;
 }
-#Alt3Progress {
-	position: -webkit-sticky;
-	position: sticky;
-	float:right;
-	top:2em;
-	font-weight:700;
-	background-color:white;
-	padding:1em;
-	border:1px solid #818181;
-	border-radius:0.6em;
-	box-shadow:1px 1px 1px silver;
-	z-index:7;
+#updateBtn1:hover, #updateBtn2:hover, #updateBtn3:hover, #updateBtn4:hover, #updateBtn5:hover {
+	background-color: #286090;
+	border-color: #204d74;
 }
-#Alt4Progress {
-	position: -webkit-sticky;
-	position: sticky;
-	float:right;
-	top:2em;
-	font-weight:700;
-	background-color:white;
-	padding:1em;
-	border:1px solid #818181;
-	border-radius:0.6em;
-	box-shadow:1px 1px 1px silver;
-	z-index:7;
-}
-#Alt5Progress {
-	position: -webkit-sticky;
-	position: sticky;
-	float:right;
-	top:2em;
-	font-weight:700;
-	background-color:white;
-	padding:1em;
-	border:1px solid #818181;
-	border-radius:0.6em;
-	box-shadow:1px 1px 1px silver;
-	z-index:7;
-}
-#Alt6Progress {
-	position: -webkit-sticky;
-	position: sticky;
-	float:right;
-	top:2em;
-	font-weight:700;
-	background-color:white;
-	padding:1em;
-	border:1px solid #818181;
-	border-radius:0.6em;
-	box-shadow:1px 1px 1px silver;
-	z-index:7;
-}
-#Alt7Progress {
-	position: -webkit-sticky;
-	position: sticky;
-	float:right;
-	top:2em;
-	font-weight:700;
-	background-color:white;
-	padding:1em;
-	border:1px solid #818181;
-	border-radius:0.6em;
-	box-shadow:1px 1px 1px silver;
-	z-index:7;
+#updateBtn1:active, #updateBtn2:active, #updateBtn3:active, #updateBtn4:active, #updateBtn5:active {
+	background-color: #286090;
+	border-color: #204d74;
 }
