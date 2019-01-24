@@ -226,8 +226,6 @@ alternativesCompleted <- function(completed){
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
 
-	par("mar"=c(15.1, 4.1, 4.1, 2.1))
-
 	#------------------------------------------------------------
 	# updateAlt1
 	# logic for updating alternative 1
