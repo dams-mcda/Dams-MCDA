@@ -163,11 +163,14 @@ renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limi
 		  aes(x=Criteria, y=Score, fill=Criteria)
 		)
 		+ geom_bar(stat="identity")
-		+ geom_text(data=subset(df, Score != 0), aes(label=Score), color="white", hjust=1.5, vjust=0.4, size=6)
+		+ geom_text(data=subset(df, Score != 0), aes(label=Score), color="white", hjust=1, vjust=0.4, size=6)
+		+ geom_text(data=subset(df, Score == 0), aes(label=Score), color="black", hjust=-1, vjust=0.4, size=6)
 		+ coord_flip()
 		+ theme_minimal()
-		+ theme(legend.position="none", text=element_text(size=20))
+		+ theme(legend.position="none", text=element_text(size=20), )
 		+ scale_x_discrete(limits=rev(x_names))
+		+ ylab(y_label)
+		+ xlab(x_label)
 	)
 	return(result)
 }
@@ -258,7 +261,6 @@ server <- function(input, output, session) {
 		names(Alt1_Table) <- "Raw Score"
 
 		# results
-		output$SummTable1 <- renderTable(Alt1_Table, rownames=enable_rownames)
 		output$SummPlot1 <- renderBarPlot(
 								Alt1, # data
 								"Raw Scores of Alternative 1", # title
@@ -269,6 +271,7 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
+		shinyjs::show(id="alt-1-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
@@ -306,7 +309,6 @@ server <- function(input, output, session) {
 		names(Alt2_Table) <- "Raw Score"
 
 		# results
-		output$SummTable2 <- renderTable(Alt2_Table, rownames=enable_rownames)
 		output$SummPlot2 <- renderBarPlot(
 								Alt2, # data
 								"Raw Scores of Alternative 2", # title
@@ -317,6 +319,7 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
+		shinyjs::show(id="alt-2-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
@@ -356,7 +359,6 @@ server <- function(input, output, session) {
 		names(Alt3_Table) <- "Raw Score"
 
 		# results
-		output$SummTable3 <- renderTable(Alt3_Table, rownames=enable_rownames)
 		output$SummPlot3 <- renderBarPlot(
 								Alt3, # data
 								"Raw Scores of Alternative 3", # title
@@ -367,6 +369,7 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
+		shinyjs::show(id="alt-3-output")
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 3)
@@ -405,7 +408,6 @@ server <- function(input, output, session) {
 		names(Alt4_Table) <- "Raw Score"
 
 		# results
-		output$SummTable4 <- renderTable(Alt4_Table, rownames=enable_rownames)
 		output$SummPlot4 <- renderBarPlot(
 								Alt4, # data
 								"Raw Scores of Alternative 4", # title
@@ -416,6 +418,7 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
+		shinyjs::show(id="alt-4-output")
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 4)
@@ -455,7 +458,6 @@ server <- function(input, output, session) {
 		names(Alt5_Table) <- "Raw Score"
 
 		# results
-		output$SummTable5 <- renderTable(Alt5_Table, rownames=enable_rownames)
 		output$SummPlot5 <- renderBarPlot(
 								Alt5, # data
 								"Raw Scores of Alternative 5", # title
@@ -466,6 +468,7 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
+		shinyjs::show(id="alt-5-output")
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 5)
@@ -545,7 +548,8 @@ server <- function(input, output, session) {
 			# Final Outputs
 			#----------------------------------------
 			# final output table
-			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
+			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
+			output$WSMTable <- renderTable(t(WSMTableOutput), rownames=enable_rownames)
 
 			saveResponse(WSMTableOutput)
 
@@ -555,7 +559,7 @@ server <- function(input, output, session) {
 				unlist(WSMResults[2]), # scoresum data
 				"Weighted Sum MCDA Ranked Alternatives", # title
 				alternative_names, # x_labels
-				"Topic", # x axis label
+				"Alternative", # x axis label
 				"Score", # y axis label
 				colors, # colors
 				NULL, # x value limit
@@ -574,6 +578,11 @@ server <- function(input, output, session) {
 	observe({
 		# hide output html elements
 		shinyjs::hide(id="generated-output")
+		shinyjs::hide(id="alt-1-output")
+		shinyjs::hide(id="alt-2-output")
+		shinyjs::hide(id="alt-3-output")
+		shinyjs::hide(id="alt-4-output")
+		shinyjs::hide(id="alt-5-output")
 
 		#----------------------------------------
 		# Keep track of completed sections

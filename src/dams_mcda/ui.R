@@ -96,8 +96,11 @@ ui <- shinyUI(fluidPage(
 
 				actionButton("updateBtn1", "Update"),
 
-				tableOutput("SummTable1"),
-				plotOutput("SummPlot1", height=graph_height, width=graph_width)
+				# output post generate
+				div(id="alt-1-output",
+					h2("Raw Scores of Alternative 1"),
+					plotOutput("SummPlot1", height=graph_height, width=graph_width)
+				)
 			), # end
 		#End Alternative 1: Remove Dam Tab
 
@@ -151,8 +154,11 @@ ui <- shinyUI(fluidPage(
 				            value=0, min=0, max=1, step = 0.05),
 				actionButton("updateBtn2", "Update"),
 
-				tableOutput("SummTable2"),
-				plotOutput("SummPlot2", height=graph_height, width=graph_width)), # end
+				div(id="alt-2-output",
+					h2("Raw Scores of Alternative 2"),
+					plotOutput("SummPlot2", height=graph_height, width=graph_width)
+				 )
+			), # end
 		#End Alternative 2: Improve Fish Passage Facilities Tab
 
 
@@ -206,8 +212,11 @@ ui <- shinyUI(fluidPage(
 
 				actionButton("updateBtn3", "Update"),
 
-				tableOutput("SummTable3"),
-				plotOutput("SummPlot3", height=graph_height, width=graph_width)), # end
+				div(id="alt-3-output",
+					h2("Raw Scores of Alternative 3"),
+					plotOutput("SummPlot3", height=graph_height, width=graph_width)
+				)
+			), # end
 		#End Alternative 3: Upgrade or Replace Turbines Tab
 
 
@@ -261,8 +270,11 @@ ui <- shinyUI(fluidPage(
 				            value=0, min=0, max=1, step = 0.05),
 				actionButton("updateBtn4", "Update"),
 
-				tableOutput("SummTable4"),
-				plotOutput("SummPlot4", height=graph_height, width=graph_width)), # end
+				div(id="alt-4-output",
+					h2("Raw Scores of Alternative 4"),
+					plotOutput("SummPlot4", height=graph_height, width=graph_width)
+				)
+			), # end
 		#End Alternative 4: Install Turbines or Expand Power Capacity Tab
 
 		tabPanel(
@@ -315,8 +327,11 @@ ui <- shinyUI(fluidPage(
 				            value=0, min=0, max=1, step = 0.05),
 				actionButton("updateBtn5", "Update"),
 
-				tableOutput("SummTable5"),
-				plotOutput("SummPlot5", height=graph_height, width=graph_width)), # end
+				div(id="alt-5-output",
+					h2("Raw Scores of Alternative 5"),
+					plotOutput("SummPlot5", height=graph_height, width=graph_width)
+				)
+			), # end
 		#End Alternative 5: Keep and Maintain Dam Tab
 
 		tabPanel("Output",
@@ -333,17 +348,17 @@ ui <- shinyUI(fluidPage(
 
 				# output post generate
 				div(id="generated-output",
-					#HTML('<h3 class="output-table-head">FilledCriteriaTable</h3>'),
+					#h2('All Raw Scores'),
 					#tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
-					HTML('<h3 class="output-table-head">Weighted Sum Matrix Output</h3>'),
+					h2('Weighted Sum Matrix Output'),
 					tableOutput("WSMTable"),
 
-					HTML('<h3 class="output-table-head">Summed Scores</h3>'),
+					h2('Summed Scores'),
 					plotOutput("WSMPlot", height=300, width=1000),
 
 					# download
-					HTML('<h3 class="output-table-head">Download Results</h3>'),
+					h3('Download Results'),
 					downloadButton("downloadData", "Download")
 				),
 
