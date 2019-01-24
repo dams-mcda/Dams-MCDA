@@ -573,46 +573,6 @@ server <- function(input, output, session) {
 		session$userData[['alternatives_completed']] <- c()
 
 		#----------------------------------------
-		# Initial Intro Text
-		#----------------------------------------
-		output$Introduction    <- renderText("This R Shiny app supports decision making about a dam, using a set of decision criteria and decision alternatives identified through stakeholder interviews*. The tool uses a Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria over a set of decision alternatives.
-
-		                                     Picture a watershed: rain falls and runs downhill toward tributaries that flow into the river and ultimately to the ocean. This watershed is home to valuable ecosystem services, including pristine natural lakes, clean water sources, and significant biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, Blueback herring, and Alewife). The river and its tributaries are home to many dams that also provide services, including reservoirs for drinking water and recreation, flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing emissions that contribute to climate change and poor human health. Dams across the U.S. are aging and pose potential safety hazards, increasing the need for regular maintenance or more extensive repair. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. They may also contribute to poor water quality downstream, increased predation, and climate change. Dams have long threatened indigenous cultural heritage in the U.S., while at the same time helping to shape post-industrial community identity over the last two centuries. To use a specific realistic decision context example situated in Maine's Penobscot River watershed, click here.
-
-		                                     For this activity, imagine that the future of a watershed is directly in your hands. You (the decision maker) are personally tasked with using your professional expertise to make sustainable decisions for a set of dams within a given watershed. In this MCDA tool, you will select a numeric score for each decision criterion (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) involved in each decision alternative (e.g., remove dam, keep dam, improve fish passage facilities, etc.). The output from the MCDA tool will be a visual ranking of decision alternatives based on your preferences for decision criteria.
-
-		                                     Your Task: What do you envision for the future of this set of dams? Your task is to consider each of the decision alternatives for decisions across the set of dams:
-		                                     (1) Remove dam
-		                                     (2) Improve fish passage facilities
-		                                     (3) Upgrade or replace turbines
-		                                     (4) Install turbines or expand power capacity
-		                                     (5) Keep and maintain dam
-
-		                                     Please also consider the following decision criteria, to be applied in some combination for the set of dams:
-
-		                                     (1) Fish survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).
-		                                     (2) River recreation area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).
-		                                     (3) Reservoir storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).
-		                                     (4) Annuitized project costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.
-		                                     (5) Number of properties impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).
-		                                     (6) Breach damage potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.
-		                                     (7) Annual electricity generation (MWh/yr): estimate based on nameplate capacity.
-		                                     (8) Greenhouse gas emissions reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.
-		                                     (9) Indigenous cultural heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.
-		                                     (10) Town/city identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.
-		                                     (11) Industrial historical value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.
-		                                     (12) Aesthetic value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).
-
-		                                     Toggle through the ALTERNATIVE pages at left to compare criteria under a single decision alternative and click UPDATE button to view alternative-specific results and mark the alternative COMPLETE. After you have finished rating criteria under every ALTERNATIVE tab, select the OUTPUT tab and click GENERATE to view the results.")
-
-		output$Developers <- renderText("Emma Fox- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. Wrote app text, and designed accompanying multi-dam decision example fact sheets.
-                                          Sharon Klein- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.
-										  William Winslow - Developer  (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).
-										  Garrett Raymond- Technical Consultant. Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/")
-		output$Acknowledgment <- renderText("Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.
-											Data Discovery Center at the University of New Hampshire- host for the Shiny web app. https://ddc.unh.edu")
-
-		#----------------------------------------
 		# Initial Alternative Tabs Text
 		#----------------------------------------
 		output$Alt1 <- renderUI(list(
