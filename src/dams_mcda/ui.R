@@ -33,7 +33,7 @@ ui <- shinyUI(fluidPage(
 		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")
 	),
 
-	titlePanel("A Watershed-Scale Dam Decision Making Tool"),
+	titlePanel("A Dam Decision Making Tool"),
 
 	navlistPanel(
 		# Define layout widths
@@ -71,13 +71,13 @@ ui <- shinyUI(fluidPage(
 				 (5) Number of properties impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).<br>\
 				 (6) Breach damage potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.<br>\
 				 (7) Annual electricity generation (MWh/yr): estimate based on nameplate capacity.<br>\
-				 (8) Greenhouse gas emissions reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.<br>\
+				 (8) Carbon dioxide (CO2) emissions reduction (lbs or metric tonnes per year):  estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.<br>\
 				 (9) Indigenous cultural heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>\
 				 (10) Town/city identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>\
 				 (11) Industrial historical value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>\
 				 (12) Aesthetic value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>\
 
-				 <br> Toggle through the ALTERNATIVE pages at left to compare criteria under a single decision alternative and click UPDATE button to view alternative-specific results and mark the alternative COMPLETE. After you have finished rating criteria under every ALTERNATIVE tab, \
+				 <br> Toggle through the DECISION ALTERNATIVE pages at left to compare criteria under a single decision alternative and click UPDATE button to view decision alternative-specific results and mark the alternative COMPLETE. After you have finished rating criteria under every ALTERNATIVE tab, \
 				 select the OUTPUT tab and click GENERATE to view the results.<br>\
 				 <br><b>Developers</b><br>\
 				 <br>Emma Fox- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. \
@@ -85,7 +85,8 @@ ui <- shinyUI(fluidPage(
 				 <br>Sharon Klein- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
 				 <br>William Winslow - Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>\
 				 <br>Garrett Raymond- Technical Consultant. Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/ <br>\
-				 <br>Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, \
+				 <br><b>Acknowledgments</b><br>\
+         <br>Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, \
 				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.\
 				 Data Discovery Center at the University of New Hampshire- host for the Shiny web app. https://ddc.unh.edu <br>"
 			 )
@@ -105,40 +106,40 @@ ui <- shinyUI(fluidPage(
 
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass1", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).",
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
 				sliderInput(inputId = "RiverRec1", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).",
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
 				sliderInput(inputId = "Reservoir1", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).",
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost1", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.",
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "ProjectCost1", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.",
+				            value=0, min=0, max=1, step = 0.025),
 				#Breach Damage Potential
 				sliderInput(inputId = "Safety1", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.",
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
 				sliderInput(inputId = "NumProperties1", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).",
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
 				sliderInput(inputId = "ElectricityGeneration1", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.",
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions1", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "AvoidEmissions1", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
 				sliderInput(inputId = "IndigenousHeritage1", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#IndustrialHistory
 				sliderInput(inputId = "IndustrialHistory1", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
 				sliderInput(inputId = "CommunityIdentity1", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
 				sliderInput(inputId = "Aesthetics1", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 
 				actionButton("updateBtn1", "Update"),
 
@@ -165,40 +166,40 @@ ui <- shinyUI(fluidPage(
 
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass2", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
 				sliderInput(inputId = "RiverRec2", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
 				sliderInput(inputId = "Reservoir2", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost2", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "ProjectCost2", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#Breach Damage Potential
 				sliderInput(inputId = "Safety2", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
 				sliderInput(inputId = "NumProperties2", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
 				sliderInput(inputId = "ElectricityGeneration2", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions2", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "AvoidEmissions2", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
 				sliderInput(inputId = "IndigenousHeritage2", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#IndustrialHistory
 				sliderInput(inputId = "IndustrialHistory2", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
 				sliderInput(inputId = "CommunityIdentity2", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
 				sliderInput(inputId = "Aesthetics2", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				actionButton("updateBtn2", "Update"),
 
 				div(id="alt-2-output",
@@ -210,53 +211,54 @@ ui <- shinyUI(fluidPage(
 
 
 		tabPanel(
-				#"Alternative 3: Upgrade or Replace Turbines",
+				#"Alternative 3: Improve Hydropower Generation",
 				htmlOutput("Alt3"), # status and title
-				HTML("Upgrading or replacing turbines improves longevity for a hydropower plant. Costs for turbine upgrade or replacement are recouped through improved efficiency in operation over the lifetime of each hydropower project. Nameplate hydropower capacity at the dam may increase \
-					 with turbine replacement or upgrade. However, when turbines are upgraded or replaced, the impact to sea-run fish survival is unclear. If new turbines are fast moving or impulse driven (where a nozzle sprays high-pressure water at buckets on a runner to turn the turbine),\
-					 fish may be more at risk than if turbines are slow moving or reaction driven (where flow and pressure of water over angled blades on a runner) turbine. <br>\
+				HTML("When new turbines are installed on existing non-powered dam infrastructure, or hydropower capacity is increased at a powered dam, annual hydropower generation increases. Similarly, upgrading or replacing turbines may increase annual generation and improve longevity for a hydropower dam.\ 
+           Costs may be recouped through market returns over the project's lifetime, and the change in the dam's operation may even present opportunities for whitewater recreation downstream (dam releases are popular for river rafting). However, installing turbines or expanding existing power capacity\
+           may alter flows and confuse sea-run fish species. Fish may become caught in the grates protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall\
+           hydropower operations. <br>\
 					 <br> Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
-					 <br> Please consider and rate the given set of criteria based on the case of improved or upgraded turbines at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+					 <br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
 				htmlOutput("Alt3Progress"),
 
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass3", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
 				sliderInput(inputId = "RiverRec3", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
 				sliderInput(inputId = "Reservoir3", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost3", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "ProjectCost3", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#Breach Damage Potential
 				sliderInput(inputId = "Safety3", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
 				sliderInput(inputId = "NumProperties3", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
 				sliderInput(inputId = "ElectricityGeneration3", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions3", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "AvoidEmissions3", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
 				sliderInput(inputId = "IndigenousHeritage3", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#IndustrialHistory
 				sliderInput(inputId = "IndustrialHistory3", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
 				sliderInput(inputId = "CommunityIdentity3", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
 				sliderInput(inputId = "Aesthetics3", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 
 				actionButton("updateBtn3", "Update"),
 
@@ -269,54 +271,55 @@ ui <- shinyUI(fluidPage(
 
 
 		tabPanel(
-				#"Alternative 4: Install Turbines or Expand Power Capacity",
+				#"Alternative 4: Improve hydropower generation AND fish passage facilities",
 				htmlOutput("Alt4"), # status and title
-				HTML("When new turbines are installed on existing non-powered dam infrastructure, or hydropower capacity is increased at a powered dam, annual hydropower generation increases. Costs may be recouped through market returns over the project's lifetime, and the change in the dam's \
-				  operation may present opportunities for whitewater recreation downstream (dam releases are popular for river rafting). However, installing turbines or expanding existing power capacity may alter flows and confuse sea-run fish species. Fish may become caught in the grates \
-				  protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall hydropower operations.<br>\
+				HTML("When hydro improvements AND fish passage improvements are made to a dam (powered or non-powered), it may increase survival for one or more sea-run fish species within the watershed. However, installing turbines or expanding existing power capacity may also alter flows\
+          and confuse sea-run fish species, who may be attracted to the water moving through the system intake. Fish may become caught in the grates protecting the system intake, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through \
+          the powerhouse. Annual electricity generation will increase overall, and revenue may help recoup costs over the project's lifetime. Turbine operation is considered less efficient when passing fish (depending on the technology selected), and costs for state-of-the-art fish\
+          passage facilities are typically high, but fish passage facility improvements may be required by law depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered.<br>\
 				  <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another \
 				  criterion rating to decrease in order to keep the sum equal to 1). <br>\
-				  Please consider and rate the given set of criteria based on the case of new turbine installation or expansion of existing hydropower capacity at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				  Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
 				htmlOutput("Alt4Progress"),
 
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass4", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation Area
 				sliderInput(inputId = "RiverRec4", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
 				sliderInput(inputId = "Reservoir4", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost4", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "ProjectCost4", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#Breach Damage Potential
 				sliderInput(inputId = "Safety4", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
 				sliderInput(inputId = "NumProperties4", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
 				sliderInput(inputId = "ElectricityGeneration4", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions4", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "AvoidEmissions4", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
 				sliderInput(inputId = "IndigenousHeritage4", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#IndustrialHistory
 				sliderInput(inputId = "IndustrialHistory4", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
 				sliderInput(inputId = "CommunityIdentity4", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
 				sliderInput(inputId = "Aesthetics4", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				actionButton("updateBtn4", "Update"),
 
 				div(id="alt-4-output",
@@ -340,40 +343,40 @@ ui <- shinyUI(fluidPage(
 
 				#Fish Survival
 				sliderInput(inputId = "FishBiomass5", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
 				sliderInput(inputId = "RiverRec5", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
 				sliderInput(inputId = "Reservoir5", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost5", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "ProjectCost5", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#Breach Damage Potential
 				sliderInput(inputId = "Safety5", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
 				sliderInput(inputId = "NumProperties5", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
 				sliderInput(inputId = "ElectricityGeneration5", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions5", label = "Greenhouse Gas Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
-				            value=0, min=0, max=1, step = 0.05),
+				sliderInput(inputId = "AvoidEmissions5", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
 				sliderInput(inputId = "IndigenousHeritage5", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#IndustrialHistory
 				sliderInput(inputId = "IndustrialHistory5", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
 				sliderInput(inputId = "CommunityIdentity5", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
 				sliderInput(inputId = "Aesthetics5", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
-				            value=0, min=0, max=1, step = 0.05),
+				            value=0, min=0, max=1, step = 0.025),
 				actionButton("updateBtn5", "Update"),
 
 				div(id="alt-5-output",
