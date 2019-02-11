@@ -619,9 +619,9 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	# alt1
 	progress1 <- reactive({
-		sum <- 0
+		sum <- 0.0
 		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(1))]])
+			sum <- (sum + as.numeric(input[[paste0(id, toString(1))]]))
 		}
 		return(sum)
 	})
@@ -634,9 +634,9 @@ server <- function(input, output, session) {
 	))
 	# alt2
 	progress2 <- reactive({
-		sum <- 0
+		sum <- 0.0
 		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(2))]])
+			sum <- (sum + as.numeric(input[[paste0(id, toString(2))]]))
 		}
 		return(sum)
 	})
@@ -649,9 +649,9 @@ server <- function(input, output, session) {
 	))
 	# alt3
 	progress3 <- reactive({
-		sum <- 0
+		sum <- 0.0
 		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(3))]])
+			sum <- (sum + as.numeric(input[[paste0(id, toString(3))]]))
 		}
 		return(sum)
 	})
@@ -664,9 +664,9 @@ server <- function(input, output, session) {
 	))
 	# alt4
 	progress4 <- reactive({
-		sum <- 0
+		sum <- 0.0
 		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(4))]])
+			sum <- (sum + as.numeric(input[[paste0(id, toString(4))]]))
 		}
 		return(sum)
 	})
@@ -679,9 +679,9 @@ server <- function(input, output, session) {
 	))
 	# alt5
 	progress5 <- reactive({
-		sum <- 0
+		sum <- 0.0
 		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(5))]])
+			sum <- (sum + as.numeric(input[[paste0(id, toString(5))]]))
 		}
 		return(sum)
 	})
@@ -701,7 +701,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
-		if( as.integer(progress1()) == 1){
+		if( as.numeric(progress1()) == 1.0){
 			 updateAlt1()
 		}else{
 			showModal(modalDialog(
@@ -714,7 +714,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 2
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
-		if( as.integer(progress2()) == 1){
+		if( as.numeric(progress2()) == 1.0){
 			 updateAlt2()
 		}else{
 			showModal(modalDialog(
@@ -727,7 +727,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 3
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
-		if( as.integer(progress3()) == 1){
+		if( as.numeric(progress3()) == 1.0){
 			 updateAlt3()
 		}else{
 			showModal(modalDialog(
@@ -740,7 +740,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 4
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
-		if( as.integer(progress4()) == 1){
+		if( as.numeric(progress4()) == 1.0){
 			 updateAlt4()
 		}else{
 			showModal(modalDialog(
@@ -753,7 +753,7 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 5
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
-		if( as.integer(progress5()) == 1){
+		if( as.numeric(progress5()) == 1.0){
 			 updateAlt5()
 		}else{
 			showModal(modalDialog(
