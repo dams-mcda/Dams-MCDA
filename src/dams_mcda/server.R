@@ -627,7 +627,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 1, ": "),
-		if( as.integer(progress1()) != 1)
+		if( as.numeric(progress1()) != 1.0)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -642,7 +642,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 2, ": "),
-		if( as.integer(progress2()) != 1)
+		if( as.numeric(progress2()) != 1.0)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -657,7 +657,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 3, ": "),
-		if( as.integer(progress3()) != 1)
+		if( as.numeric(progress3()) != 1.0)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -672,7 +672,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 4, ": "),
-		if( as.integer(progress4()) != 1)
+		if( as.numeric(progress4()) != 1.0)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -687,7 +687,7 @@ server <- function(input, output, session) {
 	})
 	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 5, ": "),
-		if( as.integer(progress5()) != 1)
+		if( as.numeric(progress5()) != 1.0)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
