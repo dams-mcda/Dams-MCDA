@@ -58,7 +58,7 @@ criteria_names <- c(
 	"Breach Damage Potential",
 	"Number of Properties Impacted",
 	"Annual Electricity Generation",
-	"Greenhouse Gas Emissions Reduction",
+	"CO2 Emissions Reduction",
 	"Indigenous Cultural Heritage",
 	"Industrial Historical Value",
 	"Town/City Identity",
@@ -68,9 +68,9 @@ criteria_names <- c(
 # alternative display names (for labeling tables and graphs)
 alternative_names <- c(
    "Remove Dam",
-   "Fish Improve",
-   "Turbine Improve",
-   "Turbine Add or Expand",
+   "Improve Fish Passage",
+   "Improve Hydro",
+   "Improve Hydro AND Fish Passage",
    "Keep and Maintain Dam"
 )
 
@@ -330,7 +330,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateAlt3 <- function() {
 		output$Alt3 <- renderUI(list(
-			"Alternative 3: Upgrade or Replace Turbines",
+			"Alternative 3: Improve Hydropower Generation",
 			tags$span('Complete', class="alt-complete")
 		))
 
@@ -380,7 +380,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateAlt4 <- function() {
 		output$Alt4 <- renderUI(list(
-			"Alternative 4: Install Turbines or Expand Power Capacity",
+			"Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities",
 			tags$span('Complete', class="alt-complete")
 		))
 
@@ -599,21 +599,18 @@ server <- function(input, output, session) {
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt3 <- renderUI(list(
-			"Alternative 3: Upgrade or Replace Turbines at Existing Powered Dams",
+			"Alternative 3: Improve Hydropower Generation",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt4 <- renderUI(list(
-			"Alternative 4: Installing Turbines or Expanding Existing Capacity",
+			"Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt5 <- renderUI(list(
-			"Alternative 5: Refurbishment, Restoration, or Maintenance",
+			"Alternative 5: Keep and Maintain Dam",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
-		output$Alt6 <- renderUI(list(
-			"Alternative 6: Keep Dam (Do Nothing)",
-			tags$span('Requires User Input', class="alt-not-complete")
-		))
+
 	})
 
 	#------------------------------------------------------------
