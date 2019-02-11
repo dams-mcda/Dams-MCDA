@@ -412,7 +412,7 @@ ui <- shinyUI(fluidPage(
 					HTML("<br>The interpretation for your results is as follows: the highest ranked decision alternative is recommended as the first-best choice, based on the set of preferences you entered in each step. The second highest ranked alternative is recommended as a second-best choice, \
                and so on. User preferences are weighted based on their relative values. It is important to note that these results are a form of decision support and NOT the actual end decision. It is up to you as a decision maker to decide what to do with this information. \
 					     Some questions for consideration:<br>
-					     <br> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press "Update" under each tab. Then, generate your output once more.\
+					     <br> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press UPDATE under each tab. Then, press GENERATE to display your output once more.\
 					     <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
 					     must necessarily go down. The idea here is to emphasize the idea of tradeoffs.\
 					     <br> How will you use this information moving forward?"),
