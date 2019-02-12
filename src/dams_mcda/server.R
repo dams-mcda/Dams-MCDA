@@ -33,6 +33,12 @@ summed_score_range <- c(0, 1)
 # list of alternatives
 available_alternatives <- seq(1:5)
 
+# smallest input slider increment
+smallest_increment <- 0.025
+# make valid progress values range smaller than the smallest increment
+upper_bound <- (1.0 + (smallest_increment/2))
+lower_bound <- (1.0 - (smallest_increment/2))
+
 # criteria input identifiers
 criteria_inputs <- c(
 	"FishBiomass",
@@ -93,6 +99,8 @@ pdf(NULL)
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
 #--------------------------------------------------------------------------------
+# has to be global (this is data the user can download after finishing
+response_data <<- ("no data")
 
 # epochTime
 #----------------------------------------
@@ -109,14 +117,15 @@ humanTime <- function() {
 	format(Sys.time(), "%Y%m%d-%H%M%OS")
 }
 
-# has to be global (this is data the user can download after finishing
-response_data <<- ("no data")
+
 # saveResponse
 #----------------------------------------
 # save the results to a file
 saveResponse <- function(table_data) {
 	response_data <<- table_data;
-} 
+}
+
+
 # saveData
 #----------------------------------------
 # save the results to a file
@@ -215,13 +224,9 @@ alternativesCompleted <- function(completed){
 }
 
 
-
-
-
-
-
 #--------------------------------------------------------------------------------
 # SERVER
+#
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
@@ -530,7 +535,11 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# Call WSM and format response
 			#----------------------------------------
-			CritImportance <- alternatives/sum(alternatives)
+			CritImportance <- data.frame(
+				matrix( alternatives/sum(alternatives), nrow=length(available_alternatives), byrow=length(criteria_inputs))
+			)
+			#message("sum alternatives", sum(alternatives))
+			#message("CritImportance", list(CritImportance))
 
 			WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
 
@@ -619,75 +628,81 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	# alt1
 	progress1 <- reactive({
-		sum <- 0
+		sum <- 0.0
 		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(1))]])
+			sum <- as.numeric(sum + input[[paste0(id, toString(1))]])
 		}
 		return(sum)
 	})
+	# alt2
+	progress2 <- reactive({
+		sum <- 0.0
+		for (id in criteria_inputs){
+			sum <- as.numeric(sum + input[[paste0(id, toString(2))]])
+		}
+		return(sum)
+	})
+	# alt3
+	progress3 <- reactive({
+		sum <- 0.0
+		for (id in criteria_inputs){
+			sum <- as.numeric(sum + input[[paste0(id, toString(3))]])
+		}
+		return(sum)
+	})
+	# alt4
+	progress4 <- reactive({
+		sum <- 0.0
+		for (id in criteria_inputs){
+			sum <- as.numeric(sum + input[[paste0(id, toString(4))]])
+		}
+		return(sum)
+	})
+	# alt5
+	progress5 <- reactive({
+		sum <- 0.0
+		for (id in criteria_inputs){
+			sum <- as.numeric(sum + input[[paste0(id, toString(5))]])
+		}
+		return(sum)
+	})
+
+	# alt1
 	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 1, ": "),
-		if( as.integer(progress1()) != 1)
+		if( progress1() > upper_bound || progress1() < lower_bound)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt2
-	progress2 <- reactive({
-		sum <- 0
-		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(2))]])
-		}
-		return(sum)
-	})
 	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 2, ": "),
-		if( as.integer(progress2()) != 1)
+		if( progress2() > upper_bound || progress2() < lower_bound)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt3
-	progress3 <- reactive({
-		sum <- 0
-		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(3))]])
-		}
-		return(sum)
-	})
 	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 3, ": "),
-		if( as.integer(progress3()) != 1)
+		if( progress3() > upper_bound || progress3() < lower_bound)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt4
-	progress4 <- reactive({
-		sum <- 0
-		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(4))]])
-		}
-		return(sum)
-	})
 	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 4, ": "),
-		if( as.integer(progress4()) != 1)
+		if( progress4() > upper_bound || progress4() < lower_bound)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# alt5
-	progress5 <- reactive({
-		sum <- 0
-		for (id in criteria_inputs){
-			sum <- (sum + input[[paste0(id, toString(5))]])
-		}
-		return(sum)
-	})
 	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
 		paste0("Progress for Alternative ", 5, ": "),
-		if( as.integer(progress5()) != 1)
+		if( progress5() > upper_bound || progress5() < lower_bound)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
@@ -701,65 +716,65 @@ server <- function(input, output, session) {
 	# ALTERNATIVE 1
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
-		if( as.integer(progress1()) == 1){
-			 updateAlt1()
-		}else{
+		if(progress1() > upper_bound || progress1() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress1())
 			))
+		}else{
+			 updateAlt1()
 		}
 	})
 
 	# ALTERNATIVE 2
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
-		if( as.integer(progress2()) == 1){
-			 updateAlt2()
-		}else{
+		if(progress2() > upper_bound || progress2() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress2())
 			))
+		}else{
+			updateAlt2()
 		}
 	})
 
 	# ALTERNATIVE 3
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
-		if( as.integer(progress3()) == 1){
-			 updateAlt3()
-		}else{
+		if(progress3() > upper_bound || progress3() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress3())
 			))
+		}else{
+			 updateAlt3()
 		}
 	})
 
 	# ALTERNATIVE 4
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
-		if( as.integer(progress4()) == 1){
-			 updateAlt4()
-		}else{
+		if(progress4() > upper_bound || progress4() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress4())
 			))
+		}else{
+			updateAlt4()
 		}
 	})
 
 	# ALTERNATIVE 5
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
-		if( as.integer(progress5()) == 1){
-			 updateAlt5()
-		}else{
+		if(progress5() > upper_bound || progress5() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
 			))
+		}else{
+			updateAlt5()
 		}
 	})
 
