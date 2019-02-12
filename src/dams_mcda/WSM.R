@@ -31,9 +31,10 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
 			x <- RawCriteriaMatrix[n,k]
-			crit_imp <- CritImportance[k]
+			crit_imp <- CritImportance[n,k]
 
 			WSMMatrix[n,k] <- tryCatch({
+				#message("A", x, ', ', crit_imp)
 				(x * crit_imp)
 			}, error=function(e){
 				(NA)
@@ -73,13 +74,15 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	# array of rows that use alternative method
 	alt_method_columns <- c(4, 6)
 
+	message('length of critImportance', length(CritImportance))
 	# make normalized values of each value in matrix
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
 			x <- RawCriteriaMatrix[n,k]
 			min_x <- WSMMinVector[k]
 			max_x <- WSMMaxVector[k]
-			crit_imp <- CritImportance[k]
+			crit_imp <- CritImportance[n,k]
+
 
 			WSMScoreMatrix[n,k] <- tryCatch({
 				if (k %in% alt_method_columns){
@@ -87,6 +90,9 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 					# maximize normalization
 					(((max_x - x) / (max_x - min_x)) * crit_imp)
 				}else{
+					# for debugging by cell WSM uncomment next line
+					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', crit_imp, ', ', (((x - min_x) / (max_x - min_x)) * crit_imp) )
+
 					# default method
 					# minimize normilization
 					(((x - min_x) / (max_x - min_x)) * crit_imp)
@@ -94,11 +100,14 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 			}, error=function(e){
 				(NA)
 			})
+
 		} #End alternative (rows) for loop.
+		message('Raw column ', RawCriteriaMatrix[k])
+		message('WSM column ', WSMScoreMatrix[k])
 	} #End criteria (columns) for loop.
 
 	# debug
-	message('WSMScoreMatrix', WSMScoreMatrix)
+	#message('WSMScoreMatrix ', WSMScoreMatrix)
 
 	#----------------------------------------
 	# IntermediateMatrix
