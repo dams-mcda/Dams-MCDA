@@ -58,8 +58,8 @@ ui <- shinyUI(fluidPage(
 				 <br>Your Task: What do you envision for the future of this set of dams? Your task is to consider each of the decision alternatives for decisions across the set of dams:<br>\
 				 <br>(1) Remove dam <br>\
 				 (2) Improve fish passage facilities<br>\
-				 (3) Upgrade or replace turbines<br>\
-				 (4) Install turbines or expand power capacity<br>\
+				 (3) Improve hydropower generation<br>\
+				 (4) Improve hydropower generation AND fish passage facilities<br>\
 				 (5) Keep and maintain dam<br>\
 
 				 <br>Please also consider the following decision criteria, to be applied in some combination for the set of dams:<br>\
@@ -154,11 +154,11 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 				#"Alternative 2: Improve Fish Passage Facilities",
 				htmlOutput("Alt2"), # status and title
-				HTML("When improvements are made to a dam's fish passage using state-of-the-art facilities, it may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities
-            for citizens and students. However, annual electricity generation may be diminished (depending on the technology selected to pass fish), and costs for state-of-the-art fish passage facilities are typically high. Fish passage facility improvements may be required by law 
-            depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered. In the case where owners are required to improve passage for sea-run fish species, owners must bear the cost or risk surrendering 
+				HTML("When improvements are made to a dam's fish passage using state-of-the-art facilities, it may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities\
+            for citizens and students. However, annual electricity generation may be diminished (depending on the technology selected to pass fish), and costs for state-of-the-art fish passage facilities are typically high. Fish passage facility improvements may be required by law \
+            depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered. In the case where owners are required to improve passage for sea-run fish species, owners must bear the cost or risk surrendering \
             the dam operation license. <br>\
-            <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion 
+            <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
             rating to decrease in order to keep the sum equal to 1). <br>\
             <br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
@@ -218,7 +218,8 @@ ui <- shinyUI(fluidPage(
            may alter flows and confuse sea-run fish species. Fish may become caught in the grates protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall\
            hydropower operations. <br>\
 					 <br> Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
-					 <br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+					 rating to decrease in order to keep the sum equal to 1). <br>\
+				   <br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
 				htmlOutput("Alt3Progress"),
@@ -267,7 +268,7 @@ ui <- shinyUI(fluidPage(
 					plotOutput("SummPlot3", height=graph_height, width=graph_width)
 				)
 			), # end
-		#End Alternative 3: Upgrade or Replace Turbines Tab
+		#End Alternative 3: Improve hyro generation 
 
 
 		tabPanel(
@@ -279,7 +280,7 @@ ui <- shinyUI(fluidPage(
           passage facilities are typically high, but fish passage facility improvements may be required by law depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered.<br>\
 				  <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another \
 				  criterion rating to decrease in order to keep the sum equal to 1). <br>\
-				  Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				  <br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
 				htmlOutput("Alt4Progress"),
@@ -327,7 +328,7 @@ ui <- shinyUI(fluidPage(
 					plotOutput("SummPlot4", height=graph_height, width=graph_width)
 				)
 			), # end
-		#End Alternative 4: Install Turbines or Expand Power Capacity Tab
+		#End Alternative 4: Improve hydropower and fish passage facilities
 
 		tabPanel(
 				#"Alternative 5: Keep and Maintain Dam",
@@ -335,8 +336,9 @@ ui <- shinyUI(fluidPage(
 				HTML("Keeping and maintaining the dam is the lowest-cost option. Keeping and maintaining the dam may appeal to parties interested in preserving the area's industrial history, preserving the town/city identity for community residents (if local identity is closely tied to the dam), \
 					 or preserving the aesthetic value of the impoundment. Maintenance costs may be recouped somewhat if the dam is powered; however, refurbishment, restoration, or maintenance to a non-powered dam presents no direct opportunity for cost offset. Keeping the dam will likely have no \
 					 impact on reservoir storage volume, river recreation area, annual electricity generation, or number of properties abutting the reservoir. The impoundment will continue to present a barrier to sea-run fish species, thereby negatively impacting their survival. And, in the long run, \
-					 the dam is a temporary piece of infrastructure that must be removed. Decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then \
-					 <br> Please consider and rate the given set of criteria based on the case of refurbishment or maintenance at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+					 the dam is a temporary piece of infrastructure that must be removed. <br>\
+          <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then another criterion rating must decrease in order to keep the sum equal to 1). <br>\
+				  <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
 				htmlOutput("Alt5Progress"),
@@ -412,7 +414,9 @@ ui <- shinyUI(fluidPage(
 					HTML("<br>The interpretation for your results is as follows: the highest ranked decision alternative is recommended as the first-best choice, based on the set of preferences you entered in each step. The second highest ranked alternative is recommended as a second-best choice, \
                and so on. User preferences are weighted based on their relative values. It is important to note that these results are a form of decision support and NOT the actual end decision. It is up to you as a decision maker to decide what to do with this information. \
 					     Some questions for consideration:<br>
+
 					     <br> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, generate your output once more.\
+
 					     <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
 					     must necessarily go down. The idea here is to emphasize the idea of tradeoffs.\
 					     <br> How will you use this information moving forward?"),
