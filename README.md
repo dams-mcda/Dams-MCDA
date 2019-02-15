@@ -1,10 +1,10 @@
-Dam Decision-Making Criteria & Alternatives
+Dam Decision Support Tool
 ==========================
 
 Project Description
 --------------------------
 
-* R / Shiny Web Application
+* R / Shiny Web Application for dam decision support
 
 
 	+ Located in src/dams_mcda/*
@@ -21,11 +21,11 @@ Developers
 
 **Emma Fox**
 
-Lead developer (Ph.D. student, University of Maine Ecology and Environmental Science Program)
+Lead Developer (Ph.D. student, University of Maine Ecology and Environmental Science Program) for Dam Decision Support Tool.
 
 **Involvement**
 
-Designed initial UI and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. Wrote app text, and designed accompanying multi-dam decision example fact sheets. 
+Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted weighted-sum function for new dam decision application and advised model-related changes. Designed and wrote app text. 
 
 **Contact**
 
@@ -35,29 +35,15 @@ Designed initial UI and server functionality based on Raymond & Klein (2018). Ad
 
 **Sharon Klein**
 
-Development advisor (Associate Professor, University of Maine School of Economics)
+Development Advisor (Associate Professor, University of Maine School of Economics)
 
 **Involvement**
 
-Development advisor. Advised UI/UX enhancements to WSM model, refined criteria definitions, revised app text. 
+Advised UI/UX enhancements to WSM model, helped develop and advised concept for MCDA tool, advised user-friendliness enhancements to MCDA tool and UI/UX, refined decision criteria and alternative definitions, revised app text.
 
 **Contact**
 
 <sharon.klein@maine.edu>
-
-***
-
-**Garrett Raymond**
-
-Technical consultant
-
-**Involvement**
-
-Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: [Multi-Criteria Decision Analysis of Fuel Pathways](https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/).
-
-**Contact**
-
-<garrett.raymond14@gmail.com>
 
 ***
 
@@ -79,10 +65,23 @@ Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New
 
 <william.winslow@unh.edu>
 
+***
 
+**Garrett Raymond**
+
+Technical consultant
+
+**Involvement**
+
+Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: [Multi-Criteria Decision Analysis of Fuel Pathways](https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/).
+
+**Contact**
+
+<garrett.raymond14@gmail.com>
 
 Acknowledgement
 --------------------------
-+ Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
++ This tool was developed by researchers in the Future of Dams project:<https://www.newenglandsustainabilityconsortium.org/dams>. 
+Support for the Future of Dams project is provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
 
 + Data Discovery Center of the University of New Hampshire: <https://ddc.unh.edu>
