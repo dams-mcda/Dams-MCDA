@@ -67,20 +67,10 @@ Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New
 
 ***
 
-**Garrett Raymond**
-
-Technical consultant
-
-**Involvement**
-
-Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: [Multi-Criteria Decision Analysis of Fuel Pathways](https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/).
-
-**Contact**
-
-<garrett.raymond14@gmail.com>
-
 Acknowledgement
 --------------------------
++ We would like to thank Garrett Raymond for his thorough technical consultation on R Shiny app design.
+
 + This tool was developed by researchers in the Future of Dams project:<https://www.newenglandsustainabilityconsortium.org/dams>. 
 Support for the Future of Dams project is provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
 
