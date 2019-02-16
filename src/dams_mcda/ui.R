@@ -63,26 +63,28 @@ ui <- shinyUI(fluidPage(
          researchers, please visit the Dam Toolbox web page for more information about the specific set of dams to consider in your selections throughout this Dam Decision Support Tool. <br>\
 				 
 				 <br><b>DECISION ALTERNATIVES:</b><br>\
-				 <br>(1) Remove dam <br>\
-				 (2) Improve fish passage<br>\
-				 (3) Improve hydropower generation<br>\
-				 (4) Improve hydropower generation AND fish passage<br>\
-				 (5) Keep and maintain dam<br>\
+				 <br>(1) Remove dam: dam is removed completely from the river, allowing water to flow freely.<br>\
+				 (2) Improve fish passage: some type of fish passage technology is installed (e.g., state-of-the-art fish lift/elevator, eel ladder, etc).<br>\
+				 (3) Improve hydropower generation: (e.g., install turbines, upgrade turbines, or expand power capacity): hydropower generation capacity is increased, whether by installing new capacity or by upgrading turbines to larger power capacities or higher \
+         efficiency ratings; includes powered and non-powered dams.<br>\
+				 (4) Improve hydropower generation AND fish passage: some type of fish passage technology is installed AND hydropower generation capacity is increased.<br>\
+				 (5) Keep and maintain dam: this is the do-nothing option, where the dam remains in place and minimal costs are incurred to ensure dam structural integrity and safety compliance.<br>\
 
 				 <br><b>DECISION CRITERIA:</b><br>\
 
-				 <br>(1) Fish survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).<br>\
+				 <br>(1) Fish survival (thousands of lbs or metric tonnes): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).<br>\
 				 (2) River recreation area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).<br>\
 				 (3) Reservoir storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).<br>\
-				 (4) Annuitized project costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 10% discount rate.<br>\
-				 (5) Number of properties impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).<br>\
-				 (6) Breach damage potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.<br>\
-				 (7) Annual electricity generation (MWh/yr): estimate based on nameplate capacity.<br>\
-				 (8) Carbon dioxide (CO2) emissions reduction (lbs or metric tonnes per year):  estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.<br>\
-				 (9) Indigenous cultural heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>\
-				 (10) Town/city identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>\
-				 (11) Industrial historical value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>\
-				 (12) Aesthetic value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>\
+				 (4) Annuitized project costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20 year lifetime.<br>\
+				 (5) Number of properties impacted: estimated number of properties impacted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018).<br>\
+				 (6) Breach damage potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018).<br>\
+				 (7) Annual electricity generation (MWh/yr): average estimate based on nameplate capacity from FERC licenses for each hydropower project.<br>\
+				 (8) Annual carbon dioxide (CO2) emissions reduction (lbs or metric tonnes per year): estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's \
+         electricity generation mix; does not include life cycle emissions impacts.<br>\
+				 (9) Indigenous cultural heritage (unitless): a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>\
+				 (10) Town/city identity (unitless): rating to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>\
+				 (11) Industrial historical value (unitless): rating to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>\
+				 (12) Aesthetic value (unitless): rating to convey the importance of the decision alternative for improving or preserving aesthetics (e.g., appearance, scenic value, smell, sound).<br>\
 
 				 <br><b>Developers</b><br>\
 				 
@@ -97,11 +99,16 @@ ui <- shinyUI(fluidPage(
 				 
          <br><b>Acknowledgments</b><br>\
 
-         <We would like to thank Garrett Raymond for his technical consultation on R Shiny design.<br>\
+         <br>We would like to thank Garrett Raymond for his technical consultation on R Shiny design.<br>\
          <br>The Dam Decision Support Tool was developed by researchers in the Future of Dams Project. Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, \
-				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.\
-				 Data Discovery Center at the University of New Hampshire- host for the Dam Decision Support Tool. https://ddc.unh.edu <br>"
-			 )
+				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.<br>\
+				 <br> Data Discovery Center at the University of New Hampshire- host for the Dam Decision Support Tool. https://ddc.unh.edu <br>
+			 
+				 <br><b>Citations</b><br>\
+         <br>Roy, S.G., Uchida, E., de Souza, S.P., Blachly, B., Fox, E., Gardner, K., Gold, A.J., Jansujwicz, J., Klein, S., McGreavy, B., Mo, W., Smith, S.M.C., Vogler, E., Wilson, K., Zydlewski, J., & Hart, D. (2018). A multiscale approach to balance trade-offs among dam infrastructure, river restoration, and cost. Proceedings of the National \
+         Academy of Sciences, 201807437. doi:10.1073/pnas.1807437115.<br>
+         <br>"
+				 )
 		),
 
 		tabPanel(
@@ -112,46 +119,58 @@ ui <- shinyUI(fluidPage(
 					 Dam removal eliminates lake-dwelling wildlife habitat and local flatwater recreation opportunities, reduces overall reservoir storage volume, and lowers total annual hydropower generation. Costs are typically high for dam removals, with no payback in terms of direct market returns. <br>\
 					 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another crterion ]
            rating to decrease in order to keep the sum equal to 1). <br>\
-					 <br> Please consider and rate the given set of decision criteria based on the case of removing the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+					 <br> Please consider and rate the given set of decision criteria based on the case of removing the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 				 ),
 
 				htmlOutput("Alt1Progress"),
 
 				#Fish Survival
-				sliderInput(inputId = "FishBiomass1", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).",
+				HTML("Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "FishBiomass1", label = "Fish Survival",
 				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
-				sliderInput(inputId = "RiverRec1", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).",
+				HTML("River recreation is measured in square miles or kilometers. It is the estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).<br>"),
+				sliderInput(inputId = "RiverRec1", label = "River Recreation Area",
 				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir1", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).",
+				HTML("Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Reservoir1", label = "Reservoir Storage",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost1", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.",
-				            value=0, min=0, max=1, step = 0.025),
-				#Breach Damage Potential
-				sliderInput(inputId = "Safety1", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.",
+				HTML("Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.<br>"),
+				sliderInput(inputId = "ProjectCost1", label = "Annuitized Project Costs",
 				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties1", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).",
+				HTML("Number of properties is the estimated number of properties impcted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "NumProperties1", label = "Number of Properties Impacted",
+				            value=0, min=0, max=1, step = 0.025),		
+				#Breach Damage Potential
+				HTML("Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Safety1", label = "Breach Damage Potential",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration1", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.",
+				HTML("Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project.<br>"),
+				sliderInput(inputId = "ElectricityGeneration1", label = "Annual Electricity Generation",
 				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions1", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				HTML("Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts.<br>"),
+				sliderInput(inputId = "AvoidEmissions1", label = "Annual CO2 Emissions Reduction", 
 				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
-				sliderInput(inputId = "IndigenousHeritage1", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
+				HTML("Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>"),
+				sliderInput(inputId = "IndigenousHeritage1", label = "Indigenous Cultural Heritage", 
+				            value=0, min=0, max=1, step = 0.025),
+			  #CommunityIdentity
+				HTML("Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>"),
+				sliderInput(inputId = "CommunityIdentity1", label = "Town/City Identity", 
 				            value=0, min=0, max=1, step = 0.025),
 				#IndustrialHistory
-				sliderInput(inputId = "IndustrialHistory1", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#CommunityIdentity
-				sliderInput(inputId = "CommunityIdentity1", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
+				HTML("Industrial historical value is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>"),
+				sliderInput(inputId = "IndustrialHistory1", label = " Industrial Historical Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
-				sliderInput(inputId = "Aesthetics1", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
+				HTML("Aesthetics is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>"),
+				sliderInput(inputId = "Aesthetics1", label = " Aesthetic Value", 
 				            value=0, min=0, max=1, step = 0.025),
 
 				actionButton("updateBtn1", "Update"),
@@ -173,45 +192,57 @@ ui <- shinyUI(fluidPage(
 
             <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
             rating to decrease in order to keep the sum equal to 1). <br>\
-            <br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"),
+            <br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"),
 
 				htmlOutput("Alt2Progress"),
 
 				#Fish Survival
-				sliderInput(inputId = "FishBiomass2", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
+				HTML("Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "FishBiomass2", label = "Fish Survival",
 				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
-				sliderInput(inputId = "RiverRec2", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
+				HTML("River recreation is measured in square miles or kilometers. It is the estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).<br>"),
+				sliderInput(inputId = "RiverRec2", label = "River Recreation Area",
 				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir2", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
+				HTML("Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Reservoir2", label = "Reservoir Storage",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost2", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#Breach Damage Potential
-				sliderInput(inputId = "Safety2", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
+				HTML("Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.<br>"),
+				sliderInput(inputId = "ProjectCost2", label = "Annuitized Project Costs",
 				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties2", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
+				HTML("Number of properties is the estimated number of properties impcted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "NumProperties2", label = "Number of Properties Impacted",
+				            value=0, min=0, max=1, step = 0.025),		
+				#Breach Damage Potential
+				HTML("Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Safety2", label = "Breach Damage Potential",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration2", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
+				HTML("Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project.<br>"),
+				sliderInput(inputId = "ElectricityGeneration2", label = "Annual Electricity Generation",
 				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions2", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				HTML("Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts.<br>"),
+				sliderInput(inputId = "AvoidEmissions2", label = "Annual CO2 Emissions Reduction", 
 				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
-				sliderInput(inputId = "IndigenousHeritage2", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#IndustrialHistory
-				sliderInput(inputId = "IndustrialHistory2", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
+				HTML("Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>"),
+				sliderInput(inputId = "IndigenousHeritage2", label = "Indigenous Cultural Heritage", 
 				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
-				sliderInput(inputId = "CommunityIdentity2", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
+				HTML("Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>"),
+				sliderInput(inputId = "CommunityIdentity2", label = "Town/City Identity", 
+				            value=0, min=0, max=1, step = 0.025),
+				#IndustrialHistory
+				HTML("Industrial historical value is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>"),
+				sliderInput(inputId = "IndustrialHistory2", label = " Industrial Historical Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
-				sliderInput(inputId = "Aesthetics2", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
+				HTML("Aesthetics is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>"),
+				sliderInput(inputId = "Aesthetics2", label = " Aesthetic Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				actionButton("updateBtn2", "Update"),
 
@@ -233,46 +264,58 @@ ui <- shinyUI(fluidPage(
 
 					 <br><b> Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
 					 rating to decrease in order to keep the sum equal to 1). <br>\
-				   <br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				   <br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 				),
 
 				htmlOutput("Alt3Progress"),
 
 				#Fish Survival
-				sliderInput(inputId = "FishBiomass3", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
+				HTML("Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "FishBiomass3", label = "Fish Survival",
 				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
-				sliderInput(inputId = "RiverRec3", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
+				HTML("River recreation is measured in square miles or kilometers. It is the estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).<br>"),
+				sliderInput(inputId = "RiverRec3", label = "River Recreation Area",
 				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir3", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
+				HTML("Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Reservoir3", label = "Reservoir Storage",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost3", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#Breach Damage Potential
-				sliderInput(inputId = "Safety3", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
+				HTML("Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.<br>"),
+				sliderInput(inputId = "ProjectCost3", label = "Annuitized Project Costs",
 				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties3", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
+				HTML("Number of properties is the estimated number of properties impcted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "NumProperties3", label = "Number of Properties Impacted",
+				            value=0, min=0, max=1, step = 0.025),		
+				#Breach Damage Potential
+				HTML("Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Safety3", label = "Breach Damage Potential",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration3", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
+				HTML("Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project.<br>"),
+				sliderInput(inputId = "ElectricityGeneration3", label = "Annual Electricity Generation",
 				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions3", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				HTML("Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts.<br>"),
+				sliderInput(inputId = "AvoidEmissions3", label = "Annual CO2 Emissions Reduction", 
 				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
-				sliderInput(inputId = "IndigenousHeritage3", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#IndustrialHistory
-				sliderInput(inputId = "IndustrialHistory3", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
+				HTML("Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>"),
+				sliderInput(inputId = "IndigenousHeritage3", label = "Indigenous Cultural Heritage", 
 				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
-				sliderInput(inputId = "CommunityIdentity3", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
+				HTML("Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>"),
+				sliderInput(inputId = "CommunityIdentity3", label = "Town/City Identity", 
+				            value=0, min=0, max=1, step = 0.025),
+				#IndustrialHistory
+				HTML("Industrial historical value is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>"),
+				sliderInput(inputId = "IndustrialHistory3", label = " Industrial Historical Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
-				sliderInput(inputId = "Aesthetics3", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
+				HTML("Aesthetics is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>"),
+				sliderInput(inputId = "Aesthetics3", label = " Aesthetic Value", 
 				            value=0, min=0, max=1, step = 0.025),
 
 				actionButton("updateBtn3", "Update"),
@@ -295,46 +338,58 @@ ui <- shinyUI(fluidPage(
           endangered.<br>\
 				  <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another \
 				  criterion rating to decrease in order to keep the sum equal to 1). <br>\
-				  <br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				  <br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 				),
 
 				htmlOutput("Alt4Progress"),
 
 				#Fish Survival
-				sliderInput(inputId = "FishBiomass4", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
+				HTML("Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "FishBiomass4", label = "Fish Survival",
 				            value=0, min=0, max=1, step = 0.025),
-				#River Recreation Area
-				sliderInput(inputId = "RiverRec4", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
+				#River Recreation
+				HTML("River recreation is measured in square miles or kilometers. It is the estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).<br>"),
+				sliderInput(inputId = "RiverRec4", label = "River Recreation Area",
 				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir4", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
+				HTML("Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Reservoir4", label = "Reservoir Storage",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost4", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#Breach Damage Potential
-				sliderInput(inputId = "Safety4", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
+				HTML("Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.<br>"),
+				sliderInput(inputId = "ProjectCost4", label = "Annuitized Project Costs",
 				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties4", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
+				HTML("Number of properties is the estimated number of properties impcted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "NumProperties4", label = "Number of Properties Impacted",
+				            value=0, min=0, max=1, step = 0.025),		
+				#Breach Damage Potential
+				HTML("Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Safety4", label = "Breach Damage Potential",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration4", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
+				HTML("Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project.<br>"),
+				sliderInput(inputId = "ElectricityGeneration4", label = "Annual Electricity Generation",
 				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions4", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				HTML("Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts.<br>"),
+				sliderInput(inputId = "AvoidEmissions4", label = "Annual CO2 Emissions Reduction", 
 				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
-				sliderInput(inputId = "IndigenousHeritage4", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#IndustrialHistory
-				sliderInput(inputId = "IndustrialHistory4", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
+				HTML("Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>"),
+				sliderInput(inputId = "IndigenousHeritage4", label = "Indigenous Cultural Heritage", 
 				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
-				sliderInput(inputId = "CommunityIdentity4", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
+				HTML("Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>"),
+				sliderInput(inputId = "CommunityIdentity4", label = "Town/City Identity", 
+				            value=0, min=0, max=1, step = 0.025),
+				#IndustrialHistory
+				HTML("Industrial historical value is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>"),
+				sliderInput(inputId = "IndustrialHistory4", label = " Industrial Historical Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
-				sliderInput(inputId = "Aesthetics4", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
+				HTML("Aesthetics is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>"),
+				sliderInput(inputId = "Aesthetics4", label = " Aesthetic Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				actionButton("updateBtn4", "Update"),
 
@@ -353,46 +408,58 @@ ui <- shinyUI(fluidPage(
            opportunity for cost offset. Keeping the dam will likely have no impact on reservoir storage volume, river recreation area, annual electricity generation, or number of properties abutting the reservoir. The impoundment will continue to present a barrier to sea-run fish species, \
            thereby negatively impacting their survival. And, in the long run, the dam is a temporary piece of infrastructure that may need to be removed. <br>\
           <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then another criterion rating must decrease in order to keep the sum equal to 1). <br>\
-				  <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				  <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 				),
 
 				htmlOutput("Alt5Progress"),
 
 				#Fish Survival
-				sliderInput(inputId = "FishBiomass5", label = "Fish Survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018).", 
+				HTML("Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "FishBiomass5", label = "Fish Survival",
 				            value=0, min=0, max=1, step = 0.025),
 				#River Recreation
-				sliderInput(inputId = "RiverRec5", label = "River Recreation Area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).", 
+				HTML("River recreation is measured in square miles or kilometers. It is the estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018).<br>"),
+				sliderInput(inputId = "RiverRec5", label = "River Recreation Area",
 				            value=0, min=0, max=1, step = 0.025),
 				#Reservoir Storage
-				sliderInput(inputId = "Reservoir5", label = "Reservoir Storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).", 
+				HTML("Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Reservoir5", label = "Reservoir Storage",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annuitized Project Costs
-				sliderInput(inputId = "ProjectCost5", label = "Annuitized Project Costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#Breach Damage Potential
-				sliderInput(inputId = "Safety5", label = "Breach Damage Potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach.", 
+				HTML("Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime.<br>"),
+				sliderInput(inputId = "ProjectCost5", label = "Annuitized Project Costs",
 				            value=0, min=0, max=1, step = 0.025),
 				#Number of Properties
-				sliderInput(inputId = "NumProperties5", label = " Number of Properties Impacted: estimated number based on potential changes in viewshed or property value (Roy et al., 2018).", 
+				HTML("Number of properties is the estimated number of properties impcted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). <br>"),
+				sliderInput(inputId = "NumProperties5", label = "Number of Properties Impacted",
+				            value=0, min=0, max=1, step = 0.025),		
+				#Breach Damage Potential
+				HTML("Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018).<br>"),
+				sliderInput(inputId = "Safety5", label = "Breach Damage Potential",
 				            value=0, min=0, max=1, step = 0.025),
 				#Annual Electricity Generation
-				sliderInput(inputId = "ElectricityGeneration5", label = "Annual Electricity Generation (MWh/yr): data from FERC licenses; interpolated data estimated based on nameplate capacity and capacity factor assumptions.", 
+				HTML("Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project.<br>"),
+				sliderInput(inputId = "ElectricityGeneration5", label = "Annual Electricity Generation",
 				            value=0, min=0, max=1, step = 0.025),
 				#GHGEmissions
-				sliderInput(inputId = "AvoidEmissions5", label = "CO2 Emissions Reduction (lbs or metric tonnes per year): estimated based on avoided fossil fuel-generated electricity, using the State's energy mix.", 
+				HTML("Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts.<br>"),
+				sliderInput(inputId = "AvoidEmissions5", label = "Annual CO2 Emissions Reduction", 
 				            value=0, min=0, max=1, step = 0.025),
 				#IndigenousHeritage
-				sliderInput(inputId = "IndigenousHeritage5", label = "Indigenous Cultural Heritage (unitless): to convey the importance of the decision alternative for preserving/restoring the culture of indigenous people.", 
-				            value=0, min=0, max=1, step = 0.025),
-				#IndustrialHistory
-				sliderInput(inputId = "IndustrialHistory5", label = " Industrial Historical Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.", 
+				HTML("Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people.<br>"),
+				sliderInput(inputId = "IndigenousHeritage5", label = "Indigenous Cultural Heritage", 
 				            value=0, min=0, max=1, step = 0.025),
 				#CommunityIdentity
-				sliderInput(inputId = "CommunityIdentity5", label = "Town/City Identity (unitless): rating provided by decision-maker to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.", 
+				HTML("Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents.<br>"),
+				sliderInput(inputId = "CommunityIdentity5", label = "Town/City Identity", 
+				            value=0, min=0, max=1, step = 0.025),
+				#IndustrialHistory
+				HTML("Industrial historical value is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure.<br>"),
+				sliderInput(inputId = "IndustrialHistory5", label = " Industrial Historical Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				#Aesthetics
-				sliderInput(inputId = "Aesthetics5", label = " Aesthetic Value (unitless): rating provided by the decision maker to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).", 
+				HTML("Aesthetics is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound).<br>"),
+				sliderInput(inputId = "Aesthetics5", label = " Aesthetic Value", 
 				            value=0, min=0, max=1, step = 0.025),
 				actionButton("updateBtn5", "Update"),
 
