@@ -1,6 +1,3 @@
-source("WSM.R")
-
-
 #--------------------------------------------------------------------------------
 # Static Variables
 #--------------------------------------------------------------------------------
@@ -238,7 +235,7 @@ server <- function(input, output, session) {
 	updateAlt1 <- function (){
 		# update the tab status
 		output$Alt1 <- renderUI(list(
-			'Alternative 1: Remove Dam',
+			"Alternative 1: Remove Dam",
 			tags$span('Complete', class="alt-complete")
 		))
 
@@ -287,7 +284,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateAlt2 <- function() {
 		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage Facilities",
+			"Alternative 2: Improve Fish Passage",
 			tags$span('Complete', class="alt-complete")
 		))
 		# get decision inputs
@@ -385,7 +382,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateAlt4 <- function() {
 		output$Alt4 <- renderUI(list(
-			"Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities",
+			"Alternative 4: Improve Hydropower Generation AND Fish Passage",
 			tags$span('Complete', class="alt-complete")
 		))
 
@@ -535,14 +532,27 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# Call WSM and format response
 			#----------------------------------------
-			CritImportance <- data.frame(
-				matrix( alternatives/sum(alternatives), nrow=length(available_alternatives), byrow=length(criteria_inputs))
-			)
-			#message("sum alternatives", sum(alternatives))
-			#message("CritImportance", list(CritImportance))
-
-			WSMResults <- WSM(CritImportance=CritImportance, RawCriteriaMatrix=RawCriteriaMatrix)
-
+			# matrix setup
+			matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
+			matrix_rows <- length(available_alternatives) # 5 default
+			
+			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
+			IntermediateMatrix <- round(RawCriteriaMatrix,3) 
+			
+			#----------------------------------------
+			# Score Sum
+			#----------------------------------------
+			# total score is last column of returned Data Table
+			scoresum <- list("list", matrix_rows)
+			
+			for (i in 1:matrix_rows){
+			  scoresum[[i]] <- sum(as.numeric(IntermediateMatrix[i, 1:matrix_cols]))
+			}
+			
+			scoresum <- unlist(scoresum)
+			
+			# warning adding things to list has side effects!
+			WSMResults <- list(IntermediateMatrix, scoresum)
 			TableMatrix <- WSMResults[1]
 
 			TableMatrix$summedScore <- WSMResults[2]
@@ -554,23 +564,37 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
-			# final output table
+			# final output table commented out due to redundancy
 			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
-			output$WSMTable <- renderTable(t(WSMTableOutput), rownames=enable_rownames)
+			#output$WSMTable <- renderTable(t(WSMTableOutput), rownames=enable_rownames)
 
 			saveResponse(WSMTableOutput)
 
-			# final output barplot
-			output$WSMPlot <- renderBarPlot(
+			# final output barplots
+			#Output plot 1 needs to be adjusted to stacked bar of criteria for each alternative (e.g.: https://stackoverflow.com/questions/6693257/making-a-stacked-bar-plot-for-multiple-variables-ggplot2-in-r)
+			output$WSMPlot1 <- renderBarPlot(
 				# !important!
 				unlist(WSMResults[2]), # scoresum data
-				"Weighted Sum MCDA Ranked Alternatives", # title
+				"Ranked Decision Alternatives by Decision Criteria", # title
 				alternative_names, # x_labels
 				"Alternative", # x axis label
-				"Score", # y axis label
+				"Rating", # y axis label
 				colors, # colors
 				NULL, # x value limit
 				summed_score_range # y value limit (1-5 value range)
+			)
+			
+			#This second plot is a placeholder. Needs to be adjusted to sum of alternative scores for each criterion
+			output$WSMPlot2 <- renderBarPlot(
+			  # !important!
+			  unlist(WSMResults[2]), # scoresum data
+			  "Ranked Decision Criteria by Decision Alternatives", # title
+			  alternative_names, # x_labels
+			  "Criteria", # x axis label
+			  "Rating", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  summed_score_range # y value limit (1-5 value range)
 			)
 
 			# show output html elements
