@@ -126,26 +126,6 @@ ui <- shinyUI(fluidPage(
 			 )
 		),
 
-		tabPanel("Developers",
-			 h2("Developers"),
-			 HTML(
-				 "Emma Fox- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. \
-				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets.<br>\
-				 <br>Sharon Klein- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
-				 <br>William Winslow - Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>\
-				 <br>Garrett Raymond- Technical Consultant. Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/ <br>\
-				 "
-			 )
-		),
-
-		tabPanel("Acknowledgements",
-			 h2("Acknowledgments"),
-			 HTML("Support for the Future of Dams project provided by the National Science Foundation\'s Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, \
-				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.\
-				 Data Discovery Center at the University of New Hampshire- host for the Shiny web app. https://ddc.unh.edu <br>"
-			 )
-
-		),
 
 		tabPanel(
 			htmlOutput("Alt1"), # status and title
@@ -155,7 +135,7 @@ ui <- shinyUI(fluidPage(
 				 Dam removal eliminates lake-dwelling wildlife habitat and local flatwater recreation opportunities, reduces overall reservoir storage volume, and lowers total annual hydropower generation. Dam removal costs are typically high for dam removals, with no payback in terms of direct market returns. <br>\
 				 <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another crterion rating to decrease in order to keep the sum equal to 1). <br>\
 				 <br> Please consider and rate the given set of decision criteria based on the case of removing the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
-			 ),
+			),
 
 			htmlOutput("Alt1Progress"),
 
@@ -211,12 +191,12 @@ ui <- shinyUI(fluidPage(
 				htmlOutput("Alt2"), # status and title
 				h2("Alternative 2: Improve Fish Passage Facilities"),
 				HTML("When improvements are made to a dam's fish passage using state-of-the-art facilities, it may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities\
-            for citizens and students. However, annual electricity generation may be diminished (depending on the technology selected to pass fish), and costs for state-of-the-art fish passage facilities are typically high. Fish passage facility improvements may be required by law \
-            depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered. In the case where owners are required to improve passage for sea-run fish species, owners must bear the cost or risk surrendering \
-            the dam operation license. <br>\
-            <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
-            rating to decrease in order to keep the sum equal to 1). <br>\
-            <br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"),
+					for citizens and students. However, annual electricity generation may be diminished (depending on the technology selected to pass fish), and costs for state-of-the-art fish passage facilities are typically high. Fish passage facility improvements may be required by law \
+					depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered. In the case where owners are required to improve passage for sea-run fish species, owners must bear the cost or risk surrendering \
+					the dam operation license. <br>\
+					<br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
+					rating to decrease in order to keep the sum equal to 1). <br>\
+					<br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"),
 
 				htmlOutput("Alt2Progress"),
 
@@ -271,12 +251,12 @@ ui <- shinyUI(fluidPage(
 				htmlOutput("Alt3"), # status and title
 				h2("Alternative 3: Improve Hydropower Generation"),
 				HTML("When new turbines are installed on existing non-powered dam infrastructure, or hydropower capacity is increased at a powered dam, annual hydropower generation increases. Similarly, upgrading or replacing turbines may increase annual generation and improve longevity for a hydropower dam.\ 
-           Costs may be recouped through market returns over the project's lifetime, and the change in the dam's operation may even present opportunities for whitewater recreation downstream (dam releases are popular for river rafting). However, installing turbines or expanding existing power capacity\
-           may alter flows and confuse sea-run fish species. Fish may become caught in the grates protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall\
-           hydropower operations. <br>\
-					 <br> Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
-					 rating to decrease in order to keep the sum equal to 1). <br>\
-				   <br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+					Costs may be recouped through market returns over the project's lifetime, and the change in the dam's operation may even present opportunities for whitewater recreation downstream (dam releases are popular for river rafting). However, installing turbines or expanding existing power capacity\
+					may alter flows and confuse sea-run fish species. Fish may become caught in the grates protecting system intakes, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall\
+					hydropower operations. <br>\
+					<br> Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
+					rating to decrease in order to keep the sum equal to 1). <br>\
+					<br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
 				htmlOutput("Alt3Progress"),
@@ -333,9 +313,9 @@ ui <- shinyUI(fluidPage(
 				htmlOutput("Alt4"), # status and title
 				h2("Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities"),
 				HTML("When hydro improvements AND fish passage improvements are made to a dam (powered or non-powered), it may increase survival for one or more sea-run fish species within the watershed. However, installing turbines or expanding existing power capacity may also alter flows\
-          and confuse sea-run fish species, who may be attracted to the water moving through the system intake. Fish may become caught in the grates protecting the system intake, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through \
-          the powerhouse. Annual electricity generation will increase overall, and revenue may help recoup costs over the project's lifetime. Turbine operation is considered less efficient when passing fish (depending on the technology selected), and costs for state-of-the-art fish\
-          passage facilities are typically high, but fish passage facility improvements may be required by law depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered.<br>\
+				  and confuse sea-run fish species, who may be attracted to the water moving through the system intake. Fish may become caught in the grates protecting the system intake, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through \
+				  the powerhouse. Annual electricity generation will increase overall, and revenue may help recoup costs over the project's lifetime. Turbine operation is considered less efficient when passing fish (depending on the technology selected), and costs for state-of-the-art fish\
+				  passage facilities are typically high, but fish passage facility improvements may be required by law depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or endangered.<br>\
 				  <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another \
 				  criterion rating to decrease in order to keep the sum equal to 1). <br>\
 				  <br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
@@ -396,7 +376,7 @@ ui <- shinyUI(fluidPage(
 					 or preserving the aesthetic value of the impoundment. Maintenance costs may be recouped somewhat if the dam is powered; however, refurbishment, restoration, or maintenance to a non-powered dam presents no direct opportunity for cost offset. Keeping the dam will likely have no \
 					 impact on reservoir storage volume, river recreation area, annual electricity generation, or number of properties abutting the reservoir. The impoundment will continue to present a barrier to sea-run fish species, thereby negatively impacting their survival. And, in the long run, \
 					 the dam is a temporary piece of infrastructure that must be removed. <br>\
-          <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then another criterion rating must decrease in order to keep the sum equal to 1). <br>\
+				  <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then another criterion rating must decrease in order to keep the sum equal to 1). <br>\
 				  <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
 				),
 
@@ -448,44 +428,63 @@ ui <- shinyUI(fluidPage(
 		#End Alternative 5: Keep and Maintain Dam Tab
 
 		tabPanel("Output",
-				h2("Results"),
-				HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+			h2("Results"),
+			HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
 
-				# event
-				# TODO:? we could make event fire by checking if all alternatives have been 'updated'
-				actionButton("generateMatrix", "Generate"),
+			# event
+			# TODO:? we could make event fire by checking if all alternatives have been 'updated'
+			actionButton("generateMatrix", "Generate"),
 
-				# uncomment for debugg output helper button
-				#HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
-				#actionButton("autoGenerateMatrix", "Auto Complete"),
+			# uncomment for debugg output helper button
+			#HTML("<br><b>(for debugging output) auto complete all alternatives and generate:</b>"),
+			#actionButton("autoGenerateMatrix", "Auto Complete"),
 
-				# output post generate
-				div(id="generated-output",
-					#h2('All Raw Scores'),
-					#tableOutput("FilledCriteriaTable"), # for debugging criteria table
+			# output post generate
+			div(id="generated-output",
+				#h2('All Raw Scores'),
+				#tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
-					h2('Weighted Sum Matrix Output'),
-					tableOutput("WSMTable"),
+				h2('Weighted Sum Matrix Output'),
+				tableOutput("WSMTable"),
 
-					h2('Summed Scores'),
-					plotOutput("WSMPlot", height=300, width=1000),
+				h2('Summed Scores'),
+				plotOutput("WSMPlot", height=300, width=1000),
 
-					HTML("<br>The interpretation for your results is as follows: the highest ranked decision alternative is recommended as the first-best choice, based on the set of preferences you entered in each step. The second highest ranked alternative is recommended as a second-best choice, \
-               and so on. User preferences are weighted based on their relative values. It is important to note that these results are a form of decision support and NOT the actual end decision. It is up to you as a decision maker to decide what to do with this information. \
-			   Some questions for consideration:<br> \
-			   <br> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, generate your output once more.\
-			   <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-			   must necessarily go down. The idea here is to emphasize the idea of tradeoffs.\
-			   <br> How will you use this information moving forward?"
-					),
-
-					# download
-					h3('Download Results'),
-					downloadButton("downloadData", "Download")
+				HTML("<br>The interpretation for your results is as follows: the highest ranked decision alternative is recommended as the first-best choice, based on the set of preferences you entered in each step. The second highest ranked alternative is recommended as a second-best choice, \
+				   and so on. User preferences are weighted based on their relative values. It is important to note that these results are a form of decision support and NOT the actual end decision. It is up to you as a decision maker to decide what to do with this information. \
+				   Some questions for consideration:<br> \
+				   <br> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, generate your output once more.\
+				   <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+				   must necessarily go down. The idea here is to emphasize the idea of tradeoffs.\
+				   <br> How will you use this information moving forward?"
 				),
 
+				# download
+				h3('Download Results'),
+				downloadButton("downloadData", "Download")
+		),
 		id = "tabs"
-    )
+    ),
+	tabPanel("Developers",
+		 h2("Developers"),
+		 HTML(
+			 "Emma Fox- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. \
+			 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets.<br>\
+			 <br>Sharon Klein- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
+			 <br>William Winslow - Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>\
+			 <br>Garrett Raymond- Technical Consultant. Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/ <br>\
+			 "
+		 )
+	),
+
+	tabPanel("Acknowledgements",
+		 h2("Acknowledgments"),
+		 HTML("Support for the Future of Dams project provided by the National Science Foundation\'s Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, \
+			 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.\
+			 Data Discovery Center at the University of New Hampshire- host for the Shiny web app. https://ddc.unh.edu <br>"
+		 )
+
+	)
 )))
 
 # create the application with ui in this file and imported server from server.R
