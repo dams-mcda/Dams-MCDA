@@ -66,14 +66,14 @@
 
 
 /* -- tab colors == */
-a[data-value="Multi-Criteria Decision Analysis"] {
+a[data-value="Start Here"] {
 	background-color:#789090 !important;
 	color:white !important;
 }
-a[data-value="Multi-Criteria Decision Analysis"]:hover {
+a[data-value="Start Here"]:hover {
 	background-color:#548c8c !important;
 }
-li.active > a[data-value="Multi-Criteria Decision Analysis"] {
+li.active > a[data-value="Start Here"] {
 	background-color:#327c7c !important;
 }
 
