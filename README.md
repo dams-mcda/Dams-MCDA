@@ -86,3 +86,14 @@ Acknowledgement
 + Support for the Future of Dams project provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
 
 + Data Discovery Center of the University of New Hampshire: <https://ddc.unh.edu>
+
+
+Colors
+--------------------------
+color pallete used for tabs
+(in order: red, yellow, green, blue, dark grey)
+#F0C0AB
+#F0D8A8
+#A8C090
+#789090
+#787878
