@@ -55,3 +55,84 @@
 	background-color: #286090;
 	border-color: #204d74;
 }
+
+#generateMatrix {
+	width:80%; /* same width as form */
+	color:#fff;
+	background-color:#337ab7;
+	border-color:#2e6da4;
+	margin-bottom:0.8em;
+}
+
+
+/* -- tab colors == */
+a[data-value="Multi-Criteria Decision Analysis"] {
+	background-color:#789090 !important;
+	color:white !important;
+}
+a[data-value="Multi-Criteria Decision Analysis"]:hover {
+	background-color:#548c8c !important;
+}
+li.active > a[data-value="Multi-Criteria Decision Analysis"] {
+	background-color:#327c7c !important;
+}
+
+a[data-value="Developers"]{
+	background-color:#a8c090 !important;
+	color:#4e4e4e !important;
+}
+a[data-value="Developers"]:hover {
+	background-color:#8dbe5c !important;
+}
+li.active > a[data-value="Developers"] {
+	background-color:#44ad47 !important;
+}
+
+a[data-value="Acknowledgements"]{
+	background-color:#a8c090 !important;
+	color:#4e4e4e !important;
+}
+a[data-value="Acknowledgements"]:hover {
+	background-color:#8dbe5c !important;
+	color:#4e4e4e !important;
+}
+li.active > a[data-value="Acknowledgements"] {
+	background-color:#44ad47 !important;
+}
+
+.nav > li > a[data-toggle="tab"]{
+	background-color:#F0D8A8;
+}
+.nav > li > a[data-toggle="tab"]:hover{
+	background-color:#F6CB75;
+}
+.nav > li.active > a[data-toggle="tab"]{
+	background-color:#F9C04C;
+}
+
+.nav > li > a[data-value="Output"]{
+	background-color:#F0c0A8;
+	color:#4e4e4e !important;
+}
+
+.nav > li > a[data-value="Output"]:hover{
+	background-color:#f3a57b !important;
+	color:#4e4e4e !important;
+}
+
+.nav > li.active > a[data-value="Output"]{
+	background-color:#f09768 !important;
+}
+
+
+/* text colors */
+
+a[data-toggle="tab"] div{
+	color:#4e4e4e !important;
+}
+a[data-toggle="tab", aria-expanded="true"] div{
+	color:white !important;
+}
+a[aria-expanded="true"] div{
+}
+
