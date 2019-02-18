@@ -45,26 +45,26 @@ ui <- shinyUI(fluidPage(
 			h2("Introduction"),
 			HTML(
 				 "The Dam Decision Support Tool supports preference elicitation for dam decision support, using a set of decision criteria and decision alternatives identified using data from dam decision-maker interviews. The tool uses an approach consistent with the \
-         Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria over a set of decision alternatives. Although this tool may be used on its own to elicit user preferences about dam decisions in \
-         general, it was designed to be used as part of the Dam Toolbox in an interactive workshop setting.<br>\ 
-         
-         <br><b>Picture a watershed: </b>rain falls and runs downhill toward tributaries that flow into the river and ultimately to the ocean. This watershed is home to valuable ecosystem services, including pristine natural lakes, clean water sources, and significant \
-				 biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, Blueback herring, and Alewife). The river and its tributaries are home to many dams. Dams provide important services: reservoirs for drinking water and recreation, \
-				 flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing emissions that contribute to climate change and poor human health. However, dams across the U.S. are aging and pose potential safety hazards, increasing the\
-         need for regular maintenance or more extensive repair. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. They may also contribute to poor water quality downstream, increased predation, and climate change.\
-         Dams have long threatened indigenous cultural heritage in the U.S., while at the same time helping to shape post-industrial town or city identities over the last two centuries.<br>\
+				 Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria over a set of decision alternatives. Although this tool may be used on its own to elicit user preferences about dam decisions in \
+				 general, it was designed to be used as part of the Dam Toolbox in an interactive workshop setting.<br> \
 
-				 <br>In this Dam Decision Support Tool, <b>imagine that the future of a watershed is directly in your hands</b>. You (the decision maker) are personally tasked with using your professional expertise to make sustainable decisions for a set of dams within a \
-         given watershed. In each of the Alternative tabs, you will select a numeric rating for each decision criterion (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) involved in each decision alternative (e.g., remove dam,\
-         keep and maintain dam, improve fish passsage).<br>\
-        
-         <br><h4>SPECIFIC INSTRUCTIONS</h4> Toggle through the DECISION ALTERNATIVE pages at left to compare decision criteria under a single decision alternative and click the UPDATE button at the bottom of each ALTERNATIVE page to view decision alternative-specific\
-         results and mark the alternative COMPLETE (i.e., to remove the red indicator message prompting user input). After you have finished rating decision criteria under ALL of the ALTERNATIVE tabs, select the OUTPUT tab and click GENERATE to view results. More\
-	       information about the specific DECISION ALTERNATIVES and DECISION CRITERIA you will be considering during this exercise are listed below. If you are using this Dam Decision Support Tool  as a part of an interactive workshop facilitated by Future of Dams \
+				 <br><b>Picture a watershed: </b>rain falls and runs downhill toward tributaries that flow into the river and ultimately to the ocean. This watershed is home to valuable ecosystem services, including pristine natural lakes, clean water sources, and significant \
+						 biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, Blueback herring, and Alewife). The river and its tributaries are home to many dams. Dams provide important services: reservoirs for drinking water and recreation, \
+						 flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing emissions that contribute to climate change and poor human health. However, dams across the U.S. are aging and pose potential safety hazards, increasing the\
+				 need for regular maintenance or more extensive repair. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. They may also contribute to poor water quality downstream, increased predation, and climate change.\
+				 Dams have long threatened indigenous cultural heritage in the U.S., while at the same time helping to shape post-industrial town or city identities over the last two centuries.<br>\
 
-				 <br><br> \
+						 <br>In this Dam Decision Support Tool, <b>imagine that the future of a watershed is directly in your hands</b>. You (the decision maker) are personally tasked with using your professional expertise to make sustainable decisions for a set of dams within a \
+				 given watershed. In each of the Alternative tabs, you will select a numeric rating for each decision criterion (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) involved in each decision alternative (e.g., remove dam,\
+				 keep and maintain dam, improve fish passsage).<br>\
 
-				 <h4>DECISION ALTERNATIVES</h4> \
+				 <h2>Specific Instructions</h2>\
+
+				 Toggle through the DECISION ALTERNATIVE pages at left to compare decision criteria under a single decision alternative and click the UPDATE button at the bottom of each ALTERNATIVE page to view decision alternative-specific\
+				 results and mark the alternative COMPLETE (i.e., to remove the red indicator message prompting user input). After you have finished rating decision criteria under ALL of the ALTERNATIVE tabs, select the OUTPUT tab and click GENERATE to view results. More\
+				 information about the specific DECISION ALTERNATIVES and DECISION CRITERIA you will be considering during this exercise are listed below. If you are using this Dam Decision Support Tool  as a part of an interactive workshop facilitated by Future of Dams \
+
+				 <h3>Decision Alternatives</h3> \
 				 <ol>\
 					 <li> Remove dam </li>\
 					 <li> Improve fish passage </li> \
@@ -73,9 +73,9 @@ ui <- shinyUI(fluidPage(
 					 <li> Keep and maintain dam</li> \
 				 </ol>\
 
-				 <br><b>DECISION CRITERIA:</b><br>\
+				 <h3>Decision Criteria</h3>\
 
-         <ol>\
+				 <ol>\
 					 <li> \
 						 Fish survival (thousands of lbs or metric tonnes per acre): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). \
 					 </li>\
