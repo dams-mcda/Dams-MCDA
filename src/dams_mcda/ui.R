@@ -146,8 +146,11 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Alt1Progress"),
 
 			#Fish Survival
-			sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="fish-survival-1",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
+
 			#River Recreation
 			sliderInput(inputId = "RiverRec1", label = riverRecLabel,
 						value=0, min=0, max=1, step = 0.025),

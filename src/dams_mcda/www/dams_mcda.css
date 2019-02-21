@@ -136,3 +136,8 @@ a[data-toggle="tab", aria-expanded="true"] div{
 a[aria-expanded="true"] div{
 }
 
+
+/* label unbold */
+label {
+	font-weight:500;
+}
