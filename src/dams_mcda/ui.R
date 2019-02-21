@@ -64,22 +64,23 @@ ui <- shinyUI(fluidPage(
 				 general, it was designed to be used as part of the Dam Toolbox in an interactive workshop setting.<br> \
 
 				 <br><b>Picture a watershed: </b>rain falls and runs downhill toward tributaries that flow into the river and ultimately to the ocean. This watershed is home to valuable ecosystem services, including pristine natural lakes, clean water sources, and significant \
-				 biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, Blueback herring, and Alewife). The river and its tributaries are home to many dams. Dams provide important services: reservoirs for drinking water and recreation, \
-				 flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing emissions that contribute to climate change and poor human health. However, dams across the U.S. are aging and pose potential safety hazards, increasing the\
+						 biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, Blueback herring, and Alewife). The river and its tributaries are home to many dams. Dams provide important services: reservoirs for drinking water and recreation, \
+						 flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing emissions that contribute to climate change and poor human health. However, dams across the U.S. are aging and pose potential safety hazards, increasing the\
 				 need for regular maintenance or more extensive repair. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. They may also contribute to poor water quality downstream, increased predation, and climate change.\
 				 Dams have long threatened indigenous cultural heritage in the U.S., while at the same time helping to shape post-industrial town or city identities over the last two centuries.<br>\
 
-				 <br>In this Dam Decision Support Tool, <b>imagine that the future of a watershed is directly in your hands</b>. You (the decision maker) are personally tasked with using your professional expertise to make sustainable decisions for a set of dams within a \
+						 <br>In this Dam Decision Support Tool, <b>imagine that the future of a watershed is directly in your hands</b>. You (the decision maker) are personally tasked with using your professional expertise to make sustainable decisions for a set of dams within a \
 				 given watershed. In each of the Alternative tabs, you will select a numeric rating for each decision criterion (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) involved in each decision alternative (e.g., remove dam,\
 				 keep and maintain dam, improve fish passsage).<br>\
-        
-				 <br><h4>SPECIFIC INSTRUCTIONS</h4> Toggle through the DECISION ALTERNATIVE pages at left to compare decision criteria under a single decision alternative and click the UPDATE button at the bottom of each ALTERNATIVE page to view decision alternative-specific\
+
+				 <h2>Specific Instructions</h2>\
+
+				 Toggle through the DECISION ALTERNATIVE pages at left to compare decision criteria under a single decision alternative and click the UPDATE button at the bottom of each ALTERNATIVE page to view decision alternative-specific\
 				 results and mark the alternative COMPLETE (i.e., to remove the red indicator message prompting user input). After you have finished rating decision criteria under ALL of the ALTERNATIVE tabs, select the OUTPUT tab and click GENERATE to view results. More\
 				 information about the specific DECISION ALTERNATIVES and DECISION CRITERIA you will be considering during this exercise are listed below. If you are using this Dam Decision Support Tool  as a part of an interactive workshop facilitated by Future of Dams \
 
-				 <br><br> \
+				 <h3>Decision Alternatives</h3> \
 
-				 <h4>DECISION ALTERNATIVES</h4> \
 				 <ol>\
 					 <li> Remove dam: dam is removed completely from the river, allowing water to flow freely </li>\
 					 <li> Improve fish passage: some type of fish passage technology is installed (e.g., state-of-the-art fish lift/elevator, eel ladder, etc).</li> \
@@ -88,7 +89,7 @@ ui <- shinyUI(fluidPage(
 					 <li> Keep and maintain dam: this is the do-nothing option, where the dam remains in place and minimal costs are incurred to ensure dam structural integrity and safety compliance.</li> \
 				 </ol>\
 
-				 <br><b>DECISION CRITERIA:</b><br>\
+				 <h3>Decision Criteria</h3>\
 
 				 <ol>\
 					 <li> \
