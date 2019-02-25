@@ -536,24 +536,8 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# final output table commented out due to redundancy
 			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
-			#output$WSMTable <- renderTable(t(WSMTableOutput), rownames=enable_rownames)
 
 			saveResponse(WSMTableOutput)
-
-			# final output barplots
-			#Output plot 1 needs to be adjusted to stacked bar of criteria for each alternative (e.g.: https://stackoverflow.com/questions/6693257/making-a-stacked-bar-plot-for-multiple-variables-ggplot2-in-r)
-			output$WSMPlot1 <- renderBarPlot(
-				# !important!
-				unlist(WSMResults[2]), # scoresum data
-				"Ranked Decision Alternatives by Decision Criteria", # title
-				alternative_names, # x_labels
-				"Alternative", # x axis label
-				"Rating", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				summed_score_range # y value limit (1-5 value range)
-			)
-
 
 			# stacked bars data table
 			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
@@ -563,7 +547,7 @@ server <- function(input, output, session) {
 
 
 			# stacked bar plot 1
-			output$WSMPlot2 <- renderPlot(
+			output$WSMPlot1 <- renderPlot(
 				ggplot(
 				  data=Data,
 				  aes(x=Alternative, y=Score, fill=Criteria, label=Score),
@@ -582,7 +566,7 @@ server <- function(input, output, session) {
 			)
 
 			# stacked bar plot 2
-			output$WSMPlot3 <- renderPlot(
+			output$WSMPlot2 <- renderPlot(
 				ggplot(
 				  data=Data,
 				  aes(x=Criteria, y=Score, fill=Alternative, label=Score),

@@ -600,8 +600,6 @@ ui <- shinyUI(fluidPage(
 
 				h3('Alternative Scores by Criteria'),
 
-				plotOutput("WSMPlot1", height=300, width=1000),
-
 				HTML(
 					 "<br><b>Results Interpretation</b>: the decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
 					the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
@@ -609,8 +607,8 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Criteria Scores by Alternative'),
-				tableOutput("WSMTable2"), # for debugging plot2
-				plotOutput("WSMPlot2", height=300, width=1000),
+				#tableOutput("WSMTable1"), # for debugging plot1
+				plotOutput("WSMPlot1", height=300, width=1000),
 
 				HTML(
 					 "<br>Some questions for consideration:<br>\
@@ -626,8 +624,8 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Total Criteria Scores'),
-				tableOutput("WSMTable3"), # for debugging plot3
-				plotOutput("WSMPlot3", height=400, width=1000),
+				#tableOutput("WSMTable2"), # for debugging plot2
+				plotOutput("WSMPlot2", height=400, width=1000),
 
 				h3('Download Results'),
 				downloadButton("downloadData", "Download")
