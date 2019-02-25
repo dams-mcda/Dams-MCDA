@@ -1,6 +1,5 @@
 # barPlot wrappers
 source("plots.R")
-library(reshape2)
 
 #--------------------------------------------------------------------------------
 # Static Variables

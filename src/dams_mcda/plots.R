@@ -1,5 +1,5 @@
-# for converting into long data types
-library(reshape2)
+# plots.R
+# all wrappers for plot rendering
 
 # renderBarPlot
 #----------------------------------------
