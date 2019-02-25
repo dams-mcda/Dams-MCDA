@@ -195,7 +195,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"Alternative 2: Improve Fish Passage",
 			htmlOutput("Alt2"), # status and title
-			h2("Alternative 2: Improve Fish Passage Facilities"),
+			h2("Alternative 2: Improve Fish Passage"),
       
 			HTML(
 				"Improvements to a dam's fish passage may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities for citizens and students. However, annual electricity \
@@ -204,7 +204,7 @@ ui <- shinyUI(fluidPage(
 
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
 				rating to decrease in order to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+				<br>Please consider and rate the given set of criteria based on the case of improvements to fish passage at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
 			htmlOutput("Alt2Progress"),
@@ -324,7 +324,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"Alternative 4: Improve hydropower generation AND fish passage",
 			htmlOutput("Alt4"), # status and title
-			h2("Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities"),
+			h2("Alternative 4: Improve Hydropower Generation AND Fish Passage"),
 			HTML(
 				"When hydropower generation improvements AND fish passage improvements are made to a dam (powered or non-powered), they may increase survival for sea-run fish species within the watershed. However, installing turbines or expanding existing power capacity may also alter flows\
 				and confuse sea-run fish species, who may be attracted to the water moving through the system intake. Fish may become caught in the grates protecting the system intake, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through \
@@ -333,7 +333,7 @@ ui <- shinyUI(fluidPage(
 				endangered.<br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another \
 				criterion rating to decrease in order to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+				<br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
 			htmlOutput("Alt4Progress"),
