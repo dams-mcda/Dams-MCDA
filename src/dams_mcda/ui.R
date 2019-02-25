@@ -145,46 +145,71 @@ ui <- shinyUI(fluidPage(
 
 			htmlOutput("Alt1Progress"),
 
+			#----------------------------------------
+			# Criteria Inputs for Alt 1
+			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-1",
 				h3("Fish Survival"),
 				sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
 			),
-
 			#River Recreation
-			sliderInput(inputId = "RiverRec1", label = riverRecLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="river-rec-1",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec1", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Reservoir Storage
-			sliderInput(inputId = "Reservoir1", label = resStorageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="res-storage-1",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir1", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annuitized Project Costs
-			sliderInput(inputId = "ProjectCost1", label = annuitizedProjCostsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-proj-costs-1",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost1", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Breach Damage Potential
-			sliderInput(inputId = "Safety1", label = breachDamageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="breach-damage-1",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety1", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Number of Properties
-			sliderInput(inputId = "NumProperties1", label = numPropertiesLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="num-prop-1",
+				h3("Number or Properties"),
+				sliderInput(inputId = "NumProperties1", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annual Electricity Generation
-			sliderInput(inputId = "ElectricityGeneration1", label = annualElectricityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-elec-gen-1",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration1", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#GHGEmissions
-			sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ghg-emissions-1",
+				h3("Greenhouse Gas Emmisions"),
+				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndigenousHeritage
-			sliderInput(inputId = "IndigenousHeritage1", label = indigenousHeritageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="indig-heritage-1",
+				h3("Indigenous Heritage"),
+				sliderInput(inputId = "IndigenousHeritage1", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndustrialHistory
-			sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="industrial-1",
+				h3("Industrial History"),
+				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#CommunityIdentity
-			sliderInput(inputId = "CommunityIdentity1", label = communityIdentityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="community-1",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity1", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Aesthetics
-			sliderInput(inputId = "Aesthetics1", label = aestheticsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="aesthetics-1",
+				h3("Aesthetics"),
+				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
+			# update alt 1 score
 			actionButton("updateBtn1", "Update"),
 
 			# output post generate
@@ -212,42 +237,69 @@ ui <- shinyUI(fluidPage(
 
 			htmlOutput("Alt2Progress"),
 
+			#----------------------------------------
+			# Criteria Inputs for Alt 2
+			#----------------------------------------
 			#Fish Survival
-			sliderInput(inputId = "FishBiomass2", label = fishSurvivalLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="fish-survival-2",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass2", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#River Recreation
-			sliderInput(inputId = "RiverRec2", label = riverRecLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="river-rec-2",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec2", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Reservoir Storage
-			sliderInput(inputId = "Reservoir2", label = resStorageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="res-storage-2",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir2", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annuitized Project Costs
-			sliderInput(inputId = "ProjectCost2", label = annuitizedProjCostsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-proj-costs-2",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost2", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Breach Damage Potential
-			sliderInput(inputId = "Safety2", label = breachDamageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="breach-damage-2",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety2", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Number of Properties
-			sliderInput(inputId = "NumProperties2", label = numPropertiesLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="num-prop-2",
+				h3("Number or Properties"),
+				sliderInput(inputId = "NumProperties2", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annual Electricity Generation
-			sliderInput(inputId = "ElectricityGeneration2", label = annualElectricityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-elec-gen-2",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration2", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#GHGEmissions
-			sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ghg-emissions-2",
+				h3("Greenhouse Gas Emmisions"),
+				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndigenousHeritage
-			sliderInput(inputId = "IndigenousHeritage2", label = indigenousHeritageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="indig-heritage-2",
+				h3("Indigenous Heritage"),
+				sliderInput(inputId = "IndigenousHeritage2", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndustrialHistory
-			sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="industrial-2",
+				h3("Industrial History"),
+				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#CommunityIdentity
-			sliderInput(inputId = "CommunityIdentity2", label = communityIdentityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="community-2",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity2", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Aesthetics
-			sliderInput(inputId = "Aesthetics2", label = aestheticsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="aesthetics-2",
+				h3("Aesthetics"),
+				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
 
 			actionButton("updateBtn2", "Update"),
@@ -277,42 +329,69 @@ ui <- shinyUI(fluidPage(
 
 			htmlOutput("Alt3Progress"),
 
+			#----------------------------------------
+			# Criteria Inputs for Alt 3
+			#----------------------------------------
 			#Fish Survival
-			sliderInput(inputId = "FishBiomass3", label = fishSurvivalLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="fish-survival-3",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass3", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#River Recreation
-			sliderInput(inputId = "RiverRec3", label = riverRecLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="river-rec-3",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec3", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Reservoir Storage
-			sliderInput(inputId = "Reservoir3", label = resStorageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="res-storage-3",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir3", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annuitized Project Costs
-			sliderInput(inputId = "ProjectCost3", label = annuitizedProjCostsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-proj-costs-3",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost3", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Breach Damage Potential
-			sliderInput(inputId = "Safety3", label = breachDamageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="breach-damage-3",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety3", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Number of Properties
-			sliderInput(inputId = "NumProperties3", label = numPropertiesLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="num-prop-3",
+				h3("Number or Properties"),
+				sliderInput(inputId = "NumProperties3", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annual Electricity Generation
-			sliderInput(inputId = "ElectricityGeneration3", label = annualElectricityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-elec-gen-3",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration3", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#GHGEmissions
-			sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ghg-emissions-3",
+				h3("Greenhouse Gas Emmisions"),
+				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndigenousHeritage
-			sliderInput(inputId = "IndigenousHeritage3", label = indigenousHeritageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="indig-heritage-3",
+				h3("Indigenous Heritage"),
+				sliderInput(inputId = "IndigenousHeritage3", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndustrialHistory
-			sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="industrial-3",
+				h3("Industrial History"),
+				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#CommunityIdentity
-			sliderInput(inputId = "CommunityIdentity3", label = communityIdentityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="community-3",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity3", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Aesthetics
-			sliderInput(inputId = "Aesthetics3", label = aestheticsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="aesthetics-3",
+				h3("Aesthetics"),
+				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
 			actionButton("updateBtn3", "Update"),
 
@@ -341,42 +420,69 @@ ui <- shinyUI(fluidPage(
 
 			htmlOutput("Alt4Progress"),
 
+			#----------------------------------------
+			# Criteria Inputs for Alt 4
+			#----------------------------------------
 			#Fish Survival
-			sliderInput(inputId = "FishBiomass4", label = fishSurvivalLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="fish-survival-4",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass4", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#River Recreation
-			sliderInput(inputId = "RiverRec4", label = riverRecLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="river-rec-4",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec4", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Reservoir Storage
-			sliderInput(inputId = "Reservoir4", label = resStorageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="res-storage-4",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir4", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annuitized Project Costs
-			sliderInput(inputId = "ProjectCost4", label = annuitizedProjCostsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-proj-costs-4",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost4", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Breach Damage Potential
-			sliderInput(inputId = "Safety4", label = breachDamageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="breach-damage-4",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety4", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Number of Properties
-			sliderInput(inputId = "NumProperties4", label = numPropertiesLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="num-prop-4",
+				h3("Number or Properties"),
+				sliderInput(inputId = "NumProperties4", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annual Electricity Generation
-			sliderInput(inputId = "ElectricityGeneration4", label = annualElectricityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-elec-gen-4",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration4", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#GHGEmissions
-			sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ghg-emissions-4",
+				h3("Greenhouse Gas Emmisions"),
+				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndigenousHeritage
-			sliderInput(inputId = "IndigenousHeritage4", label = indigenousHeritageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="indig-heritage-4",
+				h3("Indigenous Heritage"),
+				sliderInput(inputId = "IndigenousHeritage4", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndustrialHistory
-			sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="industrial-4",
+				h3("Industrial History"),
+				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#CommunityIdentity
-			sliderInput(inputId = "CommunityIdentity4", label = communityIdentityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="community-4",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity4", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Aesthetics
-			sliderInput(inputId = "Aesthetics4", label = aestheticsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="aesthetics-4",
+				h3("Aesthetics"),
+				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
 			actionButton("updateBtn4", "Update"),
 
@@ -403,42 +509,69 @@ ui <- shinyUI(fluidPage(
 
 			htmlOutput("Alt5Progress"),
 
+			#----------------------------------------
+			# Criteria Inputs for Alt 4
+			#----------------------------------------
 			#Fish Survival
-			sliderInput(inputId = "FishBiomass5", label = fishSurvivalLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="fish-survival-5",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass5", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#River Recreation
-			sliderInput(inputId = "RiverRec5", label = riverRecLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="river-rec-5",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec5", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Reservoir Storage
-			sliderInput(inputId = "Reservoir5", label = resStorageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="res-storage-5",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir5", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annuitized Project Costs
-			sliderInput(inputId = "ProjectCost5", label = annuitizedProjCostsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-proj-costs-5",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost5", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Breach Damage Potential
-			sliderInput(inputId = "Safety5", label = breachDamageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="breach-damage-5",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety5", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Number of Properties
-			sliderInput(inputId = "NumProperties5", label = numPropertiesLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="num-prop-5",
+				h3("Number or Properties"),
+				sliderInput(inputId = "NumProperties5", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Annual Electricity Generation
-			sliderInput(inputId = "ElectricityGeneration5", label = annualElectricityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ann-elec-gen-5",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration5", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#GHGEmissions
-			sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="ghg-emissions-5",
+				h3("Greenhouse Gas Emmisions"),
+				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndigenousHeritage
-			sliderInput(inputId = "IndigenousHeritage5", label = indigenousHeritageLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="indig-heritage-5",
+				h3("Indigenous Heritage"),
+				sliderInput(inputId = "IndigenousHeritage5", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#IndustrialHistory
-			sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="industrial-5",
+				h3("Industrial History"),
+				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#CommunityIdentity
-			sliderInput(inputId = "CommunityIdentity5", label = communityIdentityLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="community-5",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity5", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
 			#Aesthetics
-			sliderInput(inputId = "Aesthetics5", label = aestheticsLabel,
-						value=0, min=0, max=1, step = 0.025),
+			div(id="aesthetics-5",
+				h3("Aesthetics"),
+				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
 			actionButton("updateBtn5", "Update"),
 
@@ -485,10 +618,10 @@ ui <- shinyUI(fluidPage(
 					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 
 					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs betwen decision criteria.<br>
-					 
+					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+
 					<br><b>NEXT STEPS</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
-					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time." 
+					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
 				),
 
 				h3('Total Criteria Scores'),
@@ -502,9 +635,9 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
-				 "<b>Emma Fox <b/>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
-				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets.<br>\
-				 <br><b>Sharon Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
+				 "<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
+				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets.<br> \
+				 <br><b>Sharon Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br> \
 				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>"
 			 )
 		),
