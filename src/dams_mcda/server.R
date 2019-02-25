@@ -628,7 +628,7 @@ server <- function(input, output, session) {
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage Facilities",
+			"Alternative 2: Improve Fish Passage",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt3 <- renderUI(list(
@@ -636,7 +636,7 @@ server <- function(input, output, session) {
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt4 <- renderUI(list(
-			"Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities",
+			"Alternative 4: Improve Hydropower Generation AND Fish Passage",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt5 <- renderUI(list(

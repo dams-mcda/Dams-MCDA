@@ -33,8 +33,8 @@ annualElectricityLabel <- "Annual electricity generation is measured in MWh/year
 GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts."
 indigenousHeritageLabel <- "Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people."
 communityIdentityLabel <- "Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents."
-industrialHistoryLabel <- "Industrial historical value is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure."
-aestheticsLabel <- "Aesthetics is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound)."
+industrialHistoryLabel <- "Industrial historical importance is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure."
+aestheticsLabel <- "Aesthetic value is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound)."
 
 
 
@@ -123,7 +123,7 @@ ui <- shinyUI(fluidPage(
 						 Town/city identity (unitless): rating to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents. \
 					 </li>\
 					 <li> \
-						 Industrial historical value (unitless): rating to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure. \
+						 Industrial historical importance (unitless): rating to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure. \
 					 </li>\
 					 <li> \
 						 Aesthetic value (unitless): rating to convey the importance of the decision alternative for improving or preserving aesthetics (e.g., appearance, scenic value, smell, sound). \
@@ -139,7 +139,7 @@ ui <- shinyUI(fluidPage(
 			HTML("When a dam is removed, water is allowed to flow (somewhat) freely downstream, creating greater connectivity for fish passage and river recreation, bolstering sea-run fish populations, and improving benthic (riverbed) aquatic communities. Dam removal may increase local water quality, \
 				 regulate water temperature, and provide additional tourism/fishing opportunities. The river and its tributaries will likely return to their \"natural\" flows. However, dam removal may also create temporary mud flats as the reservoir empties, or release toxic or harmful impounded sediments. \
 				 Dam removal eliminates lake-dwelling wildlife habitat and local flatwater recreation opportunities, reduces overall reservoir storage volume, and lowers total annual hydropower generation. Dam removal costs are typically high for dam removals, with no payback in terms of direct market returns. <br>\
-				 <br>Warning: decision criteria ratings must sum to 1! The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another crterion rating to decrease in order to keep the sum equal to 1). <br>\
+				 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another crterion rating to decrease in order to keep the sum equal to 1). <br>\
 				 <br> Please consider and rate the given set of decision criteria based on the case of removing the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
@@ -198,7 +198,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"Alternative 2: Improve Fish Passage",
 			htmlOutput("Alt2"), # status and title
-			h2("Alternative 2: Improve Fish Passage Facilities"),
+			h2("Alternative 2: Improve Fish Passage"),
       
 			HTML(
 				"Improvements to a dam's fish passage may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities for citizens and students. However, annual electricity \
@@ -207,7 +207,7 @@ ui <- shinyUI(fluidPage(
 
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
 				rating to decrease in order to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of criteria based on the case of improvements to fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				<br>Please consider and rate the given set of criteria based on the case of improvements to fish passage at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
 			htmlOutput("Alt2Progress"),
@@ -272,7 +272,7 @@ ui <- shinyUI(fluidPage(
 
 				<br><b> Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another criterion \
 				rating to decrease in order to keep the sum equal to 1). <br>\
-				<br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				<br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
 			htmlOutput("Alt3Progress"),
@@ -327,7 +327,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"Alternative 4: Improve hydropower generation AND fish passage",
 			htmlOutput("Alt4"), # status and title
-			h2("Alternative 4: Improve Hydropower Generation AND Fish Passage Facilities"),
+			h2("Alternative 4: Improve Hydropower Generation AND Fish Passage"),
 			HTML(
 				"When hydropower generation improvements AND fish passage improvements are made to a dam (powered or non-powered), they may increase survival for sea-run fish species within the watershed. However, installing turbines or expanding existing power capacity may also alter flows\
 				and confuse sea-run fish species, who may be attracted to the water moving through the system intake. Fish may become caught in the grates protecting the system intake, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through \
@@ -336,7 +336,7 @@ ui <- shinyUI(fluidPage(
 				endangered.<br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then increasing the rating on one criterion requires another \
 				criterion rating to decrease in order to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage facilities at the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				<br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
 			htmlOutput("Alt4Progress"),
@@ -398,7 +398,7 @@ ui <- shinyUI(fluidPage(
 				opportunity for cost offset. Keeping the dam will likely have no impact on reservoir storage volume, river recreation area, annual electricity generation, or number of properties abutting the reservoir. The impoundment will continue to present a barrier to sea-run fish species, \
 				thereby negatively impacting their survival. And, in the long run, the dam is a temporary piece of infrastructure that may need to be removed. <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then another criterion rating must decrease in order to keep the sum equal to 1). <br>\
-				<br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. In each case, 0 = not at all important and 1 = extremely important.<br>"
+				<br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
 			htmlOutput("Alt5Progress"),
@@ -457,11 +457,10 @@ ui <- shinyUI(fluidPage(
 
 			# output post generate
 			div(id="generated-output",
-				h2('Results Interpreation'),
 				#tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
 				HTML(
-					"<br>recall that the decision criteria ratings under every decision alternative were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+					"<br><b>Results Interpretation</b>: recall that the decision criteria ratings under every decision alternative were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
 					alternative score. The largest segments shows which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
 					up to you as a decision maker to decide what to do with this information. <br>"
 				),
@@ -471,7 +470,7 @@ ui <- shinyUI(fluidPage(
 				plotOutput("WSMPlot1", height=300, width=1000),
 
 				HTML(
-					 "<br><b>Results Interpreation</b>: the decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+					 "<br><b>Results Interpretation</b>: the decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
 					the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
 					<br>"
 				),
@@ -486,7 +485,10 @@ ui <- shinyUI(fluidPage(
 					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 
 					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs betwen decision criteria.<br>" 
+					must necessarily decrease. The idea here is to emphasize tradeoffs betwen decision criteria.<br>
+					 
+					<br><b>NEXT STEPS</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time." 
 				),
 				h3('Download Results'),
 				downloadButton("downloadData", "Download")
@@ -496,12 +498,10 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
-				 "Emma Fox- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. \
+				 "<b>Emma Fox <b/>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
 				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets.<br>\
-				 <br>Sharon Klein- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
-				 <br>William Winslow - Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>\
-				 <br>Garrett Raymond- Technical Consultant. Built WSM function in R and provided basic web app design. See also: Raymond, G. and Klein, S. (2018). Web App: Multi-Criteria Decision Analysis of Fuel Pathways.https://fuel-production-pathway-comparison-tool.shinyapps.io/gr_ui_sep_models/ <br>\
-				 "
+				 <br><b>Sharon Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
+				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>"
 			 )
 		),
 
@@ -512,7 +512,7 @@ ui <- shinyUI(fluidPage(
 				 Support for the Future of Dams project provided by the National Science Foundation\'s Research Infrastructure Improvement NSF #IIA-1539071, \
 				 USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, \
 				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.<br>\
-				 <br> Data Discovery Center at the University of New Hampshire- host for the Dam Decision Support Tool. https://ddc.unh.edu <br> \
+				 <br> Data Discovery Center at the University of New Hampshire- host for the Dam Decision Support Tool. https://ddc.unh.edu <br>\
 				 "
 			 ),
 			 h2("Citations"),
