@@ -114,17 +114,17 @@ li.active > a[data-value="Acknowledgements"] {
 	background-color:#F9C04C;
 }
 
-.nav > li > a[data-value="Output"]{
+.nav > li > a[data-value="Results"]{
 	background-color:#F0c0A8;
 	color:#4e4e4e !important;
 }
 
-.nav > li > a[data-value="Output"]:hover{
+.nav > li > a[data-value="Results"]:hover{
 	background-color:#f3a57b !important;
 	color:#4e4e4e !important;
 }
 
-.nav > li.active > a[data-value="Output"]{
+.nav > li.active > a[data-value="Results"]{
 	background-color:#f09768 !important;
 }
 

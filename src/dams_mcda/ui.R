@@ -582,7 +582,7 @@ ui <- shinyUI(fluidPage(
 		), # end
 		#End Alternative 5: Keep and Maintain Dam Tab
 
-		tabPanel("Output",
+		tabPanel("Results",
 			h2("Results"),
 			HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
 			# generate event
@@ -592,26 +592,23 @@ ui <- shinyUI(fluidPage(
 			div(id="generated-output",
 				#tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
+
 				HTML(
-					"<br><b>Results Interpretation</b>: recall that the decision criteria ratings under every decision alternative were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+				  "<br><b>Graph Interpretation</b>: recall that the decision criteria ratings under every decision alternative were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
 					alternative score. The largest segments shows which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
 					up to you as a decision maker to decide what to do with this information. <br>"
 				),
 
 				h3('Alternative Scores by Criteria'),
-
-				HTML(
-					 "<br><b>Results Interpretation</b>: the decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
-					the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
-					<br>"
-				),
-
-				h3('Criteria Scores by Alternative'),
 				#tableOutput("WSMTable1"), # for debugging plot1
 				plotOutput("WSMPlot1", height=300, width=1000),
 
 				HTML(
-					 "<br>Some questions for consideration:<br>\
+				  "<br><b>Graph Interpretation</b>: the decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+				  the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+				  <br>\
+
+				  <br><b>Questions for consideration:</b><br>\
 
 					<br> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
 					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
@@ -623,7 +620,7 @@ ui <- shinyUI(fluidPage(
 					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
 				),
 
-				h3('Total Criteria Scores'),
+				h3('Total Criteria Scores by Alternative'),
 				#tableOutput("WSMTable2"), # for debugging plot2
 				plotOutput("WSMPlot2", height=400, width=1000),
 
