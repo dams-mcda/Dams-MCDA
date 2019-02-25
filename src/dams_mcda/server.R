@@ -494,7 +494,6 @@ server <- function(input, output, session) {
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- alternative_names
 			colnames(RawCriteriaMatrix) <- criteria_names
-			message("RawCriteriMatrix Created", head(RawCriteriaMatrix))
 
 			# origial scores in table form
 			# for debugging table size
@@ -506,22 +505,22 @@ server <- function(input, output, session) {
 			# matrix setup
 			matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
 			matrix_rows <- length(available_alternatives) # 5 default
-			
+
 			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
-			IntermediateMatrix <- round(RawCriteriaMatrix,3) 
-			
+			IntermediateMatrix <- round(RawCriteriaMatrix,3)
+
 			#----------------------------------------
 			# Score Sum
 			#----------------------------------------
 			# total score is last column of returned Data Table
 			scoresum <- list("list", matrix_rows)
-			
+
 			for (i in 1:matrix_rows){
 			  scoresum[[i]] <- sum(as.numeric(IntermediateMatrix[i, 1:matrix_cols]))
 			}
-			
+
 			scoresum <- unlist(scoresum)
-			
+
 			# warning adding things to list has side effects!
 			WSMResults <- list(IntermediateMatrix, scoresum)
 			TableMatrix <- WSMResults[1]
