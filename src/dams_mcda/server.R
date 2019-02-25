@@ -1,3 +1,6 @@
+# barPlot wrappers
+source("plots.R")
+
 #--------------------------------------------------------------------------------
 # Static Variables
 #--------------------------------------------------------------------------------
@@ -144,41 +147,6 @@ loadData <- function() {
 	data <- lapply(files, read.csv, stringsAsFactors = FALSE)
 	data <- dplyr::rbind_all(data)
 	data <- do.call(rbind, data)
-}
-
-
-# renderBarPlotFunction
-#----------------------------------------
-# wrapper for barplot with a debug message
-# when no value is needed pass NULL for a field
-# x_limit and y_limit are arrays when not NULL
-# xpd == False disables bars being drawn outsize graph canvas
-renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
-	# debug data
-	message('------------------')
-	message('BarPlot title:', title, '\ndata:', data, "\n#(values):", length(data), "\nclasstype: ", class(data), "\ndatatype: ", typeof(data), "\nnames:", x_names, "\n#(names):", length(x_names))
-	message('------------------')
-	# new graph (ggplot2) requires a data frame not vectors
-	if (is.vector(data)){
-		df <- data.frame(Criteria=x_names, Score=data)
-	}
-
-	result <-  renderPlot(
-		ggplot(
-		  df,
-		  aes(x=Criteria, y=Score, fill=Criteria)
-		)
-		+ geom_bar(stat="identity")
-		+ geom_text(data=subset(df, Score != 0), aes(label=Score), color="white", hjust=1, vjust=0.4, size=6)
-		+ geom_text(data=subset(df, Score == 0), aes(label=Score), color="black", hjust=-1, vjust=0.4, size=6)
-		+ coord_flip()
-		+ theme_minimal()
-		+ theme(legend.position="none", text=element_text(size=20), )
-		+ scale_x_discrete(limits=rev(x_names))
-		+ ylab(y_label)
-		+ xlab(x_label)
-	)
-	return(result)
 }
 
 
@@ -524,7 +492,8 @@ server <- function(input, output, session) {
 
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- alternative_names
-			names(RawCriteriaMatrix) <- criteria_names
+			colnames(RawCriteriaMatrix) <- criteria_names
+
 			# origial scores in table form
 			# for debugging table size
 			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
@@ -535,22 +504,22 @@ server <- function(input, output, session) {
 			# matrix setup
 			matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
 			matrix_rows <- length(available_alternatives) # 5 default
-			
+
 			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
-			IntermediateMatrix <- round(RawCriteriaMatrix,3) 
-			
+			IntermediateMatrix <- round(RawCriteriaMatrix,3)
+
 			#----------------------------------------
 			# Score Sum
 			#----------------------------------------
 			# total score is last column of returned Data Table
 			scoresum <- list("list", matrix_rows)
-			
+
 			for (i in 1:matrix_rows){
 			  scoresum[[i]] <- sum(as.numeric(IntermediateMatrix[i, 1:matrix_cols]))
 			}
-			
+
 			scoresum <- unlist(scoresum)
-			
+
 			# warning adding things to list has side effects!
 			WSMResults <- list(IntermediateMatrix, scoresum)
 			TableMatrix <- WSMResults[1]
@@ -558,7 +527,7 @@ server <- function(input, output, session) {
 			TableMatrix$summedScore <- WSMResults[2]
 
 			WSMTableOutput <- data.frame( TableMatrix, row.names=alternative_names, check.names=FALSE)
-			# this ones different becaues
+			# this ones different because it has sum row
 			names(WSMTableOutput) <- criteria_names_and_sum
 
 			#----------------------------------------
@@ -566,35 +535,50 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# final output table commented out due to redundancy
 			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
-			#output$WSMTable <- renderTable(t(WSMTableOutput), rownames=enable_rownames)
 
 			saveResponse(WSMTableOutput)
 
-			# final output barplots
-			#Output plot 1 needs to be adjusted to stacked bar of criteria for each alternative (e.g.: https://stackoverflow.com/questions/6693257/making-a-stacked-bar-plot-for-multiple-variables-ggplot2-in-r)
-			output$WSMPlot1 <- renderBarPlot(
-				# !important!
-				unlist(WSMResults[2]), # scoresum data
-				"Ranked Decision Alternatives by Decision Criteria", # title
-				alternative_names, # x_labels
-				"Alternative", # x axis label
-				"Rating", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				summed_score_range # y value limit (1-5 value range)
+			# stacked bars data table
+			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
+			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
+			Score <- alternatives
+			Data <- data.frame(Alternative, Criteria, Score)
+
+
+			# stacked bar plot 1
+			output$WSMPlot1 <- renderPlot(
+				ggplot(
+				  data=Data,
+				  aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+				  environment = environment()
+				)
+				+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+				+ theme_minimal()
+				+ theme(text=element_text(size=20), )
+				+ coord_flip()
+				+ geom_text(data=subset(Data, Score != 0), size=6, position = position_stack(vjust = 0.5))
+				+ theme(
+					axis.text.x = element_text(angle = 90, hjust = 1),
+					axis.text.y = element_text(angle = 0, hjust = 1)
+				)
+				+ scale_x_discrete(limits=rev(alternative_names))
 			)
-			
-			#This second plot is a placeholder. Needs to be adjusted to sum of alternative scores for each criterion
-			output$WSMPlot2 <- renderBarPlot(
-			  # !important!
-			  unlist(WSMResults[2]), # scoresum data
-			  "Ranked Decision Criteria by Decision Alternatives", # title
-			  alternative_names, # x_labels
-			  "Criteria", # x axis label
-			  "Rating", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  summed_score_range # y value limit (1-5 value range)
+
+			# stacked bar plot 2
+			output$WSMPlot2 <- renderPlot(
+				ggplot(
+				  data=Data,
+				  aes(x=Criteria, y=Score, fill=Alternative, label=Score),
+				  environment = environment()
+				)
+				+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+				+ theme_minimal()
+				+ theme(text=element_text(size=20), )
+				+ coord_flip()
+				+ theme(
+					axis.text.y = element_text(angle = 0, hjust = 1)
+				)
+				+ scale_x_discrete(limits=rev(criteria_names))
 			)
 
 			# show output html elements
