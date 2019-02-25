@@ -482,7 +482,10 @@ ui <- shinyUI(fluidPage(
 					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 
 					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs betwen decision criteria.<br>" 
+					must necessarily decrease. The idea here is to emphasize tradeoffs betwen decision criteria.<br>
+					 
+					<br><b>NEXT STEPS</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time." 
 				),
 				h3('Download Results'),
 				downloadButton("downloadData", "Download")
@@ -492,7 +495,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
-				 "<b>Emma Fox <b/>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted WSM function for new dam decision application and advised model-related changes. \
+				 "<b>Emma Fox <b/>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program). Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
 				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets.<br>\
 				 <br><b>Sharon Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Advised user-friendliness enhancements to WSM model and UI/UX, refined criteria definitions, revised app text.<br>\
 				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations (UI/UX).<br>"
