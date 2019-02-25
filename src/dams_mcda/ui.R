@@ -253,6 +253,7 @@ ui <- shinyUI(fluidPage(
 				plotOutput("SummPlot2", height=graph_height, width=graph_width)
 			 )
 		), # end
+
 		#End Alternative 2: Improve Fish Passage Tab
 
 
@@ -317,7 +318,8 @@ ui <- shinyUI(fluidPage(
 				plotOutput("SummPlot3", height=graph_height, width=graph_width)
 			)
 		), # end
-		#End Alternative 3: Improve hyro generation 
+
+    #End Alternative 3: Improve hyro generation 
 
 
 		tabPanel(
