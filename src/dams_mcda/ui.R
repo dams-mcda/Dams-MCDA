@@ -609,6 +609,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Criteria Scores by Alternative'),
+				tableOutput("WSMTable2"), # for debugging plot2
 				plotOutput("WSMPlot2", height=300, width=1000),
 
 				HTML(
@@ -625,7 +626,8 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Total Criteria Scores'),
-				plotOutput("WSMPlot3", height=300, width=1000),
+				tableOutput("WSMTable3"), # for debugging plot3
+				plotOutput("WSMPlot3", height=400, width=1000),
 
 				h3('Download Results'),
 				downloadButton("downloadData", "Download")

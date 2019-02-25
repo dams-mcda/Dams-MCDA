@@ -1,5 +1,6 @@
 # barPlot wrappers
 source("plots.R")
+library(reshape2)
 
 #--------------------------------------------------------------------------------
 # Static Variables
@@ -492,7 +493,9 @@ server <- function(input, output, session) {
 
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- alternative_names
-			names(RawCriteriaMatrix) <- criteria_names
+			colnames(RawCriteriaMatrix) <- criteria_names
+			message("RawCriteriMatrix Created", head(RawCriteriaMatrix))
+
 			# origial scores in table form
 			# for debugging table size
 			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
@@ -526,7 +529,7 @@ server <- function(input, output, session) {
 			TableMatrix$summedScore <- WSMResults[2]
 
 			WSMTableOutput <- data.frame( TableMatrix, row.names=alternative_names, check.names=FALSE)
-			# this ones different becaues
+			# this ones different because it has sum row
 			names(WSMTableOutput) <- criteria_names_and_sum
 
 			#----------------------------------------
@@ -553,32 +556,47 @@ server <- function(input, output, session) {
 			)
 
 
-			# for each criteria add alt score in alt column
-			# stacked bars
-			output$WSMPlot2 <- renderStackedBarPlot(
-			  # !important!
-			  RawCriteriaMatrix, # criteria matrix
-			  "Ranked Decision Criteria by Decision Alternatives", # title
-			  alternative_names, # x_labels
-			  "Criteria", # x axis label
-			  "Rating", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  summed_score_range # y value limit (1-5 value range)
+			# stacked bars data table
+			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
+			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
+			Score <- alternatives
+			Data <- data.frame(Alternative, Criteria, Score)
+
+
+			# stacked bar plot 1
+			output$WSMPlot2 <- renderPlot(
+				ggplot(
+				  data=Data,
+				  aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+				  environment = environment()
+				)
+				+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+				+ theme_minimal()
+				+ theme(text=element_text(size=20), )
+				+ coord_flip()
+				+ geom_text(data=subset(Data, Score != 0), size=6, position = position_stack(vjust = 0.5))
+				+ theme(
+					axis.text.x = element_text(angle = 90, hjust = 1),
+					axis.text.y = element_text(angle = 0, hjust = 1)
+				)
+				+ scale_x_discrete(limits=rev(alternative_names))
 			)
 
-			# for each alt add alt score in criteria column
-			# stacked bars
-			output$WSMPlot3 <- renderStackedBarPlot(
-			  # !important!
-			  t(RawCriteriaMatrix), # criteria matrix
-			  "Ranked Decision Criteria by Decision Alternatives", # title
-			  alternative_names, # x_labels
-			  "Criteria", # x axis label
-			  "Rating", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  c(0, 5) # y value limit (max for an criteria is 1, 5 alts)
+			# stacked bar plot 2
+			output$WSMPlot3 <- renderPlot(
+				ggplot(
+				  data=Data,
+				  aes(x=Criteria, y=Score, fill=Alternative, label=Score),
+				  environment = environment()
+				)
+				+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+				+ theme_minimal()
+				+ theme(text=element_text(size=20), )
+				+ coord_flip()
+				+ theme(
+					axis.text.y = element_text(angle = 0, hjust = 1)
+				)
+				+ scale_x_discrete(limits=rev(criteria_names))
 			)
 
 			# show output html elements
