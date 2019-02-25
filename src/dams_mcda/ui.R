@@ -490,6 +490,10 @@ ui <- shinyUI(fluidPage(
 					<br><b>NEXT STEPS</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
 					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time." 
 				),
+
+				h3('Total Criteria Scores'),
+				plotOutput("WSMPlot3", height=300, width=1000),
+
 				h3('Download Results'),
 				downloadButton("downloadData", "Download")
 			)

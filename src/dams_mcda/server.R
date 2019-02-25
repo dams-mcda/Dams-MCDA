@@ -1,3 +1,6 @@
+# barPlot wrappers
+source("plots.R")
+
 #--------------------------------------------------------------------------------
 # Static Variables
 #--------------------------------------------------------------------------------
@@ -144,41 +147,6 @@ loadData <- function() {
 	data <- lapply(files, read.csv, stringsAsFactors = FALSE)
 	data <- dplyr::rbind_all(data)
 	data <- do.call(rbind, data)
-}
-
-
-# renderBarPlotFunction
-#----------------------------------------
-# wrapper for barplot with a debug message
-# when no value is needed pass NULL for a field
-# x_limit and y_limit are arrays when not NULL
-# xpd == False disables bars being drawn outsize graph canvas
-renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
-	# debug data
-	message('------------------')
-	message('BarPlot title:', title, '\ndata:', data, "\n#(values):", length(data), "\nclasstype: ", class(data), "\ndatatype: ", typeof(data), "\nnames:", x_names, "\n#(names):", length(x_names))
-	message('------------------')
-	# new graph (ggplot2) requires a data frame not vectors
-	if (is.vector(data)){
-		df <- data.frame(Criteria=x_names, Score=data)
-	}
-
-	result <-  renderPlot(
-		ggplot(
-		  df,
-		  aes(x=Criteria, y=Score, fill=Criteria)
-		)
-		+ geom_bar(stat="identity")
-		+ geom_text(data=subset(df, Score != 0), aes(label=Score), color="white", hjust=1, vjust=0.4, size=6)
-		+ geom_text(data=subset(df, Score == 0), aes(label=Score), color="black", hjust=-1, vjust=0.4, size=6)
-		+ coord_flip()
-		+ theme_minimal()
-		+ theme(legend.position="none", text=element_text(size=20), )
-		+ scale_x_discrete(limits=rev(x_names))
-		+ ylab(y_label)
-		+ xlab(x_label)
-	)
-	return(result)
 }
 
 
@@ -583,11 +551,13 @@ server <- function(input, output, session) {
 				NULL, # x value limit
 				summed_score_range # y value limit (1-5 value range)
 			)
-			
-			#This second plot is a placeholder. Needs to be adjusted to sum of alternative scores for each criterion
-			output$WSMPlot2 <- renderBarPlot(
+
+
+			# for each criteria add alt score in alt column
+			# stacked bars
+			output$WSMPlot2 <- renderStackedBarPlot(
 			  # !important!
-			  unlist(WSMResults[2]), # scoresum data
+			  RawCriteriaMatrix, # criteria matrix
 			  "Ranked Decision Criteria by Decision Alternatives", # title
 			  alternative_names, # x_labels
 			  "Criteria", # x axis label
@@ -595,6 +565,20 @@ server <- function(input, output, session) {
 			  colors, # colors
 			  NULL, # x value limit
 			  summed_score_range # y value limit (1-5 value range)
+			)
+
+			# for each alt add alt score in criteria column
+			# stacked bars
+			output$WSMPlot3 <- renderStackedBarPlot(
+			  # !important!
+			  t(RawCriteriaMatrix), # criteria matrix
+			  "Ranked Decision Criteria by Decision Alternatives", # title
+			  alternative_names, # x_labels
+			  "Criteria", # x axis label
+			  "Rating", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  c(0, 5) # y value limit (max for an criteria is 1, 5 alts)
 			)
 
 			# show output html elements
