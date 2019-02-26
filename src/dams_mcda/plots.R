@@ -25,7 +25,6 @@ renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limi
 		)
 		+ geom_bar(stat="identity")
 		+ geom_text(data=subset(df, Score != 0), aes(label=Score), position = position_stack(vjust=0.5), size=6)
-		+ geom_text(data=subset(df, Score == 0), aes(label=Score), position = position_stack(vjust=0.5), size=6)
 		+ coord_flip()
 		+ theme_minimal()
 		+ theme(legend.position="none", text=element_text(size=20), )

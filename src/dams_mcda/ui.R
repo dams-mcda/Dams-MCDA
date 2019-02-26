@@ -52,7 +52,7 @@ ui <- shinyUI(fluidPage(
 
 	navlistPanel(
 		# Define layout widths
-		widths = c(4,8),
+		widths = c(2,10),
 
 		#Define Instructions tab
 		tabPanel("Start Here",
@@ -603,7 +603,7 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
 				#tableOutput("WSMTable1"), # for debugging plot1
-				plotOutput("WSMPlot1", height=300, width=1000),
+				plotOutput("WSMPlot1", height=600, width="100%"),
 
 				HTML(
 				  "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
@@ -613,7 +613,9 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
 				#tableOutput("WSMTable2"), # for debugging plot2
-				plotOutput("WSMPlot2", height=400, width=1000),
+				plotOutput("WSMPlot2", height=1000, width="100%"),
+				# plotly exampl for plot 2
+				#plotlyOutput("WSMPlotly2", height=600, width="100%"),
 				
 				HTML(
           "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
