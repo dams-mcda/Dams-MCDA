@@ -52,7 +52,7 @@ ui <- shinyUI(fluidPage(
 
 	navlistPanel(
 		# Define layout widths
-		widths = c(4,8),
+		widths = c(2,10),
 
 		#Define Instructions tab
 		tabPanel("Start Here",
@@ -601,7 +601,7 @@ ui <- shinyUI(fluidPage(
 
 				h3('Alternative Scores by Criteria'),
 				#tableOutput("WSMTable1"), # for debugging plot1
-				plotOutput("WSMPlot1", height=300, width=1000),
+				plotOutput("WSMPlot1", height=600, width="100%"),
 
 				HTML(
 				  "<br><b>Graph Interpretation</b>: the decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
@@ -622,7 +622,9 @@ ui <- shinyUI(fluidPage(
 
 				h3('Total Criteria Scores by Alternative'),
 				#tableOutput("WSMTable2"), # for debugging plot2
-				plotOutput("WSMPlot2", height=400, width=1000),
+				plotOutput("WSMPlot2", height=1000, width="100%"),
+				# plotly example
+				#plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
 				h3('Download Results'),
 				downloadButton("downloadData", "Download")

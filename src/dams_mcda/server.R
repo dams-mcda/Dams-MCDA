@@ -1,5 +1,7 @@
 # barPlot wrappers
 source("plots.R")
+library(plotly)
+set.seed(123)
 
 #--------------------------------------------------------------------------------
 # Static Variables
@@ -553,33 +555,68 @@ server <- function(input, output, session) {
 				  environment = environment()
 				)
 				+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+				+ geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+				#+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
 				+ theme_minimal()
-				+ theme(text=element_text(size=20), )
-				+ coord_flip()
-				+ geom_text(data=subset(Data, Score != 0), size=6, position = position_stack(vjust = 0.5))
+				#+ coord_flip()
 				+ theme(
-					axis.text.x = element_text(angle = 90, hjust = 1),
-					axis.text.y = element_text(angle = 0, hjust = 1)
+					text=element_text(size=16),
+					legend.position="bottom",
+					axis.text.y = element_text(angle = 0, hjust = 1),
+					axis.text.x = element_text(angle = 45, hjust = 1)
 				)
 				+ scale_x_discrete(limits=rev(alternative_names))
+				+ scale_y_continuous(limits = c(0,1), expand = c(0, 0))
 			)
+
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
 
 			# stacked bar plot 2
 			output$WSMPlot2 <- renderPlot(
 				ggplot(
 				  data=Data,
-				  aes(x=Criteria, y=Score, fill=Alternative, label=Score),
+				  aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
 				  environment = environment()
 				)
 				+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+				+ geom_text(
+					data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+				)
+				+ geom_text(
+					data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+				)
 				+ theme_minimal()
-				+ theme(text=element_text(size=20), )
-				+ coord_flip()
+				#+ coord_flip()
 				+ theme(
-					axis.text.y = element_text(angle = 0, hjust = 1)
+					text=element_text(size=16),
+					legend.position="top",
+					axis.text.x = element_text(angle = 45, hjust = 1)
 				)
 				+ scale_x_discrete(limits=rev(criteria_names))
+				+ scale_y_continuous(expand = c(0, 0))
 			)
+
+			# plotly example graph
+			#output$WSMPlotly2 <- renderPlotly(
+			#  ggplotly(
+			#	ggplot(
+			#	  data=Data,
+			#	  aes(x=Criteria, y=Score, fill=Alternative, label=Score),
+			#	  environment = environment()
+			#	)
+			#	+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			#	+ theme_minimal()
+			#	+ coord_flip()
+			#	+ theme(
+			#		text=element_text(size=16),
+			#		legend.position="top",
+			#		axis.text.x = element_text(angle = 90, hjust = 1)
+			#	)
+			#	+ scale_x_discrete(limits=rev(criteria_names))
+			#	+ scale_y_continuous(expand = c(0, 0))
+			#  )
+			#)
 
 			# show output html elements
 			shinyjs::show(id="generated-output")
