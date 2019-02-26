@@ -187,7 +187,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-1",
-				h3("CO2 Emissions"),
+				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndigenousHeritage
@@ -197,7 +197,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#IndustrialHistory
 			div(id="industrial-1",
-				h3("Industrial History"),
+				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#CommunityIdentity
@@ -207,7 +207,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#Aesthetics
 			div(id="aesthetics-1",
-				h3("Aesthetics"),
+				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
@@ -279,7 +279,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-2",
-				h3("CO2 Emissions"),
+				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndigenousHeritage
@@ -289,7 +289,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#IndustrialHistory
 			div(id="industrial-2",
-				h3("Industrial History"),
+				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#CommunityIdentity
@@ -299,7 +299,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#Aesthetics
 			div(id="aesthetics-2",
-				h3("Aesthetics"),
+				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
@@ -361,7 +361,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#Number of Properties
 			div(id="num-prop-3",
-				h3("Number or Properties"),
+				h3("Number of Properties"),
 				sliderInput(inputId = "NumProperties3", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#Annual Electricity Generation
@@ -371,17 +371,17 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-3",
-				h3("Greenhouse Gas Emissions"),
+				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndigenousHeritage
 			div(id="indig-heritage-3",
-				h3("Indigenous Heritage"),
+				h3("Indigenous Cultural Heritage"),
 				sliderInput(inputId = "IndigenousHeritage3", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndustrialHistory
 			div(id="industrial-3",
-				h3("Industrial History"),
+				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#CommunityIdentity
@@ -391,7 +391,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#Aesthetics
 			div(id="aesthetics-3",
-				h3("Aesthetics"),
+				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
@@ -462,7 +462,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-4",
-				h3("CO2 Emissions"),
+				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndigenousHeritage
@@ -472,7 +472,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#IndustrialHistory
 			div(id="industrial-4",
-				h3("Industrial History"),
+				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#CommunityIdentity
@@ -482,7 +482,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#Aesthetics
 			div(id="aesthetics-4",
-				h3("Aesthetics"),
+				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
@@ -552,7 +552,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-5",
-				h3("CO2 Emissions"),
+				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndigenousHeritage
@@ -562,7 +562,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#IndustrialHistory
 			div(id="industrial-5",
-				h3("Industrial History"),
+				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#CommunityIdentity
@@ -572,7 +572,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#Aesthetics
 			div(id="aesthetics-5",
-				h3("Aesthetics"),
+				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
