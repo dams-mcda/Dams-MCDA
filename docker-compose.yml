@@ -9,3 +9,4 @@ services:
       - ./src:/srv/shiny-server/
       - ./logs:/var/log/shiny-server/
     user: 'shiny'
+    restart: always
