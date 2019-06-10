@@ -7,3 +7,8 @@ logs/*
 
 # dont track responses in repo
 src/dams_mcda/responses/*
+
+# dont track matlab ISO
+matlab-source/*
+# dont track license file
+matlab-license/*

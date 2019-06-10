@@ -86,3 +86,23 @@ color pallete used for tabs
 #A8C090
 #789090
 #787878
+
+
+Matlab
+--------------------------
+A matlab installation media ISO is required to be mounted on the host machine
+
+~~~bash
+sudo mount -t iso9660 -o loop <matlab installation ISO path> <mount location>
+~~~
+
+if <mount location> is somewhere other than /media/mathworks edit docker-compose.yml to reflect the changes
+
+~~~yml
+      - /media/mathworks:/media/mathworks
+~~~
+to
+~~~yml
+      - <mount location>:/media/mathworks
+~~~
+

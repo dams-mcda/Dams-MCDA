@@ -6,7 +6,13 @@ services:
     ports:
       - "3838:3838"
     volumes:
-      - ./src:/srv/shiny-server/
-      - ./logs:/var/log/shiny-server/
-    user: 'shiny'
-    restart: always
+      - ./src:/srv/shiny-server:rw
+      - ./logs:/var/log/shiny-server
+      - ./matlab-license:/media/matlab-license
+      # MATLAB installation ISO
+      - /media/mathworks:/media/mathworks
+    # restart always can be problematic when not launching a production server
+    #restart: always
+    entrypoint:
+      - bash
+      - install-matlab.sh

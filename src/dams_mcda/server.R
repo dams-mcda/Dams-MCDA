@@ -1,7 +1,22 @@
 # barPlot wrappers
 source("plots.R")
-library(plotly)
+library(plotly, warn.conflicts = FALSE)
+library(R.matlab)
+
+
 set.seed(123)
+
+# test matlab
+Matlab$startServer()
+matlab <- Matlab()
+print("is matlab ready?---------------------------------------")
+print(matlab) # status of matlab connection (should be not yet connected)
+setVerbose(matlab, threshold = -2)
+# 3.3 Connect to the MATLAB server.isOpen <- open(matlab)
+R.matlab::isOpen <- open(matlab)
+
+if (!R.matlab::isOpen)
+	throw("MATLAB server is not running: waited 30 seconds.")
 
 #--------------------------------------------------------------------------------
 # Static Variables

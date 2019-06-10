@@ -1,20 +1,17 @@
 # This is the user-interface definition of a Shiny web application. You can
 # run the application by clicking 'Run App' above.
-#
-#base_dir <- "~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/"
-#working_dir <- paste("MCDA_11132018/WSM_Tool", "", sep="")
-#setwd(working_dir)
 
+# base working directory
 base_dir <- "/srv/shiny-server/dams_mcda/"
 setwd(base_dir)
 
 library(shiny)
 library(ggplot2)
-library(dplyr)
-library(shinyjs)
+library(dplyr, warn.conflicts=FALSE)
+library(shinyjs, warn.conflicts=FALSE)
 library(Cairo)
 
-options(shiny.usecairo=T)
+options(shiny.usecairo=TRUE)
 
 source("server.R")
 
