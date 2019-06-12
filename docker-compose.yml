@@ -9,7 +9,7 @@ services:
       - ./src:/srv/shiny-server:rw
       - ./logs:/var/log/shiny-server
       - ./matlab-license:/media/matlab-license
-      # MATLAB installation ISO
+      # MATLAB installation ISO mounted on host
       - /media/mathworks:/media/mathworks
     # restart always can be problematic when not launching a production server
     #restart: always

@@ -2,9 +2,10 @@ FROM rocker/shiny:3.5.1
 
 RUN mkdir -p /var/lib/shiny-server/bookmarks/shiny
 RUN mkdir -p /srv/matlab-source
+RUN mkdir -p /srv/matlab-working-dir
 
 RUN apt-get update
-RUN apt-get install -y libssl-dev libcurl4-openssl-dev libssh2-1-dev libpq-dev zlib1g-dev sudo
+RUN apt-get install -y libssl-dev libcurl4-openssl-dev libssh2-1-dev libpq-dev zlib1g-dev sudo net-tools procps
 
 # install packages
 RUN Rscript -e "install.packages('ggplot2')"
@@ -20,6 +21,7 @@ USER root
 # make sure shiny user has access to server
 RUN chown -R shiny:shiny /srv/shiny-server && chmod -R 775 /srv/shiny-server
 RUN chown -R shiny:shiny /var/log/shiny-server && chmod -R 775 /var/log/shiny-server
+RUN chown -R shiny:shiny /srv/matlab-working-dir && chmod -R 775 /srv/matlab-working-dir
 
 RUN addgroup docker
 RUN adduser shiny docker
@@ -33,5 +35,3 @@ RUN chmod 775 /install-matlab.sh
 USER shiny
 WORKDIR /
 # set entrypoint in docker-compose for switching entrypoint without rebuilding
-#ENTRYPOINT shiny-server.sh
-#ENTRYPOINT ["bash", "install-matlab.sh"]

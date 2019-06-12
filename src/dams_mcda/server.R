@@ -3,20 +3,64 @@ source("plots.R")
 library(plotly, warn.conflicts = FALSE)
 library(R.matlab)
 
-
 set.seed(123)
 
-# test matlab
-Matlab$startServer()
-matlab <- Matlab()
-print("is matlab ready?---------------------------------------")
-print(matlab) # status of matlab connection (should be not yet connected)
-setVerbose(matlab, threshold = -2)
-# 3.3 Connect to the MATLAB server.isOpen <- open(matlab)
-R.matlab::isOpen <- open(matlab)
 
-if (!R.matlab::isOpen)
-	throw("MATLAB server is not running: waited 30 seconds.")
+# track matlab port for session
+session_matlab_port <- 9999
+
+runMatlab <- function(port=9999){
+	out <- tryCatch({
+		# try starting a server
+		Matlab$startServer(
+			matlab="/usr/local/MATLAB/R2019a/bin/matlab",
+			workdir='/srv/matlab-working-dir',
+			port=port
+	    )
+		matlab <- Matlab(port=port)
+		# set to -2 for max verbosity
+		setVerbose(matlab, threshold = 0)
+		isOpen <- open(matlab)
+
+		if (!(isOpen)){
+			message("ERROR COULD NOT OPEN MATLAB SERVER")
+			throw("ERROR MATLAB server is not running: waited 30 seconds.")
+		}else{
+			message("--------------------------------------------------------------------------------")
+			message("matlab is open: ", matlab)
+			message("--------------------------------------------------------------------------------")
+
+			evaluate(matlab, "x = 1+2;")
+			data <- getVariable(matlab, "x")
+			message("MATLAB Test Eval done x: ", data)
+
+			close(matlab)
+
+			message("--------------------------------------------------------------------------------")
+			message("matlab closed")
+			message(matlab)
+			message("--------------------------------------------------------------------------------")
+			return(TRUE) # sucess
+		}
+	},
+	error=function(cond){
+		message("--------------------------------------------------------------------------------")
+		message("runMatlab Error or Matlab Not Open", cond)
+		message("try running on another port")
+		message("--------------------------------------------------------------------------------")
+		# server already open, assume someone else is using
+		session_matlab_port <- (port -1)
+		return(runMatlab(port=(port-1)))
+	},
+	warning=function(cond){
+		message("--------------------------------------------------------------------------------")
+		message("runMatlab Warning", cond)
+		message("--------------------------------------------------------------------------------")
+		return(FALSE) # fail?
+	})
+	message("runMatlab RESULTS: success?:", out);
+}
+
 
 #--------------------------------------------------------------------------------
 # Static Variables
@@ -212,6 +256,8 @@ alternativesCompleted <- function(completed){
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
+
+	runMatlab()
 
 	#------------------------------------------------------------
 	# updateAlt1
