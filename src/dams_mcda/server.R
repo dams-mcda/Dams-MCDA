@@ -9,7 +9,11 @@ set.seed(123)
 # track matlab port for session
 session_matlab_port <- 9999
 
+
 runMatlab <- function(port=9999){
+	# launches a matlab server, trys to connect for up to 30 seconds
+	# if it fails it will try a different port
+	# failed connections can take a long time due to the ~30 second possible connection time
 	out <- tryCatch({
 		# try starting a server
 		Matlab$startServer(
@@ -23,7 +27,6 @@ runMatlab <- function(port=9999){
 		isOpen <- open(matlab)
 
 		if (!(isOpen)){
-			message("ERROR COULD NOT OPEN MATLAB SERVER")
 			throw("ERROR MATLAB server is not running: waited 30 seconds.")
 		}else{
 			message("--------------------------------------------------------------------------------")
@@ -58,7 +61,7 @@ runMatlab <- function(port=9999){
 		message("--------------------------------------------------------------------------------")
 		return(FALSE) # fail?
 	})
-	message("runMatlab RESULTS: success?:", out);
+	message("runMatlab RESULTS: success?:", out)
 }
 
 
@@ -183,7 +186,7 @@ humanTime <- function() {
 #----------------------------------------
 # save the results to a file
 saveResponse <- function(table_data) {
-	response_data <<- table_data;
+	response_data <<- table_data
 }
 
 
