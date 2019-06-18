@@ -23,18 +23,20 @@ graph_width <- "100%"
 graph_height <- 500
 
 # multiple used labels
-fishSurvivalLabel <- "Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). "
-riverRecLabel <- "River recreation is measured in square miles or kilometers. It is the estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
+fishSurvivalLabel <- "Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as possible upstream sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). "
+riverRecLabel <- "River recreation is measured in square miles or kilometers. It is the estimated downstream area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
 resStorageLabel <- "Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018)."
 annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
-numPropertiesLabel <- "Number of properties is the estimated number of properties impcted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). "
+numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes in viewshed or property value (Roy et al., 2018). "
 breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
 annualElectricityLabel <- "Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project."
 GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts."
-indigenousHeritageLabel <- "Indigenous cultural heritage is a unitless measure used as a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people."
-communityIdentityLabel <- "Town/City identity is a unitless measure used to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents."
-industrialHistoryLabel <- "Industrial historical importance is a unitless measure to convey the imprtance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure."
-aestheticsLabel <- "Aesthetic value is a unitless measure to convey the importance of the decision alternative for improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound)."
+indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless measure used as a proxy for the importance of preserving or restoring the cultural traditions and lifeways of indigenous people."
+communityIdentityLabel <- "Community identity is a unitless measure used to convey the importance of preserving the existing identity of the community residents."
+industrialHistoryLabel <- "Industrial historical importance is a unitless measure to convey the imprtance of preserving or restoring the industrial historical value of the infrastructure."
+aestheticsLabel <- "Aesthetic value is a unitless measure to convey the importance of improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound) at the dam."
+healthLabel <- "Public health is a unitless measure to convey the importance of human public health connected with a flowing river free from pollutants."
+justiceLabel <- "Socio-environmental justice is a unitless measure to convey the importance of socio-environmental justice issues (e.g. tribal sovereignty) related to the dam."
 
 
 
@@ -55,100 +57,43 @@ ui <- shinyUI(fluidPage(
 		widths = c(2,10),
 
 		#Define Instructions tab
-		tabPanel("Start Here",
-			htmlOutput("Introduction"),
-			h2("Introduction"),
+		tabPanel("Step 1: Start Here",
+			htmlOutput("Step 1: Start Here"),
+			h2("Step 1: Start Here"),
 			HTML(
-				 "The Dam Decision Support Tool supports preference elicitation for dam decision support, using a set of decision criteria and decision alternatives identified using data from dam decision-maker interviews. The tool uses an approach consistent with the \
-				 Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria over a set of decision alternatives. Although this tool may be used on its own to elicit user preferences about dam decisions in \
-				 general, it was designed to be used as part of the Dam Toolbox in an interactive workshop setting.<br> \
+				 "<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br> \
 
-				 <br><b>Picture a watershed: </b>rain falls and runs downhill toward tributaries that flow into the river and ultimately to the ocean. This watershed is home to valuable ecosystem services, including pristine natural lakes, clean water sources, and significant \
-						 biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, Blueback herring, and Alewife). The river and its tributaries are home to many dams. Dams provide important services: reservoirs for drinking water and recreation, \
-						 flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing emissions that contribute to climate change and poor human health. However, dams across the U.S. are aging and pose potential safety hazards, increasing the\
-				 need for regular maintenance or more extensive repair. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. They may also contribute to poor water quality downstream, increased predation, and climate change.\
-				 Dams have long threatened indigenous cultural heritage in the U.S., while at the same time helping to shape post-industrial town or city identities over the last two centuries.<br>\
+				 <br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
 
-						 <br>In this Dam Decision Support Tool, <b>imagine that the future of a watershed is directly in your hands</b>. You (the decision maker) are personally tasked with using your professional expertise to make sustainable decisions for a set of dams within a \
-				 given watershed. In each of the Alternative tabs, you will select a numeric rating for each decision criterion (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) involved in each decision alternative (e.g., remove dam,\
-				 keep and maintain dam, improve fish passsage).<br>\
+				 <br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
+         Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
+         to support your interaction in the FERC Integrated Licensing Process.<br> \
 
-				 <h2>Specific Instructions</h2>\
+				 This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish \
+         survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, improve hydropower generation, improve\ 
+         fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br> \
 
-				 Toggle through the DECISION ALTERNATIVE pages at left to compare decision criteria under a single decision alternative and click the UPDATE button at the bottom of each ALTERNATIVE page to view decision alternative-specific\
-				 results and mark the alternative COMPLETE (i.e., to remove the red indicator message prompting user input). After you have finished rating decision criteria under ALL of the ALTERNATIVE tabs, select the OUTPUT tab and click GENERATE to view the results.\
-         More information about the specific DECISION ALTERNATIVES and DECISION CRITERIA you will be considering during this exercise is listed below. If you are using this Dam Decision Support Tool as a part of an interactive workshop facilitated by Future of Dams \
-         researchers, please visit the Dam Toolbox for more information about the specific set of dams to consider in your selection throughout this Dam Decision Support Tool. <br>\
+				 <h2>Instructions for Uploading Group Preferences</h2>\
 
-				 <h3>Decision Alternatives</h3> \
-
-				 <ol>\
-					 <li> Remove dam: dam is removed completely from the river, allowing water to flow freely </li>\
-					 <li> Improve fish passage: some type of fish passage technology is installed (e.g., state-of-the-art fish lift/elevator, eel ladder, etc).</li> \
-					 <li> Improve hydropower generation: (e.g., install turbines, upgrade turbines, or expand power capacity): hydropower generation capacity is increased, whether by installing new capacity or by upgrading turbines to larger power capacities or higher efficiency ratings; includes powered and non-powered dams.</li> \
-					 <li> Improve hydropower generation AND fish passage: some type of fish passage technology is installed AND hydropower generation capacity is increased.</li> \
-					 <li> Keep and maintain dam: this is the do-nothing option, where the dam remains in place and minimal costs are incurred to ensure dam structural integrity and safety compliance.</li> \
-				 </ol>\
-
-				 <h3>Decision Criteria</h3>\
-
-				 <ol>\
-					 <li> \
-						 Fish survival (thousands of lbs or metric tonnes): proxy criteria estimated as sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). \
-					 </li>\
-					 <li> \
-						 River recreation area (square miles or kilometers): estimated area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2019). \
-					 </li>\
-					 <li> \
-						 Reservoir storage (cubic miles or kilometers): estimated storage potential of the reservoir, based on its volume (Roy et al., 2018).\
-					 </li>\
-					 <li> \
-						 Annuitized project costs (2018 $USD): estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20 year lifetime. \
-					 </li>\
-					 <li> \
-						 Number of properties impacted: estimated number of properties impacted by the decision alternative, based on potential changes in viewshed or property value (Roy et al., 2018). \
-					 </li>\
-					 <li> \
-						 Breach damage potential (unitless): a proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018). \
-					 </li>\
-					 <li> \
-						 Annual electricity generation (MWh/yr): average estimate based on nameplate capacity from FERC licenses for each hydropower project.
-					 </li>\
-					 <li> \
-						 Annual carbon dioxide (CO2) emissions reduction (lbs or metric tonnes per year): estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts. \
-					 </li>\
-					 <li> \
-						 Indigenous cultural heritage (unitless): a proxy for the importance of the decision alternative for preserving/restoring the culture of indigenous people. \
-					 </li>\
-					 <li> \
-						 Town/city identity (unitless): rating to convey the importance of the decision alternative for preserving the existing identity of the community of town/city residents. \
-					 </li>\
-					 <li> \
-						 Industrial historical importance (unitless): rating to convey the importance of the decision alternative for preserving/restoring the industrial historical value of the infrastructure. \
-					 </li>\
-					 <li> \
-						 Aesthetic value (unitless): rating to convey the importance of the decision alternative for improving or preserving aesthetics (e.g., appearance, scenic value, smell, sound). \
-					 </li>\
-				 </ol><br>\
-			 "
+				 Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+         for you or the average preference values for your group. <br>\
+      "
 			 )
 		),
 
 		tabPanel(
-			htmlOutput("Alt1"), # status and title
-			h2("Alternative 1: Dam Removal"),
-			HTML("When a dam is removed, water is allowed to flow more freely downstream, creating greater connectivity for fish passage and river recreation, bolstering sea-run fish populations, and improving benthic (riverbed) aquatic communities. Dam removal may increase local water quality, \
-				 regulate water temperature, and provide additional tourism/fishing opportunities. The river and its tributaries will likely return to their \"natural\" flows. However, dam removal may also create temporary mud flats as the reservoir empties, and/or release toxic or harmful impounded sediments. \
-				 Dam removal eliminates lake-dwelling wildlife habitat and local flatwater recreation opportunities, reduces overall reservoir storage volume, and lowers total annual hydropower generation. Costs are typically high for dam removals, with no payback in terms of direct market returns. <br>\
-				 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+			htmlOutput("Dam1"), # status and title
+			h2("West Enfield Dam"),
+			HTML("Please consider the decision criteria listed below for West Enfield Dam. \
+         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
          increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				 <br> Please consider and rate the given set of decision criteria based on the case of removing the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
-			htmlOutput("Alt1Progress"),
+			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
-			# Criteria Inputs for Alt 1
+			# Criteria Inputs for West Enfield Dam
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-1",
@@ -190,10 +135,10 @@ ui <- shinyUI(fluidPage(
 				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			#IndigenousHeritage
-			div(id="indig-heritage-1",
-				h3("Indigenous Cultural Heritage"),
-				sliderInput(inputId = "IndigenousHeritage1", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			#IndigenousLifeways
+			div(id="indig-lifeways-1",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways1", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndustrialHistory
 			div(id="industrial-1",
@@ -210,34 +155,41 @@ ui <- shinyUI(fluidPage(
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-
+			#PublicHealth
+			div(id="health-1",
+			    h3("Public Health"),
+			    sliderInput(inputId = "Health1", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-1",
+			    h3("Socio-Environmental Justice"),
+			    sliderInput(inputId = "Justice1", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			
 			# update alt 1 score
 			actionButton("updateBtn1", "Update"),
 
 			# output post generate
 			div(id="alt-1-output",
-				h2("Raw Scores of Alternative 1"),
+				h2("Raw Scores for West Enfield Dam"),
 				plotOutput("SummPlot1", height=graph_height, width=graph_width)
 			)
 		), # end
-		#End Alternative 1: Remove Dam Tab
+		#End West Enfield Dam Tab
 
 		tabPanel(
-			#"Alternative 2: Improve Fish Passage",
-			htmlOutput("Alt2"), # status and title
-			h2("Alternative 2: Improve Fish Passage"),
+			#"Medway Dam",
+			htmlOutput("Dam2"), # status and title
+			h2("Medway Dam"),
       
 			HTML(
-				"Improvements to a dam's fish passage may increase survival for one or more sea-run fish species within the watershed and improve angling in the river. Improvements to fish passage may even provide learning opportunities for citizens and students. However, annual electricity \
-				generation may be diminished (depending on the technology selected to pass fish), and fish passage costs are typically high. Fish passage improvements may be required by law depending on the species migrating in the waterway, and additional improvements may become required as \
-				other species become threatened or endangered. In the case where the owner is required to improve passage for sea-run fish species, the owners must bear the cost or risk surrendering the dam operation license. <br>\
-
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+				"Please consider the decision criteria listed below for Medway Dam. \
+        <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br>Please consider and rate the given set of criteria based on the case of improvements to fish passage at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
-			htmlOutput("Alt2Progress"),
+			htmlOutput("Dam2Progress"),
 
 			#----------------------------------------
 			# Criteria Inputs for Alt 2
@@ -282,10 +234,10 @@ ui <- shinyUI(fluidPage(
 				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			#IndigenousHeritage
-			div(id="indig-heritage-2",
-				h3("Indigenous Cultural Heritage"),
-				sliderInput(inputId = "IndigenousHeritage2", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			#IndigenousLifeways
+			div(id="indig-lifeways-2",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways2", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndustrialHistory
 			div(id="industrial-2",
@@ -302,37 +254,42 @@ ui <- shinyUI(fluidPage(
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-
-
+			#PublicHealth
+			div(id="health-2",
+			    h3("Public Health"),
+			    sliderInput(inputId = "Health2", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-2",
+			    h3("Socio-Environmental Justice"),
+			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			
 			actionButton("updateBtn2", "Update"),
 
-			div(id="alt-2-output",
-				h2("Raw Scores of Alternative 2"),
+			div(id="dam-2-output",
+				h2("Raw Scores for Medway Dam"),
 				plotOutput("SummPlot2", height=graph_height, width=graph_width)
 			 )
 		), # end
-		#End Alternative 2: Improve Fish Passage Tab
+		#End Medway Dam Tab
 
 
 		tabPanel(
-			#"Alternative 3: Improve Hydropower Generation",
-			htmlOutput("Alt3"), # status and title
-			h2("Alternative 3: Improve Hydropower Generation"),
+			#"Millinocket Dam",
+			htmlOutput("Dam3"), # status and title
+			h2("Millinocket Dam"),
 			HTML(
-				"When new turbines are installed on existing non-powered dams, or hydropower capacity is increased at a powered dam, annual hydropower generation increases. Similarly, upgrading or replacing turbines may increase annual generation and improve longevity for a hydropower dam.\ 
-				Increases in hydropower generation may reduce greenhouse gas emissions that contribute to climate change. Costs may be recouped through market returns over the project's lifetime, and the change in the dam's operation may even present opportunities for whitewater recreation \
-				downstream (dam releases are popular for river rafting). However, installing turbines or expanding existing power capacity may alter flows and confuse sea-run fish species. Fish may become caught in the grates protecting system intakes, or even killed by turbine blades or rapid \
-				changes in pressure if they are small enough to move through the powerhouse. Actual reservoir storage may change based on overall hydropower operations. <br>\
-
+				"Please consider the decision criteria listed below for Millinocket Dam.\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of criteria based on the case of improved hydropower generation at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
-			htmlOutput("Alt3Progress"),
+			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
-			# Criteria Inputs for Alt 3
+			# Criteria Inputs for Millinocket Dam
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-3",
@@ -374,10 +331,10 @@ ui <- shinyUI(fluidPage(
 				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			#IndigenousHeritage
-			div(id="indig-heritage-3",
-				h3("Indigenous Cultural Heritage"),
-				sliderInput(inputId = "IndigenousHeritage3", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			#IndigenousLifeways
+			div(id="indig-lifeways-3",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways3", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndustrialHistory
 			div(id="industrial-3",
@@ -394,36 +351,42 @@ ui <- shinyUI(fluidPage(
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-
+			#PublicHealth
+			div(id="health-3",
+			    h3("Public Health"),
+			    sliderInput(inputId = "Health3", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-3",
+			    h3("Socio-Environmental Justice"),
+			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			
 			actionButton("updateBtn3", "Update"),
 
-			div(id="alt-3-output",
-				h2("Raw Scores of Alternative 3"),
+			div(id="dam-3-output",
+				h2("Raw Scores for Millinocket Dam"),
 				plotOutput("SummPlot3", height=graph_height, width=graph_width)
 			)
 		), # end
-		#End Alternative 3: Improve hyro generation 
+		#End Millinocket Dam 
 
 
 		tabPanel(
-			#"Alternative 4: Improve hydropower generation AND fish passage",
-			htmlOutput("Alt4"), # status and title
-			h2("Alternative 4: Improve Hydropower Generation AND Fish Passage"),
+			#"East Millinocket Dam",
+			htmlOutput("Dam4"), # status and title
+			h2("East Millinocket Dam"),
 			HTML(
-				"When hydropower generation improvements AND fish passage improvements are made to a dam (powered or non-powered), they may increase survival for sea-run fish species within the watershed. However, installing turbines or expanding existing power capacity may also alter flows\
-				and confuse sea-run fish species, who may be attracted to the water moving through the system intake. Fish may become caught in the grates protecting the system intake, or even killed by turbine blades or rapid changes in pressure if they are small enough to move through \
-				the powerhouse. Annual electricity generation will increase overall, and revenue may help recoup costs over the project's lifetime. Increases in hydropower generation may reduce greenhouse gas emissions that contribute to climate change. Turbine operation may be less efficient \
-				with fish passage (depending on the technology selected), and fish passage costs are typically high. Fish passage may be required by law depending on the species migrating in the waterway, and additional improvements may become required as other species become threatened or \
-				endangered.<br>\
+				"Please consider the decision criteria listed below for East Millinocket Dam. \
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br>Please consider and rate the given set of criteria based on the case of improved hydropower generation AND fish passage at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
-			htmlOutput("Alt4Progress"),
+			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
-			# Criteria Inputs for Alt 4
+			# Criteria Inputs for East Millinocket Dam
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-4",
@@ -465,10 +428,10 @@ ui <- shinyUI(fluidPage(
 				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			#IndigenousHeritage
-			div(id="indig-heritage-4",
-				h3("Indigenous Cultural Heritage"),
-				sliderInput(inputId = "IndigenousHeritage4", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			#IndigenousLifeways
+			div(id="indig-lifeways-4",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways4", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndustrialHistory
 			div(id="industrial-4",
@@ -485,35 +448,42 @@ ui <- shinyUI(fluidPage(
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
+			#PublicHealth
+			div(id="health-4",
+			    h3("Public Health"),
+			    sliderInput(inputId = "Health4", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-4",
+			    h3("Socio-Environmental Justice"),
+			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
 			actionButton("updateBtn4", "Update"),
 
-			div(id="alt-4-output",
-				h2("Raw Scores of Alternative 4"),
+			div(id="dam-4-output",
+				h2("Raw Scores for East Millinocket Dam"),
 				plotOutput("SummPlot4", height=graph_height, width=graph_width)
 			)
 		), # end
-		#End Alternative 4: Improve hydropower and fish passage 
+		#End East Millinocket Dam Tab
 
 		tabPanel(
-			#"Alternative 5: Keep and Maintain Dam",
-			htmlOutput("Alt5"), # status and title
-			h2("Alternative 5: Keep and Maintain Dam"),
+			#"North Twin",
+			htmlOutput("Dam5"), # status and title
+			h2("North Twin Dam"),
 
 			HTML(
-				"Keeping and maintaining the dam is the closest to a \"do-nothing\" option included in this tool. It is the lowest-cost option. Keeping and maintaining the dam may appeal to parties interested in preserving the area's industrial history, preserving the town/city identity for \
-				community residents (if local identity is closely tied to the dam), or preserving the aesthetic value of the impoundment. Maintenance costs may be recouped somewhat if the dam is powered; however, refurbishment, restoration, or maintenance to a non-powered dam presents no direct \
-				opportunity for cost offset. Keeping the dam will likely have no impact on reservoir storage volume, river recreation area, annual electricity generation, or number of properties abutting the reservoir. The impoundment will continue to present a barrier to sea-run fish species, \
-				thereby negatively impacting their survival. And, in the long run, the dam is a temporary piece of infrastructure that may need to be removed. <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+				"Please consider the decision criteria listed below for North Twin Dam. \
+        <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
 
-			htmlOutput("Alt5Progress"),
+			htmlOutput("Dam5Progress"),
 
 			#----------------------------------------
-			# Criteria Inputs for Alt 4
+			# Criteria Inputs for North Twin Dam
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-5",
@@ -555,10 +525,10 @@ ui <- shinyUI(fluidPage(
 				h3("CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			#IndigenousHeritage
-			div(id="indig-heritage-5",
-				h3("Indigenous Cultural Heritage"),
-				sliderInput(inputId = "IndigenousHeritage5", label = indigenousHeritageLabel, value=0, min=0, max=1, step = 0.025)
+			#IndigenousLifeways
+			div(id="indig-lifeways-5",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways5", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			#IndustrialHistory
 			div(id="industrial-5",
@@ -575,16 +545,318 @@ ui <- shinyUI(fluidPage(
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
 			),
+			#PublicHealth
+			div(id="health-5",
+			    h3("Public Health"),
+			    sliderInput(inputId = "Health5", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-5",
+			    h3("Socio-Environmental Justice"),
+			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
 			actionButton("updateBtn5", "Update"),
 
-			div(id="alt-5-output",
-				h2("Raw Scores of Alternative 5"),
+			div(id="dam-5-output",
+				h2("Raw Scores for North Twin Dam"),
 				plotOutput("SummPlot5", height=graph_height, width=graph_width)
 			)
 		), # end
-		#End Alternative 5: Keep and Maintain Dam Tab
+		#End North Twin Dam Tab
 
+		tabPanel(
+		  #"Dolby Dam",
+		  htmlOutput("Dam6"), # status and title
+		  h2("Dolby Dam"),
+		  
+		  HTML(
+		    "Please consider the decision criteria listed below for Dolby Dam. \
+		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+		    <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+		  ),
+		  
+		  htmlOutput("Dam6Progress"),
+		  
+		  #----------------------------------------
+		  # Criteria Inputs for Dolby Dam
+		  #----------------------------------------
+		  #Fish Survival
+		  div(id="fish-survival-6",
+		      h3("Fish Survival"),
+		      sliderInput(inputId = "FishBiomass6", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #River Recreation
+		  div(id="river-rec-6",
+		      h3("River Recreation"),
+		      sliderInput(inputId = "RiverRec6", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Reservoir Storage
+		  div(id="res-storage-6",
+		      h3("Reservoir Storage"),
+		      sliderInput(inputId = "Reservoir6", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Annuitized Project Costs
+		  div(id="ann-proj-costs-6",
+		      h3("Annuitized Project Costs"),
+		      sliderInput(inputId = "ProjectCost6", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Breach Damage Potential
+		  div(id="breach-damage-6",
+		      h3("Breach Damage Potential"),
+		      sliderInput(inputId = "Safety6", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Number of Properties
+		  div(id="num-prop-6",
+		      h3("Number of Properties"),
+		      sliderInput(inputId = "NumProperties6", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Annual Electricity Generation
+		  div(id="ann-elec-gen-6",
+		      h3("Annual Electricity Generation"),
+		      sliderInput(inputId = "ElectricityGeneration6", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #GHGEmissions
+		  div(id="ghg-emissions-6",
+		      h3("CO2 Emissions Reductions"),
+		      sliderInput(inputId = "AvoidEmissions6", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #IndigenousLifeways
+		  div(id="indig-lifeways-6",
+		      h3("Indigenous Cultural Traditions and Lifeways"),
+		      sliderInput(inputId = "IndigenousLifeways6", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #IndustrialHistory
+		  div(id="industrial-6",
+		      h3("Industrial Historical Importance"),
+		      sliderInput(inputId = "IndustrialHistory6", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #CommunityIdentity
+		  div(id="community-6",
+		      h3("Community Identity"),
+		      sliderInput(inputId = "CommunityIdentity6", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Aesthetics
+		  div(id="aesthetics-6",
+		      h3("Aesthetic Value"),
+		      sliderInput(inputId = "Aesthetics6", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #PublicHealth
+		  div(id="health-6",
+		      h3("Public Health"),
+		      sliderInput(inputId = "Health6", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Justice
+		  div(id="justice-6",
+		      h3("Socio-Environmental Justice"),
+		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  
+		  actionButton("updateBtn6", "Update"),
+		  
+		  div(id="dam-6-output",
+		      h2("Raw Scores for Dolby Dam"),
+		      plotOutput("SummPlot6", height=graph_height, width=graph_width)
+		  )
+		), # end
+		#End Dolby Dam Tab
+		
+		tabPanel(
+		  #"Millinocket Lake Dam",
+		  htmlOutput("Dam7"), # status and title
+		  h2("Millinocket Lake Dam"),
+		  
+		  HTML(
+		    "Please consider the decision criteria listed below for Millinocket Lake Dam. \
+		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+		    <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+		  ),
+		  
+		  htmlOutput("Dam7Progress"),
+		  
+		  #----------------------------------------
+		  # Criteria Inputs for Millinocket Lake Dam
+		  #----------------------------------------
+		  #Fish Survival
+		  div(id="fish-survival-7",
+		      h3("Fish Survival"),
+		      sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #River Recreation
+		  div(id="river-rec-7",
+		      h3("River Recreation"),
+		      sliderInput(inputId = "RiverRec7", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Reservoir Storage
+		  div(id="res-storage-7",
+		      h3("Reservoir Storage"),
+		      sliderInput(inputId = "Reservoir7", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Annuitized Project Costs
+		  div(id="ann-proj-costs-7",
+		      h3("Annuitized Project Costs"),
+		      sliderInput(inputId = "ProjectCost7", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Breach Damage Potential
+		  div(id="breach-damage-7",
+		      h3("Breach Damage Potential"),
+		      sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Number of Properties
+		  div(id="num-prop-7",
+		      h3("Number of Properties"),
+		      sliderInput(inputId = "NumProperties7", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Annual Electricity Generation
+		  div(id="ann-elec-gen-7",
+		      h3("Annual Electricity Generation"),
+		      sliderInput(inputId = "ElectricityGeneration7", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #GHGEmissions
+		  div(id="ghg-emissions-7",
+		      h3("CO2 Emissions Reductions"),
+		      sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #IndigenousLifeways
+		  div(id="indig-lifeways-7",
+		      h3("Indigenous Cultural Traditions and Lifeways"),
+		      sliderInput(inputId = "IndigenousLifeways7", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #IndustrialHistory
+		  div(id="industrial-7",
+		      h3("Industrial Historical Importance"),
+		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #CommunityIdentity
+		  div(id="community-7",
+		      h3("Community Identity"),
+		      sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Aesthetics
+		  div(id="aesthetics-7",
+		      h3("Aesthetic Value"),
+		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #PublicHealth
+		  div(id="health-7",
+		      h3("Public Health"),
+		      sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Justice
+		  div(id="justice-7",
+		      h3("Socio-Environmental Justice"),
+		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  
+		  actionButton("updateBtn7", "Update"),
+		  
+		  div(id="dam-7-output",
+		      h2("Raw Scores for Millinocket Lake Dam"),
+		      plotOutput("SummPlot7", height=graph_height, width=graph_width)
+		  )
+		), # end
+		#End Millinocket Lake Dam Tab
+		
+		tabPanel(
+		  #"Ripogenus Dam",
+		  htmlOutput("Dam8"), # status and title
+		  h2("Ripogenus Dam"),
+		  
+		  HTML(
+		    "Please consider the decision criteria listed below for Ripogenus Dam. \
+		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+		    <br> Please consider and rate the given set of criteria based on the case of keeping and maintaining the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+		  ),
+		  
+		  htmlOutput("Dam8Progress"),
+		  
+		  #----------------------------------------
+		  # Criteria Inputs for Ripogenus Dam
+		  #----------------------------------------
+		  #Fish Survival
+		  div(id="fish-survival-8",
+		      h3("Fish Survival"),
+		      sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #River Recreation
+		  div(id="river-rec-8",
+		      h3("River Recreation"),
+		      sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Reservoir Storage
+		  div(id="res-storage-8",
+		      h3("Reservoir Storage"),
+		      sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Annuitized Project Costs
+		  div(id="ann-proj-costs-8",
+		      h3("Annuitized Project Costs"),
+		      sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Breach Damage Potential
+		  div(id="breach-damage-8",
+		      h3("Breach Damage Potential"),
+		      sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Number of Properties
+		  div(id="num-prop-8",
+		      h3("Number of Properties"),
+		      sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Annual Electricity Generation
+		  div(id="ann-elec-gen-8",
+		      h3("Annual Electricity Generation"),
+		      sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #GHGEmissions
+		  div(id="ghg-emissions-8",
+		      h3("CO2 Emissions Reductions"),
+		      sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #IndigenousLifeways
+		  div(id="indig-lifeways-8",
+		      h3("Indigenous Cultural Traditions and Lifeways"),
+		      sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #IndustrialHistory
+		  div(id="industrial-8",
+		      h3("Industrial Historical Importance"),
+		      sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #CommunityIdentity
+		  div(id="community-8",
+		      h3("Community Identity"),
+		      sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Aesthetics
+		  div(id="aesthetics-8",
+		      h3("Aesthetic Value"),
+		      sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #PublicHealth
+		  div(id="health-8",
+		      h3("Public Health"),
+		      sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  #Justice
+		  div(id="justice-8",
+		      h3("Socio-Environmental Justice"),
+		      sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+		  ),
+		  
+		  actionButton("updateBtn8", "Update"),
+		  
+		  div(id="dam-8-output",
+		      h2("Raw Scores for Ripogenus Dam"),
+		      plotOutput("SummPlot8", height=graph_height, width=graph_width)
+		  )
+		), # end
+		#End Ripogenus Dam Tab
+		
+		
 		tabPanel("Results",
 			h2("Results"),
 			HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
@@ -596,7 +868,7 @@ ui <- shinyUI(fluidPage(
 				#tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
 				HTML(
-				  "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every decision alternative were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+				  "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
 					alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
 					up to you as a decision maker to decide what to do with this information. <br>"
 				),

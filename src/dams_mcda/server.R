@@ -51,10 +51,12 @@ criteria_inputs <- c(
 	"NumProperties",
 	"ElectricityGeneration",
 	"AvoidEmissions",
-	"IndigenousHeritage",
+	"IndigenousLifeways",
 	"IndustrialHistory",
 	"CommunityIdentity",
-	"Aesthetics"
+	"Aesthetics",
+	"Health",
+	"Justice"
 )
 
 # criteria display names (for labeling tables and graphs)
@@ -67,10 +69,12 @@ criteria_names <- c(
 	"Number of Properties Impacted",
 	"Annual Electricity Generation",
 	"CO2 Emissions Reduction",
-	"Indigenous Cultural Heritage",
+	"Indigenous Cultural Traditions and Lifeways",
 	"Industrial Historical Value",
-	"Town/City Identity",
-	"Aesthetic Value"
+	"Community Identity",
+	"Aesthetic Value", 
+	"Public Health",
+	"Socio-Environmental Justice"
 )
 
 # alternative display names (for labeling tables and graphs)
@@ -152,13 +156,13 @@ loadData <- function() {
 }
 
 
-# updateAlternativeStatus
+# updateDamStatus
 #----------------------------------------
 # remove and refill progress of a status
 # action is status to apply "remove" or "add"
-updateAlternativeStatus <- function(completed, action, id){
+updateDamStatus <- function(completed, action, id){
 	message('------------------')
-	message('updateAlternativeStatus vector')
+	message('updateDamStatus vector')
 	message('------------------')
 
 	if (id %in% completed & action == "remove"){
@@ -166,23 +170,23 @@ updateAlternativeStatus <- function(completed, action, id){
 	}else if (action =="add" & !(id %in% completed)){
 		completed <- c(completed, id)
 	}else{
-		#message('no Alternative Status Changes')
+		#message('no Dam Status Changes')
 	}
 	return(completed)
 }
 
 
-# alternativesCompleted
+# damsCompleted
 #----------------------------------------
-# check all available_alternatives are in alternatives_completed
+# check all available_Dams are in Dams_completed
 # returns boolean
-alternativesCompleted <- function(completed){
+damsCompleted <- function(completed){
 	message('------------------')
-	message('bool alternativesCompleted(array_completed)')
+	message('bool damsCompleted(array_completed)')
 	message('------------------')
 
-	# available_alternatives is array of alt sections ids
-	for (value in available_alternatives){
+	# available_dams is array of dam sections ids
+	for (value in available_dams){
 		if (!(value %in% completed)){
 			return(FALSE)
 		}
@@ -200,17 +204,17 @@ server <- function(input, output, session) {
 
 	#------------------------------------------------------------
 	# updateAlt1
-	# logic for updating alternative 1
+	# logic for updating West Enfield Dam
 	#------------------------------------------------------------
-	updateAlt1 <- function (){
+	updateDam1 <- function (){
 		# update the tab status
-		output$Alt1 <- renderUI(list(
-			"Alternative 1: Remove Dam",
-			tags$span('Complete', class="alt-complete")
+		output$Dam1 <- renderUI(list(
+			"West Enfield Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt1 <- c(
+		Dam1 <- c(
 			input$FishBiomass1,
 			input$RiverRec1,
 			input$Reservoir1,
@@ -219,21 +223,23 @@ server <- function(input, output, session) {
 			input$NumProperties1,
 			input$ElectricityGeneration1,
 			input$AvoidEmissions1,
-			input$IndigenousHeritage1,
+			input$IndigenousLifeways1,
 			input$IndustrialHistory1,
 			input$CommunityIdentity1,
-			input$Aesthetics1
+			input$Aesthetics1,
+			input$Health1,
+			input$Justice1
 		)
 
 		# create table matrix 1x5
-		Alt1_Table <- as.matrix(data.frame(Alt1))
-		row.names(Alt1_Table) <- criteria_names
-		names(Alt1_Table) <- "Raw Score"
+		Dam1_Table <- as.matrix(data.frame(Dam1))
+		row.names(Dam1_Table) <- criteria_names
+		names(Dam1_Table) <- "Raw Score"
 
 		# results
 		output$SummPlot1 <- renderBarPlot(
-								Alt1, # data
-								"Raw Scores of Alternative 1", # title
+								Dam1, # data
+								"Raw Scores for West Enfield Dam", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -241,24 +247,24 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
-		shinyjs::show(id="alt-1-output")
+		shinyjs::show(id="dam-1-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 1)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['damss_completed']], "add", 1)
 	}
 
 	#------------------------------------------------------------
-	# updateAlt2
-	# logic for updating alternative 2
+	# updateDam2
+	# logic for updating Medway Dam
 	#------------------------------------------------------------
-	updateAlt2 <- function() {
-		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage",
-			tags$span('Complete', class="alt-complete")
+	updateDam2 <- function() {
+		output$Dam2 <- renderUI(list(
+			"Medway Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 		# get decision inputs
-		Alt2 <- c(
+		Dam2 <- c(
 			input$FishBiomass2,
 			input$RiverRec2,
 			input$Reservoir2,
@@ -267,21 +273,23 @@ server <- function(input, output, session) {
 			input$NumProperties2,
 			input$ElectricityGeneration2,
 			input$AvoidEmissions2,
-			input$IndigenousHeritage2,
+			input$IndigenousLifeways2,
 			input$IndustrialHistory2,
 			input$CommunityIdentity2,
-			input$Aesthetics2
+			input$Aesthetics2,
+			input$Health2,
+			input$Justice2
 			)
 
 		# create table matrix 1x5
-		Alt2_Table <- as.matrix(data.frame(Alt2))
-		row.names(Alt2_Table) <- criteria_names
-		names(Alt2_Table) <- "Raw Score"
+		Dam2_Table <- as.matrix(data.frame(Dam2))
+		row.names(Dam2_Table) <- criteria_names
+		names(Dam2_Table) <- "Raw Score"
 
 		# results
 		output$SummPlot2 <- renderBarPlot(
-								Alt2, # data
-								"Raw Scores of Alternative 2", # title
+								Dam2, # data
+								"Raw Scores for Medway Dam", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -289,25 +297,25 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
-		shinyjs::show(id="alt-2-output")
+		shinyjs::show(id="dam-2-output")
 
-		# mark the alternative as complete when update
+		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 2)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 2)
 	}
 
 	#------------------------------------------------------------
-	# updateAlt3
-	# logic for updating alternative 3
+	# updateDam3
+	# logic for updating Millinocket Dam
 	#------------------------------------------------------------
-	updateAlt3 <- function() {
-		output$Alt3 <- renderUI(list(
-			"Alternative 3: Improve Hydropower Generation",
-			tags$span('Complete', class="alt-complete")
+	updateDam3 <- function() {
+		output$Dam3 <- renderUI(list(
+			"Millinocket Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt3 <- c(
+		Dam3 <- c(
 			input$FishBiomass3,
 			input$RiverRec3,
 			input$Reservoir3,
@@ -316,22 +324,24 @@ server <- function(input, output, session) {
 			input$NumProperties3,
 			input$ElectricityGeneration3,
 			input$AvoidEmissions3,
-			input$IndigenousHeritage3,
+			input$IndigenousLifeways3,
 			input$IndustrialHistory3,
 			input$CommunityIdentity3,
-			input$Aesthetics3
+			input$Aesthetics3,
+			input$Health3,
+			input$Justice3
 			)
 
 
 		# create table matrix 1x5
-		Alt3_Table <- as.matrix(data.frame(Alt3))
-		row.names(Alt3_Table) <- criteria_names
-		names(Alt3_Table) <- "Raw Score"
+		Dam3_Table <- as.matrix(data.frame(Dam3))
+		row.names(Dam3_Table) <- criteria_names
+		names(Dam3_Table) <- "Raw Score"
 
 		# results
 		output$SummPlot3 <- renderBarPlot(
-								Alt3, # data
-								"Raw Scores of Alternative 3", # title
+								Dam3, # data
+								"Raw Scores for Millinocket Dam", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -339,25 +349,25 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
-		shinyjs::show(id="alt-3-output")
-		# mark the alternative as complete when update
+		shinyjs::show(id="dam-3-output")
+		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 3)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 3)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 3)
 	}
 
 	#------------------------------------------------------------
-	# updateAlt4
-	# logic for updating alternative 4
+	# updateDam4
+	# logic for updating East Millinocket Dam
 	#------------------------------------------------------------
-	updateAlt4 <- function() {
-		output$Alt4 <- renderUI(list(
-			"Alternative 4: Improve Hydropower Generation AND Fish Passage",
-			tags$span('Complete', class="alt-complete")
+	updateDam4 <- function() {
+		output$Dam4 <- renderUI(list(
+			"East Millinocket Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt4 <- c(
+		Dam4 <- c(
 			input$FishBiomass4,
 			input$RiverRec4,
 			input$Reservoir4,
@@ -366,21 +376,23 @@ server <- function(input, output, session) {
 			input$NumProperties4,
 			input$ElectricityGeneration4,
 			input$AvoidEmissions4,
-			input$IndigenousHeritage4,
+			input$IndigenousLifeways4,
 			input$IndustrialHistory4,
 			input$CommunityIdentity4,
-			input$Aesthetics4
+			input$Aesthetics4,
+			input$Health4,
+			input$Justice4
 			)
 
 		# create table matrix 1x5
-		Alt4_Table <- as.matrix(data.frame(Alt4))
-		row.names(Alt4_Table) <- criteria_names
-		names(Alt4_Table) <- "Raw Score"
+		Dam4_Table <- as.matrix(data.frame(Dam4))
+		row.names(Dam4_Table) <- criteria_names
+		names(Dam4_Table) <- "Raw Score"
 
 		# results
 		output$SummPlot4 <- renderBarPlot(
-								Alt4, # data
-								"Raw Scores of Alternative 4", # title
+								Dam4, # data
+								"Raw Scores for East Millinocket Dam", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -388,26 +400,26 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
-		shinyjs::show(id="alt-4-output")
+		shinyjs::show(id="dam-4-output")
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 4)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 4)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 4)
 	}
 
 
 	#------------------------------------------------------------
-	# updateAlt5
-	# logic for updating alternative 5
+	# updateDam5
+	# logic for updating North Twin Dam
 	#------------------------------------------------------------
-	updateAlt5 <- function() {
-		output$Alt5 <- renderUI(list(
-			"Alternative 5: Keep and Maintain Dam",
-			tags$span('Complete', class="alt-complete")
+	updateDam5 <- function() {
+		output$Dam5 <- renderUI(list(
+			"North Twin Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt5 <- c(
+		Dam5 <- c(
 			input$FishBiomass5,
 			input$RiverRec5,
 			input$Reservoir5,
@@ -416,21 +428,23 @@ server <- function(input, output, session) {
 			input$NumProperties5,
 			input$ElectricityGeneration5,
 			input$AvoidEmissions5,
-			input$IndigenousHeritage5,
+			input$IndigenousLifeways5,
 			input$IndustrialHistory5,
 			input$CommunityIdentity5,
-			input$Aesthetics5
+			input$Aesthetics5,
+			input$Health5,
+			input$Justice5
 		)
 
 		# create table matrix 1x5
-		Alt5_Table <- as.matrix(data.frame(Alt5))
-		row.names(Alt5_Table) <- criteria_names
-		names(Alt5_Table) <- "Raw Score"
+		Dam5_Table <- as.matrix(data.frame(Dam5))
+		row.names(Dam5_Table) <- criteria_names
+		names(Dam5_Table) <- "Raw Score"
 
 		# results
 		output$SummPlot5 <- renderBarPlot(
-								Alt5, # data
-								"Raw Scores of Alternative 5", # title
+								Dam5, # data
+								"Raw Scores for North Twin Dam", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -438,25 +452,176 @@ server <- function(input, output, session) {
 								NULL, # x value limit
 								score_range # y value limit (1-5 value range)
 							)
-		shinyjs::show(id="alt-5-output")
-		# mark the alternative as complete when update
+		shinyjs::show(id="dam-5-output")
+		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 5)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 5)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 5)
 	}
 
-
+	#------------------------------------------------------------
+	# updateDam6
+	# logic for updating Dolby Dam
+	#------------------------------------------------------------
+	updateDam6 <- function() {
+	  output$Dam6 <- renderUI(list(
+	    "Dolby Dam",
+	    tags$span('Complete', class="dam-complete")
+	  ))
+	  
+	  # get decision inputs
+	  Dam6 <- c(
+	    input$FishBiomass6,
+	    input$RiverRec6,
+	    input$Reservoir6,
+	    input$ProjectCost6,
+	    input$Safety6,
+	    input$NumProperties6,
+	    input$ElectricityGeneration6,
+	    input$AvoidEmissions6,
+	    input$IndigenousLifeways6,
+	    input$IndustrialHistory6,
+	    input$CommunityIdentity6,
+	    input$Aesthetics6,
+	    input$Health6,
+	    input$Justice6
+	  )
+	  
+	  # create table matrix 1x5
+	  Dam6_Table <- as.matrix(data.frame(Dam6))
+	  row.names(Dam6_Table) <- criteria_names
+	  names(Dam6_Table) <- "Raw Score"
+	  
+	  # results
+	  output$SummPlot6 <- renderBarPlot(
+	    Dam6, # data
+	    "Raw Scores for Dolby Dam", # title
+	    criteria_names, # x_labels
+	    "Topic", # x axis label
+	    "Score", # y axis label
+	    colors, # colors
+	    NULL, # x value limit
+	    score_range # y value limit (1-5 value range)
+	  )
+	  shinyjs::show(id="dam-6-output")
+	  # mark the dam as complete when update
+	  # or apply logic here to make other contstraints for "complete"
+	  #updateAlternativeStatus("add", 6)
+	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 6)
+	}
+	
+	#------------------------------------------------------------
+	# updateDam7
+	# logic for updating Millinocket Lake Dam
+	#------------------------------------------------------------
+	updateDam7 <- function() {
+	  output$Dam7 <- renderUI(list(
+	    "Millinocket Lake Dam",
+	    tags$span('Complete', class="dam-complete")
+	  ))
+	  
+	  # get decision inputs
+	  Dam7 <- c(
+	    input$FishBiomass7,
+	    input$RiverRec7,
+	    input$Reservoir7,
+	    input$ProjectCost7,
+	    input$Safety7,
+	    input$NumProperties7,
+	    input$ElectricityGeneration7,
+	    input$AvoidEmissions7,
+	    input$IndigenousLifeways7,
+	    input$IndustrialHistory7,
+	    input$CommunityIdentity7,
+	    input$Aesthetics7,
+	    input$Health7,
+	    input$Justice7
+	  )
+	  
+	  # create table matrix 1x5
+	  Dam7_Table <- as.matrix(data.frame(Dam7))
+	  row.names(Dam7_Table) <- criteria_names
+	  names(Dam7_Table) <- "Raw Score"
+	  
+	  # results
+	  output$SummPlot7 <- renderBarPlot(
+	    Dam7, # data
+	    "Raw Scores for Millinocket Lake Dam", # title
+	    criteria_names, # x_labels
+	    "Topic", # x axis label
+	    "Score", # y axis label
+	    colors, # colors
+	    NULL, # x value limit
+	    score_range # y value limit (1-5 value range)
+	  )
+	  shinyjs::show(id="dam-7-output")
+	  # mark the dam as complete when update
+	  # or apply logic here to make other contstraints for "complete"
+	  #updateAlternativeStatus("add", 7)
+	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 7)
+	}
+	
+	#------------------------------------------------------------
+	# updateDam8
+	# logic for updating Ripogenus Dam
+	#------------------------------------------------------------
+	updateDam8 <- function() {
+	  output$Dam8 <- renderUI(list(
+	    "Ripogenus Dam",
+	    tags$span('Complete', class="dam-complete")
+	  ))
+	  
+	  # get decision inputs
+	  Dam8 <- c(
+	    input$FishBiomass8,
+	    input$RiverRec8,
+	    input$Reservoir8,
+	    input$ProjectCost8,
+	    input$Safety8,
+	    input$NumProperties8,
+	    input$ElectricityGeneration8,
+	    input$AvoidEmissions8,
+	    input$IndigenousLifeways8,
+	    input$IndustrialHistory8,
+	    input$CommunityIdentity8,
+	    input$Aesthetics8,
+	    input$Health8,
+	    input$Justice8
+	  )
+	  
+	  # create table matrix 1x5
+	  Dam8_Table <- as.matrix(data.frame(Dam8))
+	  row.names(Dam8_Table) <- criteria_names
+	  names(Dam8_Table) <- "Raw Score"
+	  
+	  # results
+	  output$SummPlot8 <- renderBarPlot(
+	    Dam8, # data
+	    "Raw Scores for Ripogenus Dam", # title
+	    criteria_names, # x_labels
+	    "Topic", # x axis label
+	    "Score", # y axis label
+	    colors, # colors
+	    NULL, # x value limit
+	    score_range # y value limit (1-5 value range)
+	  )
+	  shinyjs::show(id="dam-8-output")
+	  # mark the dam as complete when update
+	  # or apply logic here to make other contstraints for "complete"
+	  #updateAlternativeStatus("add", 8)
+	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 8)
+	}
 	#------------------------------------------------------------
 	# generateOutput
 	# generate the final table and barplot
 	#------------------------------------------------------------
 	generateOutput <- function (){
 
-	    if ( !alternativesCompleted(session$userData[['alternatives_completed']]) ){
+	    if ( !damsCompleted(session$userData[['dams_completed']]) ){
 			# user isnt finished filling out alternatives
 			showModal(modalDialog(
 				title = "Not Finished!",
-				'Please Complete All Alternatives before generating results'
+				'Please complete all dams tabs before generating results'
 			))
 
 		}else{
@@ -645,26 +810,37 @@ server <- function(input, output, session) {
 		# Initial Alternative Tabs Text
 		#----------------------------------------
 		output$Alt1 <- renderUI(list(
-			"Alternative 1: Dam Removal",
+			"West Enfield Dam",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage",
+			"Medway Dam",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt3 <- renderUI(list(
-			"Alternative 3: Improve Hydropower Generation",
+			"Millinocket Dam",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt4 <- renderUI(list(
-			"Alternative 4: Improve Hydropower Generation AND Fish Passage",
+			"East Millinocket Dam",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
 		output$Alt5 <- renderUI(list(
-			"Alternative 5: Keep and Maintain Dam",
+			"North Twin Dam",
 			tags$span('Requires User Input', class="alt-not-complete")
 		))
-
+		output$Alt6 <- renderUI(list(
+		  "Dolby Dam",
+		  tags$span('Requires User Input', class="alt-not-complete")
+		))
+		output$Alt7 <- renderUI(list(
+		  "Millinocket Lake Dam",
+		  tags$span('Requires User Input', class="alt-not-complete")
+		))
+		output$Alt8 <- renderUI(list(
+		  "Ripogenus Dam",
+		  tags$span('Requires User Input', class="alt-not-complete")
+		))
 	})
 
 	#------------------------------------------------------------
@@ -711,10 +887,34 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
+	# alt6
+	progress6 <- reactive({
+	  sum <- 0.0
+	  for (id in criteria_inputs){
+	    sum <- as.numeric(sum + input[[paste0(id, toString(6))]])
+	  }
+	  return(sum)
+	})
+	# alt7
+	progress5 <- reactive({
+	  sum <- 0.0
+	  for (id in criteria_inputs){
+	    sum <- as.numeric(sum + input[[paste0(id, toString(7))]])
+	  }
+	  return(sum)
+	})
+	# alt8
+	progress5 <- reactive({
+	  sum <- 0.0
+	  for (id in criteria_inputs){
+	    sum <- as.numeric(sum + input[[paste0(id, toString(8))]])
+	  }
+	  return(sum)
+	})
 
 	# alt1
 	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 1, ": "),
+		paste0("Progress for Dam", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
@@ -722,7 +922,7 @@ server <- function(input, output, session) {
 	))
 	# alt2
 	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 2, ": "),
+		paste0("Progress for Dam", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
@@ -730,7 +930,7 @@ server <- function(input, output, session) {
 	))
 	# alt3
 	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 3, ": "),
+		paste0("Progress for Dam", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
@@ -738,7 +938,7 @@ server <- function(input, output, session) {
 	))
 	# alt4
 	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 4, ": "),
+		paste0("Progress for Dam", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
@@ -746,19 +946,42 @@ server <- function(input, output, session) {
 	))
 	# alt5
 	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 5, ": "),
+		paste0("Progress for Dam", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
-
+	# alt6
+	output[[paste0("Alt", 6,"Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam", 6, ": "),
+	  if( progress6() > upper_bound || progress6() < lower_bound)
+	    tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+	  else
+	    tags$span("1.0 / 1.0", class="complete")
+	))
+	# alt7
+	output[[paste0("Alt", 7,"Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam", 7, ": "),
+	  if( progress7() > upper_bound || progress7() < lower_bound)
+	    tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+	  else
+	    tags$span("1.0 / 1.0", class="complete")
+	))
+	# alt8
+	output[[paste0("Alt", 8,"Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam", 8, ": "),
+	  if( progress8() > upper_bound || progress8() < lower_bound)
+	    tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+	  else
+	    tags$span("1.0 / 1.0", class="complete")
+	))
 	#--------------------------------------------------------------------------------
 	# Alternative Update Event Listeners
 	# these trigger the updates on button click
 	#--------------------------------------------------------------------------------
 
-	# ALTERNATIVE 1
+	# West Enfield
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
 		if(progress1() > upper_bound || progress1() < lower_bound){
@@ -771,7 +994,7 @@ server <- function(input, output, session) {
 		}
 	})
 
-	# ALTERNATIVE 2
+	# Medway
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
 		if(progress2() > upper_bound || progress2() < lower_bound){
@@ -784,7 +1007,7 @@ server <- function(input, output, session) {
 		}
 	})
 
-	# ALTERNATIVE 3
+	# Millinocket
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
 		if(progress3() > upper_bound || progress3() < lower_bound){
@@ -797,7 +1020,7 @@ server <- function(input, output, session) {
 		}
 	})
 
-	# ALTERNATIVE 4
+	# East Millinocket 
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
 		if(progress4() > upper_bound || progress4() < lower_bound){
@@ -810,7 +1033,7 @@ server <- function(input, output, session) {
 		}
 	})
 
-	# ALTERNATIVE 5
+	# North Twin
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
 		if(progress5() > upper_bound || progress5() < lower_bound){
@@ -821,6 +1044,42 @@ server <- function(input, output, session) {
 		}else{
 			updateAlt5()
 		}
+	})
+	# Dolby
+	#----------------------------------------
+	observeEvent(input$updateBtn6, {
+	  if(progress6() > upper_bound || progress6() < lower_bound){
+	    showModal(modalDialog(
+	      title = "Not Finished!",
+	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
+	    ))
+	  }else{
+	    updateAlt6()
+	  }
+	})
+	# Millinocket Lake
+	#----------------------------------------
+	observeEvent(input$updateBtn7, {
+	  if(progress7() > upper_bound || progress7() < lower_bound){
+	    showModal(modalDialog(
+	      title = "Not Finished!",
+	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
+	    ))
+	  }else{
+	    updateAlt7()
+	  }
+	})
+	# Ripogenus Dam
+	#----------------------------------------
+	observeEvent(input$updateBtn8, {
+	  if(progress8() > upper_bound || progress8() < lower_bound){
+	    showModal(modalDialog(
+	      title = "Not Finished!",
+	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
+	    ))
+	  }else{
+	    updateAlt8()
+	  }
 	})
 
 	#--------------------------------------------------------------------------------
@@ -842,6 +1101,9 @@ server <- function(input, output, session) {
 		updateAlt3()
 		updateAlt4()
 		updateAlt5()
+		updateAlt6()
+		updateAlt7()
+		updateAlt8()
 		# generate
 		generateOutput()
 	})
