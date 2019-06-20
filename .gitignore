@@ -10,5 +10,9 @@ src/dams_mcda/responses/*
 
 # dont track matlab ISO
 matlab-source/*
+
 # dont track license file
 matlab-license/*
+
+# dont track sams source files
+SamMATLAB/*
