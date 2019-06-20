@@ -32,6 +32,8 @@ RUN chown root:shiny -R /usr/local
 COPY ./install-matlab.sh /
 RUN chmod 775 /install-matlab.sh
 
+RUN usermod -u 1000 shiny
+
 USER shiny
 WORKDIR /
 # set entrypoint in docker-compose for switching entrypoint without rebuilding
