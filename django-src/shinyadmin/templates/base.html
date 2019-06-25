@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}Dams MCDA{% endblock %}</title>
+	</head>
+
+	<body>
+		<main>
+			<!-- content -->
+			{% block content %}{% endblock %}
+
+			{% block login %}
+				<!-- login/logout -->
+				{% if user.is_authenticated %}
+					Hi {{ user.username }}!
+					<p><a href="{% url 'logout' %}">logout</a></p>
+				{% else %}
+					<p>You are not logged in</p>
+					<a href="{% url 'login' %}">login</a>
+				{% endif %}
+			{% endblock login %}
+		</main>
+	</body>
+</html>

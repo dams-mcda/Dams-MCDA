@@ -16,3 +16,10 @@ matlab-license/*
 
 # dont track sams source files
 SamMATLAB/*
+
+# python compiled files
+*.pyc
+
+# collected static
+django-src/shinyadmin/collected_static/*
+

@@ -14,6 +14,7 @@ RUN Rscript -e "install.packages('shinyjs')"
 RUN Rscript -e "install.packages('Cairo')"
 RUN Rscript -e "install.packages('plotly')"
 RUN Rscript -e "install.packages('R.matlab')"
+RUN Rscript -e "install.packages('rgdal')"
 
 # root for folder permissions
 USER root
