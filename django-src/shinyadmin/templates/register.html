@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+	<h2>Register</h2>
+
+	{% if errors %}
+		<p style="color:red;">
+			{{ errors }}
+		</p>
+	{% endif %}
+
+	<form method="post">
+		{% csrf_token %}
+		<div>
+		{% for field in form %}
+			{{ field.label }}
+
+			{% if field.errors %}
+			<span style="color:red;">
+				{{ field.errors }}
+			</span>
+			{% endif %}
+
+			{{ field }}<br>
+
+			{% if field.help_text %}
+			<span style="color:grey; font-size:0.8em;">
+				{{ field.help_text }}
+			</span>
+			<br>
+			{% endif %}
+
+		{% endfor %}
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+{% endblock %}
+
+{% block login %}
+<!-- remove login links from page -->
+{% endblock login %}

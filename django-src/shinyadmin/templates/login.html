@@ -16,6 +16,13 @@
 		{{ form.as_p }}
 		<button type="submit">Login</button>
 	</form>
+	<a href="{% url 'register' %}">
+		Create an account
+	</a>
+
+	{# Assumes you setup the password_reset view in your URLconf #}
+	<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
 {% endblock %}
 
 {% block login %}

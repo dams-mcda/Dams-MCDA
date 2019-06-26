@@ -13,6 +13,9 @@ class DamsMCDAGroup(models.Model):
         verbose_name = 'Dams MCDA Group'
         verbose_name_plural = 'Dams MCDA Groups'
 
+    def __str__(self):
+        return "{}".format(self.name)
+
 
 class DamsMCDAUser(AbstractUser):
     """
@@ -24,3 +27,9 @@ class DamsMCDAUser(AbstractUser):
     class Meta:
         verbose_name = 'Dams MCDA User'
         verbose_name_plural = 'Dams MCDA Users'
+
+    def __str__(self):
+        if self.group:
+            return "{0} Group:{1}".format(self.username, self.group)
+        else:
+            return "{0}".format(self.username)

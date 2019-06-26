@@ -137,3 +137,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "collected_static")
 STATIC_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# Email Related
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# if you want to store emails
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
