@@ -53,11 +53,12 @@ ui <- shinyUI(fluidPage(
 	titlePanel("Dam Decision Support Tool"),
 
 	navlistPanel(
+	  "Step 1",
 		# Define layout widths
 		widths = c(2,10),
 
 		#Define Instructions tab
-		tabPanel("Step 1: Start Here",
+		tabPanel("Start Here",
 			htmlOutput("Step 1: Start Here"),
 			h2("Step 1: Start Here"),
 			HTML(
@@ -80,7 +81,11 @@ ui <- shinyUI(fluidPage(
       "
 			 )
 		),
-
+    "Step 2: View Existing Dam Map", 
+		tabPanel(
+		  
+		),
+		"Step 3: Enter Preferences",
 		tabPanel(
 			htmlOutput("Dam1"), # status and title
 			h2("West Enfield Dam"),
@@ -856,9 +861,9 @@ ui <- shinyUI(fluidPage(
 		), # end
 		#End Ripogenus Dam Tab
 		
-		
-		tabPanel("Results",
-			h2("Results"),
+		"Step 4: View Results",
+		tabPanel("Results: West Enfield Dam",
+			h2("Results: West Enfield Dam"),
 			HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
 			# generate event
 			actionButton("generateMatrix", "Generate"),
@@ -904,14 +909,343 @@ ui <- shinyUI(fluidPage(
 				downloadButton("downloadData", "Download")
 			)
 		),
+		tabPanel("Results: Medway Dam",
+		         h2("Results: Medway Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+		               the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+		               alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		             ),
+		tabPanel("Results: Millinocket Dam",
+		         h2("Results: Millinocket Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+		               the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+		               alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		             ),
+		tabPanel("Results: East Millinocket Dam",
+		         h2("Results: East Millinocket Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+		               the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+		               alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		             ),
+		tabPanel("Results: North Twin Dam",
+		         h2("Results: North Twin Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+				  the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+				  <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 
+					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+
+					<br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+					 alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		         ),
+		tabPanel("Results: Dolby Dam",
+		         h2("Results: Dolby Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+		               the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+		               alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		             ),
+		tabPanel("Results: Millinocket Lake Dam",
+		         h2("Results: Millinocket Lake Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+		               the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+		               alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		             ),
+		tabPanel("Results: Ripogenus Dam",
+		         h2("Results: Ripogenus Dam"),
+		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         # generate event
+		         actionButton("generateMatrix", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
+		               alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
+		               up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 1. Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot1", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Figure 2 Interpretation</b>: The decision criterion with the largest bar shows where your greatest overall preference lies. Sometimes, preferences for decision criteria change from one decision alternative to another. You may see variation between\
+		               the ratings you chose between decision alternatives. What does this tell you about how you make decisions? It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
+		             ),
+		             
+		             h3('Figure 2. Total Decision Criteria Scores by Decision Alternative'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot2", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria under each decision alternative? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: If you are participating in the Dam Decision-Making Workshop, the numerical preference values you entered in this Dam Decision Support Tool will be used to generate an optimized multi-dam decision scenario. This scenario, or collection of dams with different decision \
+		               alternative results, is created using a Weighted Sum Multi-Criteria Decision Analysis (MCDA) with Multi-Objective Genetic Algortihm (MOGA). Your preference values, entered here, help the MCDA-MOGA to identify the 'optimal' outcome. Please download your results at this time."
+		             ),
+		             
+		             h3('Download Results'),
+		             downloadButton("downloadData", "Download")
+		             )
+		             ),
 		tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
 				 "<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
 				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
-				 <br><b>Sharon Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
+				 <br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
          definitions, revised app text.<br> \
+         <br><b>Dr. Samuel G. Roy </b>- Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine) for the Dam Decision Support Tool. Developed Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and preference weighting.\
 				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations for user interface and app function.<br>"
 			 )
 		),
