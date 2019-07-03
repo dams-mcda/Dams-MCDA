@@ -30,7 +30,7 @@ services:
     #restart: always
     entrypoint:
       - bash
-      - install-matlab.sh
+      - /srv/shiny-server/install-matlab.sh
 
 
   shiny_db:

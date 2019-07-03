@@ -29,10 +29,6 @@ RUN adduser shiny docker
 # install folder permissions
 RUN chown root:shiny -R /usr/local
 
-# copy over matlab
-COPY ./install-matlab.sh /
-RUN chmod 775 /install-matlab.sh
-
 RUN usermod -u 1000 shiny
 
 USER shiny

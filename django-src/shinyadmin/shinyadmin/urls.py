@@ -42,4 +42,7 @@ urlpatterns = [
     path('password_reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_confirm.html"), name="password_reset_confirm"),
     # user password reset complete (post user confirms new password)
     path('password_reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"), name="password_reset_complete"),
+
+    # returns username and session info
+    path('api/get_user_session/', core_views.get_user_session, name="get_user_session"),
 ]

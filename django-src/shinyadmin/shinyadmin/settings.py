@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # django rest framework
+    'rest_framework',
     # core app contains modifications to user and addition of group
     'core',
 ]

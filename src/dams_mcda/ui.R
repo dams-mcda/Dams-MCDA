@@ -40,6 +40,10 @@ ui <- shinyUI(fluidPage(
 	# used for toggling display of elements
 	shinyjs::useShinyjs(),
 
+	includeScript("www/dams_mcda.js"),
+	actionButton("getAuthSession", "Get Auth Session"),
+	textOutput("userText"),
+
 	# link css
 	tags$head(
 		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")

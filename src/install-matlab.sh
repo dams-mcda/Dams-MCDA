@@ -9,7 +9,7 @@ fileInstallKey=$(</media/matlab-license/fileInstallKey.txt)
 # copy license file over to install directory
 cp /media/matlab-license/license.lic /usr/local/MATLAB/R2019a/licenses/license.lic
 
-# run matlab
+# run matlab (shiny launches matlab but leaving here for reference)
 #./usr/local/MATLAB/R2019a/bin/matlab -nodesktop -nosplash -nodisplay &
 
 # fix matlab glnxa64 binaries
