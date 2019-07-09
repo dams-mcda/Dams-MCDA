@@ -13,6 +13,9 @@ library(ggplot2)
 library(dplyr)
 library(shinyjs)
 library(Cairo)
+library(RColorBrewer)
+library(spatstat)
+library(rgdal)
 
 options(shiny.usecairo=T)
 
@@ -81,14 +84,22 @@ ui <- shinyUI(fluidPage(
       "
 			 )
 		),
-    "Step 2: View Existing Dam Map", 
+		
+    "Step 2: View Dam Map", 
 		tabPanel(
-		  
-		),
+		  htmlOutput("Map1"), # status and title
+		  h2("Existing FERC Dams Map"),
+		  HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
+		       <br>for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
+		       <br>Hover over the dams on the map for more information on each site.<br>\
+		       <br><b>Click HERE for additional resources.</b><br>"
+		    )
+		  ),
+		
 		"Step 3: Enter Preferences",
 		tabPanel(
 			htmlOutput("Dam1"), # status and title
-			h2("West Enfield Dam"),
+			h2("West Enfield Dam (FERC No. P-"),
 			HTML("Please consider the decision criteria listed below for West Enfield Dam. \
          <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
          increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
