@@ -239,7 +239,7 @@ server <- function(input, output, session) {
 		# results
 		output$SummPlot1 <- renderBarPlot(
 								Dam1, # data
-								"Raw Scores for West Enfield Dam", # title
+								"Raw Preference Scores for West Enfield", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -289,7 +289,7 @@ server <- function(input, output, session) {
 		# results
 		output$SummPlot2 <- renderBarPlot(
 								Dam2, # data
-								"Raw Scores for Medway Dam", # title
+								"Raw Preference Scores for Medway", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -341,7 +341,7 @@ server <- function(input, output, session) {
 		# results
 		output$SummPlot3 <- renderBarPlot(
 								Dam3, # data
-								"Raw Scores for Millinocket Dam", # title
+								"Raw Preference Scores for Millinocket", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -392,7 +392,7 @@ server <- function(input, output, session) {
 		# results
 		output$SummPlot4 <- renderBarPlot(
 								Dam4, # data
-								"Raw Scores for East Millinocket Dam", # title
+								"Raw Preference Scores for East Millinocket", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -444,7 +444,7 @@ server <- function(input, output, session) {
 		# results
 		output$SummPlot5 <- renderBarPlot(
 								Dam5, # data
-								"Raw Scores for North Twin Dam", # title
+								"Raw Preference Scores for North Twin", # title
 								criteria_names, # x_labels
 								"Topic", # x axis label
 								"Score", # y axis label
@@ -495,7 +495,7 @@ server <- function(input, output, session) {
 	  # results
 	  output$SummPlot6 <- renderBarPlot(
 	    Dam6, # data
-	    "Raw Scores for Dolby Dam", # title
+	    "Raw Preference Scores for Dolby", # title
 	    criteria_names, # x_labels
 	    "Topic", # x axis label
 	    "Score", # y axis label
@@ -546,7 +546,7 @@ server <- function(input, output, session) {
 	  # results
 	  output$SummPlot7 <- renderBarPlot(
 	    Dam7, # data
-	    "Raw Scores for Millinocket Lake Dam", # title
+	    "Raw Preference Scores for Millinocket Lake", # title
 	    criteria_names, # x_labels
 	    "Topic", # x axis label
 	    "Score", # y axis label
@@ -597,7 +597,7 @@ server <- function(input, output, session) {
 	  # results
 	  output$SummPlot8 <- renderBarPlot(
 	    Dam8, # data
-	    "Raw Scores for Ripogenus Dam", # title
+	    "Raw Preference Scores for Ripogenus", # title
 	    criteria_names, # x_labels
 	    "Topic", # x axis label
 	    "Score", # y axis label
