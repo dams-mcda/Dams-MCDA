@@ -712,7 +712,7 @@ server <- function(input, output, session) {
 			Data <- data.frame(Alternative, Criteria, Score)
 
 
-			# stacked bar plot 1
+			# Figure 2 Stacked Bar 100%
 			output$WSMPlot1 <- renderPlot(
 				ggplot(
 				  data=Data,
@@ -737,7 +737,7 @@ server <- function(input, output, session) {
 			# order of stacked bars for plot2
 			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
 
-			# stacked bar plot 2
+			# Figure 3 stacked bar plot
 			output$WSMPlot2 <- renderPlot(
 				ggplot(
 				  data=Data,
