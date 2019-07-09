@@ -184,13 +184,8 @@ ui <- shinyUI(fluidPage(
 			),
 			
 			# update alt 1 score
-			actionButton("updateBtn1", "Update"),
-
-			# output post generate
-			div(id="alt-1-output",
-				h2("Raw Scores for West Enfield Dam"),
-				plotOutput("SummPlot1", height=graph_height, width=graph_width)
-			)
+			actionButton("updateBtn1", "Update")
+			
 		), # end
 		#End West Enfield Dam Tab
 
@@ -282,12 +277,8 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			
-			actionButton("updateBtn2", "Update"),
+			actionButton("updateBtn2", "Update")
 
-			div(id="dam-2-output",
-				h2("Raw Scores for Medway Dam"),
-				plotOutput("SummPlot2", height=graph_height, width=graph_width)
-			 )
 		), # end
 		#End Medway Dam Tab
 
@@ -379,12 +370,8 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
 			
-			actionButton("updateBtn3", "Update"),
+			actionButton("updateBtn3", "Update")
 
-			div(id="dam-3-output",
-				h2("Raw Scores for Millinocket Dam"),
-				plotOutput("SummPlot3", height=graph_height, width=graph_width)
-			)
 		), # end
 		#End Millinocket Dam 
 
@@ -476,12 +463,8 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
-			actionButton("updateBtn4", "Update"),
+			actionButton("updateBtn4", "Update")
 
-			div(id="dam-4-output",
-				h2("Raw Scores for East Millinocket Dam"),
-				plotOutput("SummPlot4", height=graph_height, width=graph_width)
-			)
 		), # end
 		#End East Millinocket Dam Tab
 
@@ -573,12 +556,8 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
 
-			actionButton("updateBtn5", "Update"),
+			actionButton("updateBtn5", "Update")
 
-			div(id="dam-5-output",
-				h2("Raw Scores for North Twin Dam"),
-				plotOutput("SummPlot5", height=graph_height, width=graph_width)
-			)
 		), # end
 		#End North Twin Dam Tab
 
@@ -670,12 +649,8 @@ ui <- shinyUI(fluidPage(
 		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 		  ),
 		  
-		  actionButton("updateBtn6", "Update"),
-		  
-		  div(id="dam-6-output",
-		      h2("Raw Scores for Dolby Dam"),
-		      plotOutput("SummPlot6", height=graph_height, width=graph_width)
-		  )
+		  actionButton("updateBtn6", "Update")
+
 		), # end
 		#End Dolby Dam Tab
 		
@@ -767,12 +742,8 @@ ui <- shinyUI(fluidPage(
 		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 		  ),
 		  
-		  actionButton("updateBtn7", "Update"),
-		  
-		  div(id="dam-7-output",
-		      h2("Raw Scores for Millinocket Lake Dam"),
-		      plotOutput("SummPlot7", height=graph_height, width=graph_width)
-		  )
+		  actionButton("updateBtn7", "Update")
+
 		), # end
 		#End Millinocket Lake Dam Tab
 		
@@ -864,26 +835,29 @@ ui <- shinyUI(fluidPage(
 		      sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 		  ),
 		  
-		  actionButton("updateBtn8", "Update"),
+		  actionButton("updateBtn8", "Update")
 		  
-		  div(id="dam-8-output",
-		      h2("Raw Scores for Ripogenus Dam"),
-		      plotOutput("SummPlot8", height=graph_height, width=graph_width)
-		  )
 		), # end
 		#End Ripogenus Dam Tab
 		
 		"Step 4: View Results",
-		tabPanel("Results: West Enfield Dam",
+		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-			HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+			div(id="dam-1-output",
+			    h2("Raw Preference Scores for West Enfield"),
+			    plotOutput("SummPlot1", height=graph_height, width=graph_width)
+			),
+			
+			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 			# generate event
-			actionButton("generateMatrix", "Generate"),
+			
+			actionButton("generateMatrix1", "Generate"),
 
 			# output post generate
 			div(id="generated-output",
 				#tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
+				# output post generate
+				
 				HTML(
 				  "<br><b>Figure 1 Interpretation</b>: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored decision criteria segments within each decision alternative bar show the contribution of each decision criterion toward each decision\
 					alternative score. The largest segments show which preferences most drove your decision making under each decision alternative. You may notice that you consider different decision criteria from one decision alternative to the next. What does this tell you about how you make decisions? It is \
@@ -921,11 +895,17 @@ ui <- shinyUI(fluidPage(
 				downloadButton("downloadData", "Download")
 			)
 		),
-		tabPanel("Results: Medway Dam",
+		tabPanel("Dam 2: Medway Dam",
 		         h2("Results: Medway Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-2-output",
+		             h2("Raw Preference Scores for Medway"),
+		             plotOutput("SummPlot2", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix2", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
@@ -968,11 +948,18 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData", "Download")
 		             )
 		             ),
-		tabPanel("Results: Millinocket Dam",
+		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-3-output",
+		             h2("Raw Preference Scores for Millinocket"),
+		             plotOutput("SummPlot3", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix3", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
@@ -1015,11 +1002,17 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData", "Download")
 		             )
 		             ),
-		tabPanel("Results: East Millinocket Dam",
+		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-4-output",
+		             h2("Raw Preference Scores for East Millinocket"),
+		             plotOutput("SummPlot4", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix4", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
@@ -1062,11 +1055,17 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData", "Download")
 		             )
 		             ),
-		tabPanel("Results: North Twin Dam",
+		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-5-output",
+		             h2("Raw Preference Scores for North Twin"),
+		             plotOutput("SummPlot5", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix5", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
@@ -1109,11 +1108,17 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData", "Download")
 		             )
 		         ),
-		tabPanel("Results: Dolby Dam",
+		tabPanel("Dam 6: Dolby",
 		         h2("Results: Dolby Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-6-output",
+		             h2("Raw Preference Scores for Dolby"),
+		             plotOutput("SummPlot6", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix6", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
@@ -1156,11 +1161,17 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData", "Download")
 		             )
 		             ),
-		tabPanel("Results: Millinocket Lake Dam",
+		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-7-output",
+		             h2("Raw Preference Scores for Millinocket Lake"),
+		             plotOutput("SummPlot7", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix7", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
@@ -1203,11 +1214,17 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData", "Download")
 		             )
 		             ),
-		tabPanel("Results: Ripogenus Dam",
+		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
-		         HTML("<br>After completing all Alternatives use this button to get results<br><br>"),
+		         div(id="dam-8-output",
+		             h2("Raw Preference Scores for Ripogenus"),
+		             plotOutput("SummPlot8", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
 		         # generate event
-		         actionButton("generateMatrix", "Generate"),
+		         actionButton("generateMatrix8", "Generate"),
 		         
 		         # output post generate
 		         div(id="generated-output",
