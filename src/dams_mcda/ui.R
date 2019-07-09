@@ -67,6 +67,8 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				 "<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br> \
 
+          <br><img> Alewives1.jpg </img><br>\
+
 				 <br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
 
 				 <br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
