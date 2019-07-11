@@ -101,7 +101,7 @@ ui <- shinyUI(fluidPage(
 		"Step 3: Enter Preferences",
 		tabPanel(
 			htmlOutput("Dam1"), # status and title
-			h2("West Enfield Dam (FERC No. P-"),
+			h2("West Enfield Dam (FERC No. P-2600"),
 			HTML("Please consider the decision criteria listed below for West Enfield Dam. \
          <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf</a>
          <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
@@ -194,7 +194,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"Medway Dam",
 			htmlOutput("Dam2"), # status and title
-			h2("Medway Dam"),
+			h2("Medway Dam FERC No. P-2666"),
       
 			HTML(
 				"Please consider the decision criteria listed below for Medway Dam. <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Medway.pdf</a>\
@@ -288,7 +288,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"Millinocket Dam",
 			htmlOutput("Dam3"), # status and title
-			h2("Millinocket Dam"),
+			h2("Millinocket Dam FERC No. P-2458"),
 			HTML(
 				"Please consider the decision criteria listed below for Millinocket Dam. <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
@@ -381,7 +381,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"East Millinocket Dam",
 			htmlOutput("Dam4"), # status and title
-			h2("East Millinocket Dam"),
+			h2("East Millinocket Dam FERC No. P-2458"),
 			HTML(
 				"Please consider the decision criteria listed below for East Millinocket Dam.<a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf</a>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
@@ -473,7 +473,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 			#"North Twin",
 			htmlOutput("Dam5"), # status and title
-			h2("North Twin Dam"),
+			h2("North Twin Dam FERC No. P-2458"),
 
 			HTML(
 				"Please consider the decision criteria listed below for North Twin Dam. <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> \
@@ -566,7 +566,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 		  #"Dolby Dam",
 		  htmlOutput("Dam6"), # status and title
-		  h2("Dolby Dam"),
+		  h2("Dolby Dam FERC No. P-2458"),
 		  
 		  HTML(
 		    "Please consider the decision criteria listed below for Dolby Dam. <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> \
@@ -659,7 +659,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 		  #"Millinocket Lake Dam",
 		  htmlOutput("Dam7"), # status and title
-		  h2("Millinocket Lake Dam"),
+		  h2("Millinocket Lake Dam FERC No. P-2458"),
 		  
 		  HTML(
 		    "Please consider the decision criteria listed below for Millinocket Lake Dam. <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a>\
@@ -752,7 +752,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel(
 		  #"Ripogenus Dam",
 		  htmlOutput("Dam8"), # status and title
-		  h2("Ripogenus Dam"),
+		  h2("Ripogenus Dam FERC No. P-2572"),
 		  
 		  HTML(
 		    "Please consider the decision criteria listed below for Ripogenus Dam. <a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_RIpogenus.pdf</a>\
