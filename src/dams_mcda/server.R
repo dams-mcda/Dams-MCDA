@@ -203,13 +203,13 @@ damsCompleted <- function(completed){
 server <- function(input, output, session) {
 
 	#------------------------------------------------------------
-	# updateAlt1
+	# updateDam1
 	# logic for updating West Enfield Dam
 	#------------------------------------------------------------
 	updateDam1 <- function (){
 		# update the tab status
 		output$Dam1 <- renderUI(list(
-			"West Enfield Dam",
+			"Dam 1: West Enfield",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -231,7 +231,7 @@ server <- function(input, output, session) {
 			input$Justice1
 		)
 
-		# create table matrix 1x5
+		# create table matrix
 		Dam1_Table <- as.matrix(data.frame(Dam1))
 		row.names(Dam1_Table) <- criteria_names
 		names(Dam1_Table) <- "Raw Score"
@@ -260,7 +260,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam2 <- function() {
 		output$Dam2 <- renderUI(list(
-			"Medway Dam",
+			"Dam 2: Medway Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 		# get decision inputs
@@ -281,7 +281,7 @@ server <- function(input, output, session) {
 			input$Justice2
 			)
 
-		# create table matrix 1x5
+		# create table matrix
 		Dam2_Table <- as.matrix(data.frame(Dam2))
 		row.names(Dam2_Table) <- criteria_names
 		names(Dam2_Table) <- "Raw Score"
@@ -310,7 +310,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam3 <- function() {
 		output$Dam3 <- renderUI(list(
-			"Millinocket Dam",
+			"Dam 3: Millinocket Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -333,7 +333,7 @@ server <- function(input, output, session) {
 			)
 
 
-		# create table matrix 1x5
+		# create table matrix 
 		Dam3_Table <- as.matrix(data.frame(Dam3))
 		row.names(Dam3_Table) <- criteria_names
 		names(Dam3_Table) <- "Raw Score"
@@ -362,7 +362,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam4 <- function() {
 		output$Dam4 <- renderUI(list(
-			"East Millinocket Dam",
+			"Dam 4: East Millinocket Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -384,7 +384,7 @@ server <- function(input, output, session) {
 			input$Justice4
 			)
 
-		# create table matrix 1x5
+		# create table matrix
 		Dam4_Table <- as.matrix(data.frame(Dam4))
 		row.names(Dam4_Table) <- criteria_names
 		names(Dam4_Table) <- "Raw Score"
@@ -414,7 +414,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam5 <- function() {
 		output$Dam5 <- renderUI(list(
-			"North Twin Dam",
+			"Dam 5: North Twin Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -436,7 +436,7 @@ server <- function(input, output, session) {
 			input$Justice5
 		)
 
-		# create table matrix 1x5
+		# create table matrix
 		Dam5_Table <- as.matrix(data.frame(Dam5))
 		row.names(Dam5_Table) <- criteria_names
 		names(Dam5_Table) <- "Raw Score"
@@ -465,7 +465,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam6 <- function() {
 	  output$Dam6 <- renderUI(list(
-	    "Dolby Dam",
+	    "Dam 6:Dolby Dam",
 	    tags$span('Complete', class="dam-complete")
 	  ))
 	  
@@ -487,7 +487,7 @@ server <- function(input, output, session) {
 	    input$Justice6
 	  )
 	  
-	  # create table matrix 1x5
+	  # create table matrix
 	  Dam6_Table <- as.matrix(data.frame(Dam6))
 	  row.names(Dam6_Table) <- criteria_names
 	  names(Dam6_Table) <- "Raw Score"
@@ -516,7 +516,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam7 <- function() {
 	  output$Dam7 <- renderUI(list(
-	    "Millinocket Lake Dam",
+	    "Dam 7: Millinocket Lake Dam",
 	    tags$span('Complete', class="dam-complete")
 	  ))
 	  
@@ -538,7 +538,7 @@ server <- function(input, output, session) {
 	    input$Justice7
 	  )
 	  
-	  # create table matrix 1x5
+	  # create table matrix
 	  Dam7_Table <- as.matrix(data.frame(Dam7))
 	  row.names(Dam7_Table) <- criteria_names
 	  names(Dam7_Table) <- "Raw Score"
@@ -567,7 +567,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	updateDam8 <- function() {
 	  output$Dam8 <- renderUI(list(
-	    "Ripogenus Dam",
+	    "Dam 8: Ripogenus Dam",
 	    tags$span('Complete', class="dam-complete")
 	  ))
 	  
@@ -589,7 +589,7 @@ server <- function(input, output, session) {
 	    input$Justice8
 	  )
 	  
-	  # create table matrix 1x5
+	  # create table matrix 
 	  Dam8_Table <- as.matrix(data.frame(Dam8))
 	  row.names(Dam8_Table) <- criteria_names
 	  names(Dam8_Table) <- "Raw Score"
@@ -608,7 +608,7 @@ server <- function(input, output, session) {
 	  shinyjs::show(id="dam-8-output")
 	  # mark the dam as complete when update
 	  # or apply logic here to make other contstraints for "complete"
-	  #updateAlternativeStatus("add", 8)
+	  #updateDamStatus("add", 8)
 	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 8)
 	}
 	#------------------------------------------------------------
@@ -618,7 +618,7 @@ server <- function(input, output, session) {
 	generateOutput <- function (){
 
 	    if ( !damsCompleted(session$userData[['dams_completed']]) ){
-			# user isnt finished filling out alternatives
+			# user isnt finished filling out dams
 			showModal(modalDialog(
 				title = "Not Finished!",
 				'Please complete all dams tabs before generating results'
@@ -634,7 +634,7 @@ server <- function(input, output, session) {
 			#criterion <- vector("list", length(criteria_inputs))
 			alternatives <- vector("list", length(available_alternatives))
 			for (row_id in 1:length(available_alternatives)){
-				# for each criteria in alternatives
+				# for each criterion in alternatives
 				r <- vector("list", length(available_alternatives))
 
 				for (id in criteria_inputs){

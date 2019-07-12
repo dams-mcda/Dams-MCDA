@@ -34,3 +34,4 @@ renderBarPlot <- function(data, title, x_names, x_label, y_label, colors, x_limi
 	)
 	return(result)
 }
+
