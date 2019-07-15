@@ -14,46 +14,23 @@
 
 {% block content %}
 
-
 <!-- USER -->
-{% if request.user.is_authenticated %}
-User:
-<div id="dams-mcda-username" data-username="{{ request.user.username }}">
-	{{ request.user.username }}
-</div>
-
+<div hidden id="dams-mcda-username" data-username="{{ request.user.username }}"></div>
 
 <!-- GROUP -->
 {% if request.user.group %}
-<div id="dams-mcda-groupname" data-groupname="{{ request.user.group.name }}">
-	{{ request.user.group.name }}
-</div>
-{% else %}
-No Group
+<div hidden id="dams-mcda-groupname" data-groupname="{{ request.user.group.name }}"></div>
 {% endif %}
-<br>
-
 
 <!-- SESSION -->
-Session:
-<div id="dams-mcda-session" data-session="{{ request.session.session_key }}">
-	{{ request.session.session_key }}
-</div>
-<br>
-
+<div hidden id="dams-mcda-session" data-session="{{ request.session.session_key }}"></div>
 
 <!-- TOKEN -->
-CSRFToken: {{ csrf_token }}
 {% csrf_token %}
-<br>
-<hr>
-<!-- end of django -->
-{% endif %}
-
 
 <!-- APPLICATION -->
 <iframe id="shiny-dams-mcda" class="fullpage-iframe"
-	style="position:fixed; top:6em; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"
+	style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"
 	src="/dams_mcda/">
 	Your browser doesn't support iframes. Try using a browser such as Firefox or Chrome.
 </iframe>
