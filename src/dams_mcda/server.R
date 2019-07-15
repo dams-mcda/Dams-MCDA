@@ -344,17 +344,12 @@ server <- function(input, output, session) {
 
 	# debug matlab
 	#runMatlab()
-	observeEvent(input$getAuthSession,{
-		 message = "hello"
-		 session$sendCustomMessage("getAuthHandler", message)
-	})
-	# this block fires each time we receive a message from JavaScript
-	output$userText <- renderText({
-		req(input$userSessionString)
-		paste("user json: ", input$userSessionString)
-	})
 
-	# debug authentication
+	#------------------------------------------------------------
+	# JS data passing test
+	#------------------------------------------------------------
+	# debug/validate authentication
+	session$sendCustomMessage("validateSession", "any message")
 
 	#------------------------------------------------------------
 	# updateAlt1

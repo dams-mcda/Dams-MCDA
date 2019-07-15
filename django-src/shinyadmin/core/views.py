@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404
 
 from django.http import JsonResponse
 
@@ -19,9 +19,17 @@ def landing_page(request):
         register if the user doesnt have an account
     """
     if request.user.is_authenticated:
-        return redirect('/dams_mcda/')
+        return redirect('/dams_mcda_wrapper/')
+        #return redirect('/dams_mcda/')
     else:
         return redirect('/login/')
+
+
+def shiny_app_wrapper(request):
+    """
+        a view that shows the shiny appliction but inside a django template
+    """
+    return render(request, "app_wrapper.html", locals())
 
 
 def logout(request):
@@ -89,3 +97,38 @@ def get_user_session(request):
         })
     else:
         raise Http404("User is not logged in")
+
+
+
+def verify_user_session(request):
+    """
+        called from shiny application
+
+        requires method.POST
+            required args:
+                session-id (string)
+                username (string)
+
+        verifies the session with a request to the django application
+    """
+    if request.method == 'POST':
+
+        if request.user.is_authenticated:
+
+            # shiny app cached info on user
+            shiny_session_string = request.POST.get("session-id", None)
+            shiny_user_string = request.POST.get("user")
+
+            # requesting user actual stored request information to validate against
+            session = request.session.session_key
+            user = core_serializers.DamsMCDAUserSerializer(request.user, many=False)
+
+            return JsonResponse({
+                "session-valid": (session == shiny_session_string),
+                "user-valid": (request.user.username == shiny_user_string)
+            })
+        else:
+            raise Http404("User is not logged in, cannot verify anonymous user")
+
+    else:
+        raise Http404("Wrong request method used")

@@ -29,6 +29,9 @@ urlpatterns = [
     # landing page
     path('', core_views.landing_page),
 
+    # shiny app wrapper
+    path('dams_mcda_wrapper/', core_views.shiny_app_wrapper),
+
     # user login
     path('login/', core_views.login, name="login"),
     # user register
@@ -45,4 +48,7 @@ urlpatterns = [
 
     # returns username and session info
     path('api/get_user_session/', core_views.get_user_session, name="get_user_session"),
+    # given username and session info validates with django request credentials
+    path('api/verify_user_session/', core_views.verify_user_session, name="verify_user_session"),
+
 ]
