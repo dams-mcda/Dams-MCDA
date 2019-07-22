@@ -95,7 +95,8 @@ ui <- shinyUI(fluidPage(
 		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
 		       Hover over the dams on the map for more information on each site.<br>\
 		       <br><b>Click HERE for additional resources.</b><br>"
-		    )
+		    ),
+		  img(src = 'Penobscot_MO_14_53.png', align = "center")
 		  ),
 		
 		"Step 3: Enter Preferences",
