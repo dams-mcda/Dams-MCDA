@@ -1,3 +1,9 @@
+#pull from WSM script
+source("WSM.R")
+DamsData <- read.csv('DamsData.csv')
+DamsData <- data.frame(DamsData)
+
+
 # barPlot wrappers
 source("plots.R")
 library(plotly)
@@ -32,8 +38,10 @@ colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 score_range <- c(0, 1)
 # range of final graph of summed scores
 summed_score_range <- c(0, 1)
-# list of alternatives
+# list of dams
 available_dams <- seq(1:8)
+# list of alternatives
+available_alternatives <- seq(1:5)
 
 # smallest input slider increment
 smallest_increment <- 0.025
@@ -606,8 +614,7 @@ server <- function(input, output, session) {
 			alternatives <- unlist(alternatives)
 
 			
-			# -------------------------------NEED TO REWRITE BY DAM------------------------------# 
-			#assign values in new matrix
+			#assign values in new preference matrix
 			RawCriteriaMatrix <- data.frame(
 				matrix(dams, nrow=length(available_dams), byrow=length(criteria_inputs))
 			)
@@ -615,6 +622,7 @@ server <- function(input, output, session) {
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
+			dimnames(RawCriteriaMatrix)[[3]] <- alternative_names
 
 			# origial scores in table form
 			# for debugging table size
@@ -626,10 +634,12 @@ server <- function(input, output, session) {
 			# matrix setup
 			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
 			matrix_rows <- length(available_dams) # 8 default
+			matrix_levs <- length(available_alternatives)
+			
 
-			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
+			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols, nlevels=matrix_levs))
 			IntermediateMatrix <- round(RawCriteriaMatrix,3)
-
+			
 			#----------------------------------------
 			# Score Sum
 			#----------------------------------------
@@ -1492,7 +1502,7 @@ server <- function(input, output, session) {
 	# MCDA Table Output
 	#--------------------------------------------------------------------------------
 	# initial empty matrix.
-	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_alternatives), ncol=length(criteria_inputs) ))
+	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_dams), ncol=length(criteria_inputs) ))
 
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix, {
