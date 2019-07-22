@@ -3,8 +3,8 @@
 #
 
 
-base_dir <- "/srv/shiny-server/dams_mcda/"
-setwd(base_dir)
+#base_dir <- "/srv/shiny-server/dams_mcda/"
+#setwd(base_dir)
 
 library(shiny)
 library(ggplot2)
