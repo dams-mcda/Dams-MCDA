@@ -46,6 +46,25 @@ WSM <- function(CritImportance, RawCriteriaMatrix){
 	message("Path B")
 	#----------------------------------------
 	# PATH B: Normalization using Min / Max Vectors
+	### Sam's notes 7-10-19
+	# outline for ranking procedure by range normalization, weighted sum
+	# Retrieve user preference matrix, a 2D matrix [dams,criteria]
+	# Retrieve criteria scores for each dam, for each MCDA scenario (from server?) a 3D matrix [dams,criteria,scenarios]
+	# Normalization procedure:
+	#  get maximum and minimum criteria score for each criteria, each dam, produces two 2D matrices [dams, max/min criteria]
+	#  for positive scores: norm = (f - f_min) / (f_max - f_min)
+	#  for negative scores (like cost): norm = 1 - (f - f_max) / (f_min - f_max)
+	#  result is 3D matrix with dam-specific criteria scores normalized by min and max criteria sampled over all scenarios
+	# Weighted sum procedure:
+	#  multiply all normalized scores by prefrence weights
+	#  sum normalized, weighted criteria scores for each dam
+	#  sum this across all dams for each scenario
+	# Rank:
+	#  may need to reshape the array produced by the weighted sum procedure
+	#  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
+	# Retrieve table, map of highest ranked scenario:
+	#  use server url or whatever, searching for map name with the matching index number
+	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
 	# iterate each criteria for min,max
 	WSMMaxVector <- list("list", matrix_cols)
