@@ -100,26 +100,117 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
 
+	####FIX THISSS!!!! PUT IN REGULAR WS MATRIX!!!!!!!!! PRETEND LIKE THE SCENARIOS WONT HAPPEN
 	#retrieve DamsData to manipulate into DamsMatrix
-	DamsDataMatrix <- array(data=NA, dim = length(3), dimnames(c(matrix_rows, matrix_cols, matrix_levs)))
-
-	KeepMaintain <- as.array(c(DamsData$Cost_KeepMaintain, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, DamsData$Damage, 
-	                             DamsData$Properties, DamsData$ResStorage, DamsData$Aesthetics_KeepMaintain, DamsData$Community_KeepMaintain, 
-	                             DamsData$Cuture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain))
-	Improve_Hydro <- as.array(c(DamsData$Cost_ImproveHydro, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, DamsData$Damage, 
-	                              DamsData$Properties, DamsData$ResStorage, DamsData$Aesthetics_ImproveHydro, DamsData$Community_ImproveHydro, 
-	                              DamsData$Cuture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro))
-	Improve_Fish <- as.array(c(DamsData$Cost_ImproveFish, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, DamsData$Damage, 
-	                             DamsData$Properties, DamsData$ResStorage, DamsData$Aesthetics_ImproveFish, DamsData$Community_ImproveFish, 
-	                             DamsData$Cuture_ImproveFish, DamsData$History_ImproveFish, DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish))
-	FishANDHydro <- as.array(c(DamsData$Cost_FishANDHydro, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, DamsData$Damage, 
-	                             DamsData$Properties, DamsData$ResStorage, DamsData$Aesthetics_FishANDHydro, DamsData$Community_FishANDHydro, 
-	                             DamsData$Cuture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro))
-	Remove <- as.array(c(DamsData$Cost_Remove, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem, DamsData$Damage, 
-	                       DamsData$Properties, DamsData$ResStorage, DamsData$Aesthetics_Remove, DamsData$Community_Remove, 
-	                       DamsData$Cuture_Remove, DamsData$History_Remove, DamsData$Health_Remove, DamsData$Justice_Remove))
+	DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5))
 	
-	AlternativeLevels <- as.array(c(KeepMaintain, ImproveHydro, ImproveFish, FishANDHydro, Remove))
+	KeepMaintain <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
+	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
+	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
+	                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+	Improve_Hydro <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage, 
+	                       DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
+	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro, 
+	                       DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
+	Improve_Fish <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
+	                      DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
+	                      DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
+	                      DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
+	FishANDHydro <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage, 
+	                      DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
+	                      DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
+	                      DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
+	Remove <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
+	                DamsData$Properties, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
+	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
+	                DamsData$Health_Remove, DamsData$Justice_Remove)
+	
+	names(KeepMaintain) <- c(
+	  "FishBiomass",
+	  "RiverRec",
+	  "Reservoir",
+	  "ProjectCost",
+	  "Safety",
+	  "NumProperties",
+	  "ElectricityGeneration",
+	  "AvoidEmissions",
+	  "IndigenousLifeways",
+	  "IndustrialHistory",
+	  "CommunityIdentity",
+	  "Aesthetics",
+	  "Health",
+	  "Justice"
+	)
+	
+	names(Improve_Hydro) <- c(
+	  "FishBiomass",
+	  "RiverRec",
+	  "Reservoir",
+	  "ProjectCost",
+	  "Safety",
+	  "NumProperties",
+	  "ElectricityGeneration",
+	  "AvoidEmissions",
+	  "IndigenousLifeways",
+	  "IndustrialHistory",
+	  "CommunityIdentity",
+	  "Aesthetics",
+	  "Health",
+	  "Justice"
+	)
+	
+	names(Improve_Fish) <- c(
+	  "FishBiomass",
+	  "RiverRec",
+	  "Reservoir",
+	  "ProjectCost",
+	  "Safety",
+	  "NumProperties",
+	  "ElectricityGeneration",
+	  "AvoidEmissions",
+	  "IndigenousLifeways",
+	  "IndustrialHistory",
+	  "CommunityIdentity",
+	  "Aesthetics",
+	  "Health",
+	  "Justice"
+	)
+	
+	names(FishANDHydro) <- c(
+	  "FishBiomass",
+	  "RiverRec",
+	  "Reservoir",
+	  "ProjectCost",
+	  "Safety",
+	  "NumProperties",
+	  "ElectricityGeneration",
+	  "AvoidEmissions",
+	  "IndigenousLifeways",
+	  "IndustrialHistory",
+	  "CommunityIdentity",
+	  "Aesthetics",
+	  "Health",
+	  "Justice"
+	)
+	
+	names(Remove) <- c(
+	  "FishBiomass",
+	  "RiverRec",
+	  "Reservoir",
+	  "ProjectCost",
+	  "Safety",
+	  "NumProperties",
+	  "ElectricityGeneration",
+	  "AvoidEmissions",
+	  "IndigenousLifeways",
+	  "IndustrialHistory",
+	  "CommunityIdentity",
+	  "Aesthetics",
+	  "Health",
+	  "Justice"
+	)
+	  
+	AlternativeLevels <- cbind.hyperframe(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove)
 	
 	
 	
