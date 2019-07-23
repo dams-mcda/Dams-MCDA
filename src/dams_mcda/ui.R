@@ -66,26 +66,46 @@ ui <- shinyUI(fluidPage(
 				 "<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br>" 
         ),
 			
-      img(src = 'Alewives1.jpg', align = "center"),
-      
 			HTML(
-        "<br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
-
-				 <br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
+        "<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
          Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
-         to support your interaction in the FERC Integrated Licensing Process.<br> \
+         to support your interaction in the FERC Integrated Licensing Process. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized \
+         cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, \
+         improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br>"
+        ),
+			
+			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
+			
+			img(src = 'Alewives1.jpg', align = "center"),
+			
+      HTML(
+         "<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"
+     ),
+			actionButton("IndividualBtn", "Individual Preferences"),
+			actionButton("GroupBtn", "Group Preferences"),
+			actionButton("uploadBtn", "UPLOAD DATA"),
 
-				 This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish \
-         survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, improve hydropower generation, improve\ 
-         fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br> \
-
-				 <h2>Instructions for Uploading Group Preferences</h2>\
+      HTML(
+				 "<h4>Instructions for Uploading</h4>\
 
 				 Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-         for you or the average preference values for your group. <br>\
+         for you or the average preference values for your group. <br>"
+      ), #will want to make sure we have a download button for the blank decision matrix
+			
+			HTML(  
+         "<h4>More Information:</h4>\
+
+         The Penobscot River is home to many dams and valuable ecosystem services, including pristine natural lakes, clean water sources, and significant biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, \
+         Blueback herring, and Alewife). Dams also provide important services: reservoirs for drinking water and recreation, flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing fossil-fuel emissions that contribute \
+         to climate change and poor human health. However, all dams need regular maintenance and older dams may need more extensive repairs as they age. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. \
+         They may also contribute to poor water quality downstream, increased predation, and climate change (decaying plant matter in reservoirs release methane into the atmosphere). Dams have long threatened indigenous cultural traditions, while at the same \
+         time helping to shape post-industrial town or city identities over the last two centuries.<br>\   
       "
-			 )
-		),
+			 ),
+			
+			helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))
+		
+			),
 		
     "Step 2: View Dam Map", 
 		tabPanel("View Dam Map",
