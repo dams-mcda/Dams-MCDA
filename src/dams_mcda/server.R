@@ -637,8 +637,8 @@ server <- function(input, output, session) {
 			matrix_levs <- length(available_alternatives)
 			
 
-			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols, nlevels=matrix_levs))
-			IntermediateMatrix <- round(RawCriteriaMatrix,3)
+			WeightedScoreMatrix <- array(data=NA, c(8,14,5))
+			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 			
 			#----------------------------------------
 			# Score Sum
@@ -647,13 +647,13 @@ server <- function(input, output, session) {
 			scoresum <- list("list", matrix_rows)
 
 			for (i in 1:matrix_rows){
-			  scoresum[[i]] <- sum(as.numeric(IntermediateMatrix[i, 1:matrix_cols]))
+			  scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i, 1:matrix_cols]))
 			}
 
 			scoresum <- unlist(scoresum)
 
 			# warning adding things to list has side effects!
-			WSMResults <- list(IntermediateMatrix, scoresum)
+			WSMResults <- list(WeightedScoreMatrix, scoresum)
 			TableMatrix <- WSMResults[1]
 
 			TableMatrix$summedScore <- WSMResults[2]

@@ -13,6 +13,8 @@ setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
 DamsData <- read.csv('DamsData.csv')
 DamsData <- data.frame(DamsData)
 
+RawCriteriaMatrix <- matrix(data= 1:14, 8, 14)
+
 criteria_inputs <- c(
   "FishBiomass",
   "RiverRec",
@@ -40,7 +42,7 @@ matrix_rows <- length(available_dams) # 8 default
 matrix_levs <- length(available_alternatives)
 
 
-WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
+WSM <- function(RawCriteriaMatrix, DamsData){
 
 	# matrix setup
 	matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
@@ -51,38 +53,37 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 	message("Preference cols", matrix_cols, " rows ", matrix_rows, "scenarios", matrix_levs )
 
 	#----------------------------------------
-	# Step A: Build Preference Matrix with blank levels, no normalization
+	# Step A (PREFS): Build Preference Matrix with blank levels, no normalization
 	# score will be raw values from 0-1 based on user input
 	#----------------------------------------
-	WSMMatrix <- data.frame(matrix(data=NA, nrow = matrix_rows, ncol = matrix_cols)) #if this needs to be 3D add ",nlevels = matrix_levs" after ncol 
+	PrefMatrix <- array(data = NA, c(8,14,5)) #if this needs to be 3D add ",nlevels = matrix_levs" after ncol 
 
 	message("Fill User Preference Matrix")
-	# weight values of each raw score in matrix
+	# weights in matrix
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
 			x <- RawCriteriaMatrix[n,k]
-			crit_imp <- CritImportance[n,k]
 
-			WSMMatrix[n,k] <- tryCatch({
+			PrefMatrix[n,k,p] <- tryCatch({
 				#message("A", x, ', ', crit_imp)
-				(x * crit_imp)
+				(x)
 			}, error=function(e){
 				(NA)
 			})
-		} #End alternative (rows) for loop.
+		} #End dams (rows) for loop.
 	} #End criteria (columns) for loop.
 
 
 	message("fill WSM Matrix")
 	#----------------------------------------
-	# Step B: Data Normalization using Min / Max Vectors
+	# Step B (DATA): Data Normalization using Min / Max Vectors
 	### Sam's notes 7-10-19
 	# outline for ranking procedure by range normalization, weighted sum
 	# Retrieve user preference matrix (referred to as RawCriteriaMatrix), a 2D matrix [dams,criteria preference values]  DONE
 	# Retrieve criteria scores for each dam (referred to as DamsDataMartrix), for each MCDA scenario (from server?) a 3D matrix [dams,criteria,alternatives] 
 	
 	# Normalization procedure:
-	#  get maximum and minimum criteria score for each criteria, each dam, produces two 2D matrices [dams, max/min criteria]
+	#  get maximum and minimum criteria score for each criterion, each dam, produces two 2D matrices [dams, max/min criteria]
 	#  for positive scores: norm = (f - f_min) / (f_max - f_min)
 	#  for negative scores (like cost): norm = 1 - (f - f_max) / (f_min - f_max)
 	#  result is 3D matrix with dam-specific criteria scores normalized by min and max criteria sampled over all alternatives
@@ -100,9 +101,8 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
 
-	####FIX THISSS!!!! PUT IN REGULAR WS MATRIX!!!!!!!!! PRETEND LIKE THE SCENARIOS WONT HAPPEN
-	#retrieve DamsData to manipulate into DamsMatrix
-	DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5))
+	#retrieve DamsData to manipulate into DamsDataMatrix
+	DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
 	
 	KeepMaintain <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
 	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
@@ -125,91 +125,7 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
 	                DamsData$Health_Remove, DamsData$Justice_Remove)
 	
-	#This naming technique is wildly redundant and doesn't appear to work. 
-	names(KeepMaintain) <- c(
-	  "FishBiomass",
-	  "RiverRec",
-	  "Reservoir",
-	  "ProjectCost",
-	  "Safety",
-	  "NumProperties",
-	  "ElectricityGeneration",
-	  "AvoidEmissions",
-	  "IndigenousLifeways",
-	  "IndustrialHistory",
-	  "CommunityIdentity",
-	  "Aesthetics",
-	  "Health",
-	  "Justice"
-	)
 	
-	names(Improve_Hydro) <- c(
-	  "FishBiomass",
-	  "RiverRec",
-	  "Reservoir",
-	  "ProjectCost",
-	  "Safety",
-	  "NumProperties",
-	  "ElectricityGeneration",
-	  "AvoidEmissions",
-	  "IndigenousLifeways",
-	  "IndustrialHistory",
-	  "CommunityIdentity",
-	  "Aesthetics",
-	  "Health",
-	  "Justice"
-	)
-	
-	names(Improve_Fish) <- c(
-	  "FishBiomass",
-	  "RiverRec",
-	  "Reservoir",
-	  "ProjectCost",
-	  "Safety",
-	  "NumProperties",
-	  "ElectricityGeneration",
-	  "AvoidEmissions",
-	  "IndigenousLifeways",
-	  "IndustrialHistory",
-	  "CommunityIdentity",
-	  "Aesthetics",
-	  "Health",
-	  "Justice"
-	)
-	
-	names(FishANDHydro) <- c(
-	  "FishBiomass",
-	  "RiverRec",
-	  "Reservoir",
-	  "ProjectCost",
-	  "Safety",
-	  "NumProperties",
-	  "ElectricityGeneration",
-	  "AvoidEmissions",
-	  "IndigenousLifeways",
-	  "IndustrialHistory",
-	  "CommunityIdentity",
-	  "Aesthetics",
-	  "Health",
-	  "Justice"
-	)
-	
-	names(Remove) <- c(
-	  "FishBiomass",
-	  "RiverRec",
-	  "Reservoir",
-	  "ProjectCost",
-	  "Safety",
-	  "NumProperties",
-	  "ElectricityGeneration",
-	  "AvoidEmissions",
-	  "IndigenousLifeways",
-	  "IndustrialHistory",
-	  "CommunityIdentity",
-	  "Aesthetics",
-	  "Health",
-	  "Justice"
-	)
 	  
 	#This abind creates our 3D matrix
 	DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
@@ -218,33 +134,34 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 	
 	#--------NORMALIZATION-------------------
 	# iterate each criteria for min,max
+  
 	WSMMaxVector <- list("list", matrix_cols)
-	for ( index in 1:matrix_cols ){
-		WSMMaxVector[[index]] <- max(DamsDataMatrix[,index,], na.rm=FALSE)#specified index level 7/23/2019
-	}
-	WSMMaxVector <- unlist(WSMMaxVector)
+	  for ( k in 1:matrix_cols ){
+		  WSMMaxVector[[k]] <- max(DamsDataMatrix[,k,], na.rm=FALSE)#specified index level 7/23/2019
+	  }
+	  WSMMaxVector <- unlist(WSMMaxVector)
 
-	WSMMinVector <- list("list", matrix_cols)
-	for ( index in 1:matrix_cols ){
-		WSMMinVector[[index]] <- min(DamsDataMatrix[,index,], na.rm=FALSE)#specified index level 7/23/2019
-	}
-	WSMMinVector <- unlist(WSMMinVector)
+	  WSMMinVector <- list("list", matrix_cols)
+	  for ( k in 1:matrix_cols ){
+		  WSMMinVector[[k]] <- min(DamsDataMatrix[,k,], na.rm=FALSE)#specified index level 7/23/2019
+	  }
+	  WSMMinVector <- unlist(WSMMinVector)
 
 	# debug
 	message('min vector ', WSMMinVector)
 	message('max vector ', WSMMaxVector)
-	#message('critical matrix ', CritImportance)
+	
 
 
 	#----------------------------------------
-	# PATH B: Build Score Matrix
+	# PATH B (DATA*PREFS): Build Score Matrix
 	# score will be min/max normalized values from 0-1
 	#----------------------------------------
-	WSMScoreMatrix <- data.frame(matrix(data=NA, nrow = matrix_rows, ncol = matrix_cols, nlevels = matrix_levs))
+	NormalizedMatrix <- array(data=NA, c(8,14,5))
 	# array of rows that use alternative method
-	alt_method_columns <- c(8, 14, 5) 
+	min_crit_columns <- c(4,6) 
 
-	message('length of critImportance', length(CritImportance)) 
+	#message('length of critImportance', length(CritImportance)) 
 	# make normalized values of each value in matrix ---> check DOES THIS NEED TO BE 3-D array, too?
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
@@ -252,21 +169,20 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 			x <- DamsDataMatrix[n,k,p]
 			min_x <- WSMMinVector[k]
 			max_x <- WSMMaxVector[k]
-			crit_imp <- CritImportance[n,k]
 
 
-			WSMScoreMatrix[n,k,p] <- tryCatch({
-				if (k %in% alt_method_columns){
+			NormalizedMatrix[n,k,p] <- tryCatch({
+				if (k %in% min_crit_columns){
 					# alternative method
 					# maximize normalization
-					(((max_x - x) / (max_x - min_x)) * crit_imp)
+					((max_x - x) / (max_x - min_x))
 				}else{
 					# for debugging by cell WSM uncomment next line
-					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', crit_imp, ', ', (((x - min_x) / (max_x - min_x)) * crit_imp) )
+					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - min_x) / (max_x - min_x))) )
 
 					# default method
 					# minimize normilization
-					(((x - min_x) / (max_x - min_x)) * crit_imp)
+					((x - min_x) / (max_x - min_x))
 				}
 			}, error=function(e){
 				(NA)
@@ -274,19 +190,20 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 
 		  } #End alternative (levels) for loop.
 		} #End dam (rows) for loop.
-		message('Raw column ', DamsDataMatrix[k])
-		message('WSM column ', WSMScoreMatrix[k])
+		message('Data column ', DamsDataMatrix[k])
+		message('WSM column ', NormalizedMatrix[k])
 	} #End criteria (columns) for loop.
 
 	# debug
 	#message('WSMScoreMatrix ', WSMScoreMatrix)
 
 	#----------------------------------------
-	# IntermediateMatrix
-	# Note: adjust matrix to be rounded if using alternative path
+	# WeightedScoreMatrix
 	#----------------------------------------
-	IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
-	IntermediateMatrix <- round(WSMMatrix,3) #adjust matrix name if using alternate path
+	
+	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
+
+	WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
 	# debug
 	#message('IntermediateMatrix', IntermediateMatrix)
@@ -298,13 +215,13 @@ WSM <- function(CritImportance, RawCriteriaMatrix, DamsData){
 	scoresum <- list("list", matrix_rows)
 
 	for (i in 1:matrix_rows){
-		scoresum[[i]] <- sum(as.numeric(IntermediateMatrix[i, 1:matrix_cols]))
+		scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i, 1:matrix_cols]))
 	}
 
 	scoresum <- unlist(scoresum)
 
 	# warning adding things to list has side effects!
-	WSMResults <- list(IntermediateMatrix, scoresum)
+	WSMResults <- list(WeightedScoreMatrix, scoresum)
 
 	return(WSMResults)
 }
