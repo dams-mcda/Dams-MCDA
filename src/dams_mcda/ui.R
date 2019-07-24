@@ -14,6 +14,7 @@ library(Cairo)
 library(RColorBrewer)
 library(spatstat)
 library(rgdal)
+library(abind)
 
 options(shiny.usecairo=T)
 

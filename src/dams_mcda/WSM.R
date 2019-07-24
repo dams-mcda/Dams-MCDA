@@ -13,7 +13,9 @@ setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
 DamsData <- read.csv('DamsData.csv')
 DamsData <- data.frame(DamsData)
 
-RawCriteriaMatrix <- matrix(data= 1:14, 8, 14)
+TestData <- c(0,0.2,0.05,0.025,0.05,0.75, 0.2,0.1,0.1,0.2,0,0,0,0)
+
+RawCriteriaMatrix <- matrix(TestData, 8, 14)
 
 criteria_inputs <- c(
   "FishBiomass",
@@ -74,7 +76,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	} #End criteria (columns) for loop.
 
 
-	message("fill WSM Matrix")
+	message("fill Normalized Matrix")
 	#----------------------------------------
 	# Step B (DATA): Data Normalization using Min / Max Vectors
 	### Sam's notes 7-10-19
@@ -161,11 +163,9 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	# array of rows that use alternative method
 	min_crit_columns <- c(4,6) 
 
-	#message('length of critImportance', length(CritImportance)) 
-	# make normalized values of each value in matrix ---> check DOES THIS NEED TO BE 3-D array, too?
+	# make normalized values of each value in matrix 
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
-		  for (p in 1:matrix_levs){#added levels 7/23/2019
 			x <- DamsDataMatrix[n,k,p]
 			min_x <- WSMMinVector[k]
 			max_x <- WSMMaxVector[k]
@@ -188,7 +188,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 				(NA)
 			})
 
-		  } #End alternative (levels) for loop.
+		   #End alternative (levels) for loop.
 		} #End dam (rows) for loop.
 		message('Data column ', DamsDataMatrix[k])
 		message('WSM column ', NormalizedMatrix[k])
@@ -212,10 +212,10 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	# Score Sum
 	#----------------------------------------
 	# total score is last column of returned Data Table
-	scoresum <- list("list", matrix_rows)
+	scoresum <- list("list", matrix_levs)
 
-	for (i in 1:matrix_rows){
-		scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i, 1:matrix_cols]))
+	for (i in 1:matrix_levs){
+		scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i,,1:matrix_levs]))
 	}
 
 	scoresum <- unlist(scoresum)
