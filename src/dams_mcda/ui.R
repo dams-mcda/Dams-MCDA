@@ -77,7 +77,7 @@ ui <- shinyUI(fluidPage(
 			
 			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 			
-			img(src = 'Alewives1.jpg', align = "center"),
+			#img(src = 'Alewives1.jpg', align = "center"), #this is a picture of alewives
 			
       HTML(
          "<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"
@@ -119,18 +119,24 @@ ui <- shinyUI(fluidPage(
 		    ),
 		  img(src = 'Penobscot_MO_14_53.png', align = "center")
 		  ),
+		  
+		  helpText( a("Click HERE for more information about dam decision alternatives")
+		  ),
+		
 		
 		"Step 3: Enter Preferences",
 		tabPanel("Dam 1: West Enfield",
 			htmlOutput("Dam1"), # status and title
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML("Please consider the decision criteria listed below for West Enfield Dam.<br> \
-         <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf</a> <br>\
          <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
          increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				 <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
-
+		  
+			helpText( a("Click HERE for more information about the West Enfield Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf")
+			),
+			
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -220,11 +226,12 @@ ui <- shinyUI(fluidPage(
       
 			HTML(
 				"Please consider the decision criteria listed below for Medway Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Medway.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br>Please consider and rate the given set of decision criteria at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
+			
+			helpText("Click HERE for more information about the Medway Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Medway.pdf"),
 
 			htmlOutput("Dam2Progress"),
 
@@ -314,12 +321,13 @@ ui <- shinyUI(fluidPage(
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				"Please consider the decision criteria listed below for Millinocket Dam. <br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
-
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
@@ -408,12 +416,13 @@ ui <- shinyUI(fluidPage(
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
 				"Please consider the decision criteria listed below for East Millinocket Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br>Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
-
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
@@ -502,12 +511,13 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				"Please consider the decision criteria listed below for North Twin Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 			),
-
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam5Progress"),
 
 			#----------------------------------------
@@ -596,11 +606,12 @@ ui <- shinyUI(fluidPage(
 		  
 		  HTML(
 		    "Please consider the decision criteria listed below for Dolby Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
+		  
+		  helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
 		  
 		  htmlOutput("Dam6Progress"),
 		  
@@ -690,11 +701,12 @@ ui <- shinyUI(fluidPage(
 		  
 		  HTML(
 		    "Please consider the decision criteria listed below for Millinocket Lake Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
+		  
+		  helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
 		  
 		  htmlOutput("Dam7Progress"),
 		  
@@ -784,11 +796,13 @@ ui <- shinyUI(fluidPage(
 		  
 		  HTML(
 		    "Please consider the decision criteria listed below for Ripogenus Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Ripogenus.pdf</a> <br>\
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
+		  
+		  helpText("Click HERE for more information about the Ripogenus Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Ripogenus.pdf"),
+		  
 		  
 		  htmlOutput("Dam8Progress"),
 		  
