@@ -62,7 +62,7 @@ ui <- shinyUI(fluidPage(
 		#Define Instructions tab
 		tabPanel("Start Here",
 			htmlOutput("Step 1: Start Here"),
-			h2("Step 1: Start Here"),
+			h2("Start Here"),
 			HTML(
 				 "<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br>" 
         ),
@@ -114,14 +114,12 @@ ui <- shinyUI(fluidPage(
 		  h2("Existing FERC Dams Map"),
 		  HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
 		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
-		       Hover over the dams on the map for more information on each site.<br>\
-		       <br><b>Click HERE for additional resources.</b><br>"
-		    ),
+		       Hover over the dams on the map for more information on each site.<br>"
+		       ),
+		  helpText( a("Click HERE for more information about dam decision alternatives", href = "https://github.com/dams-mcda/Dams-MCDA/blob/WSMUpdate_Dams/src/dams_mcda/DecisionAlternativesDescriptions.pdf")),
 		  img(src = 'Penobscot_MO_14_53.png', align = "center")
-		  ),
 		  
-		  helpText( a("Click HERE for more information about dam decision alternatives")
-		  ),
+		 ),
 		
 		
 		"Step 3: Enter Preferences",
@@ -945,7 +943,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download West Enfield Results'),
-				downloadButton("downloadData", "Download West Enfield")
+				downloadButton("downloadData1", "Download West Enfield")
 			)
 		),
 		tabPanel("Dam 2: Medway Dam",
@@ -1000,7 +998,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Medway Results'),
-		             downloadButton("downloadData", "Download Medway")
+		             downloadButton("downloadData2", "Download Medway")
 		             )
 		             ),
 		tabPanel("Dam 3: Millinocket Dam",
@@ -1056,7 +1054,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Millinocket Results'),
-		             downloadButton("downloadData", "Download Millinocket")
+		             downloadButton("downloadData3", "Download Millinocket")
 		             )
 		             ),
 		tabPanel("Dam 4: East Millinocket Dam",
@@ -1111,7 +1109,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download East Millinocket Results'),
-		             downloadButton("downloadData", "Download East Millinocket")
+		             downloadButton("downloadData4", "Download East Millinocket")
 		             )
 		             ),
 		tabPanel("Dam 5: North Twin",
@@ -1166,7 +1164,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download North Twin Results'),
-		             downloadButton("downloadData", "Download North Twin")
+		             downloadButton("downloadData5", "Download North Twin")
 		             )
 		         ),
 		tabPanel("Dam 6: Dolby",
@@ -1221,7 +1219,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Dolby Results'),
-		             downloadButton("downloadData", "Download Dolby")
+		             downloadButton("downloadData6", "Download Dolby")
 		             )
 		             ),
 		tabPanel("Dam 7: Millinocket Lake",
@@ -1276,7 +1274,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Millinocket Lake Results'),
-		             downloadButton("downloadData", "Download Millinocket Lake")
+		             downloadButton("downloadData7", "Download Millinocket Lake")
 		             )
 		             ),
 		tabPanel("Dam 8: Ripogenus",
@@ -1331,10 +1329,17 @@ ui <- shinyUI(fluidPage(
 		               ),
 		             
 		             h3('Download Ripogenus Results'),
-		             downloadButton("downloadData", "Download Ripogenus")
+		             downloadButton("downloadData8", "Download Ripogenus")
 		             )
 		             ),
-		tabPanel("Developers",
+		tabPanel("Multi-Dam Results",
+		         htmlOutput("Step 5: Multi-Dam Results"),
+		         h2("Multi-Dam Results"),
+		         HTML(
+		           "Something here about multi-dam results and how to interpret them.<br>" 
+		         ),
+		
+		         tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
 				 "<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
@@ -1363,7 +1368,7 @@ ui <- shinyUI(fluidPage(
 			 )
 
 		)
-)))
+))))
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)

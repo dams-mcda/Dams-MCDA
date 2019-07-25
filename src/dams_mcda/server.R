@@ -256,12 +256,24 @@ server <- function(input, output, session) {
 		row.names(Dam1_Table) <- criteria_names
 		names(Dam1_Table) <- "Raw Score"
 
-
+    #results
+		# Figure 1 raw pref plot to show on output page
+		output$SummPlot1 <- renderBarPlot(
+		  Dam1, # data
+		  "Raw Preference Scores for West Enfield", # title
+		  criteria_names, # x_labels
+		  "Topic", # x axis label
+		  "Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
+		
 		shinyjs::show(id="dam-1-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['damss_completed']], "add", 1)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 1)
 	}
 
 	#------------------------------------------------------------
@@ -296,7 +308,18 @@ server <- function(input, output, session) {
 		row.names(Dam2_Table) <- criteria_names
 		names(Dam2_Table) <- "Raw Score"
 
-
+		# Figure 4 raw pref plot
+		output$SummPlot2 <- renderBarPlot(
+		  Dam2, # data
+		  "Raw Preference Scores for Medway", # title
+		  criteria_names, # x_labels
+		  "Topic", # x axis label
+		  "Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
+		
 		shinyjs::show(id="dam-2-output")
 
 		# mark the dam as complete when update
@@ -338,7 +361,17 @@ server <- function(input, output, session) {
 		row.names(Dam3_Table) <- criteria_names
 		names(Dam3_Table) <- "Raw Score"
 
-
+		# Figure 7 raw pref plot to show on output page
+		output$SummPlot3 <- renderBarPlot(
+		  Dam1, # data
+		  "Raw Preference Scores for Millinocket", # title
+		  criteria_names, # x_labels
+		  "Topic", # x axis label
+		  "Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
 		shinyjs::show(id="dam-3-output")
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
@@ -379,6 +412,17 @@ server <- function(input, output, session) {
 		row.names(Dam4_Table) <- criteria_names
 		names(Dam4_Table) <- "Raw Score"
 
+		# Figure 10 raw pref plot to show on output page
+		output$SummPlot4 <- renderBarPlot(
+		  Dam1, # data
+		  "Raw Preference Scores for East Millinocket", # title
+		  criteria_names, # x_labels
+		  "Topic", # x axis label
+		  "Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
 
 		shinyjs::show(id="dam-4-output")
 		# mark the alternative as complete when update
@@ -421,7 +465,18 @@ server <- function(input, output, session) {
 		row.names(Dam5_Table) <- criteria_names
 		names(Dam5_Table) <- "Raw Score"
 
-
+		# Figure 13 raw pref plot to show on output page
+		output$SummPlot5 <- renderBarPlot(
+		  Dam1, # data
+		  "Raw Preference Scores for North Twin", # title
+		  criteria_names, # x_labels
+		  "Topic", # x axis label
+		  "Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
+		
 		shinyjs::show(id="dam-5-output")
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
@@ -462,6 +517,17 @@ server <- function(input, output, session) {
 	  row.names(Dam6_Table) <- criteria_names
 	  names(Dam6_Table) <- "Raw Score"
 	  
+	  # Figure 16 raw pref plot to show on output page
+	  output$SummPlot6 <- renderBarPlot(
+	    Dam1, # data
+	    "Raw Preference Scores for Dolby", # title
+	    criteria_names, # x_labels
+	    "Topic", # x axis label
+	    "Score", # y axis label
+	    colors, # colors
+	    NULL, # x value limit
+	    score_range # y value limit (0-100 value range)
+	  )
 
 	  shinyjs::show(id="dam-6-output")
 	  # mark the dam as complete when update
@@ -503,7 +569,17 @@ server <- function(input, output, session) {
 	  row.names(Dam7_Table) <- criteria_names
 	  names(Dam7_Table) <- "Raw Score"
 	  
-
+	  # Figure 19 raw pref plot to show on output page
+	  output$SummPlot7 <- renderBarPlot(
+	    Dam1, # data
+	    "Raw Preference Scores for Millinocket Lake", # title
+	    criteria_names, # x_labels
+	    "Topic", # x axis label
+	    "Score", # y axis label
+	    colors, # colors
+	    NULL, # x value limit
+	    score_range # y value limit (0-100 value range)
+	  )
 	  shinyjs::show(id="dam-7-output")
 	  # mark the dam as complete when update
 	  # or apply logic here to make other contstraints for "complete"
@@ -544,6 +620,17 @@ server <- function(input, output, session) {
 	  row.names(Dam8_Table) <- criteria_names
 	  names(Dam8_Table) <- "Raw Score"
 	  
+	  # Figure 22 raw pref plot to show on output page
+	  output$SummPlot8 <- renderBarPlot(
+	    Dam1, # data
+	    "Raw Preference Scores for Ripogenus", # title
+	    criteria_names, # x_labels
+	    "Topic", # x axis label
+	    "Score", # y axis label
+	    colors, # colors
+	    NULL, # x value limit
+	    score_range # y value limit (0-100 value range)
+	  )
 
 	  shinyjs::show(id="dam-8-output")
 	  # mark the dam as complete when update
@@ -592,6 +679,7 @@ server <- function(input, output, session) {
 			}
 			dams <- unlist(dams)
 			
+			#NOT SURE HOW TO RECONCILE THIS SPECIFIC TO EACH INDIVIDuaL DAM
 			#for alternatives in tables/graphs, this generates a blank matrix with labels
 			alternatives <- vector("list", length(available_alternatives))
 			for (row_id in 1:length(available_alternatives)){
@@ -622,7 +710,6 @@ server <- function(input, output, session) {
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
-			dimnames(RawCriteriaMatrix)[[3]] <- alternative_names
 
 			# origial scores in table form
 			# for debugging table size
@@ -634,7 +721,7 @@ server <- function(input, output, session) {
 			# matrix setup
 			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
 			matrix_rows <- length(available_dams) # 8 default
-			matrix_levs <- length(available_alternatives)
+			matrix_levs <- length(available_alternatives) #5 default
 			
 
 			WeightedScoreMatrix <- array(data=NA, c(8,14,5))
@@ -679,17 +766,7 @@ server <- function(input, output, session) {
 			Score <- alternatives
 			Data <- data.frame(Alternative, Criteria, Score)
 
-			# Figure 1 raw pref plot
-			output$SummPlot1 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for West Enfield", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
-			)
+
 			# Figure 2 Stacked Bar 100%
 			output$WSMPlot1 <- renderPlot(
 				ggplot(
@@ -739,19 +816,7 @@ server <- function(input, output, session) {
 				+ scale_x_discrete(limits=rev(criteria_names))
 				+ scale_y_continuous(expand = c(0, 0))
 			)
-			
-			# Figure 4 raw pref plot
-			output$SummPlot2 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for Medway", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
-			)
-			
+
 			# Figure 5 Stacked Bar 100%
 			output$WSMPlot3 <- renderPlot(
 			  ggplot(
@@ -801,19 +866,7 @@ server <- function(input, output, session) {
 			  + scale_x_discrete(limits=rev(criteria_names))
 			  + scale_y_continuous(expand = c(0, 0))
 			)
-			
-			# Figure 7 raw pref plot
-			output$SummPlot3 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for Millinocket/Quakish", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
-			)
-			
+
 			# Figure 8 Stacked Bar 100%
 			output$WSMPlot5 <- renderPlot(
 			  ggplot(
@@ -862,18 +915,6 @@ server <- function(input, output, session) {
 			  )
 			  + scale_x_discrete(limits=rev(criteria_names))
 			  + scale_y_continuous(expand = c(0, 0))
-			)
-			
-			# Figure 10 raw pref plot
-			output$SummPlot4 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for East Millinocket", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
 			)
 			
 			# Figure 11 Stacked Bar 100%
@@ -926,18 +967,6 @@ server <- function(input, output, session) {
 			  + scale_y_continuous(expand = c(0, 0))
 			)
 			
-			# Figure 13 raw pref plot
-			output$SummPlot5 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for North Twin", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
-			)
-			
 			# Figure 14 Stacked Bar 100%
 			output$WSMPlot9 <- renderPlot(
 			  ggplot(
@@ -988,18 +1017,7 @@ server <- function(input, output, session) {
 			  + scale_y_continuous(expand = c(0, 0))
 			)
 			
-			# Figure 16 raw pref plot
-			output$SummPlot6 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for Dolby", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
-			)
-			
+
 			# Figure 17 Stacked Bar 100%
 			output$WSMPlot11 <- renderPlot(
 			  ggplot(
@@ -1050,18 +1068,6 @@ server <- function(input, output, session) {
 			  + scale_y_continuous(expand = c(0, 0))
 			)
 			
-			# Figure 19 raw pref plot
-			output$SummPlot7 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for Millinocket Lake", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
-			)
-			
 			# Figure 20 Stacked Bar 100%
 			output$WSMPlot13 <- renderPlot(
 			  ggplot(
@@ -1110,18 +1116,6 @@ server <- function(input, output, session) {
 			  )
 			  + scale_x_discrete(limits=rev(criteria_names))
 			  + scale_y_continuous(expand = c(0, 0))
-			)
-			
-			# Figure 22 raw pref plot
-			output$SummPlot8 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for Ripogenus", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
 			)
 			
 			# Figure 23 Stacked Bar 100%
@@ -1303,7 +1297,7 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
-	# alt6
+	# dam6
 	progress6 <- reactive({
 	  sum <- 0.0
 	  for (id in criteria_inputs){
@@ -1311,7 +1305,7 @@ server <- function(input, output, session) {
 	  }
 	  return(sum)
 	})
-	# alt7
+	# dam7
 	progress7 <- reactive({
 	  sum <- 0.0
 	  for (id in criteria_inputs){
@@ -1319,7 +1313,7 @@ server <- function(input, output, session) {
 	  }
 	  return(sum)
 	})
-	# alt8
+	# dam8
 	progress8 <- reactive({
 	  sum <- 0.0
 	  for (id in criteria_inputs){
@@ -1393,7 +1387,26 @@ server <- function(input, output, session) {
 	    tags$span("1.0 / 1.0", class="complete")
 	))
 	#--------------------------------------------------------------------------------
-	# Alternative Update Event Listeners
+	# User Step 1 Event Listeners
+	# these trigger on button click
+	#--------------------------------------------------------------------------------
+	
+	# Individual vs. Group path
+	#----------------------------------------
+	observeEvent(input$IndividualBtn, {
+	  
+	})
+
+	observeEvent(input$GroupBtn, {
+	  
+	})	
+	
+	observeEvent(input$UploadBtn, {
+	  
+	})
+	
+	#--------------------------------------------------------------------------------
+	# Dam Update Event Listeners
 	# these trigger the updates on button click
 	#--------------------------------------------------------------------------------
 
@@ -1505,7 +1518,7 @@ server <- function(input, output, session) {
 	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_dams), ncol=length(criteria_inputs) ))
 
 	# on 'Output > Generate' button event: fill matrix with user input values
-	observeEvent(input$generateMatrix, {
+	observeEvent(input$generateMatrix1, {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
@@ -1525,12 +1538,12 @@ server <- function(input, output, session) {
 	})
 
 	# Downloadable csv of selected dataset ----
-	output$downloadData <- downloadHandler(
+	output$downloadData1 <- downloadHandler(
 		filename = function() {
 			# format date & time in filename
 			# date format( year, month, day, hour, minute, second, UTC offset )
 
-		   format(Sys.time(), "dams_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+		   format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 		},
 		content = function(file) {
 		   write.csv(
@@ -1542,5 +1555,123 @@ server <- function(input, output, session) {
 		}
 	)
 
+	output$downloadData2 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "Medway_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
 
+	output$downloadData3 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "Millinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+	
+	output$downloadData4 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "EastMillinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+	
+	output$downloadData5 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "NorthTwin_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+	
+	output$downloadData6 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "Dolby_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+	
+	output$downloadData7 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "MillinocketLake_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+	
+	output$downloadData8 <- downloadHandler(
+	  filename = function() {
+	    # format date & time in filename
+	    # date format( year, month, day, hour, minute, second, UTC offset )
+	    
+	    format(Sys.time(), "Ripogenus_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+	
 } # end server
