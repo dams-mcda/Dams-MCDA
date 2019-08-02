@@ -165,13 +165,13 @@ runMatlab <- function(port=9998, attempt=1){
 #----------------------------------------
 # Working Directories: path where files are saved/opened (if any)
 #----------------------------------------
-base_dir <- "/srv/shiny-server/dams_mcda/" # root
-response_dir <- paste(base_dir, "responses/", sep="") # where responses are saved
-working_dir <- paste(base_dir, "", sep="") # default
+#base_dir <- "/srv/shiny-server/dams_mcda/" # root
+#response_dir <- paste(base_dir, "responses/", sep="") # where responses are saved
+#working_dir <- paste(base_dir, "", sep="") # default
 
-setwd(working_dir) # initial directory
+#setwd(working_dir) # initial directory
 
-responsesDir <- file.path(response_dir) # directory where responses get stored
+#responsesDir <- file.path(response_dir) # directory where responses get stored
 
 #----------------------------------------
 # Output
@@ -188,7 +188,7 @@ score_range <- c(0, 1)
 # range of final graph of summed scores
 summed_score_range <- c(0, 1)
 # list of alternatives
-available_alternatives <- seq(1:5)
+available_dams <- seq(1:8)
 
 # smallest input slider increment
 smallest_increment <- 0.025
@@ -206,10 +206,12 @@ criteria_inputs <- c(
 	"NumProperties",
 	"ElectricityGeneration",
 	"AvoidEmissions",
-	"IndigenousHeritage",
+	"IndigenousLifeways",
 	"IndustrialHistory",
 	"CommunityIdentity",
-	"Aesthetics"
+	"Aesthetics",
+	"Health",
+	"Justice"
 )
 
 # criteria display names (for labeling tables and graphs)
@@ -222,10 +224,12 @@ criteria_names <- c(
 	"Number of Properties Impacted",
 	"Annual Electricity Generation",
 	"CO2 Emissions Reduction",
-	"Indigenous Cultural Heritage",
+	"Indigenous Cultural Traditions and Lifeways",
 	"Industrial Historical Value",
-	"Town/City Identity",
-	"Aesthetic Value"
+	"Community Identity",
+	"Aesthetic Value", 
+	"Public Health",
+	"Socio-Environmental Justice"
 )
 
 # alternative display names (for labeling tables and graphs)
@@ -235,6 +239,18 @@ alternative_names <- c(
    "Improve Hydro",
    "Improve Hydro AND Fish Passage",
    "Keep and Maintain Dam"
+)
+
+# dam display names (for labeling tables and graphs)
+dam_names <- c(
+    "West Enfield Dam",
+    "Medway Dam",
+    "Millinocket/Quakish",
+    "East Millinocket",
+    "North Twin",
+    "Dolby",
+    "Millinocket Lake",
+    "Ripogenus"
 )
 
 # append summed score to criteria_names array
@@ -307,13 +323,13 @@ loadData <- function() {
 }
 
 
-# updateAlternativeStatus
+# updateDamStatus
 #----------------------------------------
 # remove and refill progress of a status
 # action is status to apply "remove" or "add"
-updateAlternativeStatus <- function(completed, action, id){
+updateDamStatus <- function(completed, action, id){
 	message('------------------')
-	message('updateAlternativeStatus vector')
+	message('updateDamStatus vector')
 	message('------------------')
 
 	if (id %in% completed & action == "remove"){
@@ -321,23 +337,23 @@ updateAlternativeStatus <- function(completed, action, id){
 	}else if (action =="add" & !(id %in% completed)){
 		completed <- c(completed, id)
 	}else{
-		#message('no Alternative Status Changes')
+		#message('no Dam Status Changes')
 	}
 	return(completed)
 }
 
 
-# alternativesCompleted
+# damsCompleted
 #----------------------------------------
-# check all available_alternatives are in alternatives_completed
+# check all available_Dams are in Dams_completed
 # returns boolean
-alternativesCompleted <- function(completed){
+damsCompleted <- function(completed){
 	message('------------------')
-	message('bool alternativesCompleted(array_completed)')
+	message('bool damsCompleted(array_completed)')
 	message('------------------')
 
-	# available_alternatives is array of alt sections ids
-	for (value in available_alternatives){
+	# available_dams is array of dam sections ids
+	for (value in available_dams){
 		if (!(value %in% completed)){
 			return(FALSE)
 		}
@@ -363,18 +379,18 @@ server <- function(input, output, session) {
 	session$sendCustomMessage("validateSession", "any message")
 
 	#------------------------------------------------------------
-	# updateAlt1
-	# logic for updating alternative 1
+	# updateDam1
+	# logic for updating West Enfield Dam
 	#------------------------------------------------------------
-	updateAlt1 <- function (){
+	updateDam1 <- function (){
 		# update the tab status
-		output$Alt1 <- renderUI(list(
-			"Alternative 1: Remove Dam",
-			tags$span('Complete', class="alt-complete")
+		output$Dam1 <- renderUI(list(
+			"Dam 1: West Enfield",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt1 <- c(
+		Dam1 <- c(
 			input$FishBiomass1,
 			input$RiverRec1,
 			input$Reservoir1,
@@ -383,46 +399,38 @@ server <- function(input, output, session) {
 			input$NumProperties1,
 			input$ElectricityGeneration1,
 			input$AvoidEmissions1,
-			input$IndigenousHeritage1,
+			input$IndigenousLifeways1,
 			input$IndustrialHistory1,
 			input$CommunityIdentity1,
-			input$Aesthetics1
+			input$Aesthetics1,
+			input$Health1,
+			input$Justice1
 		)
 
-		# create table matrix 1x5
-		Alt1_Table <- as.matrix(data.frame(Alt1))
-		row.names(Alt1_Table) <- criteria_names
-		names(Alt1_Table) <- "Raw Score"
+		# create table matrix
+		Dam1_Table <- as.matrix(data.frame(Dam1))
+		row.names(Dam1_Table) <- criteria_names
+		names(Dam1_Table) <- "Raw Score"
 
-		# results
-		output$SummPlot1 <- renderBarPlot(
-								Alt1, # data
-								"Raw Scores of Alternative 1", # title
-								criteria_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		shinyjs::show(id="alt-1-output")
+
+		shinyjs::show(id="dam-1-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 1)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['damss_completed']], "add", 1)
 	}
 
 	#------------------------------------------------------------
-	# updateAlt2
-	# logic for updating alternative 2
+	# updateDam2
+	# logic for updating Medway Dam
 	#------------------------------------------------------------
-	updateAlt2 <- function() {
-		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage",
-			tags$span('Complete', class="alt-complete")
+	updateDam2 <- function() {
+		output$Dam2 <- renderUI(list(
+			"Dam 2: Medway Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 		# get decision inputs
-		Alt2 <- c(
+		Dam2 <- c(
 			input$FishBiomass2,
 			input$RiverRec2,
 			input$Reservoir2,
@@ -431,47 +439,39 @@ server <- function(input, output, session) {
 			input$NumProperties2,
 			input$ElectricityGeneration2,
 			input$AvoidEmissions2,
-			input$IndigenousHeritage2,
+			input$IndigenousLifeways2,
 			input$IndustrialHistory2,
 			input$CommunityIdentity2,
-			input$Aesthetics2
+			input$Aesthetics2,
+			input$Health2,
+			input$Justice2
 			)
 
-		# create table matrix 1x5
-		Alt2_Table <- as.matrix(data.frame(Alt2))
-		row.names(Alt2_Table) <- criteria_names
-		names(Alt2_Table) <- "Raw Score"
+		# create table matrix
+		Dam2_Table <- as.matrix(data.frame(Dam2))
+		row.names(Dam2_Table) <- criteria_names
+		names(Dam2_Table) <- "Raw Score"
 
-		# results
-		output$SummPlot2 <- renderBarPlot(
-								Alt2, # data
-								"Raw Scores of Alternative 2", # title
-								criteria_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		shinyjs::show(id="alt-2-output")
 
-		# mark the alternative as complete when update
+		shinyjs::show(id="dam-2-output")
+
+		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 2)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 2)
 	}
 
 	#------------------------------------------------------------
-	# updateAlt3
-	# logic for updating alternative 3
+	# updateDam3
+	# logic for updating Millinocket Dam
 	#------------------------------------------------------------
-	updateAlt3 <- function() {
-		output$Alt3 <- renderUI(list(
-			"Alternative 3: Improve Hydropower Generation",
-			tags$span('Complete', class="alt-complete")
+	updateDam3 <- function() {
+		output$Dam3 <- renderUI(list(
+			"Dam 3: Millinocket Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt3 <- c(
+		Dam3 <- c(
 			input$FishBiomass3,
 			input$RiverRec3,
 			input$Reservoir3,
@@ -480,48 +480,40 @@ server <- function(input, output, session) {
 			input$NumProperties3,
 			input$ElectricityGeneration3,
 			input$AvoidEmissions3,
-			input$IndigenousHeritage3,
+			input$IndigenousLifeways3,
 			input$IndustrialHistory3,
 			input$CommunityIdentity3,
-			input$Aesthetics3
+			input$Aesthetics3,
+			input$Health3,
+			input$Justice3
 			)
 
 
-		# create table matrix 1x5
-		Alt3_Table <- as.matrix(data.frame(Alt3))
-		row.names(Alt3_Table) <- criteria_names
-		names(Alt3_Table) <- "Raw Score"
+		# create table matrix 
+		Dam3_Table <- as.matrix(data.frame(Dam3))
+		row.names(Dam3_Table) <- criteria_names
+		names(Dam3_Table) <- "Raw Score"
 
-		# results
-		output$SummPlot3 <- renderBarPlot(
-								Alt3, # data
-								"Raw Scores of Alternative 3", # title
-								criteria_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		shinyjs::show(id="alt-3-output")
-		# mark the alternative as complete when update
+
+		shinyjs::show(id="dam-3-output")
+		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 3)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 3)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 3)
 	}
 
 	#------------------------------------------------------------
-	# updateAlt4
-	# logic for updating alternative 4
+	# updateDam4
+	# logic for updating East Millinocket Dam
 	#------------------------------------------------------------
-	updateAlt4 <- function() {
-		output$Alt4 <- renderUI(list(
-			"Alternative 4: Improve Hydropower Generation AND Fish Passage",
-			tags$span('Complete', class="alt-complete")
+	updateDam4 <- function() {
+		output$Dam4 <- renderUI(list(
+			"Dam 4: East Millinocket Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt4 <- c(
+		Dam4 <- c(
 			input$FishBiomass4,
 			input$RiverRec4,
 			input$Reservoir4,
@@ -530,48 +522,40 @@ server <- function(input, output, session) {
 			input$NumProperties4,
 			input$ElectricityGeneration4,
 			input$AvoidEmissions4,
-			input$IndigenousHeritage4,
+			input$IndigenousLifeways4,
 			input$IndustrialHistory4,
 			input$CommunityIdentity4,
-			input$Aesthetics4
+			input$Aesthetics4,
+			input$Health4,
+			input$Justice4
 			)
 
-		# create table matrix 1x5
-		Alt4_Table <- as.matrix(data.frame(Alt4))
-		row.names(Alt4_Table) <- criteria_names
-		names(Alt4_Table) <- "Raw Score"
+		# create table matrix
+		Dam4_Table <- as.matrix(data.frame(Dam4))
+		row.names(Dam4_Table) <- criteria_names
+		names(Dam4_Table) <- "Raw Score"
 
-		# results
-		output$SummPlot4 <- renderBarPlot(
-								Alt4, # data
-								"Raw Scores of Alternative 4", # title
-								criteria_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		shinyjs::show(id="alt-4-output")
+
+		shinyjs::show(id="dam-4-output")
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 4)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 4)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 4)
 	}
 
 
 	#------------------------------------------------------------
-	# updateAlt5
-	# logic for updating alternative 5
+	# updateDam5
+	# logic for updating North Twin Dam
 	#------------------------------------------------------------
-	updateAlt5 <- function() {
-		output$Alt5 <- renderUI(list(
-			"Alternative 5: Keep and Maintain Dam",
-			tags$span('Complete', class="alt-complete")
+	updateDam5 <- function() {
+		output$Dam5 <- renderUI(list(
+			"Dam 5: North Twin Dam",
+			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Alt5 <- c(
+		Dam5 <- c(
 			input$FishBiomass5,
 			input$RiverRec5,
 			input$Reservoir5,
@@ -580,66 +564,179 @@ server <- function(input, output, session) {
 			input$NumProperties5,
 			input$ElectricityGeneration5,
 			input$AvoidEmissions5,
-			input$IndigenousHeritage5,
+			input$IndigenousLifeways5,
 			input$IndustrialHistory5,
 			input$CommunityIdentity5,
-			input$Aesthetics5
+			input$Aesthetics5,
+			input$Health5,
+			input$Justice5
 		)
 
-		# create table matrix 1x5
-		Alt5_Table <- as.matrix(data.frame(Alt5))
-		row.names(Alt5_Table) <- criteria_names
-		names(Alt5_Table) <- "Raw Score"
+		# create table matrix
+		Dam5_Table <- as.matrix(data.frame(Dam5))
+		row.names(Dam5_Table) <- criteria_names
+		names(Dam5_Table) <- "Raw Score"
 
-		# results
-		output$SummPlot5 <- renderBarPlot(
-								Alt5, # data
-								"Raw Scores of Alternative 5", # title
-								criteria_names, # x_labels
-								"Topic", # x axis label
-								"Score", # y axis label
-								colors, # colors
-								NULL, # x value limit
-								score_range # y value limit (1-5 value range)
-							)
-		shinyjs::show(id="alt-5-output")
-		# mark the alternative as complete when update
+
+		shinyjs::show(id="dam-5-output")
+		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 5)
-		session$userData[['alternatives_completed']] <- updateAlternativeStatus(session$userData[['alternatives_completed']], "add", 5)
+		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 5)
 	}
 
+	#------------------------------------------------------------
+	# updateDam6
+	# logic for updating Dolby Dam
+	#------------------------------------------------------------
+	updateDam6 <- function() {
+	  output$Dam6 <- renderUI(list(
+	    "Dam 6:Dolby Dam",
+	    tags$span('Complete', class="dam-complete")
+	  ))
+	  
+	  # get decision inputs
+	  Dam6 <- c(
+	    input$FishBiomass6,
+	    input$RiverRec6,
+	    input$Reservoir6,
+	    input$ProjectCost6,
+	    input$Safety6,
+	    input$NumProperties6,
+	    input$ElectricityGeneration6,
+	    input$AvoidEmissions6,
+	    input$IndigenousLifeways6,
+	    input$IndustrialHistory6,
+	    input$CommunityIdentity6,
+	    input$Aesthetics6,
+	    input$Health6,
+	    input$Justice6
+	  )
+	  
+	  # create table matrix
+	  Dam6_Table <- as.matrix(data.frame(Dam6))
+	  row.names(Dam6_Table) <- criteria_names
+	  names(Dam6_Table) <- "Raw Score"
+	  
 
+	  shinyjs::show(id="dam-6-output")
+	  # mark the dam as complete when update
+	  # or apply logic here to make other contstraints for "complete"
+	  #updateAlternativeStatus("add", 6)
+	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 6)
+	}
+	
+	#------------------------------------------------------------
+	# updateDam7
+	# logic for updating Millinocket Lake Dam
+	#------------------------------------------------------------
+	updateDam7 <- function() {
+	  output$Dam7 <- renderUI(list(
+	    "Dam 7: Millinocket Lake Dam",
+	    tags$span('Complete', class="dam-complete")
+	  ))
+	  
+	  # get decision inputs
+	  Dam7 <- c(
+	    input$FishBiomass7,
+	    input$RiverRec7,
+	    input$Reservoir7,
+	    input$ProjectCost7,
+	    input$Safety7,
+	    input$NumProperties7,
+	    input$ElectricityGeneration7,
+	    input$AvoidEmissions7,
+	    input$IndigenousLifeways7,
+	    input$IndustrialHistory7,
+	    input$CommunityIdentity7,
+	    input$Aesthetics7,
+	    input$Health7,
+	    input$Justice7
+	  )
+	  
+	  # create table matrix
+	  Dam7_Table <- as.matrix(data.frame(Dam7))
+	  row.names(Dam7_Table) <- criteria_names
+	  names(Dam7_Table) <- "Raw Score"
+	  
+
+	  shinyjs::show(id="dam-7-output")
+	  # mark the dam as complete when update
+	  # or apply logic here to make other contstraints for "complete"
+	  #updateAlternativeStatus("add", 7)
+	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 7)
+	}
+	
+	#------------------------------------------------------------
+	# updateDam8
+	# logic for updating Ripogenus Dam
+	#------------------------------------------------------------
+	updateDam8 <- function() {
+	  output$Dam8 <- renderUI(list(
+	    "Dam 8: Ripogenus Dam",
+	    tags$span('Complete', class="dam-complete")
+	  ))
+	  
+	  # get decision inputs
+	  Dam8 <- c(
+	    input$FishBiomass8,
+	    input$RiverRec8,
+	    input$Reservoir8,
+	    input$ProjectCost8,
+	    input$Safety8,
+	    input$NumProperties8,
+	    input$ElectricityGeneration8,
+	    input$AvoidEmissions8,
+	    input$IndigenousLifeways8,
+	    input$IndustrialHistory8,
+	    input$CommunityIdentity8,
+	    input$Aesthetics8,
+	    input$Health8,
+	    input$Justice8
+	  )
+	  
+	  # create table matrix 
+	  Dam8_Table <- as.matrix(data.frame(Dam8))
+	  row.names(Dam8_Table) <- criteria_names
+	  names(Dam8_Table) <- "Raw Score"
+	  
+
+	  shinyjs::show(id="dam-8-output")
+	  # mark the dam as complete when update
+	  # or apply logic here to make other contstraints for "complete"
+	  #updateDamStatus("add", 8)
+	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 8)
+	}
 	#------------------------------------------------------------
 	# generateOutput
 	# generate the final table and barplot
 	#------------------------------------------------------------
 	generateOutput <- function (){
 
-	    if ( !alternativesCompleted(session$userData[['alternatives_completed']]) ){
-			# user isnt finished filling out alternatives
+	    if ( !damsCompleted(session$userData[['dams_completed']]) ){
+			# user isnt finished filling out dams
 			showModal(modalDialog(
 				title = "Not Finished!",
-				'Please Complete All Alternatives before generating results'
+				'Please complete all dams tabs before generating results'
 			))
 
 		}else{
 			#------------------------------------------------------------
-			# get 2d array of values based on length/values of criteria_inputs and available_alternatives
+			# get 2d array of values based on length/values of criteria_inputs and available_dams
 			# criterion -> columns
-			# alternatives -> rows
-			# example 6 criterion 5 alternatives results in 6 column by 5 row 2d data structure
+			# dams -> rows
+			# example 14 criterion 8 alternatives results in 14 column by 8 row 2d data structure specific to dams
 			#------------------------------------------------------------
 			#criterion <- vector("list", length(criteria_inputs))
-			alternatives <- vector("list", length(available_alternatives))
-			for (row_id in 1:length(available_alternatives)){
-				# for each criteria in alternatives
-				r <- vector("list", length(available_alternatives))
+			dams <- vector("list", length(available_dams))
+			for (row_id in 1:length(available_dams)){
+				# for each criterion in alternatives
+				q <- vector("list", length(available_dams))
 
 				for (id in criteria_inputs){
 					input_name <- paste(id, toString(row_id), sep='')
 					value <- input[[input_name]]
-					r[[id]] <- value
+				q[[id]] <- value
 
 					if (is.null(value)){
 						# debug nulls, doesn't modify data
@@ -647,17 +744,40 @@ server <- function(input, output, session) {
 					}
 				}
 
-				alternatives[[row_id]] <- unlist(r) # we want in c and not list
+				dams[[row_id]] <- unlist(r) # we want in c and not list
+			}
+			dams <- unlist(dams)
+			
+			#for alternatives in tables/graphs, this generates a blank matrix with labels
+			alternatives <- vector("list", length(available_alternatives))
+			for (row_id in 1:length(available_alternatives)){
+			  # for each criterion in alternatives
+			  r <- vector("list", length(available_alternatives))
+			  
+			  for (id in criteria_inputs){
+			    input_name <- paste(id, toString(row_id), sep='')
+			    value <- input[[input_name]]
+			    r[[id]] <- value
+			    
+			    if (is.null(value)){
+			      # debug nulls, doesn't modify data
+			      message('input ', input_name, " isNull ")
+			    }
+			  }
+			  
+			  alternatives[[row_id]] <- unlist(r) # we want in c and not list
 			}
 			alternatives <- unlist(alternatives)
 
-			# assign values in new matrix
+			
+			# -------------------------------NEED TO REWRITE BY DAM------------------------------# 
+			#assign values in new matrix
 			RawCriteriaMatrix <- data.frame(
-				matrix(alternatives, nrow=length(available_alternatives), byrow=length(criteria_inputs))
+				matrix(dams, nrow=length(available_dams), byrow=length(criteria_inputs))
 			)
 
 			# assign table row, column names
-			row.names(RawCriteriaMatrix) <- alternative_names
+			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
 
 			# origial scores in table form
@@ -668,8 +788,8 @@ server <- function(input, output, session) {
 			# Call WSM and format response
 			#----------------------------------------
 			# matrix setup
-			matrix_cols <- length(criteria_inputs) # 7 default (output size, adds summedscore)
-			matrix_rows <- length(available_alternatives) # 5 default
+			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
+			matrix_rows <- length(available_dams) # 8 default
 
 			IntermediateMatrix <- data.frame(matrix(data=NA, nrow=matrix_rows, ncol=matrix_cols))
 			IntermediateMatrix <- round(RawCriteriaMatrix,3)
@@ -695,12 +815,15 @@ server <- function(input, output, session) {
 			WSMTableOutput <- data.frame( TableMatrix, row.names=alternative_names, check.names=FALSE)
 			# this ones different because it has sum row
 			names(WSMTableOutput) <- criteria_names_and_sum
+			
+			# -------------------------------END REWRITE BY DAM------------------------------# 
+			
 
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
 			# final output table commented out due to redundancy
-			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
+			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
 
 			saveResponse(WSMTableOutput)
 
@@ -710,8 +833,18 @@ server <- function(input, output, session) {
 			Score <- alternatives
 			Data <- data.frame(Alternative, Criteria, Score)
 
-
-			# stacked bar plot 1
+			# Figure 1 raw pref plot
+			output$SummPlot1 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for West Enfield", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			# Figure 2 Stacked Bar 100%
 			output$WSMPlot1 <- renderPlot(
 				ggplot(
 				  data=Data,
@@ -736,7 +869,7 @@ server <- function(input, output, session) {
 			# order of stacked bars for plot2
 			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
 
-			# stacked bar plot 2
+			# Figure 3 stacked bar plot
 			output$WSMPlot2 <- renderPlot(
 				ggplot(
 				  data=Data,
@@ -760,7 +893,441 @@ server <- function(input, output, session) {
 				+ scale_x_discrete(limits=rev(criteria_names))
 				+ scale_y_continuous(expand = c(0, 0))
 			)
-
+			
+			# Figure 4 raw pref plot
+			output$SummPlot2 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for Medway", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 5 Stacked Bar 100%
+			output$WSMPlot3 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 6 stacked bar plot
+			output$WSMPlot4 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
+			# Figure 7 raw pref plot
+			output$SummPlot3 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for Millinocket/Quakish", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 8 Stacked Bar 100%
+			output$WSMPlot5 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 9 stacked bar plot
+			output$WSMPlot6 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
+			# Figure 10 raw pref plot
+			output$SummPlot4 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for East Millinocket", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 11 Stacked Bar 100%
+			output$WSMPlot7 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 12 stacked bar plot
+			output$WSMPlot8 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
+			# Figure 13 raw pref plot
+			output$SummPlot5 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for North Twin", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 14 Stacked Bar 100%
+			output$WSMPlot9 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 15 stacked bar plot
+			output$WSMPlot10 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
+			# Figure 16 raw pref plot
+			output$SummPlot6 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for Dolby", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 17 Stacked Bar 100%
+			output$WSMPlot11 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 18 stacked bar plot
+			output$WSMPlot12 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
+			# Figure 19 raw pref plot
+			output$SummPlot7 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for Millinocket Lake", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 20 Stacked Bar 100%
+			output$WSMPlot13 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 21 stacked bar plot
+			output$WSMPlot14 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
+			# Figure 22 raw pref plot
+			output$SummPlot8 <- renderBarPlot(
+			  Dam8, # data
+			  "Raw Preference Scores for Ripogenus", # title
+			  criteria_names, # x_labels
+			  "Topic", # x axis label
+			  "Score", # y axis label
+			  colors, # colors
+			  NULL, # x value limit
+			  score_range # y value limit (0-100 value range)
+			)
+			
+			# Figure 23 Stacked Bar 100%
+			output$WSMPlot15 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
+			  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="bottom",
+			    axis.text.y = element_text(angle = 0, hjust = 1),
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(alternative_names))
+			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
+			)
+			
+			# order of stacked bars for plot2
+			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
+			
+			# Figure 24 stacked bar plot
+			output$WSMPlot16 <- renderPlot(
+			  ggplot(
+			    data=Data,
+			    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
+			    environment = environment()
+			  )
+			  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
+			  + geom_text(
+			    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
+			  )
+			  + geom_text(
+			    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
+			  )
+			  + theme_minimal()
+			  #+ coord_flip()
+			  + theme(
+			    text=element_text(size=16),
+			    legend.position="top",
+			    axis.text.x = element_text(angle = 45, hjust = 1)
+			  )
+			  + scale_x_discrete(limits=rev(criteria_names))
+			  + scale_y_continuous(expand = c(0, 0))
+			)
+			
 			# plotly example graph
 			#output$WSMPlotly2 <- renderPlotly(
 			#  ggplotly(
@@ -794,48 +1361,63 @@ server <- function(input, output, session) {
 	observe({
 		# hide output html elements
 		shinyjs::hide(id="generated-output")
-		shinyjs::hide(id="alt-1-output")
-		shinyjs::hide(id="alt-2-output")
-		shinyjs::hide(id="alt-3-output")
-		shinyjs::hide(id="alt-4-output")
-		shinyjs::hide(id="alt-5-output")
+		shinyjs::hide(id="dam-1-output")
+		shinyjs::hide(id="dam-2-output")
+		shinyjs::hide(id="dam-3-output")
+		shinyjs::hide(id="dam-4-output")
+		shinyjs::hide(id="dam-5-output")
+		shinyjs::hide(id="dam-6-output")
+		shinyjs::hide(id="dam-7-output")
+		shinyjs::hide(id="dam-8-output")
+		
 
 		#----------------------------------------
 		# Keep track of completed sections
 		#----------------------------------------
-		session$userData[['alternatives_completed']] <- c()
+		session$userData[['dams_completed']] <- c()
 
 		#----------------------------------------
-		# Initial Alternative Tabs Text
+		# Initial Dam Tabs Text
 		#----------------------------------------
-		output$Alt1 <- renderUI(list(
-			"Alternative 1: Dam Removal",
-			tags$span('Requires User Input', class="alt-not-complete")
+		output$Dam1 <- renderUI(list(
+			"Dam 1: West Enfield Dam",
+			tags$span('Requires User Input', class="dam-not-complete")
 		))
-		output$Alt2 <- renderUI(list(
-			"Alternative 2: Improve Fish Passage",
-			tags$span('Requires User Input', class="alt-not-complete")
+		output$Dam2 <- renderUI(list(
+			"Dam 2: Medway Dam",
+			tags$span('Requires User Input', class="dam-not-complete")
 		))
-		output$Alt3 <- renderUI(list(
-			"Alternative 3: Improve Hydropower Generation",
-			tags$span('Requires User Input', class="alt-not-complete")
+		output$Dam3 <- renderUI(list(
+			"Dam 3: Millinocket Dam",
+			tags$span('Requires User Input', class="dam-not-complete")
 		))
-		output$Alt4 <- renderUI(list(
-			"Alternative 4: Improve Hydropower Generation AND Fish Passage",
-			tags$span('Requires User Input', class="alt-not-complete")
+		output$Dam4 <- renderUI(list(
+			"Dam 4: East Millinocket Dam",
+			tags$span('Requires User Input', class="dam-not-complete")
 		))
-		output$Alt5 <- renderUI(list(
-			"Alternative 5: Keep and Maintain Dam",
-			tags$span('Requires User Input', class="alt-not-complete")
+		output$Dam5 <- renderUI(list(
+			"Dam 5: North Twin Dam",
+			tags$span('Requires User Input', class="dam-not-complete")
 		))
-
+		output$Dam6 <- renderUI(list(
+		  "Dam 6: Dolby Dam",
+		  tags$span('Requires User Input', class="dam-not-complete")
+		))
+		output$Dam7 <- renderUI(list(
+		  "Dam 7: Millinocket Lake Dam",
+		  tags$span('Requires User Input', class="dam-not-complete")
+		))
+		output$Dam8 <- renderUI(list(
+		  "Dam 8: Ripogenus Dam",
+		  tags$span('Requires User Input', class="dam-not-complete")
+		))
 	})
 
 	#------------------------------------------------------------
 	# setUp ProgressBars
 	# reactive value for input progress
 	#------------------------------------------------------------
-	# alt1
+	# dam1
 	progress1 <- reactive({
 		sum <- 0.0
 		for (id in criteria_inputs){
@@ -843,7 +1425,7 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
-	# alt2
+	# dam2
 	progress2 <- reactive({
 		sum <- 0.0
 		for (id in criteria_inputs){
@@ -851,7 +1433,7 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
-	# alt3
+	# dam3
 	progress3 <- reactive({
 		sum <- 0.0
 		for (id in criteria_inputs){
@@ -859,7 +1441,7 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
-	# alt4
+	# dam4
 	progress4 <- reactive({
 		sum <- 0.0
 		for (id in criteria_inputs){
@@ -867,7 +1449,7 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
-	# alt5
+	# dam5
 	progress5 <- reactive({
 		sum <- 0.0
 		for (id in criteria_inputs){
@@ -875,54 +1457,101 @@ server <- function(input, output, session) {
 		}
 		return(sum)
 	})
+	# alt6
+	progress6 <- reactive({
+	  sum <- 0.0
+	  for (id in criteria_inputs){
+	    sum <- as.numeric(sum + input[[paste0(id, toString(6))]])
+	  }
+	  return(sum)
+	})
+	# alt7
+	progress7 <- reactive({
+	  sum <- 0.0
+	  for (id in criteria_inputs){
+	    sum <- as.numeric(sum + input[[paste0(id, toString(7))]])
+	  }
+	  return(sum)
+	})
+	# alt8
+	progress8 <- reactive({
+	  sum <- 0.0
+	  for (id in criteria_inputs){
+	    sum <- as.numeric(sum + input[[paste0(id, toString(8))]])
+	  }
+	  return(sum)
+	})
 
-	# alt1
-	output[[paste0("Alt", 1,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 1, ": "),
+	# dam1
+	output[[paste0("Dam", 1,"Progress")]] <- renderUI(list(
+		paste0("Progress for Dam", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
-	# alt2
-	output[[paste0("Alt", 2,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 2, ": "),
+	# Dam2
+	output[[paste0("Dam", 2,"Progress")]] <- renderUI(list(
+		paste0("Progress for Dam", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
-	# alt3
-	output[[paste0("Alt", 3,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 3, ": "),
+	# Dam3
+	output[[paste0("Dam", 3,"Progress")]] <- renderUI(list(
+		paste0("Progress for Dam", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
-	# alt4
-	output[[paste0("Alt", 4,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 4, ": "),
+	# Dam4
+	output[[paste0("Dam", 4,"Progress")]] <- renderUI(list(
+		paste0("Progress for Dam", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
-	# alt5
-	output[[paste0("Alt", 5,"Progress")]] <- renderUI(list(
-		paste0("Progress for Alternative ", 5, ": "),
+	# Dam5
+	output[[paste0("Dam", 5,"Progress")]] <- renderUI(list(
+		paste0("Progress for Dam", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
-
+	# Dam6
+	output[[paste0("Dam", 6,"Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam", 6, ": "),
+	  if( progress6() > upper_bound || progress6() < lower_bound)
+	    tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+	  else
+	    tags$span("1.0 / 1.0", class="complete")
+	))
+	# Dam7
+	output[[paste0("Dam", 7,"Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam", 7, ": "),
+	  if( progress7() > upper_bound || progress7() < lower_bound)
+	    tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+	  else
+	    tags$span("1.0 / 1.0", class="complete")
+	))
+	# Dam8
+	output[[paste0("Dam", 8,"Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam", 8, ": "),
+	  if( progress8() > upper_bound || progress8() < lower_bound)
+	    tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+	  else
+	    tags$span("1.0 / 1.0", class="complete")
+	))
 	#--------------------------------------------------------------------------------
 	# Alternative Update Event Listeners
 	# these trigger the updates on button click
 	#--------------------------------------------------------------------------------
 
-	# ALTERNATIVE 1
+	# West Enfield
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
 		if(progress1() > upper_bound || progress1() < lower_bound){
@@ -931,11 +1560,11 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress1())
 			))
 		}else{
-			 updateAlt1()
+			 updateDam1()
 		}
 	})
 
-	# ALTERNATIVE 2
+	# Medway
 	#----------------------------------------
 	observeEvent(input$updateBtn2, {
 		if(progress2() > upper_bound || progress2() < lower_bound){
@@ -944,11 +1573,11 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress2())
 			))
 		}else{
-			updateAlt2()
+			updateDam2()
 		}
 	})
 
-	# ALTERNATIVE 3
+	# Millinocket
 	#----------------------------------------
 	observeEvent(input$updateBtn3, {
 		if(progress3() > upper_bound || progress3() < lower_bound){
@@ -957,11 +1586,11 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress3())
 			))
 		}else{
-			 updateAlt3()
+			 updateDam3()
 		}
 	})
 
-	# ALTERNATIVE 4
+	# East Millinocket 
 	#----------------------------------------
 	observeEvent(input$updateBtn4, {
 		if(progress4() > upper_bound || progress4() < lower_bound){
@@ -970,11 +1599,11 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress4())
 			))
 		}else{
-			updateAlt4()
+			updateDam4()
 		}
 	})
 
-	# ALTERNATIVE 5
+	# North Twin
 	#----------------------------------------
 	observeEvent(input$updateBtn5, {
 		if(progress5() > upper_bound || progress5() < lower_bound){
@@ -983,8 +1612,44 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
 			))
 		}else{
-			updateAlt5()
+			updateDam5()
 		}
+	})
+	# Dolby
+	#----------------------------------------
+	observeEvent(input$updateBtn6, {
+	  if(progress6() > upper_bound || progress6() < lower_bound){
+	    showModal(modalDialog(
+	      title = "Not Finished!",
+	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress6())
+	    ))
+	  }else{
+	    updateDam6()
+	  }
+	})
+	# Millinocket Lake
+	#----------------------------------------
+	observeEvent(input$updateBtn7, {
+	  if(progress7() > upper_bound || progress7() < lower_bound){
+	    showModal(modalDialog(
+	      title = "Not Finished!",
+	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress7())
+	    ))
+	  }else{
+	    updateDam7()
+	  }
+	})
+	# Ripogenus Dam
+	#----------------------------------------
+	observeEvent(input$updateBtn8, {
+	  if(progress8() > upper_bound || progress8() < lower_bound){
+	    showModal(modalDialog(
+	      title = "Not Finished!",
+	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress8())
+	    ))
+	  }else{
+	    updateDam8()
+	  }
 	})
 
 	#--------------------------------------------------------------------------------
@@ -1001,11 +1666,14 @@ server <- function(input, output, session) {
 	#TODO: remove as this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
 		# update all alt
-		updateAlt1()
-		updateAlt2()
-		updateAlt3()
-		updateAlt4()
-		updateAlt5()
+		updateDam1()
+		updateDam2()
+		updateDam3()
+		updateDam4()
+		updateDam5()
+		updateDam6()
+		updateDam7()
+		updateDam8()
 		# generate
 		generateOutput()
 	})
