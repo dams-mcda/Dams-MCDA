@@ -24,3 +24,6 @@ SamMATLAB/*
 # collected static
 django-src/shinyadmin/collected_static/*
 
+# dont track apache config
+apache_conf/docker-shiny-server.conf
+

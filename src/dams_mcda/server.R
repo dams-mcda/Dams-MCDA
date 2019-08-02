@@ -46,61 +46,72 @@ runMatlab <- function(port=9998, attempt=1){
 			mat_filepath <- file.path("/media/SamMATLAB", "Filesfrom_05062019mtg.mat");
 			data <- readMat(mat_filepath)
 
-			m_filepath <- file.path("/media/SamMATLAB", "DPPF_idx.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
 
-			m_filepath <- file.path("/media/SamMATLAB", "MultiRank_bydam_prefUnityCheck.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			# things referenced in MutliRank.m
 
-			m_filepath <- file.path("/media/SamMATLAB", "MultiRank_bydam_minimum.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPF_idx.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
-			# (requires DamIndex to be set)
-			m_filepath <- file.path("/media/SamMATLAB", "DPPF_netOV_split_minimum.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			#m_filepath <- file.path("/media/SamMATLAB", "MultiRank_bydam_prefUnityCheck.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
-			# (requires DamIndex to be set)
-			m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_fitfn_split.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			#m_filepath <- file.path("/media/SamMATLAB", "MultiRank_bydam_minimum.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
-			m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_fitfn_minimum.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			## (requires DamIndex to be set)
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPF_netOV_split_minimum.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
-			# (requires DamIndex to be set)
-			m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_minimum.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			## (requires DamIndex to be set)
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_fitfn_split.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
-			m_filepath <- file.path("/media/SamMATLAB", "DPPF_netOV_minimum.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_fitfn_minimum.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
-			m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_prep_minimum.m");
-			m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
+			## (requires DamIndex to be set)
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_minimum.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
+
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPF_netOV_minimum.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
+
+			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_prep_minimum.m");
+			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
 
 			#----------------------------------------
 			# Application Entrypoint "Instructions"
 			#----------------------------------------
 
-			base_m_filepath <- file.path("/media/SamMATLAB", "INSTRUCTIONS_minimum.m");
+			#base_m_filepath <- file.path("/media/SamMATLAB", "INSTRUCTIONS_minimum.m");
+			#m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
+
+			## "instruction file" has been split into multiple files
+			#base_m_filepath <- file.path("/media/SamMATLAB", "INSTRUCTIONS_minimum2.m");
+			#m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
+			#setFunction(matlab, m_file_as_str)
+
+			base_m_filepath <- file.path("/media/SamMATLAB", "MultiRank.m");
 			m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
 			setFunction(matlab, m_file_as_str)
 
-			# "instruction file" has been split into multiple files
-			base_m_filepath <- file.path("/media/SamMATLAB", "INSTRUCTIONS_minimum2.m");
-			m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
-
-			eval_string = sprintf( "[DamIndex, x, out]=RunApplication2();")
+			eval_string = sprintf("idxRank=MultiRank(f,pref,varargin);")
 			evaluate(matlab, eval_string)
 			close(matlab)
+
+			#eval_string = sprintf( "[DamIndex, x, out]=RunApplication2();")
+			#evaluate(matlab, eval_string)
+			#close(matlab)
 
 			message("--------------------------------------------------------------------------------")
 			message("matlab closed")
