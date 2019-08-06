@@ -5,7 +5,12 @@ RUN mkdir -p /srv/matlab-source
 RUN mkdir -p /srv/matlab-working-dir
 
 RUN apt-get update
-RUN apt-get install -y libssl-dev libcurl4-openssl-dev libssh2-1-dev libpq-dev zlib1g-dev sudo net-tools procps
+RUN apt-get install -y \
+	libssl-dev libcurl4-openssl-dev libssh2-1-dev libpq-dev zlib1g-dev sudo net-tools procps \
+	libgdal-dev gdal-bin
+
+# test gdal
+RUN gdal-config --version
 
 # install packages
 RUN Rscript -e "install.packages('ggplot2')"
@@ -14,7 +19,8 @@ RUN Rscript -e "install.packages('shinyjs')"
 RUN Rscript -e "install.packages('Cairo')"
 RUN Rscript -e "install.packages('plotly')"
 RUN Rscript -e "install.packages('R.matlab')"
-RUN Rscript -e "install.packages('rgdal')"
+RUN Rscript -e "install.packages('rgdal', dependencies=TRUE)"
+RUN Rscript -e "install.packages('spatstat')"
 
 # root for folder permissions
 USER root

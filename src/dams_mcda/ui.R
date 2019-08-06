@@ -70,7 +70,7 @@ ui <- shinyUI(fluidPage(
 				"<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br>" 
 			),
 
-			img(src = 'Alewives1.jpg', align = "center"),
+			img(src = 'Alewives1.jpg', width="100%", align = "center"),
 
 			HTML(
 				"<br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
@@ -1243,7 +1243,7 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 8: Ripogenus",
 			h2("Results: Ripogenus Dam"),
-			o
+
 			div(id="dam-8-output",
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
