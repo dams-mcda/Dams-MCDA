@@ -67,7 +67,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Step 1: Start Here"),
 			h2("Step 1: Start Here"),
 			HTML(
-				"<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br>" 
+				"<b>Welcome to the Dam Decision Support Tool!</b>"
 			),
 
 			img(src = 'Alewives1.jpg', width="100%", align = "center"),
