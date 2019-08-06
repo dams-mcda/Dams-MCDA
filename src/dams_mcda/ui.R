@@ -62,13 +62,12 @@ ui <- shinyUI(fluidPage(
 	'),
 
 	navlistPanel(
-	  "Step 1: Start Here",
+		"Step 1: Start Here",
 		# Define layout widths
 		widths = c(2,10),
 
 		#Define Instructions tab
 		tabPanel("Start Here",
-			htmlOutput("Step 1: Start Here"),
 			h2("Step 1: Start Here"),
 			HTML(
 				"<b>Welcome to the Dam Decision Support Tool!</b>"
@@ -93,7 +92,6 @@ ui <- shinyUI(fluidPage(
 
 		"Step 2: View Dam Map",
 		tabPanel("View Dam Map",
-			htmlOutput("Map1"), # status and title
 			h2("Existing FERC Dams Map"),
 			HTML(
 				"Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
@@ -108,7 +106,6 @@ ui <- shinyUI(fluidPage(
 		# West Enfield Dam
 		# ----------------------------------------
 		tabPanel("Dam 1: West Enfield",
-			htmlOutput("Dam1"), # status and title
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML(
 				'Please consider the decision criteria listed below for West Enfield Dam.<br> \
@@ -204,7 +201,6 @@ ui <- shinyUI(fluidPage(
 		# Medway Dam
 		# ----------------------------------------
 		tabPanel("Dam 2: Medway",
-			htmlOutput("Dam2"), # status and title
 			h2("Medway Dam (FERC No. P-2666)"),
 
 			HTML(
@@ -300,7 +296,6 @@ ui <- shinyUI(fluidPage(
 		# Millinocket Dam ,
 		# ----------------------------------------
 		tabPanel("Dam 3: Millinocket",
-			htmlOutput("Dam3"), # status and title
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Dam. <br>\
@@ -395,14 +390,13 @@ ui <- shinyUI(fluidPage(
 		# East Millinocket Dam
 		# ----------------------------------------
 		tabPanel("Dam 4: East Millinocket",
-			htmlOutput("Dam4"), # status and title
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
-				"Please consider the decision criteria listed below for East Millinocket Dam.<br>\
+				'Please consider the decision criteria listed below for East Millinocket Dam.<br>\
 				<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+				<br>Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
 
 			htmlOutput("Dam4Progress"),
@@ -490,15 +484,14 @@ ui <- shinyUI(fluidPage(
 		# North Twin Dam
 		# ----------------------------------------
 		tabPanel("Dam 5: North Twin",
-			htmlOutput("Dam5"), # status and title
 			h2("North Twin Dam (FERC No. P-2458)"),
 
 			HTML(
-				"Please consider the decision criteria listed below for North Twin Dam.<br>\
+				'Please consider the decision criteria listed below for North Twin Dam.<br>\
 				<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
 
 			htmlOutput("Dam5Progress"),
@@ -586,15 +579,14 @@ ui <- shinyUI(fluidPage(
 		# Dolby Dam
 		#----------------------------------------
 		tabPanel("Dam 6: Dolby",
-		  htmlOutput("Dam6"), # status and title
 		  h2("Dolby Dam (FERC No. P-2458)"),
 
 		  HTML(
-		    "Please consider the decision criteria listed below for Dolby Dam.<br>\
+		    'Please consider the decision criteria listed below for Dolby Dam.<br>\
 			<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
 		  ),
 
 		  htmlOutput("Dam6Progress"),
@@ -682,15 +674,14 @@ ui <- shinyUI(fluidPage(
 		# Millinocket Lake Dam
 		# ----------------------------------------
 		tabPanel("Dam 7: Millinocket Lake",
-		  htmlOutput("Dam7"), # status and title
 		  h2("Millinocket Lake Dam (FERC No. P-2458)"),
 
 		  HTML(
-		    "Please consider the decision criteria listed below for Millinocket Lake Dam.<br>\
+		    'Please consider the decision criteria listed below for Millinocket Lake Dam.<br>\
 			<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
 		  ),
 
 		  htmlOutput("Dam7Progress"),
@@ -778,15 +769,14 @@ ui <- shinyUI(fluidPage(
 		# Ripogenus Dam
 		# ----------------------------------------
 		tabPanel("Dam 8: Ripogenus",
-		  htmlOutput("Dam8"), # status and title
 		  h2("Ripogenus Dam (FERC No. P-2572)"),
 
 		  HTML(
-			"Please consider the decision criteria listed below for Ripogenus Dam.<br>\
+			'Please consider the decision criteria listed below for Ripogenus Dam.<br>\
 			<br><a href="Factsheet_Ripogenus.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
 			<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 			increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-			<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+			<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
 		  ),
 
 		  htmlOutput("Dam8Progress"),
@@ -878,6 +868,9 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
 
+			#TODO: remove for production
+			actionButton("autoGenerateMatrix", "Autofill: debug only"),
+
 			div(id="dam-1-output",
 			    HTML(
 					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
@@ -923,7 +916,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download West Enfield Results'),
-				downloadButton("downloadData", "Download West Enfield")
+				downloadButton("downloadData1", "Download West Enfield")
 			)
 		),
 
@@ -976,7 +969,7 @@ ui <- shinyUI(fluidPage(
 				 ),
 
 				 h3('Download Medway Results'),
-				 downloadButton("downloadData", "Download Medway")
+				 downloadButton("downloadData2", "Download Medway")
 			 )
 		),
 
@@ -1030,7 +1023,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download Millinocket Results'),
-				downloadButton("downloadData", "Download Millinocket")
+				downloadButton("downloadData3", "Download Millinocket")
 			)
 		),
 
@@ -1084,7 +1077,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download East Millinocket Results'),
-				downloadButton("downloadData", "Download East Millinocket")
+				downloadButton("downloadData4", "Download East Millinocket")
 			)
 		),
 
@@ -1134,7 +1127,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download North Twin Results'),
-				downloadButton("downloadData", "Download North Twin")
+				downloadButton("downloadData5", "Download North Twin")
 			)
 		),
 
@@ -1187,7 +1180,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download Dolby Results'),
-				downloadButton("downloadData", "Download Dolby")
+				downloadButton("downloadData6", "Download Dolby")
 			)
 		),
 
@@ -1240,7 +1233,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download Millinocket Lake Results'),
-				downloadButton("downloadData", "Download Millinocket Lake")
+				downloadButton("downloadData7", "Download Millinocket Lake")
 			)
 		),
 
@@ -1292,7 +1285,7 @@ ui <- shinyUI(fluidPage(
 				),
 
 				h3('Download Ripogenus Results'),
-				downloadButton("downloadData", "Download Ripogenus")
+				downloadButton("downloadData8", "Download Ripogenus")
 			)
 		),
 

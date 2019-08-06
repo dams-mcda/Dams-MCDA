@@ -189,6 +189,7 @@ score_range <- c(0, 1)
 summed_score_range <- c(0, 1)
 # list of alternatives
 available_dams <- seq(1:8)
+available_alternatives <- seq(1:5)
 
 # smallest input slider increment
 smallest_increment <- 0.025
@@ -361,7 +362,6 @@ damsCompleted <- function(completed){
 	return(TRUE)
 }
 
-
 #--------------------------------------------------------------------------------
 # SERVER
 #
@@ -412,13 +412,13 @@ server <- function(input, output, session) {
 		row.names(Dam1_Table) <- criteria_names
 		names(Dam1_Table) <- "Raw Score"
 
-
 		shinyjs::show(id="dam-1-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['damss_completed']], "add", 1)
 	}
+
 
 	#------------------------------------------------------------
 	# updateDam2
@@ -429,6 +429,7 @@ server <- function(input, output, session) {
 			"Dam 2: Medway Dam",
 			tags$span('Complete', class="dam-complete")
 		))
+
 		# get decision inputs
 		Dam2 <- c(
 			input$FishBiomass2,
@@ -445,13 +446,12 @@ server <- function(input, output, session) {
 			input$Aesthetics2,
 			input$Health2,
 			input$Justice2
-			)
+		)
 
 		# create table matrix
 		Dam2_Table <- as.matrix(data.frame(Dam2))
 		row.names(Dam2_Table) <- criteria_names
 		names(Dam2_Table) <- "Raw Score"
-
 
 		shinyjs::show(id="dam-2-output")
 
@@ -459,6 +459,7 @@ server <- function(input, output, session) {
 		# or apply logic here to make other contstraints for "complete"
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 2)
 	}
+
 
 	#------------------------------------------------------------
 	# updateDam3
@@ -486,14 +487,12 @@ server <- function(input, output, session) {
 			input$Aesthetics3,
 			input$Health3,
 			input$Justice3
-			)
+		)
 
-
-		# create table matrix 
+		# create table matrix
 		Dam3_Table <- as.matrix(data.frame(Dam3))
 		row.names(Dam3_Table) <- criteria_names
 		names(Dam3_Table) <- "Raw Score"
-
 
 		shinyjs::show(id="dam-3-output")
 		# mark the dam as complete when update
@@ -528,13 +527,12 @@ server <- function(input, output, session) {
 			input$Aesthetics4,
 			input$Health4,
 			input$Justice4
-			)
+		)
 
 		# create table matrix
 		Dam4_Table <- as.matrix(data.frame(Dam4))
 		row.names(Dam4_Table) <- criteria_names
 		names(Dam4_Table) <- "Raw Score"
-
 
 		shinyjs::show(id="dam-4-output")
 		# mark the alternative as complete when update
@@ -577,13 +575,13 @@ server <- function(input, output, session) {
 		row.names(Dam5_Table) <- criteria_names
 		names(Dam5_Table) <- "Raw Score"
 
-
 		shinyjs::show(id="dam-5-output")
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		#updateAlternativeStatus("add", 5)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 5)
 	}
+
 
 	#------------------------------------------------------------
 	# updateDam6
@@ -594,7 +592,7 @@ server <- function(input, output, session) {
 	    "Dam 6:Dolby Dam",
 	    tags$span('Complete', class="dam-complete")
 	  ))
-	  
+
 	  # get decision inputs
 	  Dam6 <- c(
 	    input$FishBiomass6,
@@ -612,12 +610,11 @@ server <- function(input, output, session) {
 	    input$Health6,
 	    input$Justice6
 	  )
-	  
+
 	  # create table matrix
 	  Dam6_Table <- as.matrix(data.frame(Dam6))
 	  row.names(Dam6_Table) <- criteria_names
 	  names(Dam6_Table) <- "Raw Score"
-	  
 
 	  shinyjs::show(id="dam-6-output")
 	  # mark the dam as complete when update
@@ -625,7 +622,8 @@ server <- function(input, output, session) {
 	  #updateAlternativeStatus("add", 6)
 	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 6)
 	}
-	
+
+
 	#------------------------------------------------------------
 	# updateDam7
 	# logic for updating Millinocket Lake Dam
@@ -635,7 +633,7 @@ server <- function(input, output, session) {
 	    "Dam 7: Millinocket Lake Dam",
 	    tags$span('Complete', class="dam-complete")
 	  ))
-	  
+
 	  # get decision inputs
 	  Dam7 <- c(
 	    input$FishBiomass7,
@@ -653,12 +651,11 @@ server <- function(input, output, session) {
 	    input$Health7,
 	    input$Justice7
 	  )
-	  
+
 	  # create table matrix
 	  Dam7_Table <- as.matrix(data.frame(Dam7))
 	  row.names(Dam7_Table) <- criteria_names
 	  names(Dam7_Table) <- "Raw Score"
-	  
 
 	  shinyjs::show(id="dam-7-output")
 	  # mark the dam as complete when update
@@ -666,7 +663,8 @@ server <- function(input, output, session) {
 	  #updateAlternativeStatus("add", 7)
 	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 7)
 	}
-	
+
+
 	#------------------------------------------------------------
 	# updateDam8
 	# logic for updating Ripogenus Dam
@@ -676,7 +674,7 @@ server <- function(input, output, session) {
 	    "Dam 8: Ripogenus Dam",
 	    tags$span('Complete', class="dam-complete")
 	  ))
-	  
+
 	  # get decision inputs
 	  Dam8 <- c(
 	    input$FishBiomass8,
@@ -694,12 +692,11 @@ server <- function(input, output, session) {
 	    input$Health8,
 	    input$Justice8
 	  )
-	  
-	  # create table matrix 
+
+	  # create table matrix
 	  Dam8_Table <- as.matrix(data.frame(Dam8))
 	  row.names(Dam8_Table) <- criteria_names
 	  names(Dam8_Table) <- "Raw Score"
-	  
 
 	  shinyjs::show(id="dam-8-output")
 	  # mark the dam as complete when update
@@ -707,6 +704,8 @@ server <- function(input, output, session) {
 	  #updateDamStatus("add", 8)
 	  session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 8)
 	}
+
+
 	#------------------------------------------------------------
 	# generateOutput
 	# generate the final table and barplot
@@ -725,18 +724,18 @@ server <- function(input, output, session) {
 			# get 2d array of values based on length/values of criteria_inputs and available_dams
 			# criterion -> columns
 			# dams -> rows
-			# example 14 criterion 8 alternatives results in 14 column by 8 row 2d data structure specific to dams
+			# example 14 criterion 8 dams results in 14 column by 8 row 2d data structure specific to dams
 			#------------------------------------------------------------
-			#criterion <- vector("list", length(criteria_inputs))
-			dams <- vector("list", length(available_dams))
+
+			dams <- vector("list")
 			for (row_id in 1:length(available_dams)){
-				# for each criterion in alternatives
-				q <- vector("list", length(available_dams))
+				# for each criterion for dam
+				q <- vector("list")
 
 				for (id in criteria_inputs){
 					input_name <- paste(id, toString(row_id), sep='')
 					value <- input[[input_name]]
-				q[[id]] <- value
+					q[[id]] <- value
 
 					if (is.null(value)){
 						# debug nulls, doesn't modify data
@@ -744,37 +743,37 @@ server <- function(input, output, session) {
 					}
 				}
 
-				dams[[row_id]] <- unlist(r) # we want in c and not list
+				dams[[row_id]] <- unlist(q) # we want in c and not list
 			}
 			dams <- unlist(dams)
-			
-			#for alternatives in tables/graphs, this generates a blank matrix with labels
-			alternatives <- vector("list", length(available_alternatives))
-			for (row_id in 1:length(available_alternatives)){
-			  # for each criterion in alternatives
-			  r <- vector("list", length(available_alternatives))
-			  
-			  for (id in criteria_inputs){
-			    input_name <- paste(id, toString(row_id), sep='')
-			    value <- input[[input_name]]
-			    r[[id]] <- value
-			    
-			    if (is.null(value)){
-			      # debug nulls, doesn't modify data
-			      message('input ', input_name, " isNull ")
-			    }
-			  }
-			  
-			  alternatives[[row_id]] <- unlist(r) # we want in c and not list
-			}
-			alternatives <- unlist(alternatives)
 
-			
-			# -------------------------------NEED TO REWRITE BY DAM------------------------------# 
-			#assign values in new matrix
+			#for alternatives in tables/graphs, this generates a blank matrix with labels
+			#alternatives <- vector("list", length(available_alternatives))
+			#for (row_id in 1:length(available_alternatives)){
+			#  # for each criterion in alternatives
+			#  r <- vector("list", length(available_alternatives))
+
+			#  for (id in criteria_inputs){
+			#    input_name <- paste(id, toString(row_id), sep='')
+			#    value <- input[[input_name]]
+			#    r[[id]] <- value
+
+			#    if (is.null(value)){
+			#      # debug nulls, doesn't modify data
+			#      message('input ', input_name, " isNull ")
+			#    }
+			#  }
+
+			#  alternatives[[row_id]] <- unlist(r) # we want in c and not list
+			#}
+			#alternatives <- unlist(alternatives)
+
+			# -------------------------------NEED TO REWRITE BY DAM------------------------------#
+			# assign values in new matrix
 			RawCriteriaMatrix <- data.frame(
 				matrix(dams, nrow=length(available_dams), byrow=length(criteria_inputs))
 			)
+			message("RawCriteriaMatrix", RawCriteriaMatrix)
 
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- dam_names
@@ -812,12 +811,10 @@ server <- function(input, output, session) {
 
 			TableMatrix$summedScore <- WSMResults[2]
 
-			WSMTableOutput <- data.frame( TableMatrix, row.names=alternative_names, check.names=FALSE)
+			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			# this ones different because it has sum row
 			names(WSMTableOutput) <- criteria_names_and_sum
-			
-			# -------------------------------END REWRITE BY DAM------------------------------# 
-			
+			# -------------------------------END REWRITE BY DAM------------------------------#
 
 			#----------------------------------------
 			# Final Outputs
@@ -830,19 +827,19 @@ server <- function(input, output, session) {
 			# stacked bars data table
 			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
 			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
-			Score <- alternatives
+			Score <- dams
 			Data <- data.frame(Alternative, Criteria, Score)
 
 			# Figure 1 raw pref plot
 			output$SummPlot1 <- renderBarPlot(
-			  Dam8, # data
-			  "Raw Preference Scores for West Enfield", # title
-			  criteria_names, # x_labels
-			  "Topic", # x axis label
-			  "Score", # y axis label
-			  colors, # colors
-			  NULL, # x value limit
-			  score_range # y value limit (0-100 value range)
+				Dam8, # data
+				"Raw Preference Scores for West Enfield", # title
+				criteria_names, # x_labels
+				"Topic", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				score_range # y value limit (0-100 value range)
 			)
 			# Figure 2 Stacked Bar 100%
 			output$WSMPlot1 <- renderPlot(
@@ -893,7 +890,7 @@ server <- function(input, output, session) {
 				+ scale_x_discrete(limits=rev(criteria_names))
 				+ scale_y_continuous(expand = c(0, 0))
 			)
-			
+
 			# Figure 4 raw pref plot
 			output$SummPlot2 <- renderBarPlot(
 			  Dam8, # data
@@ -905,7 +902,7 @@ server <- function(input, output, session) {
 			  NULL, # x value limit
 			  score_range # y value limit (0-100 value range)
 			)
-			
+
 			# Figure 5 Stacked Bar 100%
 			output$WSMPlot3 <- renderPlot(
 			  ggplot(
@@ -927,10 +924,10 @@ server <- function(input, output, session) {
 			  + scale_x_discrete(limits=rev(alternative_names))
 			  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
 			)
-			
+
 			# order of stacked bars for plot2
 			Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			
+
 			# Figure 6 stacked bar plot
 			output$WSMPlot4 <- renderPlot(
 			  ggplot(
@@ -1554,6 +1551,7 @@ server <- function(input, output, session) {
 	# West Enfield
 	#----------------------------------------
 	observeEvent(input$updateBtn1, {
+		message("update button 1")
 		if(progress1() > upper_bound || progress1() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
@@ -1660,6 +1658,13 @@ server <- function(input, output, session) {
 
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix, {
+		generateOutput()
+	})   # end 'output' tab > on generate button event
+
+	# on 'Dam1 Results > Generate' button event: fill matrix with user input values
+	observeEvent(input$generateMatrix1, {
+		 #TODO:
+		 # as of right now all dam generation logic is in one function
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
