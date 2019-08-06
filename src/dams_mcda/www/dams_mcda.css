@@ -11,9 +11,25 @@
 	color:red;
 }
 
+#page-title{
+	font-size:4em;
+	text-align:center;
+}
+
+#app-logout {
+	float:right;
+	display:inline-block;
+}
+
 /* input form width */
 .form-group.shiny-input-container {
 	width:80%;
+}
+
+/* sidebar headers */
+.navbar-brand {
+	height:auto;
+	padding:0.2em;
 }
 
 /* progress indicators */

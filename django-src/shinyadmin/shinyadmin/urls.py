@@ -32,10 +32,13 @@ urlpatterns = [
     # shiny app wrapper
     path('dams_mcda_wrapper/', core_views.shiny_app_wrapper),
 
-    # user login
-    path('login/', core_views.login, name="login"),
     # user register
     path('register/', core_views.register, name="register"),
+
+    # user login
+    path('login/', core_views.login, name="login"),
+    # user logout
+    path('logout/', core_views.logout, name="logout"),
 
     # user password reset
     path('password_reset/', core_views.password_reset, name="password_reset"),

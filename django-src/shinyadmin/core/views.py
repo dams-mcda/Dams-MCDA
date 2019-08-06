@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, Http404
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
@@ -35,6 +35,7 @@ def shiny_app_wrapper(request):
 def logout(request):
     # doesnt throw errors if not logged in
     auth_logout(request)
+    return HttpResponseRedirect('/')
 
 
 def login(request):

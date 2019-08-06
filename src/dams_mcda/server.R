@@ -227,7 +227,7 @@ criteria_names <- c(
 	"Indigenous Cultural Traditions and Lifeways",
 	"Industrial Historical Value",
 	"Community Identity",
-	"Aesthetic Value", 
+	"Aesthetic Value",
 	"Public Health",
 	"Socio-Environmental Justice"
 )
