@@ -871,21 +871,19 @@ ui <- shinyUI(fluidPage(
 			#TODO: remove for production
 			actionButton("autoGenerateMatrix", "Autofill: debug only"),
 
-			div(id="dam-1-output",
-			    HTML(
-					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
-					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-			    ),
-			    h3("Figure 1. Raw Preference Scores for West Enfield"),
-			    plotOutput("SummPlot1", height=graph_height, width=graph_width)
-			),
-
 			# generate event
 			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
 			actionButton("generateMatrix1", "Generate"),
 
-			# output post generate
-			div(id="generated-output",
+			div(id="dam-1-output",
+			    h3("Figure 1. Raw Preference Scores for West Enfield"),
+
+			    HTML(
+					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
+					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+			    ),
+
+			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
 
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1083,20 +1081,20 @@ ui <- shinyUI(fluidPage(
 
 
 		tabPanel("Dam 5: North Twin",
-		         h2("Results: North Twin Dam"),
-		         div(id="dam-5-output",
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-		             ),
-		             h3("Figure 13. Raw Preference Scores for North Twin"),
-		             plotOutput("SummPlot5", height=graph_height, width=graph_width)
-		         ),
+			h2("Results: North Twin Dam"),
+			div(id="dam-5-output",
+			    HTML(
+			      "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
+			      The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+			    ),
+			    h3("Figure 13. Raw Preference Scores for North Twin"),
+			    plotOutput("SummPlot5", height=graph_height, width=graph_width)
+			),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 
-		         # generate event
-		         actionButton("generateMatrix5", "Generate"),
+			# generate event
+			actionButton("generateMatrix5", "Generate"),
 
 			# output post generate
 			div(id="generated-output",
