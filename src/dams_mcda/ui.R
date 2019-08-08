@@ -870,6 +870,7 @@ ui <- shinyUI(fluidPage(
 
 			#TODO: remove for production
 			actionButton("autoGenerateMatrix", "Autofill: debug only"),
+			actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
 			# generate event
 			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),

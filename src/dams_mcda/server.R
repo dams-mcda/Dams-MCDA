@@ -394,7 +394,7 @@ server <- function(input, output, session) {
 		Data <- data.frame(score=scoreVector, criteria=Criteria)
 
 		# Figure 1 raw pref plot
-		output[[paste0("SummPlot", damId)]] <- renderBarPlot(
+		output[[paste0("SummPlot", damId)]] <- renderBarErrorPlot(
 			Data, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
@@ -402,10 +402,40 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range # y value limit (0-100 value range)
+			score_range, # y value limit (0-100 value range)
+			0.1, # error amount
+			0.4, # error bar width
+			"red" # error bar color
 		)
 
 		# Graph2
+	}
+
+
+	#------------------------------------------------------------
+	# getRawScores
+	# helper method for generating RawCriteriaMatrix from input fields
+	#------------------------------------------------------------
+	getRawScores <- function(){
+		dams <- vector("list")
+		for (row_id in 1:length(available_dams)){
+			q <- vector("list")
+
+			for (id in criteria_inputs){
+				input_name <- paste(id, toString(row_id), sep='')
+				value <- input[[input_name]]
+				q[[id]] <- value
+
+				if (is.null(value)){
+					# debug nulls, doesn't modify data
+					message('input ', input_name, " isNull ")
+				}
+			}
+
+			dams[[row_id]] <- unlist(q) # we want in c and not list
+		}
+		dams <- unlist(dams)
+		return(dams)
 	}
 
 	#------------------------------------------------------------
@@ -832,8 +862,9 @@ server <- function(input, output, session) {
 
 			# -------------------------------NEED TO REWRITE BY DAM------------------------------#
 			# assign values in new matrix
+			raw_scores <- getRawScores()
 			RawCriteriaMatrix <- data.frame(
-				matrix(dams, nrow=length(available_dams), byrow=length(criteria_inputs))
+				matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
 			)
 			message("RawCriteriaMatrix", RawCriteriaMatrix)
 
@@ -1746,6 +1777,23 @@ server <- function(input, output, session) {
 		updateDam8()
 		# generate
 		generateOutput()
+	})
+
+	#TODO: remove as this is for fast debugging output results
+	observeEvent(input$saveResultsToDjango, {
+
+			raw_scores <- getRawScores()
+
+			# assign values in new matrix
+			RawCriteriaMatrix <- data.frame(
+				matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+			)
+
+			# assign table row, column names
+			row.names(RawCriteriaMatrix) <- dam_names
+			colnames(RawCriteriaMatrix) <- criteria_names
+
+			message("saveResultsToDjango RawCriteriaMatrix", RawCriteriaMatrix)
 	})
 
 	# Downloadable csv of selected dataset ----
