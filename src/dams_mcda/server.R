@@ -6,7 +6,9 @@ DamsData <- data.frame(DamsData)
 
 # barPlot wrappers
 source("plots.R")
-library(plotly)
+library(plotly, warn.conflicts =  FALSE)
+library(R.matlab)
+
 set.seed(123)
 
 #--------------------------------------------------------------------------------

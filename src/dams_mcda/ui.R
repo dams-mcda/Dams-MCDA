@@ -77,7 +77,7 @@ ui <- shinyUI(fluidPage(
 			
 			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 			
-			#img(src = 'Alewives1.jpg', align = "center"), #this is a picture of alewives
+			img(src = 'Alewives1.jpg', align = "center"), #this is a picture of alewives
 			
       HTML(
          "<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"
