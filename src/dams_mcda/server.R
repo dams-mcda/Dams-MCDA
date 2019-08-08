@@ -1,7 +1,8 @@
-# barPlot wrappers
+# server logic
 source("plots.R")
 library(plotly, warn.conflicts = FALSE)
-library(R.matlab) 
+library(R.matlab)
+library(rjson)
 set.seed(123)
 
 
@@ -394,7 +395,7 @@ server <- function(input, output, session) {
 		Data <- data.frame(score=scoreVector, criteria=Criteria)
 
 		# Figure 1 raw pref plot
-		output[[paste0("SummPlot", damId)]] <- renderBarErrorPlot(
+		output[[paste0("SummPlot", damId)]] <- renderBarPlot(
 			Data, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
@@ -402,13 +403,25 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range, # y value limit (0-100 value range)
-			0.1, # error amount
-			0.4, # error bar width
-			"red" # error bar color
+			score_range # y value limit (0-100 value range)
 		)
 
 		# Graph2
+
+		# Error Bar Example
+		#output[[paste0("ErrorPlot", damId)]] <- renderBarErrorPlot(
+		#	Data, # data
+		#	paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
+		#	criteria_names, # x_labels
+		#	"Topic", # x axis label
+		#	"Score", # y axis label
+		#	colors, # colors
+		#	NULL, # x value limit
+		#	score_range, # y value limit (0-100 value range)
+		#	0.1, # error amount
+		#	0.4, # error bar width
+		#	"red" # error bar color
+		#)
 	}
 
 
@@ -438,34 +451,39 @@ server <- function(input, output, session) {
 		return(dams)
 	}
 
+	getDamPreferences <- function(damIndex){
+		return(c(
+			input[[paste0("FishBiomass", damIndex)]],
+			input[[paste0("RiverRec", damIndex)]],
+			input[[paste0("Reservior", damIndex)]],
+			input[[paste0("ProjectCost", damIndex)]],
+			input[[paste0("Safety", damIndex)]],
+			input[[paste0("NumProperties", damIndex)]],
+			input[[paste0("ElectricityGeneration", damIndex)]],
+			input[[paste0("AvoidEmissions", damIndex)]],
+			input[[paste0("IndigenousLifeways", damIndex)]],
+			input[[paste0("IndustrialHistory", damIndex)]],
+			input[[paste0("CommunityIdentity", damIndex)]],
+			input[[paste0("Aesthetics", damIndex)]],
+			input[[paste0("Health", damIndex)]],
+			input[[paste0("Justice", damIndex)]]
+		))
+	}
+
 	#------------------------------------------------------------
 	# updateDam1
 	# logic for updating West Enfield Dam
 	#------------------------------------------------------------
 	updateDam1 <- function (){
+		damId <- 1
 		# update the tab status
-		output$Dam1 <- renderUI(list(
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 1: West Enfield",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam1 <- c(
-			input$FishBiomass1,
-			input$RiverRec1,
-			input$Reservoir1,
-			input$ProjectCost1,
-			input$Safety1,
-			input$NumProperties1,
-			input$ElectricityGeneration1,
-			input$AvoidEmissions1,
-			input$IndigenousLifeways1,
-			input$IndustrialHistory1,
-			input$CommunityIdentity1,
-			input$Aesthetics1,
-			input$Health1,
-			input$Justice1
-		)
+		Dam1 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam1_Table <- as.matrix(data.frame(Dam1))
@@ -473,14 +491,13 @@ server <- function(input, output, session) {
 		names(Dam1_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(1, Dam1)
+		updateDamGraph(damId, Dam1)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-1-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 1)
-
 	}
 
 
@@ -489,28 +506,14 @@ server <- function(input, output, session) {
 	# logic for updating Medway Dam
 	#------------------------------------------------------------
 	updateDam2 <- function() {
-		output$Dam2 <- renderUI(list(
+		damId <- 2
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 2: Medway Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam2 <- c(
-			input$FishBiomass2,
-			input$RiverRec2,
-			input$Reservoir2,
-			input$ProjectCost2,
-			input$Safety2,
-			input$NumProperties2,
-			input$ElectricityGeneration2,
-			input$AvoidEmissions2,
-			input$IndigenousLifeways2,
-			input$IndustrialHistory2,
-			input$CommunityIdentity2,
-			input$Aesthetics2,
-			input$Health2,
-			input$Justice2
-		)
+		Dam2 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam2_Table <- as.matrix(data.frame(Dam2))
@@ -533,28 +536,14 @@ server <- function(input, output, session) {
 	# logic for updating Millinocket Dam
 	#------------------------------------------------------------
 	updateDam3 <- function() {
-		output$Dam3 <- renderUI(list(
+		damId <- 3
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 3: Millinocket Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam3 <- c(
-			input$FishBiomass3,
-			input$RiverRec3,
-			input$Reservoir3,
-			input$ProjectCost3,
-			input$Safety3,
-			input$NumProperties3,
-			input$ElectricityGeneration3,
-			input$AvoidEmissions3,
-			input$IndigenousLifeways3,
-			input$IndustrialHistory3,
-			input$CommunityIdentity3,
-			input$Aesthetics3,
-			input$Health3,
-			input$Justice3
-		)
+		Dam3 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam3_Table <- as.matrix(data.frame(Dam3))
@@ -562,13 +551,12 @@ server <- function(input, output, session) {
 		names(Dam3_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(3, Dam3)
+		updateDamGraph(damId, Dam3)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-3-output")
 
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 3)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 3)
 	}
 
@@ -578,28 +566,14 @@ server <- function(input, output, session) {
 	# logic for updating East Millinocket Dam
 	#------------------------------------------------------------
 	updateDam4 <- function() {
-		output$Dam4 <- renderUI(list(
+		damId <- 4
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 4: East Millinocket Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam4 <- c(
-			input$FishBiomass4,
-			input$RiverRec4,
-			input$Reservoir4,
-			input$ProjectCost4,
-			input$Safety4,
-			input$NumProperties4,
-			input$ElectricityGeneration4,
-			input$AvoidEmissions4,
-			input$IndigenousLifeways4,
-			input$IndustrialHistory4,
-			input$CommunityIdentity4,
-			input$Aesthetics4,
-			input$Health4,
-			input$Justice4
-		)
+		Dam4 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam4_Table <- as.matrix(data.frame(Dam4))
@@ -607,13 +581,12 @@ server <- function(input, output, session) {
 		names(Dam4_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(4, Dam4)
+		updateDamGraph(damId, Dam4)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-4-output")
 
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 4)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 4)
 	}
 
@@ -623,28 +596,14 @@ server <- function(input, output, session) {
 	# logic for updating North Twin Dam
 	#------------------------------------------------------------
 	updateDam5 <- function() {
-		output$Dam5 <- renderUI(list(
+		damId <- 5
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 5: North Twin Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam5 <- c(
-			input$FishBiomass5,
-			input$RiverRec5,
-			input$Reservoir5,
-			input$ProjectCost5,
-			input$Safety5,
-			input$NumProperties5,
-			input$ElectricityGeneration5,
-			input$AvoidEmissions5,
-			input$IndigenousLifeways5,
-			input$IndustrialHistory5,
-			input$CommunityIdentity5,
-			input$Aesthetics5,
-			input$Health5,
-			input$Justice5
-		)
+		Dam5 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam5_Table <- as.matrix(data.frame(Dam5))
@@ -652,13 +611,12 @@ server <- function(input, output, session) {
 		names(Dam5_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(5, Dam5)
+		updateDamGraph(damId, Dam5)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-5-output")
 
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 5)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 5)
 	}
 
@@ -668,28 +626,14 @@ server <- function(input, output, session) {
 	# logic for updating Dolby Dam
 	#------------------------------------------------------------
 	updateDam6 <- function() {
-		output$Dam6 <- renderUI(list(
+		damId <- 6
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 6:Dolby Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam6 <- c(
-			input$FishBiomass6,
-			input$RiverRec6,
-			input$Reservoir6,
-			input$ProjectCost6,
-			input$Safety6,
-			input$NumProperties6,
-			input$ElectricityGeneration6,
-			input$AvoidEmissions6,
-			input$IndigenousLifeways6,
-			input$IndustrialHistory6,
-			input$CommunityIdentity6,
-			input$Aesthetics6,
-			input$Health6,
-			input$Justice6
-		)
+		Dam6 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam6_Table <- as.matrix(data.frame(Dam6))
@@ -697,13 +641,12 @@ server <- function(input, output, session) {
 		names(Dam6_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(6, Dam6)
+		updateDamGraph(damId, Dam6)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-6-output")
 
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 6)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 6)
 	}
 
@@ -713,28 +656,14 @@ server <- function(input, output, session) {
 	# logic for updating Millinocket Lake Dam
 	#------------------------------------------------------------
 	updateDam7 <- function() {
-		output$Dam7 <- renderUI(list(
+		damId <- 7
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 7: Millinocket Lake Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam7 <- c(
-			input$FishBiomass7,
-			input$RiverRec7,
-			input$Reservoir7,
-			input$ProjectCost7,
-			input$Safety7,
-			input$NumProperties7,
-			input$ElectricityGeneration7,
-			input$AvoidEmissions7,
-			input$IndigenousLifeways7,
-			input$IndustrialHistory7,
-			input$CommunityIdentity7,
-			input$Aesthetics7,
-			input$Health7,
-			input$Justice7
-		)
+		Dam7 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam7_Table <- as.matrix(data.frame(Dam7))
@@ -742,13 +671,12 @@ server <- function(input, output, session) {
 		names(Dam7_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(7, Dam7)
+		updateDamGraph(damId, Dam7)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-7-output")
 
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		#updateAlternativeStatus("add", 7)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 7)
 	}
 
@@ -758,28 +686,15 @@ server <- function(input, output, session) {
 	# logic for updating Ripogenus Dam
 	#------------------------------------------------------------
 	updateDam8 <- function() {
-		output$Dam8 <- renderUI(list(
+		damId <- 8
+
+		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 8: Ripogenus Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam8 <- c(
-			input$FishBiomass8,
-			input$RiverRec8,
-			input$Reservoir8,
-			input$ProjectCost8,
-			input$Safety8,
-			input$NumProperties8,
-			input$ElectricityGeneration8,
-			input$AvoidEmissions8,
-			input$IndigenousLifeways8,
-			input$IndustrialHistory8,
-			input$CommunityIdentity8,
-			input$Aesthetics8,
-			input$Health8,
-			input$Justice8
-		)
+		Dam8 <- getDamPreferences(damId)
 
 		# create table matrix
 		Dam8_Table <- as.matrix(data.frame(Dam8))
@@ -793,7 +708,6 @@ server <- function(input, output, session) {
 
 		# mark the dam as complete when update
 		# or apply logic here to make other contstraints for "complete"
-		#updateDamStatus("add", 8)
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 8)
 	}
 
@@ -1709,6 +1623,7 @@ server <- function(input, output, session) {
 			updateDam5()
 		}
 	})
+
 	# Dolby
 	#----------------------------------------
 	observeEvent(input$updateBtn6, {
@@ -1721,6 +1636,7 @@ server <- function(input, output, session) {
 	    updateDam6()
 	  }
 	})
+
 	# Millinocket Lake
 	#----------------------------------------
 	observeEvent(input$updateBtn7, {
@@ -1733,6 +1649,7 @@ server <- function(input, output, session) {
 	    updateDam7()
 	  }
 	})
+
 	# Ripogenus Dam
 	#----------------------------------------
 	observeEvent(input$updateBtn8, {
@@ -1752,10 +1669,12 @@ server <- function(input, output, session) {
 	# initial empty matrix.
 	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_alternatives), ncol=length(criteria_inputs) ))
 
+
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix, {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
+
 
 	# on 'Dam1 Results > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateMatrix1, {
@@ -1763,6 +1682,7 @@ server <- function(input, output, session) {
 		 # as of right now all dam generation logic is in one function
 		generateOutput()
 	}) # end 'output' tab > on generate button event
+
 
 	#TODO: remove as this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
@@ -1779,6 +1699,7 @@ server <- function(input, output, session) {
 		generateOutput()
 	})
 
+
 	#TODO: remove as this is for fast debugging output results
 	observeEvent(input$saveResultsToDjango, {
 
@@ -1793,8 +1714,12 @@ server <- function(input, output, session) {
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
 
-			message("saveResultsToDjango RawCriteriaMatrix", RawCriteriaMatrix)
+			MatrixJson <- toJSON(RawCriteriaMatrix)
+
+			message("saveResultsToDjango RawCriteriaMatrix asJson", MatrixJson)
+
 	})
+
 
 	# Downloadable csv of selected dataset ----
 	output$downloadData <- downloadHandler(
@@ -1813,6 +1738,5 @@ server <- function(input, output, session) {
 		   )
 		}
 	)
-
 
 } # end server
