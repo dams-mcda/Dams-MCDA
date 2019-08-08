@@ -452,10 +452,10 @@ server <- function(input, output, session) {
 	}
 
 	getDamPreferences <- function(damIndex){
-		return(c(
+		damPrefs <- c(
 			input[[paste0("FishBiomass", damIndex)]],
 			input[[paste0("RiverRec", damIndex)]],
-			input[[paste0("Reservior", damIndex)]],
+			input[[paste0("Reservoir", damIndex)]],
 			input[[paste0("ProjectCost", damIndex)]],
 			input[[paste0("Safety", damIndex)]],
 			input[[paste0("NumProperties", damIndex)]],
@@ -467,7 +467,8 @@ server <- function(input, output, session) {
 			input[[paste0("Aesthetics", damIndex)]],
 			input[[paste0("Health", damIndex)]],
 			input[[paste0("Justice", damIndex)]]
-		))
+		)
+		return(damPrefs)
 	}
 
 	#------------------------------------------------------------
@@ -1716,8 +1717,8 @@ server <- function(input, output, session) {
 
 			MatrixJson <- toJSON(RawCriteriaMatrix)
 
-			message("saveResultsToDjango RawCriteriaMatrix asJson", MatrixJson)
-
+			# send the data through javascript
+			session$sendCustomMessage("saveResultsToDjango", toString(MatrixJson))
 	})
 
 

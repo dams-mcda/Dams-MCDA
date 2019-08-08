@@ -1,57 +1,12 @@
-
-//let localAuth;
-//
-//function getAuthHandler(message){
-//	console.log("getAuth called, now to ajax from django", message);
-//	// ajax request user data
-//	$.ajax({
-//		url: "/api/get_user_session/",
-//	}).done(function(data){
-//		//console.log("api get user session done", data);
-//		localAuth = data;
-//		Shiny.onInputChange("userSessionString", JSON.stringify(data));
-//	}).fail(function(response){
-//		console.log("api get user session Fail", response);
-//	});
-//}
-//
-//function getVerifyAuthHandler(message){
-//	console.log("getVerifyAuth called, now to ajax to/from django", message);
-//	// ajax request user data
-//	$.ajax({
-//		url: "/api/verify_user_session/",
-//		method: 'POST',
-//		data: {
-//			'session-id': localAuth["session"],
-//			'username': localAuth["user"]["username"],
-//			'group': localAuth["user"]["group"]
-//		}
-//	}).done(function(data){
-//		console.log("api get user session done");
-//		Shiny.onInputChange("userSessionVerificationString", JSON.stringify(data));
-//
-//	}).fail(function(response){
-//		console.log("api get user session Fail", response);
-//
-//	});
-//}
-//
-//Shiny.addCustomMessageHandler("getAuthHandler", getAuthHandler);
-//Shiny.addCustomMessageHandler("getVerifyAuthHandler", getVerifyAuthHandler);
-
-// method 2
-
 // load context from parent when setContext is called
 let cachedContext = {};
 
-// initialize on ready
-$(document).ready(function(){
-	console.log("frame: ready");
-	init();
-});
 
-
-// alert parent that we are awake/ready
+/*
+ * init
+ *
+ * alert parent that we are awake/ready
+ */
 function init(){
 	console.log("frame: init");
 	window.parent.setUpFrame();
@@ -59,7 +14,11 @@ function init(){
 }
 
 
-// set session context
+/*
+ * setContext
+ *
+ * set session context
+ */
 function setContext(user, group, csrf, sess){
 	console.log("frame: setContext", user, group, csrf, sess);
 
@@ -76,8 +35,12 @@ function setContext(user, group, csrf, sess){
 }
 
 
-// uses django to compare django session and cached context
-// useful for debugging and essential for proof of concept
+/*
+ * validateSession
+ *
+ * uses django to compare django session and cached context
+ * useful for debugging and essential for proof of concept
+ */
 function validateSession(message){
 	console.log("validateSession need csrftoken", message);
 
@@ -97,4 +60,50 @@ function validateSession(message){
 		alert('Invalid Session, Please try reloading.');
 	});
 }
+
+
+/*
+ * saveRawJsonScores
+ *
+ * given string of json send to django backend to save
+ *
+ * NOTE: as of now this just tests sending json string from shiny backend to shiny frontend
+ */
+function saveRawJsonScores(message){
+
+	console.log("saveRawJsonScores: ", message);
+	// potential ajax setup below
+
+	// ajax request user data
+	$.ajax({
+		url: "/api/saveScores/",
+		method: 'POST',
+		data: {
+			'session-id': cachedContext["session"],
+			'user': cachedContext["user"],
+			'group': cachedContext["group"],
+			'scores': JSON.parse(message)
+		}
+	}).done(function(data){
+		console.log("Succesfully Saved!");
+	}).fail(function(response){
+		console.log("Failed Saving!", response);
+		alert('Not Implemented, just for testing');
+	});
+}
+
+
+/*
+ * Shiny Event Handlers
+ *
+ * binds a string handler name to actual function
+ */
 Shiny.addCustomMessageHandler("validateSession", validateSession);
+Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
+
+
+// initialize shiny js on ready
+$(document).ready(function(){
+	console.log("frame: ready");
+	init();
+});

@@ -73,7 +73,7 @@ ui <- shinyUI(fluidPage(
 				"<b>Welcome to the Dam Decision Support Tool!</b>"
 			),
 
-			img(src = 'Alewives1.jpg', width="100%", align = "center"),
+			img(src = 'Alewives1.jpg', width="50%", align = "right", style="margin:0.2em;"),
 
 			HTML(
 				"<br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
