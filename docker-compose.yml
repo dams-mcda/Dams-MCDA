@@ -1,12 +1,61 @@
 version: "2"
 
+# Dams MCDA docker compose
+# =======================================
+#
+# SERVICES
+# prefix all services with 'shiny_' to distingish container groups on host system
+# ---------------------------------------
+# shiny_server -> our shiny server
+# shiny_db -> out postgres database
+# shiny_django -> django server, application entrypoint, handles authentication and administration
+
 services:
+
+
   shiny_server:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3838:3838"
     volumes:
-      - ./src:/srv/shiny-server/
-      - ./logs:/var/log/shiny-server/
-    user: 'shiny'
-    restart: always
+      - ./src:/srv/shiny-server:rw
+      - ./logs:/var/log/shiny-server
+      - ./matlab-license:/media/matlab-license
+      - ./SamMATLAB:/media/SamMATLAB
+      # MATLAB installation ISO mounted on host
+      - /media/mathworks:/media/mathworks
+    # restart always can be problematic when not launching a production server
+    #restart: always
+    entrypoint:
+      - bash
+      - /srv/shiny-server/install-matlab.sh
+
+
+  shiny_db:
+    # could upgrade postgres 9.5+ if needed
+    image: kartoza/postgis:9.4-2.1
+    volumes:
+      # this keeps the db persistant by keeping it on host
+      - ./.postgresdata:/var/lib/postgresql:z
+    ports:
+      - "38432:5432"
+    command: sh -c "echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && cat /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
+
+
+  shiny_django:
+    build:
+      context: .
+      dockerfile: DjangoDockerfile
+    ports:
+      - "3939:3939"
+    volumes:
+      - ./django-src:/code
+    depends_on:
+      - shiny_db
+    # keeping run script in django-src folder locally
+    entrypoint:
+      - bash
+      - /code/run-django.sh
+

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/shiny-app-wrapper.css' %}" type="text/css">
+{% endblock %}
+
+{% block body_attrs %}class="text-center"{% endblock %}
+
+
+{% block content %}
+
+	<form method="post" class="form-signin">
+		<h2 class="h3 mb-3 font-weight-normal">Login</h2>
+		{% if errors %} <p style="color:red;"> {{ errors }} </p> {% endif %}
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	</form>
+	<a href="{% url 'register' %}">
+		Create an account
+	</a>
+
+	{# Assumes you setup the password_reset view in your URLconf #}
+	<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+{% endblock %}
+
+{% block login %}
+<!-- remove login links from page -->
+{% endblock login %}
