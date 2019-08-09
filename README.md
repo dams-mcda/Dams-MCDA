@@ -21,7 +21,7 @@ Developers
 
 **Emma Fox**
 
-Lead Developer (Ph.D. student, University of Maine Ecology and Environmental Science Program) for Dam Decision Support Tool.
+Lead Developer (Ph.D. student, University of Maine Ecology and Environmental Science Program)
 
 **Involvement**
 
@@ -33,7 +33,7 @@ Designed initial user interface and server functionality based on Raymond & Klei
 
 ***
 
-**Sharon Klein**
+**Sharon J. W. Klein**
 
 Development Advisor (Associate Professor, University of Maine School of Economics)
 
@@ -44,6 +44,20 @@ Advised UI/UX enhancements to WSM model, helped develop and advised concept for 
 **Contact**
 
 <sharon.klein@maine.edu>
+
+***
+
+**Samuel G. Roy**
+
+Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine)
+
+**Involvement**
+
+Developed Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and preference weighting.
+
+**Contact**
+
+<samuel.g.roy@maine.edu>
 
 ***
 
@@ -67,9 +81,9 @@ Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New
 
 ***
 
-Acknowledgement
+Acknowledgements
 --------------------------
-+ We would like to thank Garrett Raymond for his thorough technical consultation on R Shiny app design.
++ We would like to thank Garrett Raymond for his thorough technical consultation on initial R Shiny app design.
 
 + This tool was developed by researchers in the Future of Dams project:<https://www.newenglandsustainabilityconsortium.org/dams>. 
 Support for the Future of Dams project is provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
@@ -86,3 +100,23 @@ color pallete used for tabs
 #A8C090
 #789090
 #787878
+
+
+Matlab
+--------------------------
+A matlab installation media ISO is required to be mounted on the host machine
+
+~~~bash
+sudo mount -t iso9660 -o loop <matlab installation ISO path> <mount location>
+~~~
+
+if <mount location> is somewhere other than /media/mathworks edit docker-compose.yml to reflect the changes
+
+~~~yml
+      - /media/mathworks:/media/mathworks
+~~~
+to
+~~~yml
+      - <mount location>:/media/mathworks
+~~~
+

@@ -4,6 +4,26 @@ logs/*
 # swap files
 *.swp
 *.swo
+*.swm
 
 # dont track responses in repo
 src/dams_mcda/responses/*
+
+# dont track matlab ISO
+matlab-source/*
+
+# dont track license file
+matlab-license/*
+
+# dont track sams source files
+SamMATLAB/*
+
+# python compiled files
+*.pyc
+
+# collected static
+django-src/shinyadmin/collected_static/*
+
+# dont track apache config
+apache_conf/docker-shiny-server.conf
+
