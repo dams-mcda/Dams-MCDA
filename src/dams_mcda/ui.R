@@ -2,8 +2,8 @@
 
 # base working directory
 # configured for docker container path
-base_dir <- "/srv/shiny-server/dams_mcda/"
-setwd(base_dir)
+#base_dir <- "/srv/shiny-server/dams_mcda/"
+#setwd(base_dir)
 
 
 library(shiny)
@@ -14,6 +14,7 @@ library(Cairo)
 library(RColorBrewer)
 library(spatstat)
 library(rgdal)
+library(abind)
 
 options(shiny.usecairo=TRUE)
 
@@ -68,7 +69,8 @@ ui <- shinyUI(fluidPage(
 
 		#Define Instructions tab
 		tabPanel("Start Here",
-			h2("Step 1: Start Here"),
+			htmlOutput("Step 1: Start Here"),
+			h2("Start Here"),
 			HTML(
 				"<b>Welcome to the Dam Decision Support Tool!</b>"
 			),
@@ -76,45 +78,75 @@ ui <- shinyUI(fluidPage(
 			img(src = 'Alewives1.jpg', width="50%", align = "right", style="margin:0.2em;"),
 
 			HTML(
-				"<br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
-				 <br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
-				 Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
-				 to support your interaction in the FERC Integrated Licensing Process.<br> \
-				 This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish \
-				 survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, improve hydropower generation, improve\ 
-				 fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br> \
-				 <h2>Instructions for Uploading Group Preferences</h2>\
+        "<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
+         Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
+         to support your interaction in the FERC Integrated Licensing Process. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized \
+         cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, \
+         improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br>"
+        ),
+			
+			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
+			
+			img(src = 'Alewives1.jpg', width = "100%", align = "center"), #this is a picture of alewives
+			
+      HTML(
+         "<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"
+     ),
+			actionButton("IndividualBtn", "Individual Preferences"),
+			actionButton("GroupBtn", "Group Preferences"),
+			actionButton("uploadBtn", "UPLOAD DATA"),
+
+      HTML(
+				 "<h4>Instructions for Uploading</h4>\
+
 				 Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-				 for you or the average preference values for your group. <br>\
-			  "
-			 )
-		),
+         for you or the average preference values for your group. <br>"
+      ), #will want to make sure we have a download button for the blank decision matrix
+			
+			HTML(  
+         "<h4>More Information:</h4>\
 
-		"Step 2: View Dam Map",
+         The Penobscot River is home to many dams and valuable ecosystem services, including pristine natural lakes, clean water sources, and significant biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, \
+         Blueback herring, and Alewife). Dams also provide important services: reservoirs for drinking water and recreation, flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing fossil-fuel emissions that contribute \
+         to climate change and poor human health. However, all dams need regular maintenance and older dams may need more extensive repairs as they age. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. \
+         They may also contribute to poor water quality downstream, increased predation, and climate change (decaying plant matter in reservoirs release methane into the atmosphere). Dams have long threatened indigenous cultural traditions, while at the same \
+         time helping to shape post-industrial town or city identities over the last two centuries.<br>\   
+      "
+			 ),
+			
+			helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))
+		
+			),
+		
+    "Step 2: View Dam Map", 
 		tabPanel("View Dam Map",
-			h2("Existing FERC Dams Map"),
-			HTML(
-				"Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
-				for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
-				Hover over the dams on the map for more information on each site.<br>\
-				<br><b>Click HERE for additional resources.</b><br>"
-			)
-		),
-
+		  htmlOutput("Map1"), # status and title
+		  h2("Existing FERC Dams Map"),
+		  HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
+		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
+		       Hover over the dams on the map for more information on each site.<br>"
+		       ),
+		  helpText( a("Click HERE for more information about dam decision alternatives", href = "https://github.com/dams-mcda/Dams-MCDA/blob/WSMUpdate_Dams/src/dams_mcda/DecisionAlternativesDescriptions.pdf")),
+		  img(src = 'Penobscot_MO_14_53.png', width = "100%", align = "center")
+		  
+		 ),
+		
 		"Step 3: Enter Preferences",
 		# ----------------------------------------
 		# West Enfield Dam
 		# ----------------------------------------
 		tabPanel("Dam 1: West Enfield",
 			h2("West Enfield Dam (FERC No. P-2600)"),
-			HTML(
-				'Please consider the decision criteria listed below for West Enfield Dam.<br> \
-				<br><a href="Factsheet_WestEnfield.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
-			),
+			HTML("Please consider the decision criteria listed below for West Enfield Dam.<br> \
+         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				 <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 
+			),
+		  
+			helpText( a("Click HERE for more information about the West Enfield Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf")
+			),
+			
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -204,12 +236,14 @@ ui <- shinyUI(fluidPage(
 			h2("Medway Dam (FERC No. P-2666)"),
 
 			HTML(
-				'Please consider the decision criteria listed below for Medway Dam.<br>\
-				<br><a href="Factsheet_Medway.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of decision criteria at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>'
+				"Please consider the decision criteria listed below for Medway Dam.<br>\
+        <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+        increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				<br>Please consider and rate the given set of decision criteria at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+
 			),
+			
+			helpText("Click HERE for more information about the Medway Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Medway.pdf"),
 
 			htmlOutput("Dam2Progress"),
 
@@ -298,13 +332,15 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 3: Millinocket",
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
-				'Please consider the decision criteria listed below for Millinocket Dam. <br>\
-				<br><a href="Factsheet_PenobscotMills.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
-			),
+				"Please consider the decision criteria listed below for Millinocket Dam. <br>\
+        <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+        increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 
+			),
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
@@ -392,13 +428,15 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 4: East Millinocket",
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
-				'Please consider the decision criteria listed below for East Millinocket Dam.<br>\
-				<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br>Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
-			),
+				"Please consider the decision criteria listed below for East Millinocket Dam.<br>\
+        <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+        increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				<br>Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 
+			),
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
@@ -487,13 +525,15 @@ ui <- shinyUI(fluidPage(
 			h2("North Twin Dam (FERC No. P-2458)"),
 
 			HTML(
-				'Please consider the decision criteria listed below for North Twin Dam.<br>\
-				<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
-			),
+				"Please consider the decision criteria listed below for North Twin Dam.<br>\
+        <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+        increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 
+			),
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam5Progress"),
 
 			#----------------------------------------
@@ -582,12 +622,14 @@ ui <- shinyUI(fluidPage(
 		  h2("Dolby Dam (FERC No. P-2458)"),
 
 		  HTML(
-		    'Please consider the decision criteria listed below for Dolby Dam.<br>\
-			<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+		    "Please consider the decision criteria listed below for Dolby Dam.<br>\
+
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
+		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
+
+		  helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
 
 		  htmlOutput("Dam6Progress"),
 
@@ -677,12 +719,14 @@ ui <- shinyUI(fluidPage(
 		  h2("Millinocket Lake Dam (FERC No. P-2458)"),
 
 		  HTML(
-		    'Please consider the decision criteria listed below for Millinocket Lake Dam.<br>\
-			<br><a href="Factsheet_.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+		    "Please consider the decision criteria listed below for Millinocket Lake Dam.<br>\
+
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
+		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
+
+		  helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
 
 		  htmlOutput("Dam7Progress"),
 
@@ -772,13 +816,14 @@ ui <- shinyUI(fluidPage(
 		  h2("Ripogenus Dam (FERC No. P-2572)"),
 
 		  HTML(
-			'Please consider the decision criteria listed below for Ripogenus Dam.<br>\
-			<br><a href="Factsheet_Ripogenus.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
-			<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-			increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-			<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
+		    "Please consider the decision criteria listed below for Ripogenus Dam.<br>\
+		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
-
+		  
+		  helpText("Click HERE for more information about the Ripogenus Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Ripogenus.pdf"),
+		  
 		  htmlOutput("Dam8Progress"),
 
 		  #----------------------------------------
@@ -921,384 +966,409 @@ ui <- shinyUI(fluidPage(
 
 
 		tabPanel("Dam 2: Medway Dam",
-			 h2("Results: Medway Dam"),
-
-			 div(id="dam-2-output",
-				 HTML(
-				   "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
-				   The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-				 ),
-				 h3("Figure 4. Raw Preference Scores for Medway"),
-				 plotOutput("SummPlot2", height=graph_height, width=graph_width)
-			 ),
-
-			 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			 # generate event
-			 actionButton("generateMatrix2", "Generate"),
-
-			 # output post generate
-			 div(id="generated-output",
-
-				 HTML(
-					"<br><b>Results Interpretation</b> for Figure 5: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				 ),
-
-				 h3('Figure 5. Medway Decision Alternative Scores by Decision Criteria'),
-
-				 plotOutput("WSMPlot3", height=600, width="100%"),
-
-				 HTML(
-					"<br><b>Results Interpretation</b> for Figure 6: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
-				 ),
-
-				 h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
-
-				 plotOutput("WSMPlot4", height=1000, width="100%"),
-
-				 HTML(
-				   "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-				   once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-				   <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-				   must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-				   <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				 ),
-
-				 h3('Download Medway Results'),
-				 downloadButton("downloadData2", "Download Medway")
-			 )
-		),
-
-
+		         h2("Results: Medway Dam"),
+		         div(id="dam-2-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 4. Raw Preference Scores for Medway"),
+		             plotOutput("SummPlot2", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         # generate event
+		         actionButton("generateMatrix2", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 5: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 5. Medway Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot3", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 6: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot4", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		             ),
+		             
+		             h3('Download Medway Results'),
+		             downloadButton("downloadData2", "Download Medway")
+		             )
+		             ),
 		tabPanel("Dam 3: Millinocket Dam",
-			h2("Results: Millinocket Dam"),
-
-			div(id="dam-3-output",
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
-					The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-				),
-				h3("Figure 7. Raw Preference Scores for Millinocket"),
-				plotOutput("SummPlot3", height=graph_height, width=graph_width)
-			),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-
-			# generate event
-			actionButton("generateMatrix3", "Generate"),
-
-			# output post generate
-			div(id="generated-output",
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				),
-
-				h3('Figure 8. Millinocket Decision Alternative Scores by Decision Criteria'),
-
-				plotOutput("WSMPlot5", height=600, width="100%"),
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 9: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
-				),
-
-				h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
-
-				plotOutput("WSMPlot6", height=1000, width="100%"),
-
-				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				),
-
-				h3('Download Millinocket Results'),
-				downloadButton("downloadData3", "Download Millinocket")
-			)
-		),
-
-
+		         h2("Results: Millinocket Dam"),
+		         div(id="dam-3-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 7. Raw Preference Scores for Millinocket"),
+		             plotOutput("SummPlot3", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         
+		         # generate event
+		         actionButton("generateMatrix3", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 8. Millinocket Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot5", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 9: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot6", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		             ),
+		             
+		             h3('Download Millinocket Results'),
+		             downloadButton("downloadData3", "Download Millinocket")
+		             )
+		             ),
 		tabPanel("Dam 4: East Millinocket Dam",
-
-			h2("Results: East Millinocket Dam"),
-
-			div(id="dam-4-output",
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
-					The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-				),
-				h3("Figure 10. Raw Preference Scores for East Millinocket"),
-				plotOutput("SummPlot4", height=graph_height, width=graph_width)
-			),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			# generate event
-			actionButton("generateMatrix4", "Generate"),
-
-			# output post generate
-			div(id="generated-output",
-
-				HTML(
-					"<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				),
-
-				h3('Figure 11. East Millinocket Decision Alternative Scores by Decision Criteria'),
-
-				plotOutput("WSMPlot7", height=600, width="100%"),
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 12: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information. <br>"
-				),
-
-				h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
-
-				plotOutput("WSMPlot8", height=1000, width="100%"),
-
-				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				),
-
-				h3('Download East Millinocket Results'),
-				downloadButton("downloadData4", "Download East Millinocket")
-			)
-		),
-
-
+		         h2("Results: East Millinocket Dam"),
+		         div(id="dam-4-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
+		             plotOutput("SummPlot4", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         # generate event
+		         actionButton("generateMatrix4", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 11. East Millinocket Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot7", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 12: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot8", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		             ),
+		             
+		             h3('Download East Millinocket Results'),
+		             downloadButton("downloadData4", "Download East Millinocket")
+		             )
+		             ),
 		tabPanel("Dam 5: North Twin",
-			h2("Results: North Twin Dam"),
-			div(id="dam-5-output",
-			    HTML(
-			      "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
-			      The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-			    ),
-			    h3("Figure 13. Raw Preference Scores for North Twin"),
-			    plotOutput("SummPlot5", height=graph_height, width=graph_width)
-			),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			# generate event
-			actionButton("generateMatrix5", "Generate"),
-
-			# output post generate
-			div(id="generated-output",
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				),
-
-				h3('Figure 14. North Twin Decision Alternative Scores by Decision Criteria'),
-				plotOutput("WSMPlot9", height=600, width="100%"),
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 15: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
-				),
-
-				h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
-				plotOutput("WSMPlot10", height=1000, width="100%"),
-
-				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				),
-
-				h3('Download North Twin Results'),
-				downloadButton("downloadData5", "Download North Twin")
-			)
-		),
-
-
+		         h2("Results: North Twin Dam"),
+		         div(id="dam-5-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 13. Raw Preference Scores for North Twin"),
+		             plotOutput("SummPlot5", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         # generate event
+		         actionButton("generateMatrix5", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 14. North Twin Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot9", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 15: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot10", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		             ),
+		             
+		             h3('Download North Twin Results'),
+		             downloadButton("downloadData5", "Download North Twin")
+		             )
+		         ),
 		tabPanel("Dam 6: Dolby",
-			h2("Results: Dolby Dam"),
-
-			div(id="dam-6-output",
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
-					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-				),
-				h3("Figure 16. Raw Preference Scores for Dolby"),
-				plotOutput("SummPlot6", height=graph_height, width=graph_width)
-			),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			# generate event
-			actionButton("generateMatrix6", "Generate"),
-
-			# output post generate
-			div(id="generated-output",
-
-				HTML(
-					"<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information.<br>"
-				),
-
-				h3('Figure 17. Dolby Decision Alternative Scores by Decision Criteria'),
-
-				plotOutput("WSMPlot11", height=600, width="100%"),
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 18: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
-				),
-
-				h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
-
-				plotOutput("WSMPlot12", height=1000, width="100%"),
-
-				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				),
-
-				h3('Download Dolby Results'),
-				downloadButton("downloadData6", "Download Dolby")
-			)
-		),
-
-
+		         h2("Results: Dolby Dam"),
+		         div(id="dam-6-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 16. Raw Preference Scores for Dolby"),
+		             plotOutput("SummPlot6", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         # generate event
+		         actionButton("generateMatrix6", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 17. Dolby Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot11", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 18: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot12", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		             ),
+		             
+		             h3('Download Dolby Results'),
+		             downloadButton("downloadData6", "Download Dolby")
+		             )
+		             ),
 		tabPanel("Dam 7: Millinocket Lake",
-			h2("Results: Millinocket Lake Dam"),
-
-			div(id="dam-7-output",
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 19: The bars visually represent your preference scores for each decision criterion.\
-					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-				),
-				h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
-				plotOutput("SummPlot7", height=graph_height, width=graph_width)
-			),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			# generate event
-			actionButton("generateMatrix7", "Generate"),
-
-			# output post generate
-			div(id="generated-output",
-
-				HTML(
-					"<br><b>Results Interpretation </b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				),
-
-				h3('Figure 20. Millinocket Lake Decision Alternative Scores by Decision Criteria'),
-
-				plotOutput("WSMPlot13", height=600, width="100%"),
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 21: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
-				),
-
-				h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
-
-				plotOutput("WSMPlot14", height=1000, width="100%"),
-
-				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				),
-
-				h3('Download Millinocket Lake Results'),
-				downloadButton("downloadData7", "Download Millinocket Lake")
-			)
-		),
-
-
+		         h2("Results: Millinocket Lake Dam"),
+		         div(id="dam-7-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 19: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
+		             plotOutput("SummPlot7", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         # generate event
+		         actionButton("generateMatrix7", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Results Interpretation </b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 20. Millinocket Lake Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot13", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 21: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				          the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot14", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		               
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		               
+		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		             ),
+		             
+		             h3('Download Millinocket Lake Results'),
+		             downloadButton("downloadData7", "Download Millinocket Lake")
+		             )
+		             ),
 		tabPanel("Dam 8: Ripogenus",
-			h2("Results: Ripogenus Dam"),
+		         h2("Results: Ripogenus Dam"),
+		         div(id="dam-8-output",
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		             ),
+		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
+		             plotOutput("SummPlot8", height=graph_height, width=graph_width)
+		         ),
+		         
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         # generate event
+		         actionButton("generateMatrix8", "Generate"),
+		         
+		         # output post generate
+		         div(id="generated-output",
+		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+				          	alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+                    It is up to you to decide what to do with this information. <br>"
+		             ),
+		             
+		             h3('Figure 23. Ripogenus Decision Alternative Scores by Decision Criteria'),
+		             #tableOutput("WSMTable1"), # for debugging plot1
+		             plotOutput("WSMPlot15", height=600, width="100%"),
+		             
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 24: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		             ),
+		             
+		             h3('Figure 24. Total Decision Criteria Scores by Decision Alternative for Ripogenus'),
+		             #tableOutput("WSMTable2"), # for debugging plot2
+		             plotOutput("WSMPlot16", height=1000, width="100%"),
+		             # plotly exampl for plot 2
+		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+		             
+		               HTML(
+		                 "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		                 once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		                 
+		                 <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		                 must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
+		                 
+		                 <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               ),
+		             
+		             h3('Download Ripogenus Results'),
+		             downloadButton("downloadData8", "Download Ripogenus")
+		             )
+		             ),
+		tabPanel("Multi-Dam Results",
+		         htmlOutput("Step 5: Multi-Dam Results"),
+		         h2("Multi-Dam Results"),
+		         HTML(
+		           "Something here about multi-dam results and how to interpret them.<br>" 
+		         ),
+		
+		         tabPanel("Developers",
+			 h2("Developers"),
+			 HTML(
+				 "<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
+				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
+				 <br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
+         definitions, revised app text.<br> \
+         <br><b>Dr. Samuel G. Roy </b>- Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine) for the Dam Decision Support Tool. Created original Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and all maps.<br>\
+				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations for user interface and app function.<br>"
+			 )
 
-			div(id="dam-8-output",
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
-					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-				),
-				h3("Figure 22. Raw Preference Scores for Ripogenus"),
-				plotOutput("SummPlot8", height=graph_height, width=graph_width)
-			),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			# generate event
-			actionButton("generateMatrix8", "Generate"),
-
-			# output post generate
-			div(id="generated-output",
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				),
-
-				h3('Figure 23. Ripogenus Decision Alternative Scores by Decision Criteria'),
-
-				plotOutput("WSMPlot15", height=600, width="100%"),
-
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 24: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
-				),
-
-				h3('Figure 24. Total Decision Criteria Scores by Decision Alternative for Ripogenus'),
-
-				plotOutput("WSMPlot16", height=1000, width="100%"),
-
-				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
-				),
-
-				h3('Download Ripogenus Results'),
-				downloadButton("downloadData8", "Download Ripogenus")
-			)
-		),
-
-
-		tabPanel("Developers",
-			h2("Developers"),
-			HTML(
-				"<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
-				Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
-				<br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
-				definitions, revised app text.<br> \
-				<br><b>Dr. Samuel G. Roy </b>- Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine) for the Dam Decision Support Tool. Created original Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and all maps.<br>\
-				<br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations for user interface and app function.<br>"
-			)
 		),
 
 
@@ -1319,7 +1389,7 @@ ui <- shinyUI(fluidPage(
 			 )
 
 		)
-)))
+))))
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)
