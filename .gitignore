@@ -2,9 +2,7 @@
 logs/*
 
 # swap files
-*.swp
-*.swo
-*.swm
+.*.sw[a-z]
 
 # dont track responses in repo
 src/dams_mcda/responses/*

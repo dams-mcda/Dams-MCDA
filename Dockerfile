@@ -21,6 +21,7 @@ RUN Rscript -e "install.packages('plotly')"
 RUN Rscript -e "install.packages('R.matlab')"
 RUN Rscript -e "install.packages('rgdal', dependencies=TRUE)"
 RUN Rscript -e "install.packages('spatstat')"
+RUN Rscript -e "install.packages('rjson')"
 
 # root for folder permissions
 USER root

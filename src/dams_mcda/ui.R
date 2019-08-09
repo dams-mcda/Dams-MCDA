@@ -72,9 +72,11 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Step 1: Start Here"),
 			h2("Start Here"),
 			HTML(
-				 "<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br>" 
-        ),
-			
+				"<b>Welcome to the Dam Decision Support Tool!</b>"
+			),
+
+			img(src = 'Alewives1.jpg', width="50%", align = "right", style="margin:0.2em;"),
+
 			HTML(
         "<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
          Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
@@ -913,6 +915,7 @@ ui <- shinyUI(fluidPage(
 
 			#TODO: remove for production
 			actionButton("autoGenerateMatrix", "Autofill: debug only"),
+			actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
 			# generate event
 			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
