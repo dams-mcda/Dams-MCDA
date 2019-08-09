@@ -396,14 +396,12 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	# updateDamGraph
 	# given a dam index and vector of scores makes the raw score graphs
+	# scoreVector needs to be vector and not data frame or it will repeat for each criteria
 	#------------------------------------------------------------
 	updateDamGraph <- function(damId, scoreVector){
-		# Graph1
-
 		# decision criteria ids
 		Criteria <- c(rep(criteria_names, times=length(1)))
-		# score needs to be vector and not data frame or it will repeat for each criteria
-		#Score <- as.numeric(RawCriteriaMatrix[damId, ])
+
 		# two columns, score and criteria of score
 		Data <- data.frame(score=scoreVector, criteria=Criteria)
 
@@ -421,7 +419,8 @@ server <- function(input, output, session) {
 
 		# Graph2
 
-		# Error Bar Example
+		# ggplot2 Error Bar Example
+
 		#output[[paste0("ErrorPlot", damId)]] <- renderBarErrorPlot(
 		#	Data, # data
 		#	paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
@@ -464,6 +463,11 @@ server <- function(input, output, session) {
 		return(dams)
 	}
 
+
+	#------------------------------------------------------------
+	# getDamPreferences
+	# given index of the dam in dam_names list returns user selected values for inputs
+	#------------------------------------------------------------
 	getDamPreferences <- function(damIndex){
 		damPrefs <- c(
 			input[[paste0("FishBiomass", damIndex)]],
@@ -483,6 +487,7 @@ server <- function(input, output, session) {
 		)
 		return(damPrefs)
 	}
+
 
 	#------------------------------------------------------------
 	# updateDam1
@@ -1845,6 +1850,7 @@ server <- function(input, output, session) {
 
 			# show output html elements
 			shinyjs::show(id="generated-output")
+			shinyjs::show(id="combined-output")
 			message("generateOutput done")
 		}
 	}
@@ -1864,6 +1870,7 @@ server <- function(input, output, session) {
 		shinyjs::hide(id="dam-6-output")
 		shinyjs::hide(id="dam-7-output")
 		shinyjs::hide(id="dam-8-output")
+		shinyjs::hide(id="combined-output")
 
 		#----------------------------------------
 		# Keep track of completed sections
@@ -2181,17 +2188,14 @@ server <- function(input, output, session) {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
-
-	# on 'Dam1 Results > Generate' button event: fill matrix with user input values
-	observeEvent(input$generateMatrix1, {
-		 #TODO:
-		 # as of right now all dam generation logic is in one function
+	# on 'Output > Generate' button event: fill matrix with user input values
+	observeEvent(input$generateCombinedMatrix, {
 		generateOutput()
-	}) # end 'output' tab > on generate button event
-
+	})   # end 'output' tab > on generate button event
 
 	#TODO: remove as this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
+		message('Auto Generate')
 		# update all alt
 		updateDam1()
 		updateDam2()
