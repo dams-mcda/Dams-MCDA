@@ -262,7 +262,7 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range # y value limit (0-100 value range)
+			score_range # y value limit (0-1 value range)
 		)
 
 		# Graph2
@@ -599,7 +599,7 @@ server <- function(input, output, session) {
 			# get 2d array of values based on length/values of criteria_inputs and available_dams
 			# criterion -> columns
 			# dams -> rows
-			# example 14 criterion 8 dams results in 14 column by 8 row 2d data structure specific to dams
+			# example 14 criterion 8 dams results in 14 column (criteria) by 8 row (dams) 2d data structure 
 			#------------------------------------------------------------
 
 			dams <- vector("list")
@@ -623,26 +623,24 @@ server <- function(input, output, session) {
 			dams <- unlist(dams)
 
 			#NOT SURE HOW TO RECONCILE THIS SPECIFIC TO EACH INDIVIDuaL DAM
-			#for alternatives in tables/graphs, this generates a blank matrix with labels
-			#alternatives <- vector("list", length(available_alternatives))
-			#for (row_id in 1:length(available_alternatives)){
-			#  # for each criterion in alternatives
-			#  r <- vector("list", length(available_alternatives))
+			#for alternatives in tables/graphs, this generates a blank vector with labels
+			alternatives <- vector("list", length(available_alternatives))
+			for (row_id in 1:length(available_alternatives)){
+			  # for each criterion in alternatives
+			  r <- vector("list", length(available_alternatives))
 
-			#  for (id in criteria_inputs){
-			#    input_name <- paste(id, toString(row_id), sep='')
-			#    value <- input[[input_name]]
-			#    r[[id]] <- value
+			  for (id in criteria_inputs){
+			    input_name <- paste(id, toString(row_id), sep='')
+			    value <- input[[input_name]]
+			    r[[id]] <- value
 
-			#    if (is.null(value)){
-			#      # debug nulls, doesn't modify data
-			#      message('input ', input_name, " isNull ")
-			#    }
-			#  }
-
-			#  alternatives[[row_id]] <- unlist(r) # we want in c and not list
-			#}
-			#alternatives <- unlist(alternatives)
+			    if (is.null(value)){
+			      # debug nulls, doesn't modify data
+			      message('input ', input_name, " isNull ")
+			    }
+			    alternatives[[row_id]] <- unlist(r)
+			  }
+			  alternatives <- unlist(alternatives)
 
 			# -------------------------------NEED TO REWRITE BY DAM------------------------------#
 			# assign values in new matrix
@@ -667,10 +665,11 @@ server <- function(input, output, session) {
 			#matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
 			#matrix_rows <- length(available_dams) # 8 default
 			#matrix_levs <- length(available_alternatives) #5 default
-
+      
 			#WeightedScoreMatrix <- array(data=NA, c(8,14,5))
 			#WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 			#
+			  
 			##----------------------------------------
 			## Score Sum
 			##----------------------------------------
@@ -715,18 +714,6 @@ server <- function(input, output, session) {
 			#Score <- as.numeric(RawCriteriaMatrix[1, ])
 			## two columns, score and criteria of score
 			#Data <- data.frame(score=Score, criteria=Criteria)
-
-			## Figure 1 raw pref plot
-			#output$SummPlot1 <- renderBarPlot(
-			#	Data, # data
-			#	paste("Raw Preference Scores for", dam_names[1], sep=" "), # title
-			#	criteria_names, # x_labels
-			#	"Topic", # x axis label
-			#	"Score", # y axis label
-			#	colors, # colors
-			#	NULL, # x value limit
-			#	score_range # y value limit (0-100 value range)
-			#)
 
 			# Figure 2 Stacked Bar 100%
 			#output$WSMPlot1 <- renderPlot(
@@ -2112,5 +2099,5 @@ server <- function(input, output, session) {
 	  }
 	)
 
-} # end server
+}} # end server
 

@@ -8,7 +8,7 @@
 # Inputs:
 #     CritImportance: #TODO: explain
 #     RawCriteriaMatrix: raw score matrix
-#setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
+setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
 
 
 DamsData <- read.csv('DamsData.csv')
@@ -40,7 +40,7 @@ available_dams <- seq(1:8)
 # list of alternatives
 available_alternatives <- seq(1:5)
 
-matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
+matrix_cols <- length(criteria_inputs) # 14 default (output size)
 matrix_rows <- length(available_dams) # 8 default
 matrix_levs <- length(available_alternatives)
 
@@ -48,12 +48,12 @@ matrix_levs <- length(available_alternatives)
 WSM <- function(RawCriteriaMatrix, DamsData){
 
 	# matrix setup
-	matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
+	matrix_cols <- length(criteria_inputs) # 14 default (output size)
 	matrix_rows <- length(available_dams) # 8 default
-	matrix_levs <- length(available_alternatives)
+	matrix_levs <- length(available_alternatives)# 5 default
 
 
-	message("Preference cols", matrix_cols, " rows ", matrix_rows, "scenarios", matrix_levs )
+	message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs )
 
 	#----------------------------------------
 	# Step A (PREFS): Build Preference Matrix with blank levels, no normalization
@@ -79,10 +79,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 
 	message("fill Normalized Matrix")
 	#----------------------------------------
-	# Step B (DATA): Data Normalization using Min / Max Vectors
-	### Sam's notes 7-10-19
-	# outline for ranking procedure by range normalization, weighted sum
-	# Retrieve user preference matrix (referred to as RawCriteriaMatrix), a 2D matrix [dams,criteria preference values]  DONE
+	# (DATA): Data Normalization using Min / Max Vectors
 	# Retrieve criteria scores for each dam (referred to as DamsDataMartrix), for each MCDA scenario (from server?) a 3D matrix [dams,criteria,alternatives] 
 	
 	# Normalization procedure:
@@ -91,17 +88,6 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#  for negative scores (like cost): norm = 1 - (f - f_max) / (f_min - f_max)
 	#  result is 3D matrix with dam-specific criteria scores normalized by min and max criteria sampled over all alternatives
 	
-	# Weighted sum procedure:
-	#  multiply all normalized scores by prefrence weights
-	#  sum normalized, weighted criteria scores for each dam
-	#  sum this across all dams for each scenario
-	
-	# Rank:
-	#  may need to reshape the array produced by the weighted sum procedure
-	#  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
-	# Retrieve table, map of highest ranked scenario:
-	#  use server url or whatever, searching for map name with the matching index number
-	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
 
 	#retrieve DamsData to manipulate into DamsDataMatrix
@@ -128,13 +114,10 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
 	                DamsData$Health_Remove, DamsData$Justice_Remove)
 	
-	
-	  
 	#This abind creates our 3D matrix
 	DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
 	
 
-	
 	#--------NORMALIZATION-------------------
 	# iterate each criteria for min,max
   
@@ -157,12 +140,13 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 
 
 	#----------------------------------------
-	# PATH B (DATA*PREFS): Build Score Matrix
+	# (DATA*PREFS): Build Score Matrix
 	# score will be min/max normalized values from 0-1
+	
 	#----------------------------------------
-	NormalizedMatrix <- array(data=NA, c(8,14,5))
-	# array of rows that use alternative method
-	min_crit_columns <- c(4,6) 
+	NormalizedMatrix <- array(data=NA, dim = c(8,14,5))
+	# array of rows that use minimization (cost or damage-related)
+	min_crit_columns <- c(4, 5, 6) 
 
 	# make normalized values of each value in matrix 
 	for (k in 1:matrix_cols){
@@ -195,22 +179,85 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 		message('WSM column ', NormalizedMatrix[k])
 	} #End criteria (columns) for loop.
 
+	
 	# debug
 	#message('NormalizedMatrix ', NormalizedMatrix)
+	
 
 	#----------------------------------------
 	# WeightedScoreMatrix
+	
 	#----------------------------------------
 	
 	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
+	
+	Dam1Results <- WeightedScoreMatrix[1,,]
+	Dam1Score   <- for (j in 1:matrix_levs){
+  	  scoresum[[j]] <- sum(as.numeric(Dam1Results[1:14,1:ncol]))
+  }
+	scoresum <- unlist(scoresum)
+	
+	Dam2Results <- WeightedScoreMatrix[2,,]
+	Dam2Score   <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam2Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
+	
+	Dam3Results <- WeightedScoreMatrix[3,,]
+	Dam3Score   <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam3Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
+	
+	Dam4Results <- WeightedScoreMatrix[4,,]
+	Dam4Score   <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam4Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
+	
+	Dam5Results <- WeightedScoreMatrix[5,,]
+	Dam5Score   <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam5Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
+	
+	Dam6Results  <- WeightedScoreMatrix[6,,]
+	Dam6Score    <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam6Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
+	
+	Dam7Results <- WeightedScoreMatrix[7,,]
+	Dam7Score   <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam7Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
+	
+	Dam8Results <- WeightedScoreMatrix[8,,]
+	Dam8Score   <- for (j in 1:matrix_levs){
+	  scoresum[[j]] <- sum(as.numeric(Dam8Results[1:14,1:ncol]))
+	}
+	scoresum <- unlist(scoresum)
 
 	# debug
 	#message('IntermediateMatrix', IntermediateMatrix)
 
 	#----------------------------------------
 	# Score Sum
+	
+	# Weighted sum procedure:
+	#  multiply all normalized scores by prefrence weights
+	#  sum normalized, weighted criteria scores for each dam
+	#  sum this across all dams for each scenario
+	
+	# Rank:
+	#  may need to reshape the array produced by the weighted sum procedure
+	#  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
+	# Retrieve table, map of highest ranked scenario:
+	#  use server url or whatever, searching for map name with the matching index number
+	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
 	# total score is last column of returned Data Table
 	scoresum <- list("list", matrix_levs)
