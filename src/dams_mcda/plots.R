@@ -10,17 +10,14 @@
 renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
 	# debug data
 	message('------------------')
-	message('BarPlot title:', title, '\ndata:', data, "\n#(values):", length(data), "\nclasstype: ", class(data), "\ndatatype: ", typeof(data), "\nnames:", x_names, "\n#(names):", length(x_names))
-	message('------------------')
-
 	message(
-		'BarPlot title:', title,
-		'\ndata:', df,
-		"\n#(values in data):", length(df),
+		'BarPlot title: ', title,
+		'\ndata: ', df,
+		"\n#(values in data): ", length(df),
 		"\nclasstype: ", class(df),
 		"\ndatatype: ", typeof(df),
 		#"\nnames:", x_names,
-		"\n#(x names):", length(x_names)
+		"\n#(x names): ", length(x_names)
 	)
 	message('------------------')
 
@@ -31,12 +28,12 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 	}
 
 	plot <- ggplot(
-	  data=df, 
-	  mapping =aes(x=criteria, y=score, fill=criteria)
-	               #if data frame column mappings conflict with environment we may need to specify an execution environment
-	               #environment = environment(),
-	               )
-	
+		data=df,
+		mapping =aes(x=criteria, y=score, fill=criteria)
+		# if data frame column mappings conflict with environment we may need to specify an execution environment
+		#environment = environment(),
+	)
+
 	result <-  renderPlot(
 		plot
 		+ geom_bar(stat="identity")

@@ -8,7 +8,7 @@
 # Inputs:
 #     CritImportance: #TODO: explain
 #     RawCriteriaMatrix: raw score matrix
-setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
+#setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
 
 
 DamsData <- read.csv('DamsData.csv')

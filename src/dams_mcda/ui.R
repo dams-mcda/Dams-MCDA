@@ -62,13 +62,13 @@ ui <- shinyUI(fluidPage(
 	'),
 
 	navlistPanel(
-		"Step 1: Start Here",
 		# Define layout widths
 		widths = c(2,10),
 
 		#Define Instructions tab
+		HTML("<li>Step 1: Start Here</li>"),
 		tabPanel("Start Here",
-			htmlOutput("Step 1: Start Here"),
+			#htmlOutput("Step 1: Start Here"),
 			h2("Start Here"),
 			HTML(
 				"<b>Welcome to the Dam Decision Support Tool!</b>"
@@ -84,13 +84,9 @@ ui <- shinyUI(fluidPage(
 				 improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br>"
 			),
 
-			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
+			#helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 
-			img(src = 'Alewives1.jpg', width = "100%", align = "center"), #this is a picture of alewives
-
-			HTML(
-				"<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"
-			),
+			HTML( "<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"),
 
 			actionButton("IndividualBtn", "Individual Preferences"),
 			actionButton("GroupBtn", "Group Preferences"),
@@ -111,13 +107,13 @@ ui <- shinyUI(fluidPage(
 				to climate change and poor human health. However, all dams need regular maintenance and older dams may need more extensive repairs as they age. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. \
 				They may also contribute to poor water quality downstream, increased predation, and climate change (decaying plant matter in reservoirs release methane into the atmosphere). Dams have long threatened indigenous cultural traditions, while at the same \
 				time helping to shape post-industrial town or city identities over the last two centuries.<br>"
-			 ),
+			 )
 
-			helpText(
-				a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))
-			),
+			#helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))),
+		 ),
 
-		"Step 2: View Dam Map",
+
+		HTML("<li> Step 2: View Dam Map </li>"),
 		tabPanel("View Dam Map",
 		  htmlOutput("Map1"), # status and title
 		  h2("Existing FERC Dams Map"),
@@ -131,7 +127,7 @@ ui <- shinyUI(fluidPage(
 		 ),
 
 
-		"Step 3: Enter Preferences",
+		HTML("<li> Step 3: Enter Preferences </li>"),
 		# ----------------------------------------
 		# West Enfield Dam
 		# ----------------------------------------
@@ -328,7 +324,7 @@ ui <- shinyUI(fluidPage(
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Dam. <br>\
-				<br><a href="Factsheet_PenobscotMills.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a> <br>\<br><a hr				ef="Factsheet_PenobscotMills.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a> <br>\
+				<br><a href="Factsheet_PenobscotMills.pdf" download>Download Dam Criteria</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>'
@@ -892,7 +888,7 @@ ui <- shinyUI(fluidPage(
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
 
-		"Step 4: View Results",
+		HTML("<li> Step 4: View Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
@@ -1333,30 +1329,13 @@ ui <- shinyUI(fluidPage(
 		             
 		             h3('Download Ripogenus Results'),
 		             downloadButton("downloadData8", "Download Ripogenus")
-		             )
-		             ),
-		tabPanel("Multi-Dam Results",
-		         htmlOutput("Step 5: Multi-Dam Results"),
-		         h2("Multi-Dam Results"),
-		         HTML(
-		           "Something here about multi-dam results and how to interpret them.<br>" 
-		         ),
-		
-		         tabPanel("Developers",
-			 h2("Developers"),
-			 HTML(
-				 "<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
-				 Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
-				 <br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
-         definitions, revised app text.<br> \
-         <br><b>Dr. Samuel G. Roy </b>- Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine) for the Dam Decision Support Tool. Created original Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and all maps.<br>\
-				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations for user interface and app function.<br>"
-			 )
+				 )
+		 ),
 
-<<<<<<< Updated upstream
-=======
+
+		HTML("<li> Step 4: View Results </li>"),
 		tabPanel("Combined Results",
-			h2("Combined Results"),
+			h2("Multi-Dam Results"),
 
 			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 
@@ -1377,20 +1356,17 @@ ui <- shinyUI(fluidPage(
 		),
 
 
-
-
 		tabPanel("Developers",
-			h2("Developers"),
-			HTML(
+			 h2("Developers"),
+			 HTML(
 				"<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
 				Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
 				<br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
 				definitions, revised app text.<br> \
 				<br><b>Dr. Samuel G. Roy </b>- Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine) for the Dam Decision Support Tool. Created original Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and all maps.<br>\
 				<br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations for user interface and app function.<br>"
-			)
->>>>>>> Stashed changes
-		),
+			 )
+		 ),
 
 
 		tabPanel("Acknowledgements",
@@ -1408,9 +1384,8 @@ ui <- shinyUI(fluidPage(
 				 Academy of Sciences, 201807437. doi:10.1073/pnas.1807437115.<br>\
 				 "
 			 )
-
 		)
-))))
+)))
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)
