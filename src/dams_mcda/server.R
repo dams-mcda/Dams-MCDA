@@ -1,171 +1,16 @@
-
 # server logic
 
-#pull from WSM script
+source("runMatlab.R")
 source("WSM.R")
+#pull from WSM script
 DamsData <- read.csv('DamsData.csv')
 DamsData <- data.frame(DamsData)
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
-
-library(plotly, warn.conflicts = FALSE)
-library(R.matlab)
 library(rjson)
 set.seed(123)
-
-
-# track matlab port for session
-session_matlab_port <- 9998
-
-# for production make sure this is TRUE
-retry_matlab_connection <- TRUE
-max_retries <- 3
-
-
-runMatlab <- function(port=9998, attempt=1){
-	# launches a matlab server, trys to connect for up to 30 seconds
-	# if it fails it will try a different port
-	# failed connections can take a long time due to the ~30 second possible connection time
-	out <- tryCatch({
-		# try starting a server
-		Matlab$startServer(
-			matlab="/usr/local/MATLAB/R2019a/bin/matlab",
-			workdir='/srv/matlab-working-dir',
-			port=port
-	    )
-		matlab <- Matlab(port=port)
-
-		# for debugging R.Matlab connection
-		# set to -2 for max verbosity
-		#setVerbose(matlab, threshold = 0)
-
-		isOpen <- open(matlab)
-
-		if (!(isOpen)){
-			throw("ERROR MATLAB server is not running: waited 30 seconds.")
-		}else{
-			message("--------------------------------------------------------------------------------")
-			message("matlab is open: ", matlab)
-			message("--------------------------------------------------------------------------------")
-
-			#----------------------------------------
-			# Required Functions
-			#----------------------------------------
-			mat_filepath <- file.path("/media/SamMATLAB", "Filesfrom_05062019mtg.mat");
-			data <- readMat(mat_filepath)
-
-
-			# things referenced in MutliRank.m
-
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPF_idx.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			#m_filepath <- file.path("/media/SamMATLAB", "MultiRank_bydam_prefUnityCheck.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			#m_filepath <- file.path("/media/SamMATLAB", "MultiRank_bydam_minimum.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			## (requires DamIndex to be set)
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPF_netOV_split_minimum.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			## (requires DamIndex to be set)
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_fitfn_split.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_fitfn_minimum.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			## (requires DamIndex to be set)
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_minimum.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPF_netOV_minimum.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			#m_filepath <- file.path("/media/SamMATLAB", "DPPFwkshp_prep_minimum.m");
-			#m_file_as_str <- readChar(m_filepath, file.info(m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			#----------------------------------------
-			# Application Entrypoint "Instructions"
-			#----------------------------------------
-
-			#base_m_filepath <- file.path("/media/SamMATLAB", "INSTRUCTIONS_minimum.m");
-			#m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			## "instruction file" has been split into multiple files
-			#base_m_filepath <- file.path("/media/SamMATLAB", "INSTRUCTIONS_minimum2.m");
-			#m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
-			#setFunction(matlab, m_file_as_str)
-
-			base_m_filepath <- file.path("/media/SamMATLAB", "MultiRank.m");
-			m_file_as_str <- readChar(base_m_filepath, file.info(base_m_filepath)$size)
-			setFunction(matlab, m_file_as_str)
-
-			eval_string = sprintf("idxRank=MultiRank(f,pref,varargin);")
-			evaluate(matlab, eval_string)
-			close(matlab)
-
-			#eval_string = sprintf( "[DamIndex, x, out]=RunApplication2();")
-			#evaluate(matlab, eval_string)
-			#close(matlab)
-
-			message("--------------------------------------------------------------------------------")
-			message("matlab closed")
-			message("--------------------------------------------------------------------------------")
-			return(TRUE) # sucess
-		}
-	},
-	error=function(cond){
-		message("--------------------------------------------------------------------------------")
-		message("runMatlab Error", cond)
-
-		if (isOpen){
-			message("Error but matlab Open, close it.")
-			close(matlab)
-		}
-
-		if ( retry_matlab_connection && (attempt < max_retries) ){
-
-			# server already open, assume someone else is using
-			session_matlab_port <- (port -1)
-			message("try running on another port")
-			message("attempts: ", attempt)
-			message("max possible attempts: ", max_retries)
-			message("--------------------------------------------------------------------------------")
-			return( runMatlab(port=(port-1), attempt=(attempt+1)) )
-
-		}else{
-
-			message("failing execution after max tries")
-			message("--------------------------------------------------------------------------------")
-			return(FALSE)
-		}
-	},
-	warning=function(cond){
-		message("--------------------------------------------------------------------------------")
-		message("runMatlab Warning", cond)
-		message("--------------------------------------------------------------------------------")
-		return(FALSE) # fail?
-	})
-
-	message("attempt ", attempt)
-	message("runMatlab RESULTS: success?:", out)
-	return(out)
-}
 
 
 #--------------------------------------------------------------------------------
@@ -281,6 +126,13 @@ criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 # needed when calling barplot
 pdf(NULL)
 
+# track matlab port for session
+session_matlab_port <- 9998
+
+# for production make sure this is TRUE
+retry_matlab_connection <- TRUE
+max_retries <- 3
+
 
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
@@ -316,12 +168,8 @@ saveResponse <- function(table_data) {
 #----------------------------------------
 # save the results to a file
 saveData <- function(data) {
-	fileName <- sprintf("ResultsRaw.csv",
-						humanTime(),
-						digest::digest(data))
-
-	write.csv(x = data, file = file.path(responsesDir, fileName),
-			  row.names = FALSE, quote = TRUE)
+	fileName <- sprintf("ResultsRaw.csv", humanTime(), digest::digest(data))
+	write.csv(x = data, file = file.path(responsesDir, fileName), row.names = FALSE, quote = TRUE)
 }
 
 
@@ -419,7 +267,7 @@ server <- function(input, output, session) {
 
 		# Graph2
 
-		# ggplot2 Error Bar Example
+		#NOTE: ggplot2 Error Bar Example
 
 		#output[[paste0("ErrorPlot", damId)]] <- renderBarErrorPlot(
 		#	Data, # data
@@ -1962,32 +1810,33 @@ server <- function(input, output, session) {
 	  else
 	    tags$span("1.0 / 1.0", class="complete")
 	))
+
+
 	#--------------------------------------------------------------------------------
 	# User Step 1 Event Listeners
 	# these trigger on button click
 	#--------------------------------------------------------------------------------
-	
+
 	# Individual vs. Group path
 	#----------------------------------------
 	observeEvent(input$IndividualBtn, {
-	  
+
 	})
 
 	observeEvent(input$GroupBtn, {
-	  
-	})	
-	
-	observeEvent(input$UploadBtn, {
-	  
+
 	})
-	
+
+	observeEvent(input$UploadBtn, {
+
+	})
+
 	#--------------------------------------------------------------------------------
 	# Dam Update Event Listeners
 	# these trigger the updates on button click
 	#--------------------------------------------------------------------------------
 
 	# West Enfield
-	#----------------------------------------
 	observeEvent(input$updateBtn1, {
 		message("update button 1")
 		if(progress1() > upper_bound || progress1() < lower_bound){
@@ -2001,7 +1850,6 @@ server <- function(input, output, session) {
 	})
 
 	# Medway
-	#----------------------------------------
 	observeEvent(input$updateBtn2, {
 		if(progress2() > upper_bound || progress2() < lower_bound){
 			showModal(modalDialog(
@@ -2014,7 +1862,6 @@ server <- function(input, output, session) {
 	})
 
 	# Millinocket
-	#----------------------------------------
 	observeEvent(input$updateBtn3, {
 		if(progress3() > upper_bound || progress3() < lower_bound){
 			showModal(modalDialog(
@@ -2027,7 +1874,6 @@ server <- function(input, output, session) {
 	})
 
 	# East Millinocket
-	#----------------------------------------
 	observeEvent(input$updateBtn4, {
 		if(progress4() > upper_bound || progress4() < lower_bound){
 			showModal(modalDialog(
@@ -2040,7 +1886,6 @@ server <- function(input, output, session) {
 	})
 
 	# North Twin
-	#----------------------------------------
 	observeEvent(input$updateBtn5, {
 		if(progress5() > upper_bound || progress5() < lower_bound){
 			showModal(modalDialog(
@@ -2053,7 +1898,6 @@ server <- function(input, output, session) {
 	})
 
 	# Dolby
-	#----------------------------------------
 	observeEvent(input$updateBtn6, {
 	  if(progress6() > upper_bound || progress6() < lower_bound){
 	    showModal(modalDialog(
@@ -2066,7 +1910,6 @@ server <- function(input, output, session) {
 	})
 
 	# Millinocket Lake
-	#----------------------------------------
 	observeEvent(input$updateBtn7, {
 	  if(progress7() > upper_bound || progress7() < lower_bound){
 	    showModal(modalDialog(
@@ -2079,7 +1922,6 @@ server <- function(input, output, session) {
 	})
 
 	# Ripogenus Dam
-	#----------------------------------------
 	observeEvent(input$updateBtn8, {
 	  if(progress8() > upper_bound || progress8() < lower_bound){
 	    showModal(modalDialog(
@@ -2090,6 +1932,7 @@ server <- function(input, output, session) {
 	    updateDam8()
 	  }
 	})
+
 
 	#--------------------------------------------------------------------------------
 	# MCDA Table Output
@@ -2103,12 +1946,14 @@ server <- function(input, output, session) {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
+
 	# on 'Output > Generate' button event: fill matrix with user input values
 	observeEvent(input$generateCombinedMatrix, {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
-	#TODO: remove as this is for fast debugging output results
+
+	#NOTE: this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
 		message('Auto Generate')
 		# update all alt
@@ -2125,46 +1970,45 @@ server <- function(input, output, session) {
 	})
 
 
-	#TODO: remove as this is for fast debugging output results
+	#NOTE: this is for testing shiny > js > django
 	observeEvent(input$saveResultsToDjango, {
 
-			raw_scores <- getRawScores()
+		raw_scores <- getRawScores()
 
-			# assign values in new matrix
-			RawCriteriaMatrix <- data.frame(
-				matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
-			)
+		# assign values in new matrix
+		RawCriteriaMatrix <- data.frame(
+			matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+		)
 
-			# assign table row, column names
-			row.names(RawCriteriaMatrix) <- dam_names
-			colnames(RawCriteriaMatrix) <- criteria_names
+		# assign table row, column names
+		row.names(RawCriteriaMatrix) <- dam_names
+		colnames(RawCriteriaMatrix) <- criteria_names
 
-			MatrixJson <- toJSON(RawCriteriaMatrix)
+		MatrixJson <- toJSON(RawCriteriaMatrix)
 
-			# send the data through javascript
-			session$sendCustomMessage("saveResultsToDjango", toString(MatrixJson))
+		# send the data through javascript
+		session$sendCustomMessage("saveResultsToDjango", toString(MatrixJson))
 	})
 
-  
-  #--------------------------------------------------------
-  # Downloads
-  #--------------------------------------------------------
-  
+
+	#--------------------------------------------------------
+	# Downloads
+	#--------------------------------------------------------
+
 	# Downloadable csv of selected dataset
 	output$downloadData1 <- downloadHandler(
 		filename = function() {
 			# format date & time in filename
 			# date format( year, month, day, hour, minute, second, UTC offset )
-
-		   format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+			format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 		},
 		content = function(file) {
-		   write.csv(
-			response_data,
-			file,
-			row.names = TRUE,
-			quote=TRUE
-		   )
+			write.csv(
+				response_data,
+				file,
+				row.names = TRUE,
+				quote=TRUE
+			)
 		}
 	)
 
@@ -2172,7 +2016,6 @@ server <- function(input, output, session) {
 	  filename = function() {
 	    # format date & time in filename
 	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "Medway_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2187,9 +2030,6 @@ server <- function(input, output, session) {
 
 	output$downloadData3 <- downloadHandler(
 	  filename = function() {
-	    # format date & time in filename
-	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "Millinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2201,12 +2041,9 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
-	
+
 	output$downloadData4 <- downloadHandler(
 	  filename = function() {
-	    # format date & time in filename
-	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "EastMillinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2218,12 +2055,9 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
-	
+
 	output$downloadData5 <- downloadHandler(
 	  filename = function() {
-	    # format date & time in filename
-	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "NorthTwin_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2235,12 +2069,9 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
-	
+
 	output$downloadData6 <- downloadHandler(
 	  filename = function() {
-	    # format date & time in filename
-	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "Dolby_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2252,12 +2083,9 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
-	
+
 	output$downloadData7 <- downloadHandler(
 	  filename = function() {
-	    # format date & time in filename
-	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "MillinocketLake_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2269,12 +2097,9 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
-	
+
 	output$downloadData8 <- downloadHandler(
 	  filename = function() {
-	    # format date & time in filename
-	    # date format( year, month, day, hour, minute, second, UTC offset )
-	    
 	    format(Sys.time(), "Ripogenus_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
@@ -2286,6 +2111,6 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
-	
+
 } # end server
 
