@@ -1,0 +1,12 @@
+FROM python:3
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir -p /pip_requirements
+
+COPY django_python_requirements.txt /pip_requirements/
+RUN pip install -r /pip_requirements/django_python_requirements.txt
+# output installed version
+RUN pip freeze > /pip_requirements/installed_requirements.txt
+
+# django source code volume point
+WORKDIR /code

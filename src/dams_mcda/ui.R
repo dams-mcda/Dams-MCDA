@@ -1,21 +1,22 @@
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
+# This is the user-interface definition of a Shiny web application
 
-
+# base working directory
+# configured for docker container path
 #base_dir <- "/srv/shiny-server/dams_mcda/"
 #setwd(base_dir)
 
+
 library(shiny)
 library(ggplot2)
-library(dplyr)
-library(shinyjs)
+library(dplyr, warn.conflicts=FALSE)
+library(shinyjs, warn.conflicts=FALSE)
 library(Cairo)
 library(RColorBrewer)
 library(spatstat)
 library(rgdal)
+library(abind)
 
-options(shiny.usecairo=T)
+options(shiny.usecairo=TRUE)
 
 source("server.R")
 
@@ -46,46 +47,74 @@ ui <- shinyUI(fluidPage(
 	# used for toggling display of elements
 	shinyjs::useShinyjs(),
 
+
+	# next 5 lines for testing data passing through javascript
+	includeScript("www/dams_mcda.js"),
+
 	# link css
 	tags$head(
 		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")
 	),
 
-	titlePanel("Dam Decision Support Tool"),
+	# page banner/title + logout link
+	HTML('<div id="app-logout"><a href="/logout/">Logout</a></div>\
+		 <div id="page-title">Dam Decision Support Tool</div> \
+		 \
+	'),
 
 	navlistPanel(
-	  "Step 1: Start Here",
+		"Step 1: Start Here",
 		# Define layout widths
 		widths = c(2,10),
 
 		#Define Instructions tab
 		tabPanel("Start Here",
 			htmlOutput("Step 1: Start Here"),
-			h2("Step 1: Start Here"),
+			h2("Start Here"),
 			HTML(
 				 "<b>Welcome to the Dam Decision Support Tool! </b>Please login with a username (email address) and a password.<br>" 
         ),
 			
-      img(src = 'Alewives1.jpg', align = "center"),
-      
 			HTML(
-        "<br>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information? (select one).<br> \
-
-				 <br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
+        "<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
          Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
-         to support your interaction in the FERC Integrated Licensing Process.<br> \
+         to support your interaction in the FERC Integrated Licensing Process. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized \
+         cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, \
+         improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br>"
+        ),
+			
+			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
+			
+			img(src = 'Alewives1.jpg', width = "100%", align = "center"), #this is a picture of alewives
+			
+      HTML(
+         "<h3>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h3>"
+     ),
+			actionButton("IndividualBtn", "Individual Preferences"),
+			actionButton("GroupBtn", "Group Preferences"),
+			actionButton("uploadBtn", "UPLOAD DATA"),
 
-				 This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized cost, greenhouse gas emissions reductions, sea-run fish \
-         survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, improve hydropower generation, improve\ 
-         fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br> \
-
-				 <h2>Instructions for Uploading Group Preferences</h2>\
+      HTML(
+				 "<h4>Instructions for Uploading</h4>\
 
 				 Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-         for you or the average preference values for your group. <br>\
+         for you or the average preference values for your group. <br>"
+      ), #will want to make sure we have a download button for the blank decision matrix
+			
+			HTML(  
+         "<h4>More Information:</h4>\
+
+         The Penobscot River is home to many dams and valuable ecosystem services, including pristine natural lakes, clean water sources, and significant biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, \
+         Blueback herring, and Alewife). Dams also provide important services: reservoirs for drinking water and recreation, flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing fossil-fuel emissions that contribute \
+         to climate change and poor human health. However, all dams need regular maintenance and older dams may need more extensive repairs as they age. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. \
+         They may also contribute to poor water quality downstream, increased predation, and climate change (decaying plant matter in reservoirs release methane into the atmosphere). Dams have long threatened indigenous cultural traditions, while at the same \
+         time helping to shape post-industrial town or city identities over the last two centuries.<br>\   
       "
-			 )
-		),
+			 ),
+			
+			helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))
+		
+			),
 		
     "Step 2: View Dam Map", 
 		tabPanel("View Dam Map",
@@ -93,22 +122,29 @@ ui <- shinyUI(fluidPage(
 		  h2("Existing FERC Dams Map"),
 		  HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
 		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
-		       Hover over the dams on the map for more information on each site.<br>\
-		       <br><b>Click HERE for additional resources.</b><br>"
-		    )
-		  ),
+		       Hover over the dams on the map for more information on each site.<br>"
+		       ),
+		  helpText( a("Click HERE for more information about dam decision alternatives", href = "https://github.com/dams-mcda/Dams-MCDA/blob/WSMUpdate_Dams/src/dams_mcda/DecisionAlternativesDescriptions.pdf")),
+		  img(src = 'Penobscot_MO_14_53.png', width = "100%", align = "center")
+		  
+		 ),
 		
 		"Step 3: Enter Preferences",
+		# ----------------------------------------
+		# West Enfield Dam
+		# ----------------------------------------
 		tabPanel("Dam 1: West Enfield",
-			htmlOutput("Dam1"), # status and title
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML("Please consider the decision criteria listed below for West Enfield Dam.<br> \
-         <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf</a> <br>\
          <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
          increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				 <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
-			),
 
+			),
+		  
+			helpText( a("Click HERE for more information about the West Enfield Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_WestEnfield.pdf")
+			),
+			
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -184,25 +220,28 @@ ui <- shinyUI(fluidPage(
 			    h3("Socio-Environmental Justice"),
 			    sliderInput(inputId = "Justice1", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			
+
 			# update alt 1 score
 			actionButton("updateBtn1", "Update")
-			
-		), # end
-		#End West Enfield Dam Tab
 
+		), # End West Enfield Dam Tab
+
+
+		# ----------------------------------------
+		# Medway Dam
+		# ----------------------------------------
 		tabPanel("Dam 2: Medway",
-			#"Medway Dam",
-			htmlOutput("Dam2"), # status and title
 			h2("Medway Dam (FERC No. P-2666)"),
-      
+
 			HTML(
 				"Please consider the decision criteria listed below for Medway Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Medway.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br>Please consider and rate the given set of decision criteria at the dam.<b> In each case, 0 = not at all important and 1 = extremely important.</b><br>"
+
 			),
+			
+			helpText("Click HERE for more information about the Medway Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Medway.pdf"),
 
 			htmlOutput("Dam2Progress"),
 
@@ -279,25 +318,27 @@ ui <- shinyUI(fluidPage(
 			    h3("Socio-Environmental Justice"),
 			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			
+
 			actionButton("updateBtn2", "Update")
 
-		), # end
-		#End Medway Dam Tab
+		), # End Medway Dam Tab
 
 
+		# ----------------------------------------
+		# Millinocket Dam ,
+		# ----------------------------------------
 		tabPanel("Dam 3: Millinocket",
-			#"Millinocket Dam",
-			htmlOutput("Dam3"), # status and title
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				"Please consider the decision criteria listed below for Millinocket Dam. <br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
-			),
 
+			),
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
@@ -373,25 +414,27 @@ ui <- shinyUI(fluidPage(
 			    h3("Socio-Environmental Justice"),
 			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 			),
-			
+
 			actionButton("updateBtn3", "Update")
 
-		), # end
-		#End Millinocket Dam 
+		), # End Millinocket Dam
 
 
+		# ----------------------------------------
+		# East Millinocket Dam
+		# ----------------------------------------
 		tabPanel("Dam 4: East Millinocket",
-			#"East Millinocket Dam",
-			htmlOutput("Dam4"), # status and title
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
 				"Please consider the decision criteria listed below for East Millinocket Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br>Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
-			),
 
+			),
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
@@ -470,22 +513,25 @@ ui <- shinyUI(fluidPage(
 
 			actionButton("updateBtn4", "Update")
 
-		), # end
-		#End East Millinocket Dam Tab
+		), # End East Millinocket Dam Tab
 
+
+		# ----------------------------------------
+		# North Twin Dam
+		# ----------------------------------------
 		tabPanel("Dam 5: North Twin",
-			#"North Twin",
-			htmlOutput("Dam5"), # status and title
 			h2("North Twin Dam (FERC No. P-2458)"),
 
 			HTML(
 				"Please consider the decision criteria listed below for North Twin Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
         <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
         increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
-			),
 
+			),
+			
+			helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+			
 			htmlOutput("Dam5Progress"),
 
 			#----------------------------------------
@@ -564,24 +610,27 @@ ui <- shinyUI(fluidPage(
 
 			actionButton("updateBtn5", "Update")
 
-		), # end
-		#End North Twin Dam Tab
+		), # End North Twin Dam Tab
 
+
+		#----------------------------------------
+		# Dolby Dam
+		#----------------------------------------
 		tabPanel("Dam 6: Dolby",
-		  #"Dolby Dam",
-		  htmlOutput("Dam6"), # status and title
 		  h2("Dolby Dam (FERC No. P-2458)"),
-		  
+
 		  HTML(
 		    "Please consider the decision criteria listed below for Dolby Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
+
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
-		  
+
+		  helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+
 		  htmlOutput("Dam6Progress"),
-		  
+
 		  #----------------------------------------
 		  # Criteria Inputs for Dolby Dam
 		  #----------------------------------------
@@ -655,27 +704,30 @@ ui <- shinyUI(fluidPage(
 		      h3("Socio-Environmental Justice"),
 		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 		  ),
-		  
+
 		  actionButton("updateBtn6", "Update")
 
-		), # end
-		#End Dolby Dam Tab
-		
+		), # End Dolby Dam Tab
+
+
+		# ----------------------------------------
+		# Millinocket Lake Dam
+		# ----------------------------------------
 		tabPanel("Dam 7: Millinocket Lake",
-		  #"Millinocket Lake Dam",
-		  htmlOutput("Dam7"), # status and title
 		  h2("Millinocket Lake Dam (FERC No. P-2458)"),
-		  
+
 		  HTML(
 		    "Please consider the decision criteria listed below for Millinocket Lake Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf</a> <br>\
+
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
-		  
+
+		  helpText("Click HERE for more information about the Penobscot Mills Project", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_PenobscotMills.pdf"),
+
 		  htmlOutput("Dam7Progress"),
-		  
+
 		  #----------------------------------------
 		  # Criteria Inputs for Millinocket Lake Dam
 		  #----------------------------------------
@@ -749,27 +801,29 @@ ui <- shinyUI(fluidPage(
 		      h3("Socio-Environmental Justice"),
 		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 		  ),
-		  
+
 		  actionButton("updateBtn7", "Update")
 
-		), # end
-		#End Millinocket Lake Dam Tab
-		
+		), # End Millinocket Lake Dam Tab
+
+
+		# ----------------------------------------
+		# Ripogenus Dam
+		# ----------------------------------------
 		tabPanel("Dam 8: Ripogenus",
-		  #"Ripogenus Dam",
-		  htmlOutput("Dam8"), # status and title
 		  h2("Ripogenus Dam (FERC No. P-2572)"),
-		  
+
 		  HTML(
 		    "Please consider the decision criteria listed below for Ripogenus Dam.<br>\
-        <br><a>https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Ripogenus.pdf</a> <br>\
 		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br> Please consider and rate the given set of decision criteria at the dam. <b>In each case, 0 = not at all important and 1 = extremely important.</b><br>"
 		  ),
 		  
-		  htmlOutput("Dam8Progress"),
+		  helpText("Click HERE for more information about the Ripogenus Dam", href="https://github.com/dams-mcda/Dams-MCDA/blob/TabsUpdate_Dams/src/dams_mcda/Factsheet_Ripogenus.pdf"),
 		  
+		  htmlOutput("Dam8Progress"),
+
 		  #----------------------------------------
 		  # Criteria Inputs for Ripogenus Dam
 		  #----------------------------------------
@@ -843,75 +897,71 @@ ui <- shinyUI(fluidPage(
 		      h3("Socio-Environmental Justice"),
 		      sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
 		  ),
-		  
+
 		  actionButton("updateBtn8", "Update")
-		  
-		), # end
-		#End Ripogenus Dam Tab
-		
-    #----------------------------------------------
-    #           RESULTS TABS
-    #----------------------------------------------
-		
+
+		), # End Ripogenus Dam Tab
+
+		# --------------------------------------------------------------------------------
+		# RESULTS TABS
+		# --------------------------------------------------------------------------------
+
 		"Step 4: View Results",
-		
+
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-			div(id="dam-1-output",
-			    HTML(
-			      "<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
-			      The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
-			    ),
-			    h3("Figure 1. Raw Preference Scores for West Enfield"),
-			    plotOutput("SummPlot1", height=graph_height, width=graph_width)
-			    ),
-			
-			  HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-		  	# generate event
-			
-			  actionButton("generateMatrix1", "Generate"),
 
-			  # output post generate
-			  div(id="generated-output",
-				#tableOutput("FilledCriteriaTable"), # for debugging criteria table
-				# output post generate
-				
+			#TODO: remove for production
+			actionButton("autoGenerateMatrix", "Autofill: debug only"),
+
+			# generate event
+			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
+			actionButton("generateMatrix1", "Generate"),
+
+			div(id="dam-1-output",
+			    h3("Figure 1. Raw Preference Scores for West Enfield"),
+
+			    HTML(
+					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
+					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+			    ),
+
+			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
+
 				HTML(
-				  "<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-          It is up to you to decide what to do with this information. <br>"
+					It is up to you to decide what to do with this information. <br>"
 				),
 
 				h3('Figure 2. West Enfield Decision Alternative Scores by Decision Criteria'),
-				#tableOutput("WSMTable1"), # for debugging plot1
+
 				plotOutput("WSMPlot1", height=600, width="100%"),
 
 				HTML(
-				  "<br><b>Results Interpretation</b> for Figure 3: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				  the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
-				  <br>"
-        ),
+					"<br><b>Results Interpretation</b> for Figure 3: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+					<br>"
+				),
 
 				h3('Figure 3. Total Decision Criteria Scores by Decision Alternative for West Enfield'),
-				#tableOutput("WSMTable2"), # for debugging plot2
-				plotOutput("WSMPlot2", height=1000, width="100%"),
-				# plotly exampl for plot 2
-				#plotlyOutput("WSMPlotly2", height=600, width="100%"),
-				
-				HTML(
-          "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 
+				plotOutput("WSMPlot2", height=1000, width="100%"),
+
+				HTML(
+					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
 					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
 					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 				),
 
 				h3('Download West Enfield Results'),
-				downloadButton("downloadData", "Download West Enfield")
+				downloadButton("downloadData1", "Download West Enfield")
 			)
 		),
+
+
 		tabPanel("Dam 2: Medway Dam",
 		         h2("Results: Medway Dam"),
 		         div(id="dam-2-output",
@@ -964,7 +1014,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Medway Results'),
-		             downloadButton("downloadData", "Download Medway")
+		             downloadButton("downloadData2", "Download Medway")
 		             )
 		             ),
 		tabPanel("Dam 3: Millinocket Dam",
@@ -1020,7 +1070,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Millinocket Results'),
-		             downloadButton("downloadData", "Download Millinocket")
+		             downloadButton("downloadData3", "Download Millinocket")
 		             )
 		             ),
 		tabPanel("Dam 4: East Millinocket Dam",
@@ -1075,7 +1125,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download East Millinocket Results'),
-		             downloadButton("downloadData", "Download East Millinocket")
+		             downloadButton("downloadData4", "Download East Millinocket")
 		             )
 		             ),
 		tabPanel("Dam 5: North Twin",
@@ -1130,7 +1180,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download North Twin Results'),
-		             downloadButton("downloadData", "Download North Twin")
+		             downloadButton("downloadData5", "Download North Twin")
 		             )
 		         ),
 		tabPanel("Dam 6: Dolby",
@@ -1185,7 +1235,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Dolby Results'),
-		             downloadButton("downloadData", "Download Dolby")
+		             downloadButton("downloadData6", "Download Dolby")
 		             )
 		             ),
 		tabPanel("Dam 7: Millinocket Lake",
@@ -1240,7 +1290,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             
 		             h3('Download Millinocket Lake Results'),
-		             downloadButton("downloadData", "Download Millinocket Lake")
+		             downloadButton("downloadData7", "Download Millinocket Lake")
 		             )
 		             ),
 		tabPanel("Dam 8: Ripogenus",
@@ -1295,10 +1345,17 @@ ui <- shinyUI(fluidPage(
 		               ),
 		             
 		             h3('Download Ripogenus Results'),
-		             downloadButton("downloadData", "Download Ripogenus")
+		             downloadButton("downloadData8", "Download Ripogenus")
 		             )
 		             ),
-		tabPanel("Developers",
+		tabPanel("Multi-Dam Results",
+		         htmlOutput("Step 5: Multi-Dam Results"),
+		         h2("Multi-Dam Results"),
+		         HTML(
+		           "Something here about multi-dam results and how to interpret them.<br>" 
+		         ),
+		
+		         tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
 				 "<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
@@ -1308,7 +1365,9 @@ ui <- shinyUI(fluidPage(
          <br><b>Dr. Samuel G. Roy </b>- Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine) for the Dam Decision Support Tool. Created original Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and all maps.<br>\
 				 <br><b>William Winslow </b>- Developer (Software Engineer, GeoSpatial Science Center(GSSC), University of New Hampshire). Deployment (Docker, Apache), server code reorganization, debugging/bug fixes, misc. feature implementations for user interface and app function.<br>"
 			 )
+
 		),
+
 
 		tabPanel("Acknowledgements",
 			 h2("Acknowledgments"),
@@ -1327,7 +1386,7 @@ ui <- shinyUI(fluidPage(
 			 )
 
 		)
-)))
+))))
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)
