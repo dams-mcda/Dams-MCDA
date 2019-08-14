@@ -16,7 +16,7 @@ DamsData <- data.frame(DamsData)
 
 TestData <- c(0,0.2,0.05,0.025,0.05,0.75, 0.2,0.1,0.1,0.2,0,0,0,0)
 
-RawCriteriaMatrix <- matrix(TestData, 8, 14)
+RawCriteriaMatrix <- array(TestData, c(8, 14,5))
 
 criteria_inputs <- c(
   "FishBiomass",
@@ -59,13 +59,13 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	# Step A (PREFS): Build Preference Matrix with blank levels, no normalization
 	# score will be raw values from 0-1 based on user input
 	#----------------------------------------
-	PrefMatrix <- array(data = NA, c(8,14,5)) #if this needs to be 3D add ",nlevels = matrix_levs" after ncol 
-
+	PrefMatrix <- array(data = NA, c(8,14,5)) #This is a 3-D blank matrix 
+	
 	message("Fill User Preference Matrix")
 	# weights in matrix
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
-			x <- RawCriteriaMatrix[n,k]
+			x <- RawCriteriaMatrix[n,k,p]
 
 			PrefMatrix[n,k,p] <- tryCatch({
 				#message("A", x, ', ', crit_imp)
@@ -121,23 +121,35 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#--------NORMALIZATION-------------------
 	# iterate each criteria for min,max
   
-	WSMMaxVector <- list("list", matrix_cols)
+	CritMaxVector <- list("list", matrix_cols)
 	  for ( k in 1:matrix_cols ){
-		  WSMMaxVector[[k]] <- max(DamsDataMatrix[,k,], na.rm=FALSE)#specified index level 7/23/2019
-	  }
-	  WSMMaxVector <- unlist(WSMMaxVector)
+		  CritMaxVector[[k]] <- max(DamsDataMatrix[,k,], na.rm=FALSE)}
+	  CritMaxVector <- unlist(CritMaxVector)
 
-	  WSMMinVector <- list("list", matrix_cols)
+	  CritMinVector <- list("list", matrix_cols)
 	  for ( k in 1:matrix_cols ){
-		  WSMMinVector[[k]] <- min(DamsDataMatrix[,k,], na.rm=FALSE)#specified index level 7/23/2019
-	  }
-	  WSMMinVector <- unlist(WSMMinVector)
+		  CritMinVector[[k]] <- min(DamsDataMatrix[,k,], na.rm=FALSE)}
+	  CritMinVector <- unlist(CritMinVector)
 
 	# debug
-	message('min vector ', WSMMinVector)
-	message('max vector ', WSMMaxVector)
+	message('min vector ', CritMinVector)
+	message('max vector ', CritMaxVector)
 	
-
+	
+	#iterate each alternative for min, max
+	AltMaxVector <- list("list", matrix_levs)
+	for ( p in 1:matrix_levs ){
+	  AltMaxVector[[p]] <- max(DamsDataMatrix[,,p], na.rm=FALSE)}
+	AltMaxVector <- unlist(AltMaxVector)
+	
+	AltMinVector <- list("list", matrix_levs)
+	for ( k in 1:matrix_levs ){
+	  AltMinVector[[p]] <- min(DamsDataMatrix[,,p], na.rm=FALSE)}
+	AltMinVector <- unlist(AltMinVector)
+	
+	# debug
+	message('min vector ', AltMinVector)
+	message('max vector ', AltMaxVector)	
 
 	#----------------------------------------
 	# (DATA*PREFS): Build Score Matrix
@@ -151,34 +163,57 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	# make normalized values of each value in matrix 
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
+		  for (p in 1:matrix_levs){
 			x <- DamsDataMatrix[n,k,p]
-			min_x <- WSMMinVector[k]
-			max_x <- WSMMaxVector[k]
+			crit_min_x <- CritMinVector[k]
+			crit_max_x <- CritMaxVector[k]
+			alt_min_x <- AltMinVector[p]
+			alt_max_x <- AltMaxVector[p]
 
-
-			NormalizedMatrix[n,k,p] <- tryCatch({
+      for (k in NormalizedMatrix[n,k,p]){ 
+			
 				if (k %in% min_crit_columns){
 					# alternative method
 					# maximize normalization
-					((max_x - x) / (max_x - min_x))
+					((crit_max_x - x) / (crit_max_x - crit_min_x))
 				}else{
 					# for debugging by cell WSM uncomment next line
 					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - min_x) / (max_x - min_x))) )
 
 					# default method
 					# minimize normilization
-					((x - min_x) / (max_x - min_x))
+					((x - crit_min_x) / (crit_max_x - crit_min_x))
 				}
-			}, error=function(e){
-				(NA)
-			})
+			}
+			#, error=function(e){
+				#(NA)
+			for (p in NormalizedMatrix[n,k,p]){ 
+			  
+			  if (p %in% min_alt_columns){
+			    # alternative method
+			    # maximize normalization
+			    ((alt_max_x - x) / (alt_max_x - alt_min_x))
+			  }else{
+			    # for debugging by cell WSM uncomment next line
+			    # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - min_x) / (max_x - min_x))) )
+			    
+			    # default method
+			    # minimize normilization
+			    ((x - alt_min_x) / (alt_max_x - alt_min_x))
+			  }
+			}
+			
+			}
 
 		   #End alternative (levels) for loop.
-		} #End dam (rows) for loop.
+		  } #End criteria (columns) for loop.
+	
+		} #End dam (rows)
 		message('Data column ', DamsDataMatrix[k])
-		message('WSM column ', NormalizedMatrix[k])
-	} #End criteria (columns) for loop.
+		message('Normalized column ', NormalizedMatrix[k])
 
+		message('Data level ', DamsDataMatrix[p])
+		message('Normalized level ', NormalizedMatrix[p])
 	
 	# debug
 	#message('NormalizedMatrix ', NormalizedMatrix)
@@ -189,7 +224,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	
 	#----------------------------------------
 	
-	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
+	WeightedScoreMatrix <- (NormalizedMatrix[n,k,]*PrefMatrix[n,k,])
 
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 	
