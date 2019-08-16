@@ -65,6 +65,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	# weights in matrix
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
+		  for (p in 1:matrix_levs){
 			x <- RawCriteriaMatrix[n,k,p]
 
 			PrefMatrix[n,k,p] <- tryCatch({
@@ -73,20 +74,21 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 			}, error=function(e){
 				(NA)
 			})
-		} #End dams (rows) for loop.
-	} #End criteria (columns) for loop.
+		  } #End dams (rows) for loop.
+	  } #End criteria (columns) for loop.
+  } #End alternatives (levels) forloop
 
 
 	message("fill Normalized Matrix")
 	#----------------------------------------
 	# (DATA): Data Normalization using Min / Max Vectors
-	# Retrieve criteria scores for each dam (referred to as DamsDataMartrix), for each MCDA scenario (from server?) a 3D matrix [dams,criteria,alternatives] 
+	# Retrieve criteria values for each dam (referred to as DamsDataMartrix), for each MCDA scenario (from server?) a 3D matrix [dams,criteria,alternatives] 
 	
 	# Normalization procedure:
-	#  get maximum and minimum criteria score for each criterion, each dam, produces two 2D matrices [dams, max/min criteria]
-	#  for positive scores: norm = (f - f_min) / (f_max - f_min)
-	#  for negative scores (like cost): norm = 1 - (f - f_max) / (f_min - f_max)
-	#  result is 3D matrix with dam-specific criteria scores normalized by min and max criteria sampled over all alternatives
+	#  get maximum and minimum criteria value for each criterion, each dam, produces two 2D matrices [dams, max/min criteria]
+	#  for positive values: norm = (f - f_min) / (f_max - f_min)
+	#  for negative values (like cost): norm = 1 - (f - f_max) / (f_min - f_max)
+	#  result is 3D matrix with dam-specific criteria values normalized by min and max criteria sampled over all alternatives
 	
 	#----------------------------------------
 
@@ -143,7 +145,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	AltMaxVector <- unlist(AltMaxVector)
 	
 	AltMinVector <- list("list", matrix_levs)
-	for ( k in 1:matrix_levs ){
+	for ( p in 1:matrix_levs ){
 	  AltMinVector[[p]] <- min(DamsDataMatrix[,,p], na.rm=FALSE)}
 	AltMinVector <- unlist(AltMinVector)
 	
@@ -167,54 +169,33 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 			x <- DamsDataMatrix[n,k,p]
 			crit_min_x <- CritMinVector[k]
 			crit_max_x <- CritMaxVector[k]
-			alt_min_x <- AltMinVector[p]
-			alt_max_x <- AltMaxVector[p]
 
-      for (k in NormalizedMatrix[n,k,p]){ 
+      NormalizedMatrix[n,k,p] <- tryCatch({ 
 			
 				if (k %in% min_crit_columns){
 					# alternative method
 					# maximize normalization
-					((crit_max_x - x) / (crit_max_x - crit_min_x))
+					((1-(x-crit_max_x)) / (crit_max_x - crit_min_x))
 				}else{
 					# for debugging by cell WSM uncomment next line
-					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - min_x) / (max_x - min_x))) )
+					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
 
 					# default method
 					# minimize normilization
 					((x - crit_min_x) / (crit_max_x - crit_min_x))
 				}
-			}
-			#, error=function(e){
-				#(NA)
-			for (p in NormalizedMatrix[n,k,p]){ 
-			  
-			  if (p %in% min_alt_columns){
-			    # alternative method
-			    # maximize normalization
-			    ((alt_max_x - x) / (alt_max_x - alt_min_x))
-			  }else{
-			    # for debugging by cell WSM uncomment next line
-			    # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - min_x) / (max_x - min_x))) )
-			    
-			    # default method
-			    # minimize normilization
-			    ((x - alt_min_x) / (alt_max_x - alt_min_x))
-			  }
-			}
-			
-			}
-
-		   #End alternative (levels) for loop.
-		  } #End criteria (columns) for loop.
+      }, error=function(e){
+        (NA)
+      })
+		  }
+		}
+	}
 	
-		} #End dam (rows)
-		message('Data column ', DamsDataMatrix[k])
-		message('Normalized column ', NormalizedMatrix[k])
-
-		message('Data level ', DamsDataMatrix[p])
-		message('Normalized level ', NormalizedMatrix[p])
+	NormalizedMatrix[is.nan(NormalizedMatrix)] <-0
 	
+	message('Data column ', DamsDataMatrix[k])
+	message('Normalized column ', NormalizedMatrix[k])
+
 	# debug
 	#message('NormalizedMatrix ', NormalizedMatrix)
 	
@@ -224,61 +205,83 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	
 	#----------------------------------------
 	
-	WeightedScoreMatrix <- (NormalizedMatrix[n,k,]*PrefMatrix[n,k,])
+	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 	
-	Dam1Results <- WeightedScoreMatrix[1,,]
-	Dam1Score   <- for (j in 1:matrix_levs){
-  	  scoresum[[j]] <- sum(as.numeric(Dam1Results[1:14,1:ncol]))
+	#------Dam 1--------------
+	Dam1Results <- WeightedScoreMatrix[1,,] #Dam 1 Weighted Matrix
+	scoresum1 <- list("list", matrix_levs)
+	
+	for (j in 1:matrix_levs){
+  	  scoresum1[[j]] <- sum(as.numeric(Dam1Results[j, 1:matrix_levs]))
   }
-	scoresum <- unlist(scoresum)
+	scoresum1 <- unlist(scoresum1)
 	
-	Dam2Results <- WeightedScoreMatrix[2,,]
-	Dam2Score   <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam2Results[1:14,1:ncol]))
-	}
-	scoresum <- unlist(scoresum)
+	#------Dam 2--------------
+	Dam2Results <- WeightedScoreMatrix[2,,] #Dam 2 Weighted Matrix
+	scoresum2 <- list("list", matrix_levs)
 	
-	Dam3Results <- WeightedScoreMatrix[3,,]
-	Dam3Score   <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam3Results[1:14,1:ncol]))
+	for (j in 1:matrix_levs){
+	  scoresum2[[j]] <- sum(as.numeric(Dam2Results[j, 1:matrix_levs]))
 	}
-	scoresum <- unlist(scoresum)
+	scoresum2 <- unlist(scoresum2)
 	
-	Dam4Results <- WeightedScoreMatrix[4,,]
-	Dam4Score   <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam4Results[1:14,1:ncol]))
-	}
-	scoresum <- unlist(scoresum)
+	#------Dam 3--------------
+	Dam3Results <- WeightedScoreMatrix[3,,] #Dam 3 Weighted Matrix
+	scoresum3 <- list("list", matrix_levs)
 	
-	Dam5Results <- WeightedScoreMatrix[5,,]
-	Dam5Score   <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam5Results[1:14,1:ncol]))
+  for (j in 1:matrix_levs){
+	  scoresum3[[j]] <- sum(as.numeric(Dam3Results[j, 1:matrix_levs]))
 	}
-	scoresum <- unlist(scoresum)
+	scoresum3 <- unlist(scoresum3)
 	
-	Dam6Results  <- WeightedScoreMatrix[6,,]
-	Dam6Score    <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam6Results[1:14,1:ncol]))
-	}
-	scoresum <- unlist(scoresum)
+	#------Dam 4--------------
+	Dam4Results <- WeightedScoreMatrix[4,,] #Dam 4 Weighted Matrix
+	scoresum4 <- list("list", matrix_levs)
 	
-	Dam7Results <- WeightedScoreMatrix[7,,]
-	Dam7Score   <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam7Results[1:14,1:ncol]))
+	for (j in 1:matrix_levs){
+	  scoresum4[[j]] <- sum(as.numeric(Dam4Results[j, 1:matrix_levs]))
 	}
-	scoresum <- unlist(scoresum)
+	scoresum4 <- unlist(scoresum4)
 	
-	Dam8Results <- WeightedScoreMatrix[8,,]
-	Dam8Score   <- for (j in 1:matrix_levs){
-	  scoresum[[j]] <- sum(as.numeric(Dam8Results[1:14,1:ncol]))
+	#------Dam 5--------------
+	Dam5Results <- WeightedScoreMatrix[5,,] #Dam 5 Weighted Matrix
+	scoresum5 <- list("list", matrix_levs)
+	
+	for (j in 1:matrix_levs){
+	  scoresum5[[j]] <- sum(as.numeric(Dam5Results[j, 1:matrix_levs]))
 	}
-	scoresum <- unlist(scoresum)
+	scoresum5 <- unlist(scoresum5)
+	
+	#------Dam 6--------------
+	Dam6Results  <- WeightedScoreMatrix[6,,] #Dam 6 Weighted Matrix
+	scoresum6 <- list("list", matrix_levs)
+	
+	for (j in 1:matrix_levs){
+	  scoresum6[[j]] <- sum(as.numeric(Dam6Results[j, 1:matrix_levs]))
+	}
+	scoresum6 <- unlist(scoresum6)
+	
+	#------Dam 7--------------
+	Dam7Results <- WeightedScoreMatrix[7,,] #Dam 7 Weighted Matrix
+	scoresum7 <- list("list", matrix_levs)
+	
+	for (j in 1:matrix_levs){
+	  scoresum7[[j]] <- sum(as.numeric(Dam7Results[j, 1:matrix_levs]))
+	}
+	scoresum7 <- unlist(scoresum7)
+	
+	#------Dam 8--------------
+	Dam8Results <- WeightedScoreMatrix[8,,] #Dam 8 Weighted Matrix
+	scoresum8 <- list("list", matrix_levs)
+	
+	for (j in 1:matrix_levs){
+	  scoresum8[[j]] <- sum(as.numeric(Dam8Results[j, 1:matrix_levs]))
+	}
+	scoresum8 <- unlist(scoresum8)
 
-	# debug
-	#message('IntermediateMatrix', IntermediateMatrix)
-
+	
 	#----------------------------------------
 	# Score Sum
 	
@@ -286,7 +289,18 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#  multiply all normalized scores by prefrence weights
 	#  sum normalized, weighted criteria scores for each dam
 	#  sum this across all dams for each scenario
+	#-----------------------------------------
 	
+	#declare a weighted sum variable
+	scoresum_total <- rep(0,dim(NormalizedMatrix)[3])
+	
+	#multiply crit scores by user preferences
+	for (i in 1:dim(NormalizedMatrix)[3]){
+	  WSMMatrix <- NormalizedMatrix[,,i] * PrefMatrix[,,i]
+	  scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
+	}
+	
+	#-----------------------------------------
 	# Rank:
 	#  may need to reshape the array produced by the weighted sum procedure
 	#  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
@@ -294,17 +308,18 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#  use server url or whatever, searching for map name with the matching index number
 	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
-	# total score is last column of returned Data Table
-	scoresum <- list("list", matrix_levs)
 
-	for (i in 1:matrix_levs){
-		scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i,,1:matrix_levs]))
-	}
-
-	scoresum <- unlist(scoresum)
-
+	#order scenarios by rank: largest score first
+	idxRank <- order(scoresum_total,decreasing=TRUE)
+	
+	
+	#use scenario idxRank[1] to find corresponding map name
+	fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[1])
+	print(fname)
+  
+	
 	# warning adding things to list has side effects!
-	WSMResults <- list(WeightedScoreMatrix, scoresum)
+	WSMResults <- list(WeightedScoreMatrix, scoresum_total, fname)
 
 	return(WSMResults)
 }

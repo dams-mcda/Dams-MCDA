@@ -673,20 +673,14 @@ server <- function(input, output, session) {
 			##----------------------------------------
 			## Score Sum
 			##----------------------------------------
-			## total score is last column of returned Data Table
-			#scoresum <- list("list", matrix_rows)
-
-			#for (i in 1:matrix_rows){
-			#  scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i, 1:matrix_cols]))
-			#}
-
-			#scoresum <- unlist(scoresum)
 
 			## warning adding things to list has side effects!
-			#WSMResults <- list(WeightedScoreMatrix, scoresum)
+			#WSMResults <- list(WeightedScoreMatrix, scoresum, fname)
 			#TableMatrix <- WSMResults[1]
 
 			#TableMatrix$summedScore <- WSMResults[2]
+			  
+			#Map ID name <- WSMResults[3]  
 
 			#WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row
