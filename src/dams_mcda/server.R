@@ -3,8 +3,8 @@
 source("runMatlab.R")
 source("WSM.R")
 #pull from WSM script
-#DamsData <- read.csv('DamsData.csv') #might delete later
-#DamsData <- data.frame(DamsData) #might delete later
+DamsData <- read.csv('DamsData.csv') #might delete later
+DamsData <- data.frame(DamsData) #might delete later
 source(file='f_raw.RData')
 DamsData <- as.array(f)
 
@@ -644,32 +644,37 @@ server <- function(input, output, session) {
 			  }
 			  alternatives <- unlist(alternatives)
 
-			# -------------------------------NEED TO REWRITE BY DAM------------------------------#
+			# -------------------------------------------------------------#
 			# assign values in new matrix
-			#raw_scores <- getRawScores()
-			#RawCriteriaMatrix <- data.frame(
-			#	matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
-			#)
-			#message("RawCriteriaMatrix", RawCriteriaMatrix)
+			raw_scores <- getRawScores()
+			RawCriteriaMatrix <- data.frame(
+				matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+			)
+			message("RawCriteriaMatrix", RawCriteriaMatrix)
 
 			## assign table row, column names
-			#row.names(RawCriteriaMatrix) <- dam_names
-			#colnames(RawCriteriaMatrix) <- criteria_names
+			row.names(RawCriteriaMatrix) <- dam_names
+			colnames(RawCriteriaMatrix) <- criteria_names
 
 			## origial scores in table form
 			## for debugging table size
-			#output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
+			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
 
 			##----------------------------------------
 			## Call WSM and format response
 			##----------------------------------------
 			## matrix setup
-			#matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
-			#matrix_rows <- length(available_dams) # 8 default
-			#matrix_levs <- length(available_alternatives) #5 default
+			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
+			matrix_rows <- length(available_dams) # 8 default
+			matrix_levs_ind <- length(available_alternatives) # 5 default
+			matrix_levs <- length(1:995) #multi-dam alternatives
+			
+      Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
+			Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
+			
       
-			#WeightedScoreMatrix <- array(data=NA, c(8,14,5))
-			#WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
+			WeightedScoreMatrix <- array(data=NA, c(8,14,995))
+			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 			#
 			  
 			##----------------------------------------
@@ -677,32 +682,32 @@ server <- function(input, output, session) {
 			##----------------------------------------
 
 			## warning adding things to list has side effects!
-			#WSMResults <- list(WeightedScoreMatrix, scoresum, fname)
-			#TableMatrix <- WSMResults[1]
+			WSMResults <- list(WeightedScoreMatrix, scoresum_total, fname)
+			TableMatrix <- WSMResults[1]
 
-			#TableMatrix$summedScore <- WSMResults[2]
+			TableMatrix$summedScore <- WSMResults[2]
 			  
-			#Map ID name <- WSMResults[3]  
+			map_name <- WSMResults[3]  
 
-			#WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
+			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row
-			#names(WSMTableOutput) <- criteria_names_and_sum
+			names(WSMTableOutput) <- criteria_names_and_sum
 			# -------------------------------END REWRITE BY DAM------------------------------#
 
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
 			# final output table commented out due to redundancy
-			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
+			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
 
-			#message('saveResponse')
-			#saveResponse(WSMTableOutput)
+			message('saveResponse')
+			saveResponse(WSMTableOutput)
 
 			## stacked bars data table
-			#Alternative <- c(rep(alternative_names, each=length(criteria_names)))
-			#Criteria <- c(rep(criteria_names, times=length(alternative_names)))
-			#Score <- alternatives
-			#Data <- data.frame(Alternative, Criteria, Score)
+			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
+			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
+			Score <- alternatives
+			Data <- data.frame(Alternative, Criteria, Score)
 
 			# decision criteria ids
 			#Criteria <- c(rep(criteria_names, times=length(1)))
