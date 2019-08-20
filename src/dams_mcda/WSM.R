@@ -11,29 +11,15 @@
 setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
 
 
-DamsData <- read.csv('DamsData.csv')
-DamsData <- data.frame(DamsData)
+#DamsData <- read.csv('DamsData.csv')
+#DamsData <- data.frame(DamsData)
+
+source(file='f_raw.RData')
+DamsDataMatrix <- as.array(f)
 
 TestData <- c(0,0.2,0.05,0.025,0.05,0.75, 0.2,0.1,0.1,0.2,0,0,0,0)
 
 RawCriteriaMatrix <- array(TestData, c(8, 14,5))
-
-criteria_inputs <- c(
-  "FishBiomass",
-  "RiverRec",
-  "Reservoir",
-  "ProjectCost",
-  "Safety",
-  "NumProperties",
-  "ElectricityGeneration",
-  "AvoidEmissions",
-  "IndigenousLifeways",
-  "IndustrialHistory",
-  "CommunityIdentity",
-  "Aesthetics",
-  "Health",
-  "Justice"
-)
 
 # list of dams
 available_dams <- seq(1:8)
@@ -45,7 +31,7 @@ matrix_rows <- length(available_dams) # 8 default
 matrix_levs <- length(available_alternatives)
 
 
-WSM <- function(RawCriteriaMatrix, DamsData){
+WSM <- function(RawCriteriaMatrix, DamsDataMatrix){
 
 	# matrix setup
 	matrix_cols <- length(criteria_inputs) # 14 default (output size)
@@ -79,7 +65,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
   } #End alternatives (levels) forloop
 
 
-	message("fill Normalized Matrix")
+	message("fill Pref Matrix")
 	#----------------------------------------
 	# (DATA): Data Normalization using Min / Max Vectors
 	# Retrieve criteria values for each dam (referred to as DamsDataMartrix), for each MCDA scenario (from server?) a 3D matrix [dams,criteria,alternatives] 
@@ -93,31 +79,31 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#----------------------------------------
 
 	#retrieve DamsData to manipulate into DamsDataMatrix
-	DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
+	#DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
 	
-	KeepMaintain <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
-	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
-	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
-	                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
-	Improve_Hydro <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage, 
-	                       DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
-	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro, 
-	                       DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
-	Improve_Fish <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
-	                      DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
-	                      DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
-	                      DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
-	FishANDHydro <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage, 
-	                      DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
-	                      DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
-	                      DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-	Remove <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
-	                DamsData$Properties, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
-	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
-	                DamsData$Health_Remove, DamsData$Justice_Remove)
+	#KeepMaintain <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
+#	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
+#	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
+#	                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+#	Improve_Hydro <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage, 
+#	                       DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
+#	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro, 
+#	                       DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
+#	Improve_Fish <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
+#	                      DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
+#	                      DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
+#	                      DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
+#	FishANDHydro <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage, 
+#	                      DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
+#	                      DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
+#	                      DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
+#	Remove <- cbind(DamsData$FishBiomass, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
+#	                DamsData$Properties, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
+#	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
+#	                DamsData$Health_Remove, DamsData$Justice_Remove)
 	
 	#This abind creates our 3D matrix
-	DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
+#	DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
 	
 
 	#--------NORMALIZATION-------------------
@@ -323,4 +309,5 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 
 	return(WSMResults)
 }
+
 

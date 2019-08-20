@@ -3,8 +3,10 @@
 source("runMatlab.R")
 source("WSM.R")
 #pull from WSM script
-DamsData <- read.csv('DamsData.csv')
-DamsData <- data.frame(DamsData)
+#DamsData <- read.csv('DamsData.csv') #might delete later
+#DamsData <- data.frame(DamsData) #might delete later
+source(file='f_raw.RData')
+DamsData <- as.array(f)
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)

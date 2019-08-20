@@ -11,7 +11,7 @@
 #no libraries used right now
 
 #load criteria scores normalized by range
-load(file='f_nrge.RData')
+source(file='f_raw.RData')
 
 #get preference data from users...
 #testing with synthetic data but eventually replace with real
