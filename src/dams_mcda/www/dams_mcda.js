@@ -93,6 +93,11 @@ function saveRawJsonScores(message){
 }
 
 
+function noFileSelected(message){
+	alert("You must select a file for upload before continuing");
+}
+
+
 /*
  * Shiny Event Handlers
  *
@@ -100,6 +105,7 @@ function saveRawJsonScores(message){
  */
 Shiny.addCustomMessageHandler("validateSession", validateSession);
 Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
+Shiny.addCustomMessageHandler("noFileSelected", noFileSelected);
 
 
 // initialize shiny js on ready

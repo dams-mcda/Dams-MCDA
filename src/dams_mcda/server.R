@@ -315,7 +315,7 @@ server <- function(input, output, session) {
 					p(paste0("Maximum file size is: ", max_file_size, " MB")),
 
 					# confirm upload
-					actionButton("confirmUploadBtn", width="100%", "Confirm Upload")
+					actionButton("confirmUploadBtn", width="100%", "Continue")
 				)
 			)
 		)
@@ -345,7 +345,13 @@ server <- function(input, output, session) {
 	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
 	observeEvent(input$uploadBtn, { pickUploadFile() })
-	observeEvent(input$confirmUploadBtn, { uploadFile() })
+	observeEvent(input$confirmUploadBtn, {
+		if(is.null(input$file1)){
+			session$sendCustomMessage("noFileSelected", "any message")
+		}else{
+			uploadFile()
+		}
+	})
 
 	#------------------------------------------------------------
 	# updateDamGraph

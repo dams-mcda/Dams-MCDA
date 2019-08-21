@@ -77,17 +77,17 @@
 #confirmUploadBtn{
 	width:80%; /* same width as form */
 	color:#fff;
-	background-color:#337ab7;
-	border-color:#2e6da4;
-	margin-bottom:0.8em;
+	background-color:#239b1c;
+	border-color:#1e7519;
+	margin-bottom:0.2em;
 }
 #confirmUploadBtn:hover{
-	background-color: #286090;
-	border-color: #204d74;
+	background-color:#1f821a;
+	border-color:#3ebb37;
 }
 #confirmUploadBtn:active{
-	background-color: #286090;
-	border-color: #204d74;
+	background-color:#1f821a;
+	border-color:#3ebb37;
 }
 
 #generateMatrix {
