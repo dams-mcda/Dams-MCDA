@@ -139,6 +139,8 @@ max_retries <- 3
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
 #--------------------------------------------------------------------------------
+max_file_size <- 5 # size in MB
+options(shiny.maxRequestSize=max_file_size*1024^2)
 # has to be global (this is data the user can download after finishing
 response_data <<- ("no data")
 
@@ -247,7 +249,11 @@ server <- function(input, output, session) {
 	# 	on app init prompts a modal requiring the user to decide which mode
 	#------------------------------------------------------------
 	session_mode <- "individual" # default mode
-	intro_modal_visible <- TRUE
+
+	intro_modal_visible <- TRUE # intro modal is visible on page load
+	upload_modal_visible <- FALSE
+
+	# choose individual/group modal
 	showModal(
 		modalDialog(
 			title = "Group or Individual",
@@ -268,15 +274,78 @@ server <- function(input, output, session) {
 			)
 		)
 	)
+
+	# on mode update
 	setSessionMode <- function(newMode){
 		session_mode <- newMode
-		message("new session mode: ", session_mode)
+		#message("new session mode: ", session_mode)
 		if (intro_modal_visible){
 			removeModal()
 		}
 	}
+
+	# on mode file upload
+	pickUploadFile <- function(){
+		# hide other modal
+		if (intro_modal_visible){
+			removeModal()
+		}
+
+		# upload file modal
+		showModal(
+			modalDialog(
+				title = "File Upload",
+				footer=NULL, # NULL to disable dismiss button
+				easyClose=FALSE, # False to disable closing by clicking outside of modal
+				div(
+					HTML(
+						"<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+						for you or the average preference values for your group. <br><br>"
+					),
+
+					#TODO: add xlsx support?
+					fileInput("file1",
+						label="Upload File",
+						width="100%",
+						multiple=FALSE,
+						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+					),
+
+					p(paste0("Maximum file size is: ", max_file_size, " MB")),
+
+					# confirm upload
+					actionButton("confirmUploadBtn", width="100%", "Confirm Upload")
+				)
+			)
+		)
+		# mark as visible
+		upload_modal_visible <- TRUE
+	}
+
+	uploadFile <- function(){
+		if (upload_modal_visible){
+			removeModal()
+		}
+
+		message("uploaded file temp path: ", input$file1$datapath)
+		df <- read.csv(input$file1$datapath,
+             header = TRUE,
+             sep = ",",
+             quote = '"')
+
+		# debug contents of file
+		message("file header: ", head(df, n=1))
+		message("length of first line of data: ", length(head(df,n=1)))
+
+		#TODO: process file here
+
+	}
+
 	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
+	observeEvent(input$uploadBtn, { pickUploadFile() })
+	observeEvent(input$confirmUploadBtn, { uploadFile() })
 
 	#------------------------------------------------------------
 	# updateDamGraph
