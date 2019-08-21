@@ -306,13 +306,11 @@ server <- function(input, output, session) {
 
 					#TODO: add xlsx support?
 					fileInput("file1",
-						label="Upload File",
+						label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
 						width="100%",
 						multiple=FALSE,
 						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
 					),
-
-					p(paste0("Maximum file size is: ", max_file_size, " MB")),
 
 					# confirm upload
 					actionButton("confirmUploadBtn", width="100%", "Continue")
