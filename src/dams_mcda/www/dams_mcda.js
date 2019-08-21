@@ -93,8 +93,23 @@ function saveRawJsonScores(message){
 }
 
 
+/*
+ * noFileSelected
+ *
+ * user clicks continue without selecting a file to upload
+ */
 function noFileSelected(message){
 	alert("You must select a file for upload before continuing");
+}
+
+
+/*
+ * invalidFileSelected
+ *
+ * user uploads a file that can't be used
+ */
+function invalidFileSelected(message){
+	alert(message + ". Please verify you are uploading the correct file or try a different file.");
 }
 
 
@@ -106,6 +121,7 @@ function noFileSelected(message){
 Shiny.addCustomMessageHandler("validateSession", validateSession);
 Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
 Shiny.addCustomMessageHandler("noFileSelected", noFileSelected);
+Shiny.addCustomMessageHandler("invalidFileSelected", noFileSelected);
 
 
 // initialize shiny js on ready

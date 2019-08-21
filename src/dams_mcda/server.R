@@ -322,21 +322,48 @@ server <- function(input, output, session) {
 	}
 
 	uploadFile <- function(){
-		if (upload_modal_visible){
-			removeModal()
-		}
+		#message("uploaded file temp path: ", input$file1$datapath)
 
-		message("uploaded file temp path: ", input$file1$datapath)
+		# open the file locally
 		df <- read.csv(input$file1$datapath,
              header = TRUE,
              sep = ",",
              quote = '"')
 
 		# debug contents of file
-		message("file header: ", head(df, n=1))
-		message("length of first line of data: ", length(head(df,n=1)))
+		#message("file header: ", head(df, n=1))
+		#message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
 
-		#TODO: process file here
+		# ------------------------------
+		# verify contents of file
+		# ------------------------------
+		# check it has correct amount of columns and rows
+		row_count <- length(head(t(df),n=1))
+		column_count <- length(head(df,n=1))
+		# TODO: set required_* variables to size of valid input
+		required_rows <- 5
+		required_cols <- 3
+
+		# valid unless proven otherwise
+		file_valid <- TRUE
+		fail_reason <- "File is invalid:"
+
+		if (row_count != required_rows){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of rows", sep=" ")
+		} else if (column_count != required_cols){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of columns", sep=" ")
+		}
+
+		# if valid remove modal and process the file
+		if (upload_modal_visible && file_valid){
+			removeModal()
+			#TODO: process file here
+		}else{
+			# warn the user that the file is not acceptable
+			session$sendCustomMessage("invalidFileSelected", fail_reason)
+		}
 
 	}
 
