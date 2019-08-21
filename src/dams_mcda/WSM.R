@@ -8,7 +8,15 @@
 # Inputs:
 #     CritImportance: #TODO: explain
 #     RawCriteriaMatrix: raw score matrix
-#setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda")
+
+# set working directory only if it exists
+has_wd <- tryCatch({
+	workdir <- "~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda"
+	setwd(workdir)
+	message("set Working Directory: ", workdir)
+}, error=function(e){
+	message("Working Directory does NOT exist.")
+})
 
 
 DamsData <- read.csv('DamsData.csv')
