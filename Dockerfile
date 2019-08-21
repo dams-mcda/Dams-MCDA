@@ -22,6 +22,7 @@ RUN Rscript -e "install.packages('R.matlab')"
 RUN Rscript -e "install.packages('rgdal', dependencies=TRUE)"
 RUN Rscript -e "install.packages('spatstat')"
 RUN Rscript -e "install.packages('rjson')"
+RUN Rscript -e "install.packages('compare')"
 
 # root for folder permissions
 USER root

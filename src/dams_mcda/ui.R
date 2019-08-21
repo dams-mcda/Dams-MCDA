@@ -902,6 +902,9 @@ ui <- shinyUI(fluidPage(
 			actionButton("generateMatrix", "Generate"),
 
 			div(id="dam-1-output",
+				h3("DEBUG: DamDataMatrix Preference1"),
+			    plotOutput("DamsDataMatrixKeepMaintain", height=graph_height, width=graph_width),
+
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
 
 			    HTML(
