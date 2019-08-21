@@ -1,19 +1,19 @@
 # server logic
 
-source("runMatlab.R")
+#source("runMatlab.R") # matlab connection logic
+source("plots.R")
 source("WSM.R")
-#pull from WSM script
+
 DamsData <- read.csv('DamsData.csv') #might delete later
 DamsData <- data.frame(DamsData) #might delete later
+
+# loads variable f in fike f_raw.RData
 source(file='f_raw.RData')
 DamsData <- as.array(f)
 
-source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
-set.seed(123)
-
 
 #--------------------------------------------------------------------------------
 # Static Variables
@@ -232,16 +232,51 @@ damsCompleted <- function(completed){
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
-
-	# debug matlab
-	#runMatlab()
-
 	#------------------------------------------------------------
 	# JS data passing test
 	#------------------------------------------------------------
 	# debug/validate authentication
 	session$sendCustomMessage("validateSession", "any message")
 
+	#------------------------------------------------------------
+	# session mode:
+	# 	for now mode can be either:
+	# 		group or individual
+	#   could be expanded to include different modes depending on the application state requirements
+	#
+	# 	on app init prompts a modal requiring the user to decide which mode
+	#------------------------------------------------------------
+	session_mode <- "individual" # default mode
+	intro_modal_visible <- TRUE
+	showModal(
+		modalDialog(
+			title = "Group or Individual",
+			footer=NULL, # NULL to disable dismiss button
+			easyClose=FALSE, # False to disable closing by clicking outside of modal
+			div(
+				HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+
+				actionButton("selectIndividualSessionMode", "Individual Preferences"),
+				actionButton("selectGroupSessionMode", "Group Preferences"),
+				actionButton("uploadBtn", "UPLOAD DATA"),
+
+				HTML(
+					"<h4>Instructions for Uploading</h4>\
+					Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+					for you or the average preference values for your group. <br>"
+				)
+			)
+		)
+	)
+	setSessionMode <- function(newMode){
+		session_mode <- newMode
+		message("new session mode: ", session_mode)
+		if (intro_modal_visible){
+			removeModal()
+		}
+	}
+	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
+	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
 
 	#------------------------------------------------------------
 	# updateDamGraph
@@ -668,26 +703,24 @@ server <- function(input, output, session) {
 			matrix_rows <- length(available_dams) # 8 default
 			matrix_levs_ind <- length(available_alternatives) # 5 default
 			matrix_levs <- length(1:995) #multi-dam alternatives
-			
-      Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
+
+			Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
 			Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
-			
-      
+
 			WeightedScoreMatrix <- array(data=NA, c(8,14,995))
 			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
-			#
-			  
-			##----------------------------------------
-			## Score Sum
-			##----------------------------------------
+
+			#----------------------------------------
+			# Score Sum
+			#----------------------------------------
 
 			## warning adding things to list has side effects!
 			WSMResults <- list(WeightedScoreMatrix, scoresum_total, fname)
 			TableMatrix <- WSMResults[1]
 
 			TableMatrix$summedScore <- WSMResults[2]
-			  
-			map_name <- WSMResults[3]  
+
+			map_name <- WSMResults[3]
 
 			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row

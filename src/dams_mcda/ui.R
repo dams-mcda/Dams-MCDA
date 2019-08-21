@@ -60,6 +60,9 @@ ui <- shinyUI(fluidPage(
 		 \
 	'),
 
+	# intro popup-modal, forces user to decide input before proceeding
+
+
 	navlistPanel(
 		# Define layout widths
 		widths = c(2,10),
@@ -82,18 +85,6 @@ ui <- shinyUI(fluidPage(
 
 			#helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 
-			HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
-
-			actionButton("IndividualBtn", "Individual Preferences"),
-			actionButton("GroupBtn", "Group Preferences"),
-			actionButton("uploadBtn", "UPLOAD DATA"),
-
-			HTML(
-				"<h4>Instructions for Uploading</h4>\
-				Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-				for you or the average preference values for your group. <br>"
-			),
-				 #will want to make sure we have a download button for the blank decision matrix
 
 			HTML(
 				"<h4>More Information:</h4>\
