@@ -6,12 +6,13 @@ Project Description
 
 * R / Shiny Web Application for dam decision support
 
-
 	+ Located in src/dams_mcda/*
 
+* Python / Django Application for user administration
 
-* Docker container for hosting
+	+ Located in django-src/shinyadmin/*
 
+* Docker for orchestration
 
 * Apache Configuration for Proxying to Docker
 
