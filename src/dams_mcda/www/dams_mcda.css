@@ -75,11 +75,11 @@
 /* file upload confirm button */
 
 #confirmUploadBtn{
-	width:80%; /* same width as form */
 	color:#fff;
 	background-color:#239b1c;
 	border-color:#1e7519;
 	margin-bottom:0.2em;
+	margin-left:1%;
 }
 #confirmUploadBtn:hover{
 	background-color:#1f821a;
@@ -88,6 +88,22 @@
 #confirmUploadBtn:active{
 	background-color:#1f821a;
 	border-color:#3ebb37;
+}
+
+/* file upload cancel button */
+#cancelUploadBtn{
+	color:#fff;
+	background-color:#E11818;
+	border-color:#931A1A;
+	margin-bottom:0.2em;
+}
+#cancelUploadBtn:hover{
+	background-color:#B01111;
+	border-color:#E61414;
+}
+#cancelUploadBtn:active{
+	background-color:#B01111;
+	border-color:#E61414;
 }
 
 #generateMatrix {
