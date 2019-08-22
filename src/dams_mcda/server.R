@@ -230,8 +230,6 @@ damsCompleted <- function(completed){
 
 #--------------------------------------------------------------------------------
 # SERVER
-#
-# Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
 	#------------------------------------------------------------
@@ -240,18 +238,20 @@ server <- function(input, output, session) {
 	# debug/validate authentication
 	session$sendCustomMessage("validateSession", "any message")
 
+
 	#------------------------------------------------------------
-	# session mode:
+	# Session Mode
+	#
+	# 	on app init prompts a modal requiring the user to decide which mode
+	#
 	# 	for now mode can be either:
 	# 		group or individual
 	#   could be expanded to include different modes depending on the application state requirements
-	#
-	# 	on app init prompts a modal requiring the user to decide which mode
 	#------------------------------------------------------------
-	session_mode <- "individual" # default mode
+	session_mode <<- "individual" # default mode of session
 
-	intro_modal_visible <- TRUE # intro modal is visible on page load
-	upload_modal_visible <- FALSE
+	intro_modal_visible <<- TRUE # intro modal is visible on page load
+	upload_modal_visible <<- FALSE # file upload modal
 
 	# choose individual/group modal
 	showModal(
@@ -303,6 +303,7 @@ server <- function(input, output, session) {
 			checkUserHasGroup()
 		}else if (intro_modal_visible){
 			removeModal()
+			intro_modal_visible <<- FALSE
 		}
 	}
 
@@ -311,7 +312,11 @@ server <- function(input, output, session) {
 		# hide other modal
 		if (intro_modal_visible){
 			removeModal()
+			intro_modal_visible <<- FALSE
 		}
+
+		# mark as visible
+		upload_modal_visible <<- TRUE
 
 		# upload file modal
 		showModal(
@@ -339,11 +344,21 @@ server <- function(input, output, session) {
 				)
 			)
 		)
-		# mark as visible
-		upload_modal_visible <- TRUE
 	}
 
+
+	# ----------------------------------------
+	# uploadFile
+	# validate and process a user uploaded file
+	# ----------------------------------------
 	uploadFile <- function(){
+		# make sure user selected a file before trying to validate
+		if(is.null(input$file1)){
+			message("input file null")
+			session$sendCustomMessage("noFileSelected", "any message")
+			return(NA) # break (stop execution of function)
+		}
+
 		#message("uploaded file temp path: ", input$file1$datapath)
 
 		# open the file locally
@@ -380,25 +395,24 @@ server <- function(input, output, session) {
 
 		# if valid remove modal and process the file
 		if (upload_modal_visible && file_valid){
+			#message("file upload success")
 			removeModal()
+			upload_modal_visible <<- FALSE
 			#TODO: process file here
 		}else{
 			# warn the user that the file is not acceptable
+			#message("file upload fail", fail_reason)
 			session$sendCustomMessage("invalidFileSelected", fail_reason)
 		}
 
 	}
 
+	# select mode / file upload event listeners
 	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
 	observeEvent(input$uploadBtn, { pickUploadFile() })
-	observeEvent(input$confirmUploadBtn, {
-		if(is.null(input$file1)){
-			session$sendCustomMessage("noFileSelected", "any message")
-		}else{
-			uploadFile()
-		}
-	})
+	observeEvent(input$confirmUploadBtn, { uploadFile() })
+
 
 	#------------------------------------------------------------
 	# updateDamGraph

@@ -142,7 +142,7 @@ function invalidFileSelected(message){
 Shiny.addCustomMessageHandler("validateSession", validateSession);
 Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
 Shiny.addCustomMessageHandler("noFileSelected", noFileSelected);
-Shiny.addCustomMessageHandler("invalidFileSelected", noFileSelected);
+Shiny.addCustomMessageHandler("invalidFileSelected", invalidFileSelected);
 Shiny.addCustomMessageHandler("checkUserHasGroup", userHasGroup);
 
 
