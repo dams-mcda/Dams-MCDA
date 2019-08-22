@@ -63,6 +63,27 @@ function validateSession(message){
 
 
 /*
+ * userHasGroup
+ *
+ * checks if user has group associated, if false we might have to redirect to group selection
+ *
+ * we could make a new ajax request to check if the user has been assigned a group since they loaded the page
+ * but I am assuming this will not happen and can be solved by reloading the page
+ *
+ * returns a string of an integer for group_id or false and stores in input$session_user_group
+ */
+function userHasGroup(message){
+	if (cachedContext['group'] != undefined){
+		console.log("userHasGroup?: ", cachedContext['group']);
+		Shiny.setInputValue('user_group', cachedContext['group'])
+	}else{
+		//console.log("userHasGroup? False, context: ", cachedContext);
+		Shiny.setInputValue('user_group', "false")
+	}
+}
+
+
+/*
  * saveRawJsonScores
  *
  * given string of json send to django backend to save
@@ -122,6 +143,7 @@ Shiny.addCustomMessageHandler("validateSession", validateSession);
 Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
 Shiny.addCustomMessageHandler("noFileSelected", noFileSelected);
 Shiny.addCustomMessageHandler("invalidFileSelected", noFileSelected);
+Shiny.addCustomMessageHandler("checkUserHasGroup", userHasGroup);
 
 
 // initialize shiny js on ready

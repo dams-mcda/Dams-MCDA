@@ -275,11 +275,33 @@ server <- function(input, output, session) {
 		)
 	)
 
+	# track the user group
+	# NOTE: only set when the user is using application in group input mode
+	# this is important because changing the value of this variable causes effects
+	observeEvent(input$session_user_group, {
+		if (input$session_user_group == "false"){
+			message("Group Mode Set with no group: ", input$session_user_group)
+			# no group attached to user, but they select group mode!
+		}else{
+			message("Group Mode Set for group_id: ", input$session_user_group)
+			removeModal()
+		}
+	})
+
+	# userHasGroup will query the users group relation
+	# will set the variable input$session_user_group on completion
+	checkUserHasGroup <- function(){
+		session$sendCustomMessage("checkUserHasGroup", "")
+	}
+
 	# on mode update
 	setSessionMode <- function(newMode){
 		session_mode <- newMode
-		#message("new session mode: ", session_mode)
-		if (intro_modal_visible){
+
+		if (newMode == "group"){
+			# check if user already picked a group
+			checkUserHasGroup()
+		}else if (intro_modal_visible){
 			removeModal()
 		}
 	}
