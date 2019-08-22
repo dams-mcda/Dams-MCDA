@@ -1,19 +1,19 @@
 # server logic
 
-source("runMatlab.R")
+#source("runMatlab.R") # matlab connection logic
+source("plots.R")
 source("WSM.R")
-#pull from WSM script
+
 DamsData <- read.csv('DamsData.csv') #might delete later
 DamsData <- data.frame(DamsData) #might delete later
+
+# loads variable f in fike f_raw.RData
 source(file='f_raw.RData')
 DamsData <- as.array(f)
 
-source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
-set.seed(123)
-
 
 #--------------------------------------------------------------------------------
 # Static Variables
@@ -139,6 +139,8 @@ max_retries <- 3
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
 #--------------------------------------------------------------------------------
+max_file_size <- 5 # size in MB
+options(shiny.maxRequestSize=max_file_size*1024^2)
 # has to be global (this is data the user can download after finishing
 response_data <<- ("no data")
 
@@ -232,16 +234,171 @@ damsCompleted <- function(completed){
 # Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
-
-	# debug matlab
-	#runMatlab()
-
 	#------------------------------------------------------------
 	# JS data passing test
 	#------------------------------------------------------------
 	# debug/validate authentication
 	session$sendCustomMessage("validateSession", "any message")
 
+	#------------------------------------------------------------
+	# session mode:
+	# 	for now mode can be either:
+	# 		group or individual
+	#   could be expanded to include different modes depending on the application state requirements
+	#
+	# 	on app init prompts a modal requiring the user to decide which mode
+	#------------------------------------------------------------
+	session_mode <- "individual" # default mode
+
+	intro_modal_visible <- TRUE # intro modal is visible on page load
+	upload_modal_visible <- FALSE
+
+	# choose individual/group modal
+	showModal(
+		modalDialog(
+			title = "Group or Individual",
+			footer=NULL, # NULL to disable dismiss button
+			easyClose=FALSE, # False to disable closing by clicking outside of modal
+			div(
+				HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+
+				actionButton("selectIndividualSessionMode", "Individual Preferences"),
+				actionButton("selectGroupSessionMode", "Group Preferences"),
+				actionButton("uploadBtn", "UPLOAD DATA"),
+
+				HTML(
+					"<h4>Instructions for Uploading</h4>\
+					Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+					for you or the average preference values for your group. <br>"
+				)
+			)
+		)
+	)
+
+	# track the user group
+	# NOTE: only set when the user is using application in group input mode
+	# this is important because changing the value of this variable causes effects
+	observeEvent(input$session_user_group, {
+		if (input$session_user_group == "false"){
+			message("Group Mode Set with no group: ", input$session_user_group)
+			# no group attached to user, but they select group mode!
+		}else{
+			message("Group Mode Set for group_id: ", input$session_user_group)
+			removeModal()
+		}
+	})
+
+	# userHasGroup will query the users group relation
+	# will set the variable input$session_user_group on completion
+	checkUserHasGroup <- function(){
+		session$sendCustomMessage("checkUserHasGroup", "")
+	}
+
+	# on mode update
+	setSessionMode <- function(newMode){
+		session_mode <- newMode
+
+		if (newMode == "group"){
+			# check if user already picked a group
+			checkUserHasGroup()
+		}else if (intro_modal_visible){
+			removeModal()
+		}
+	}
+
+	# on mode file upload
+	pickUploadFile <- function(){
+		# hide other modal
+		if (intro_modal_visible){
+			removeModal()
+		}
+
+		# upload file modal
+		showModal(
+			modalDialog(
+				title = "File Upload",
+				footer=NULL, # NULL to disable dismiss button
+				easyClose=FALSE, # False to disable closing by clicking outside of modal
+				div(
+					HTML(
+						"<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+						for you or the average preference values for your group. <br><br>"
+					),
+
+					#TODO: add xlsx support?
+					fileInput("file1",
+						label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
+						width="100%",
+						multiple=FALSE,
+						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+					),
+
+					# confirm upload
+					actionButton("confirmUploadBtn", width="100%", "Continue")
+				)
+			)
+		)
+		# mark as visible
+		upload_modal_visible <- TRUE
+	}
+
+	uploadFile <- function(){
+		#message("uploaded file temp path: ", input$file1$datapath)
+
+		# open the file locally
+		df <- read.csv(input$file1$datapath,
+             header = TRUE,
+             sep = ",",
+             quote = '"')
+
+		# debug contents of file
+		#message("file header: ", head(df, n=1))
+		#message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
+
+		# ------------------------------
+		# verify contents of file
+		# ------------------------------
+		# check it has correct amount of columns and rows
+		row_count <- length(head(t(df),n=1))
+		column_count <- length(head(df,n=1))
+		# TODO: set required_* variables to size of valid input
+		required_rows <- 5
+		required_cols <- 3
+
+		# valid unless proven otherwise
+		file_valid <- TRUE
+		fail_reason <- "File is invalid:"
+
+		if (row_count != required_rows){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of rows", sep=" ")
+		} else if (column_count != required_cols){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of columns", sep=" ")
+		}
+
+		# if valid remove modal and process the file
+		if (upload_modal_visible && file_valid){
+			removeModal()
+			#TODO: process file here
+		}else{
+			# warn the user that the file is not acceptable
+			session$sendCustomMessage("invalidFileSelected", fail_reason)
+		}
+
+	}
+
+	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
+	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
+	observeEvent(input$uploadBtn, { pickUploadFile() })
+	observeEvent(input$confirmUploadBtn, {
+		if(is.null(input$file1)){
+			session$sendCustomMessage("noFileSelected", "any message")
+		}else{
+			uploadFile()
+		}
+	})
 
 	#------------------------------------------------------------
 	# updateDamGraph
@@ -668,26 +825,24 @@ server <- function(input, output, session) {
 			matrix_rows <- length(available_dams) # 8 default
 			matrix_levs_ind <- length(available_alternatives) # 5 default
 			matrix_levs <- length(1:995) #multi-dam alternatives
-			
-      Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
+
+			Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
 			Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
-			
-      
+
 			WeightedScoreMatrix <- array(data=NA, c(8,14,995))
 			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
-			#
-			  
-			##----------------------------------------
-			## Score Sum
-			##----------------------------------------
+
+			#----------------------------------------
+			# Score Sum
+			#----------------------------------------
 
 			## warning adding things to list has side effects!
 			WSMResults <- list(WeightedScoreMatrix, scoresum_total, fname)
 			TableMatrix <- WSMResults[1]
 
 			TableMatrix$summedScore <- WSMResults[2]
-			  
-			map_name <- WSMResults[3]  
+
+			map_name <- WSMResults[3]
 
 			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row

@@ -72,6 +72,24 @@
 	border-color: #204d74;
 }
 
+/* file upload confirm button */
+
+#confirmUploadBtn{
+	width:80%; /* same width as form */
+	color:#fff;
+	background-color:#239b1c;
+	border-color:#1e7519;
+	margin-bottom:0.2em;
+}
+#confirmUploadBtn:hover{
+	background-color:#1f821a;
+	border-color:#3ebb37;
+}
+#confirmUploadBtn:active{
+	background-color:#1f821a;
+	border-color:#3ebb37;
+}
+
 #generateMatrix {
 	width:80%; /* same width as form */
 	color:#fff;
@@ -160,4 +178,9 @@ a[aria-expanded="true"] div{
 /* label unbold */
 label {
 	font-weight:500;
+}
+
+/* modal */
+.modal-dialog {
+	margin-top:8%;
 }
