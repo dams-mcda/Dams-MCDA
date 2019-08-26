@@ -19,16 +19,16 @@ has_wd <- tryCatch({
 })
 
 
-DamsData <- read.csv('DamsData.csv')
+DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-source(file='f_raw.RData')
+source(file='f_raw.RData') #these are the dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
 DamsDataMatrix <- as.array(f)
-#source(file='Decisions.RData')
-#Decisions <- as.array(Decisions)
+source(file='Decisions.RData') #this is 2 dimensions from f_raw: rows = 995 'scenarios' labeled with their decision alternative number, cols = 8 dams
+Decisions <- as.array(Decisions)# we may not need this after all. 
 
 TestData <- c(0, 0.2, 0.05, 0.025, 0.05, 0.75, 0.2, 0.1, 0.1, 0.2, 0, 0, 0, 0)
 
-RawCriteriaMatrix <- array(TestData, c(8, 14,5))
+#RawCriteriaMatrix <- array(TestData, c(8, 14,5))
 
 # criteria input identifiers
 criteria_inputs <- c(
@@ -59,7 +59,6 @@ matrix_rows <- length(available_dams) # 8 default
 matrix_levs_ind <- length(available_alternatives) # 5 default
 matrix_levs <- length(1:995) # TODO: 995?
 
-
 WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs )
 
@@ -67,7 +66,10 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	# Step A1 (PREFS, SINGLE DAM PROCEDURE): Build Preference Matrix with blank levels, no normalization
 	# score will be raw values from 0-1 based on user input
 	#----------------------------------------
-	Ind_PrefMatrix <- array(data = NA, c(8,14,5)) # blank 3-D matrix
+
+	#Ind_* prefix indicates that we are dealing with individual or single dams, where the 5 decision alternatives are taken into account
+	#locally and not as a part of the larger set of 8 dams.
+	Ind_PrefMatrix <- array(data = NA, c(8,14,5)) #This is a 3-D blank matrix 
 
 	message("Fill User Preference Matrix")
 	# weights in matrix
