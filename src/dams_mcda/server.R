@@ -426,9 +426,10 @@ server <- function(input, output, session) {
 	map_marker_table <- lapply(seq(nrow(map_data)), function(i){
 		return(HTML(
 			paste0(
-				"<table class='map-data'><tr><td>Name</td><td>",
+				"<h4>",
 				map_data[i, "Name"],
-				"</td></tr><tr><td>Single or Multi-Dam</td><td>",
+				"</h4>",
+				"<table class='map-data'><tr><th>Attribute</th><th>Value</th></tr><tr><td>Single or Multi-Dam</td><td>",
 				map_data[i, "Single_or_Multi"],
 				"</td></tr><tr><td>Power Capacity (MW)</td><td>",
 				map_data[i, "Power_Capacity"],
@@ -445,16 +446,23 @@ server <- function(input, output, session) {
 	output$dam_map <- renderLeaflet({
 		map <- leaflet(data=map_data) %>%
 			addTiles() %>%
-			addMarkers(
+			addCircleMarkers(
 				lat=~map_data[,4], lng=~map_data[,5],
+				radius=6,
+				color="black",
+				weight=1,
+				opacity=1,
+				fillColor="lime",
+				fillOpacity=0.9,
 				label=lapply(map_marker_table, htmltools::HTML),
 				labelOptions=labelOptions(
 					style=list(
 						"padding-left"="1.2em"
 					)
-				)
+				),
+				popup=lapply(map_marker_table, htmltools::HTML)
 		    ) %>%
-			setView(lng=-69.17626004, lat=45.88144746, zoom=6)
+			setView(lng=-69.17626004, lat=45.88144746, zoom=7)
 		map
 	})
 
