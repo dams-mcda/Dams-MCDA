@@ -426,13 +426,13 @@ server <- function(input, output, session) {
 	map_marker_table <- lapply(seq(nrow(map_data)), function(i){
 		return(HTML(
 			paste0(
-				"<table><tr><td>Name</td><td>",
+				"<table class='map-data'><tr><td>Name</td><td>",
 				map_data[i, "Name"],
 				"</td></tr><tr><td>Single or Multi-Dam</td><td>",
 				map_data[i, "Single_or_Multi"],
 				"</td></tr><tr><td>Power Capacity (MW)</td><td>",
 				map_data[i, "Power_Capacity"],
-				"</td></tr><tr><td>Avg. Annual Electricity Generation (GWh)</td><td>",
+				"</td></tr><tr><td>Avg. Annual Electricity<br>Generation (GWh)</td><td>",
 				map_data[i, "Average_Annual_Electricity_Generation"],
 				"</td></tr><tr><td>Date Installed (Year)</td><td>",
 				map_data[i, "Year_of_Installation"],

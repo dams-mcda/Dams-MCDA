@@ -184,3 +184,8 @@ label {
 .modal-dialog {
 	margin-top:8%;
 }
+
+/* dam map data table */
+table.map-data tr td{
+	border:1px solid black;
+}
