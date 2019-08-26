@@ -26,7 +26,7 @@ Lead Developer (Ph.D. student, University of Maine Ecology and Environmental Sci
 
 **Involvement**
 
-Designed initial user interface and server functionality based on Raymond & Klein (2018). Adjusted weighted-sum function for new dam decision application and advised model-related changes. Designed and wrote app text. 
+Designed initial UI/UX and server functionality (early version based on Raymond & Klein (2018)). Wrote weighted-sum (WSM) function for single dam decisions, adapted WSM for multi-dam decisions, and advised model-related changes. Wrote app text.  
 
 **Contact**
 
@@ -50,11 +50,11 @@ Advised UI/UX enhancements to WSM model, helped develop and advised concept for 
 
 **Samuel G. Roy**
 
-Feature Developer (Postdoctoral Researcher, Senator George J. Mitchell Center for Sustainability Solutions, University of Maine)
+Feature Developer (Assistant Professor, jointly appointed through the Senator George J. Mitchell Center for Sustainability Solutions and the School of Earth and Climate Sciences, University of Maine)
 
 **Involvement**
 
-Developed Matlab scripts for multi-rank calculation, fitness functions for network-dependent criteria, and preference weighting.
+Developed Matlab scripts for multi-dam ranking calculation (later adapted for R), fitness functions for network-dependent criteria, and multi-dam preference weighting (later adapted for R).
 
 **Contact**
 
