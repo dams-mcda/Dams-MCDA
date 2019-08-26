@@ -14,6 +14,7 @@ library(RColorBrewer)
 library(spatstat)
 library(rgdal)
 library(abind)
+library(leaflet)
 
 options(shiny.usecairo=TRUE)
 
@@ -102,18 +103,19 @@ ui <- shinyUI(fluidPage(
 
 		HTML("<li> Step 2: View Dam Map </li>"),
 		tabPanel("View Dam Map",
-		  htmlOutput("Map1"), # status and title
-		  h2("View Existing FERC Dams Map"),
-		  HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
-		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
-		       Hover over the dams on the map for more information on each site.<br>"
-		       ),
-		  helpText(
-			HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>')
-		  ),
-		  img(src = 'maps/Penobscot_MO_14_53.png', width = "100%", align = "center")
-
-		 ),
+			htmlOutput("Map1"), # status and title
+			h2("View Existing FERC Dams Map"),
+			HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
+				for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
+				Hover over the dams on the map for more information on each site.<br>"
+			),
+			helpText(
+				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>')
+			),
+			#img(src = 'maps/Penobscot_MO_14_53.png', width = "48%", align = "right"),
+			img(src = 'maps/Penobscot_MO_14_443.png', width = "48%", align = "right"),
+			leafletOutput("dam_map", width="50%")
+		),
 
 
 		HTML("<li> Step 3: Enter Preferences </li>"),

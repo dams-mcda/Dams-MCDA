@@ -1,4 +1,4 @@
-"pk","Dam_ID","Name","Latitude","Longitude","Ferc No.","Penob. Mills Project","Single or Multi-Dam","Power Capacity(MW)","Average Annual Electricity Generation(GWh)","Year of Installation"
+"pk","Dam_ID","Name","Latitude","Longitude","Ferc_No","Penob_Mills_Project","Single_or_Multi","Power_Capacity","Average_Annual_Electricity_Generation","Year_of_Installation"
 1,"DamID_4190","Ripogenus Dam",45.88144746,-69.17626004,2572,FALSE,"S",37.5,234,1916
 2,"DamID_4679","Medway Dam",45.60743512,-68.54566603,2666,FALSE,"S",3.4,28.1,1922
 3,"DamID_4180","Millonocket/Quakish Dam",45.63856608,-68.72847936,2458,TRUE,"M",36,203.3,1900

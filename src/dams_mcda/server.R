@@ -415,6 +415,52 @@ server <- function(input, output, session) {
 
 
 	#------------------------------------------------------------
+	# initDamMap
+	# initialize the leaflet map for displaying dam location/attributes
+	# random dam as marker
+	# random dam as center of viewport
+	#------------------------------------------------------------
+	map_data <- read.csv('dam_csv/map_dams.csv')
+
+	# format on-hover labels
+	map_marker_table <- lapply(seq(nrow(map_data)), function(i){
+		return(HTML(
+			paste0(
+				"<table><tr><td>Name</td><td>",
+				map_data[i, "Name"],
+				"</td></tr><tr><td>Single or Multi-Dam</td><td>",
+				map_data[i, "Single_or_Multi"],
+				"</td></tr><tr><td>Power Capacity (MW)</td><td>",
+				map_data[i, "Power_Capacity"],
+				"</td></tr><tr><td>Avg. Annual Electricity Generation (GWh)</td><td>",
+				map_data[i, "Average_Annual_Electricity_Generation"],
+				"</td></tr><tr><td>Date Installed (Year)</td><td>",
+				map_data[i, "Year_of_Installation"],
+				"</td></tr></table>"
+			)
+		))
+	})
+
+	# render leaflet
+	output$dam_map <- renderLeaflet({
+		map <- leaflet(data=map_data) %>%
+			addTiles() %>%
+			addMarkers(
+				lat=~map_data[,4], lng=~map_data[,5],
+				label=lapply(map_marker_table, htmltools::HTML),
+				labelOptions=labelOptions(
+					style=list(
+						"padding-left"="1.2em"
+					)
+				)
+		    ) %>%
+			setView(lng=-69.17626004, lat=45.88144746, zoom=6)
+		map
+	})
+
+
+
+	#------------------------------------------------------------
 	# updateDamGraph
 	# given a dam index and vector of scores makes the raw score graphs
 	# scoreVector needs to be vector and not data frame or it will repeat for each criteria
