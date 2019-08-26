@@ -186,6 +186,16 @@ label {
 }
 
 /* dam map data table */
+table.map-data {
+	width:100%;
+}
 table.map-data tr td{
 	border:1px solid black;
+	padding:1px;
+}
+table.map-data tr:nth-child(odd) td{
+	background-color:#dedede;
+}
+table.map-data tr td:nth-child(2){
+	text-align:center;
 }
