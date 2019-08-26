@@ -108,8 +108,10 @@ ui <- shinyUI(fluidPage(
 		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
 		       Hover over the dams on the map for more information on each site.<br>"
 		       ),
-		  helpText( a("Click HERE for more information about dam decision alternatives", href = "https://github.com/dams-mcda/Dams-MCDA/blob/WSMUpdate_Dams/src/dams_mcda/DecisionAlternativesDescriptions.pdf")),
-		  img(src = 'Penobscot_MO_14_53.png', width = "100%", align = "center")
+		  helpText(
+			HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>')
+		  ),
+		  img(src = 'maps/Penobscot_MO_14_53.png', width = "100%", align = "center")
 
 		 ),
 
