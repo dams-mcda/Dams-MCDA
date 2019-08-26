@@ -459,7 +459,8 @@ server <- function(input, output, session) {
 					style=list(
 						"padding-left"="1.2em"
 					)
-				)
+				),
+				popup=lapply(map_marker_table, htmltools::HTML)
 		    ) %>%
 			setView(lng=-69.17626004, lat=45.88144746, zoom=7)
 		map
