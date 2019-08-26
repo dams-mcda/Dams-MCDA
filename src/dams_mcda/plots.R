@@ -98,7 +98,7 @@ renderBarErrorPlot <- function(df, title, x_names, x_label, y_label, colors, x_l
 		+ geom_text(data=subset(df, score != 0), aes(label=score), position = position_stack(vjust=0.5), size=6)
 		+ coord_flip()
 		+ theme_minimal()
-		+ theme(legend.position="none", text=element_text(size=20), )
+		+ theme(legend.position="none", text=element_text(size=20))
 		+ scale_x_discrete(limits=rev(x_names))
 		+ ylab(y_label)
 		+ xlab(x_label)

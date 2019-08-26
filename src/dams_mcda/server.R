@@ -1,17 +1,19 @@
 # server logic
 
-source("runMatlab.R")
-source("WSM.R")
-#pull from WSM script
-DamsData <- read.csv('DamsData.csv')
-DamsData <- data.frame(DamsData)
-
+#source("runMatlab.R") # matlab connection logic
 source("plots.R")
+source("WSM.R")
+
+DamsData <- read.csv('DamsData.csv') #might delete later
+DamsData <- data.frame(DamsData) #might delete later
+
+# loads variable f in fike f_raw.RData
+source(file='f_raw.RData')
+DamsData <- as.array(f)
+
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
-set.seed(123)
-
 
 #--------------------------------------------------------------------------------
 # Static Variables
@@ -137,6 +139,8 @@ max_retries <- 3
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
 #--------------------------------------------------------------------------------
+max_file_size <- 5 # size in MB
+options(shiny.maxRequestSize=max_file_size*1024^2)
 # has to be global (this is data the user can download after finishing
 response_data <<- ("no data")
 
@@ -226,19 +230,188 @@ damsCompleted <- function(completed){
 
 #--------------------------------------------------------------------------------
 # SERVER
-#
-# Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
-
-	# debug matlab
-	#runMatlab()
-
 	#------------------------------------------------------------
 	# JS data passing test
 	#------------------------------------------------------------
 	# debug/validate authentication
 	session$sendCustomMessage("validateSession", "any message")
+
+
+	#------------------------------------------------------------
+	# Session Mode
+	#
+	# 	on app init prompts a modal requiring the user to decide which mode
+	#
+	# 	for now mode can be either:
+	# 		group or individual
+	#   could be expanded to include different modes depending on the application state requirements
+	#------------------------------------------------------------
+	session_mode <<- "individual" # default mode of session
+
+	intro_modal_visible <<- TRUE # intro modal is visible on page load
+	upload_modal_visible <<- FALSE # file upload modal
+
+	# choose individual/group modal
+	showModal(
+		modalDialog(
+			title = "Group or Individual",
+			footer=NULL, # NULL to disable dismiss button
+			easyClose=FALSE, # False to disable closing by clicking outside of modal
+			div(
+				HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+
+				actionButton("selectIndividualSessionMode", "Individual Preferences"),
+				actionButton("selectGroupSessionMode", "Group Preferences"),
+				actionButton("uploadBtn", "UPLOAD DATA"),
+
+				HTML(
+					"<h4>Instructions for Uploading</h4>\
+					Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+					for you or the average preference values for your group. <br>"
+				)
+			)
+		)
+	)
+
+	# track the user group
+	# NOTE: only set when the user is using application in group input mode
+	# this is important because changing the value of this variable causes effects
+	observeEvent(input$session_user_group, {
+		if (input$session_user_group == "false"){
+			message("Group Mode Set with no group: ", input$session_user_group)
+			# no group attached to user, but they select group mode!
+		}else{
+			message("Group Mode Set for group_id: ", input$session_user_group)
+			removeModal()
+		}
+	})
+
+	# userHasGroup will query the users group relation
+	# will set the variable input$session_user_group on completion
+	checkUserHasGroup <- function(){
+		session$sendCustomMessage("checkUserHasGroup", "")
+	}
+
+	# on mode update
+	setSessionMode <- function(newMode){
+		session_mode <- newMode
+
+		if (newMode == "group"){
+			# check if user already picked a group
+			checkUserHasGroup()
+		}else if (intro_modal_visible){
+			removeModal()
+			intro_modal_visible <<- FALSE
+		}
+	}
+
+	# on mode file upload
+	pickUploadFile <- function(){
+		# hide other modal
+		if (intro_modal_visible){
+			removeModal()
+			intro_modal_visible <<- FALSE
+		}
+
+		# mark as visible
+		upload_modal_visible <<- TRUE
+
+		# upload file modal
+		showModal(
+			modalDialog(
+				title = "File Upload",
+				footer=NULL, # NULL to disable dismiss button
+				easyClose=FALSE, # False to disable closing by clicking outside of modal
+				div(
+					HTML(
+						"<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+						for you or the average preference values for your group. <br><br>"
+					),
+
+					#TODO: add xlsx support?
+					fileInput("file1",
+						label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
+						width="100%",
+						multiple=FALSE,
+						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+					),
+
+					# confirm upload
+					actionButton("confirmUploadBtn", width="100%", "Continue")
+				)
+			)
+		)
+	}
+
+
+	# ----------------------------------------
+	# uploadFile
+	# validate and process a user uploaded file
+	# ----------------------------------------
+	uploadFile <- function(){
+		# make sure user selected a file before trying to validate
+		if(is.null(input$file1)){
+			message("input file null")
+			session$sendCustomMessage("noFileSelected", "any message")
+			return(NA) # break (stop execution of function)
+		}
+
+		#message("uploaded file temp path: ", input$file1$datapath)
+
+		# open the file locally
+		df <- read.csv(input$file1$datapath,
+             header = TRUE,
+             sep = ",",
+             quote = '"')
+
+		# debug contents of file
+		#message("file header: ", head(df, n=1))
+		#message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
+
+		# ------------------------------
+		# verify contents of file
+		# ------------------------------
+		# check it has correct amount of columns and rows
+		row_count <- length(head(t(df),n=1))
+		column_count <- length(head(df,n=1))
+		# TODO: set required_* variables to size of valid input
+		required_rows <- 5
+		required_cols <- 3
+
+		# valid unless proven otherwise
+		file_valid <- TRUE
+		fail_reason <- "File is invalid:"
+
+		if (row_count != required_rows){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of rows", sep=" ")
+		} else if (column_count != required_cols){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of columns", sep=" ")
+		}
+
+		# if valid remove modal and process the file
+		if (upload_modal_visible && file_valid){
+			#message("file upload success")
+			removeModal()
+			upload_modal_visible <<- FALSE
+			#TODO: process file here
+		}else{
+			# warn the user that the file is not acceptable
+			#message("file upload fail", fail_reason)
+			session$sendCustomMessage("invalidFileSelected", fail_reason)
+		}
+
+	}
+
+	# select mode / file upload event listeners
+	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
+	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
+	observeEvent(input$uploadBtn, { pickUploadFile() })
+	observeEvent(input$confirmUploadBtn, { uploadFile() })
 
 
 	#------------------------------------------------------------
@@ -262,7 +435,7 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range # y value limit (0-100 value range)
+			score_range # y value limit (0-1 value range)
 		)
 
 		# Graph2
@@ -599,7 +772,7 @@ server <- function(input, output, session) {
 			# get 2d array of values based on length/values of criteria_inputs and available_dams
 			# criterion -> columns
 			# dams -> rows
-			# example 14 criterion 8 dams results in 14 column by 8 row 2d data structure specific to dams
+			# example 14 criterion 8 dams results in 14 column (criteria) by 8 row (dams) 2d data structure 
 			#------------------------------------------------------------
 
 			dams <- vector("list")
@@ -623,91 +796,87 @@ server <- function(input, output, session) {
 			dams <- unlist(dams)
 
 			#NOT SURE HOW TO RECONCILE THIS SPECIFIC TO EACH INDIVIDuaL DAM
-			#for alternatives in tables/graphs, this generates a blank matrix with labels
-			#alternatives <- vector("list", length(available_alternatives))
-			#for (row_id in 1:length(available_alternatives)){
-			#  # for each criterion in alternatives
-			#  r <- vector("list", length(available_alternatives))
+			#for alternatives in tables/graphs, this generates a blank vector with labels
+			alternatives <- vector("list", length(available_alternatives))
+			for (row_id in 1:length(available_alternatives)){
+			  # for each criterion in alternatives
+			  r <- vector("list", length(available_alternatives))
 
-			#  for (id in criteria_inputs){
-			#    input_name <- paste(id, toString(row_id), sep='')
-			#    value <- input[[input_name]]
-			#    r[[id]] <- value
+			  for (id in criteria_inputs){
+			    input_name <- paste(id, toString(row_id), sep='')
+			    value <- input[[input_name]]
+			    r[[id]] <- value
 
-			#    if (is.null(value)){
-			#      # debug nulls, doesn't modify data
-			#      message('input ', input_name, " isNull ")
-			#    }
-			#  }
+			    if (is.null(value)){
+			      # debug nulls, doesn't modify data
+			      message('input ', input_name, " isNull ")
+			    }
+			    alternatives[[row_id]] <- unlist(r)
+			  }
+			  alternatives <- unlist(alternatives)
 
-			#  alternatives[[row_id]] <- unlist(r) # we want in c and not list
-			#}
-			#alternatives <- unlist(alternatives)
-
-			# -------------------------------NEED TO REWRITE BY DAM------------------------------#
+			# -------------------------------------------------------------#
 			# assign values in new matrix
-			#raw_scores <- getRawScores()
-			#RawCriteriaMatrix <- data.frame(
-			#	matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
-			#)
-			#message("RawCriteriaMatrix", RawCriteriaMatrix)
+			raw_scores <- getRawScores()
+			RawCriteriaMatrix <- data.frame(
+				matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+			)
+			message("RawCriteriaMatrix", RawCriteriaMatrix)
 
 			## assign table row, column names
-			#row.names(RawCriteriaMatrix) <- dam_names
-			#colnames(RawCriteriaMatrix) <- criteria_names
+			row.names(RawCriteriaMatrix) <- dam_names
+			colnames(RawCriteriaMatrix) <- criteria_names
 
 			## origial scores in table form
 			## for debugging table size
-			#output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
+			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
 
 			##----------------------------------------
 			## Call WSM and format response
 			##----------------------------------------
 			## matrix setup
-			#matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
-			#matrix_rows <- length(available_dams) # 8 default
-			#matrix_levs <- length(available_alternatives) #5 default
+			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
+			matrix_rows <- length(available_dams) # 8 default
+			matrix_levs_ind <- length(available_alternatives) # 5 default
+			matrix_levs <- length(1:995) #multi-dam alternatives
 
-			#WeightedScoreMatrix <- array(data=NA, c(8,14,5))
-			#WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
-			#
-			##----------------------------------------
-			## Score Sum
-			##----------------------------------------
-			## total score is last column of returned Data Table
-			#scoresum <- list("list", matrix_rows)
+			Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
+			Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
 
-			#for (i in 1:matrix_rows){
-			#  scoresum[[i]] <- sum(as.numeric(WeightedScoreMatrix[i, 1:matrix_cols]))
-			#}
+			WeightedScoreMatrix <- array(data=NA, c(8,14,995))
+			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 
-			#scoresum <- unlist(scoresum)
+			#----------------------------------------
+			# Score Sum
+			#----------------------------------------
 
 			## warning adding things to list has side effects!
-			#WSMResults <- list(WeightedScoreMatrix, scoresum)
-			#TableMatrix <- WSMResults[1]
+			WSMResults <- list(WeightedScoreMatrix, scoresum_total, fname)
+			TableMatrix <- WSMResults[1]
 
-			#TableMatrix$summedScore <- WSMResults[2]
+			TableMatrix$summedScore <- WSMResults[2]
 
-			#WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
+			map_name <- WSMResults[3]
+
+			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row
-			#names(WSMTableOutput) <- criteria_names_and_sum
+			names(WSMTableOutput) <- criteria_names_and_sum
 			# -------------------------------END REWRITE BY DAM------------------------------#
 
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
 			# final output table commented out due to redundancy
-			#output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
+			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
 
-			#message('saveResponse')
-			#saveResponse(WSMTableOutput)
+			message('saveResponse')
+			saveResponse(WSMTableOutput)
 
 			## stacked bars data table
-			#Alternative <- c(rep(alternative_names, each=length(criteria_names)))
-			#Criteria <- c(rep(criteria_names, times=length(alternative_names)))
-			#Score <- alternatives
-			#Data <- data.frame(Alternative, Criteria, Score)
+			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
+			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
+			Score <- alternatives
+			Data <- data.frame(Alternative, Criteria, Score)
 
 			# decision criteria ids
 			#Criteria <- c(rep(criteria_names, times=length(1)))
@@ -715,18 +884,6 @@ server <- function(input, output, session) {
 			#Score <- as.numeric(RawCriteriaMatrix[1, ])
 			## two columns, score and criteria of score
 			#Data <- data.frame(score=Score, criteria=Criteria)
-
-			## Figure 1 raw pref plot
-			#output$SummPlot1 <- renderBarPlot(
-			#	Data, # data
-			#	paste("Raw Preference Scores for", dam_names[1], sep=" "), # title
-			#	criteria_names, # x_labels
-			#	"Topic", # x axis label
-			#	"Score", # y axis label
-			#	colors, # colors
-			#	NULL, # x value limit
-			#	score_range # y value limit (0-100 value range)
-			#)
 
 			# Figure 2 Stacked Bar 100%
 			#output$WSMPlot1 <- renderPlot(
@@ -2112,5 +2269,5 @@ server <- function(input, output, session) {
 	  }
 	)
 
-} # end server
+}} # end server
 
