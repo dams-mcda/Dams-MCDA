@@ -119,7 +119,7 @@ ui <- shinyUI(fluidPage(
 		       Hover over the dams on the map for more information on each site.<br>"
 		       ),
 		  helpText( a("Click HERE for more information about dam decision alternatives", href = "https://github.com/dams-mcda/Dams-MCDA/blob/WSMUpdate_Dams/src/dams_mcda/DecisionAlternativesDescriptions.pdf")),
-		  img(src = 'Penobscot_MO_14_53.png', width = "100%", align = "center")
+		  img(src = 'Penobscot_MO_14_443.png', width = "100%", align = "center")
 
 		 ),
 

@@ -94,11 +94,11 @@ criteria_names <- c(
 
 # alternative display names (for labeling tables and graphs)
 alternative_names <- c(
-   "Remove Dam",
-   "Improve Fish Passage",
-   "Improve Hydro",
-   "Improve Hydro AND Fish Passage",
-   "Keep and Maintain Dam"
+  "Keep and Maintain Dam",
+  "Improve Hydro",
+  "Improve Fish Passage",
+  "Improve Hydro AND Fish Passage",
+  "Remove Dam"
 )
 
 # dam display names (for labeling tables and graphs)
