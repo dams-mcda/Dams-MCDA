@@ -6,12 +6,13 @@ Project Description
 
 * R / Shiny Web Application for dam decision support
 
-
 	+ Located in src/dams_mcda/*
 
+* Python / Django Application for user administration
 
-* Docker container for hosting
+	+ Located in django-src/shinyadmin/*
 
+* Docker for orchestration
 
 * Apache Configuration for Proxying to Docker
 
@@ -85,10 +86,10 @@ Acknowledgements
 --------------------------
 + We would like to thank Garrett Raymond for his thorough technical consultation on initial R Shiny app design.
 
-+ This tool was developed by researchers in the Future of Dams project:<https://www.newenglandsustainabilityconsortium.org/dams>. 
++ This tool was developed by researchers in the [Future of Dams project](https://www.newenglandsustainabilityconsortium.org/dams). 
 Support for the Future of Dams project is provided by the National Science Foundation's Research Infrastructure Improvement NSF #IIA-1539071, USDA National Institute of Food and Agriculture, Hatch project 0230040, and Department of the Interior, U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.   
 
-+ Data Discovery Center of the University of New Hampshire: <https://ddc.unh.edu>
++ [Data Discovery Center](https://ddc.unh.edu) of the University of New Hampshire
 
 
 Colors
