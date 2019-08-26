@@ -25,6 +25,7 @@ TestData <- data.frame(TestData)
 
 Ind_RawCriteriaMatrix <- abind(c(TestData, TestData, TestData, TestData,TestData)) 
 Ind_RawCriteriaMatrix <- array(unlist(Ind_RawCriteriaMatrix), dim = c(8,14,5))
+RawCriteriaMatrix <- abind(TestData*995)#this doesn't work
 RawCriteriaMatrix <- array(TestData, c(8, 14,995))
 
 
