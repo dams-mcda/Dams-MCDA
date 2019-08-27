@@ -2,6 +2,7 @@
 
 source("runMatlab.R")
 source("WSM.R")
+library(abind)
 #pull from WSM script
 DamsData <- read.csv('DamsData.csv') #might delete later
 DamsData <- data.frame(DamsData) #might delete later

@@ -153,6 +153,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
   # make normalized values of each value in matrix 
   for (k in 1:matrix_cols){
     for (n in 1:matrix_rows){
+      for (p in 1:matrix_levs_ind){
         x <- Ind_DamsDataMatrix[n,k,p]
         crit_min_x <- CritMinVector[k]
         crit_max_x <- CritMaxVector[k]
@@ -176,7 +177,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
         })
       }
     }
-  
+  }
   
   Ind_NormalizedMatrix[is.nan(Ind_NormalizedMatrix)] <-0
   
@@ -204,7 +205,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
     scoresum1[[j]] <- sum(as.numeric(Dam1Results[j, 1:matrix_levs_ind]))
   }
   scoresum1 <- unlist(scoresum1)
-  
+
   #------Dam 2--------------
   Dam2Results <- Ind_WeightedScoreMatrix[2,,] #Dam 2 Weighted Matrix
   scoresum2 <- list("list", matrix_levs_ind)
@@ -482,7 +483,7 @@ colnames(Score1) <- alternative_names
 
 # Graph West Enfield alternative scores
 WSMPlot1 <- barplot((scoresum1), main="West Enfield Dam Recommendation", ylab= "Decision Alternative Score",
-                   xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -496,7 +497,7 @@ colnames(Score2) <- alternative_names
 
 # Graph  alternative scores
 WSMPlot2 <- barplot((scoresum2), main="Medway Dam Recommendation", ylab= "Decision Alternative Score",
-                   xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -509,7 +510,7 @@ colnames(Score3) <- alternative_names
 
 # Graph alternative scores
 WSMPlot3 <- barplot((scoresum3), main="Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
-                   xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -522,7 +523,7 @@ colnames(Score4) <- alternative_names
 
 # Graph alternative scores
 WSMPlot4 <- barplot((scoresum4), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
-                    xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -535,7 +536,7 @@ colnames(Score5) <- alternative_names
 
 # Graph alternative scores
 WSMPlot5 <- barplot((scoresum5), main="North Twin Dam Recommendation", ylab= "Decision Alternative Score",
-                    xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -549,7 +550,7 @@ colnames(Score6) <- alternative_names
 
 # Graph alternative scores
 WSMPlot6 <- barplot((scoresum6), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
-                    xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -563,7 +564,7 @@ colnames(Score7) <- alternative_names
 
 # Graph alternative scores
 WSMPlot7 <- barplot((scoresum7), main="Millinocket Lake Dam Recommendation", ylab= "Decision Alternative Score",
-                    xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -577,7 +578,7 @@ names(Score8) <- alternative_names
 
 # Graph alternative scores
 WSMPlot8 <- barplot((scoresum8), main="Ripogenus Dam Recommendation", ylab= "Decision Alternative Score",
-                    xlab = c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), beside=TRUE, col=rainbow(5))
+                    names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -586,18 +587,21 @@ legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishAND
 
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams
-CritAlt1 <- as.matrix(Ind_WeightedScoreMatrix[1,,])
-colnames(Score_compare) <- alternative_names
-rownames(Score_compare) <- criteria_inputs
+CritAlt1 <- as.matrix(rbind(Dam1Results,scoresum1))
+colnames(CritAlt1) <- alternative_names
+rownames(CritAlt1) <- c(criteria_inputs, "sum")
+
 
 # put 10% of the space between each bar, and make labels  
 # smaller with horizontal y-axis labels
-CritGraph <- barplot((CritAlt1), main="WestEnfield", ylab="MCDA Score", 
-        col=colors(14), space=0.1, cex.axis=0.8, las=1,
-        names.arg= alternative_names, cex=0.8) 
+barplot((Dam1Results), main="WestEnfield", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
 
-# Place the legend at topright using heat colors
-legend("topright", names(criteria_inputs), cex=0.6,  bty="n", fill=colors(14))
+# Place the legend at (6,30) using rainbow colors
+#legend(6, 30, names(criteria_inputs), cex=0.6, fill=rainbow(14));
+
+
+
 
 
 

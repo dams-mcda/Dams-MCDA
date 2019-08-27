@@ -17,10 +17,10 @@ source(file='f_raw.RData') #these are the dams data from Sam's MOGA fitness func
 DamsDataMatrix <- as.array(f)
 source(file='Decisions.RData') #this is 2 dimensions from f_raw: rows = 995 'scenarios' labeled with their decision alternative number, cols = 8 dams
 Decisions <- as.array(Decisions)# we may not need this after all. 
+TestData <- read.csv('TestData.csv')
+RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
-#TestData <- c(0,0.2,0.05,0.025,0.05,0.75, 0.2,0.1,0.1,0.2,0,0,0,0)
 
-#RawCriteriaMatrix <- array(TestData, c(8, 14,5))
 
 # criteria input identifiers
 criteria_inputs <- c(
@@ -62,16 +62,15 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	#----------------------------------------
 	#Ind_* prefix indicates that we are dealing with individual or single dams, where the 5 decision alternatives are taken into account
 	#locally and not as a part of the larger set of 8 dams.
-	Ind_PrefMatrix <- array(data = NA, c(8,14,5)) #This is a 3-D blank matrix 
+	Ind_PrefMatrix <- array(data = NA, c(8,14)) #This is a 3-D blank matrix 
 	
 	message("Fill User Preference Matrix")
 	# weights in matrix
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
-		  for (p in 1:matrix_levs_ind){
-			x <- RawCriteriaMatrix[n,k,p]
+			x <- RawCriteriaMatrix[n,k]
 
-			Ind_PrefMatrix[n,k,p] <- tryCatch({
+			Ind_PrefMatrix[n,k] <- tryCatch({
 				#message("A", x, ', ', crit_imp)
 				(x)
 			}, error=function(e){
@@ -79,8 +78,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 			})
 		  } #End dams (rows) for loop.
 	  } #End criteria (columns) for loop.
-  } #End alternatives (levels) forloop
-
+	Ind_PrefMatrix <- array(rep(Ind_PrefMatrix,5), c(dim(Ind_PrefMatrix), 5))
+	
 
 	message("fill Ind Pref Matrix")
 	#----------------------------------------
@@ -162,8 +161,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 			
 				if (k %in% min_crit_columns){
 					# alternative method
-					# maximize normalization
-					((1-(x-crit_max_x)) / (crit_max_x - crit_min_x))
+					# minimize normalization
+					(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
 				}else{
 					# for debugging by cell WSM uncomment next line
 					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
@@ -272,16 +271,15 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	#------------------------------------------------------
 	#  STEP A2: MULTI-DAM PROCEDURE FOR PREERENCES
 	#------------------------------------------------------
-	PrefMatrix <- array(data = NA, c(8,14,995)) #This is a 3-D blank matrix 
+	PrefMatrix <- array(data = NA, c(8,14)) #This is a 3-D blank matrix 
 	
 	message("Fill User Preference Matrix")
 	# weights in matrix
 	for (k in 1:matrix_cols){
 	  for (n in 1:matrix_rows){
-	    for (p in 1:matrix_levs){
-	      x <- RawCriteriaMatrix[n,k,p]
+	      x <- RawCriteriaMatrix[n,k]
 	      
-	      PrefMatrix[n,k,p] <- tryCatch({
+	      PrefMatrix[n,k] <- tryCatch({
 	        #message("A", x, ', ', crit_imp)
 	        (x)
 	      }, error=function(e){
@@ -289,7 +287,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	      })
 	    } #End dams (rows) for loop.
 	  } #End criteria (columns) for loop.
-	} #End alternatives (levels) forloop
+	PrefMatrix <- array(rep(PrefMatrix,995), c(dim(PrefMatrix), 995)) #will address this later
 	
 	
 	message("fill multi-dam Pref Matrix")
@@ -348,7 +346,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	        if (k %in% min_crit_columns){
 	          # alternative method
 	          # maximize normalization
-	          ((1-(x-crit_max_x)) / (crit_max_x - crit_min_x))
+	          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
 	        }else{
 	          # for debugging by cell WSM uncomment next line
 	          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
