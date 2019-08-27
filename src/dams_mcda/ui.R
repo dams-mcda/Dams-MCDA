@@ -1,10 +1,5 @@
 # This is the user-interface definition of a Shiny web application
 
-# base working directory
-# configured for docker container path
-#base_dir <- "/srv/shiny-server/dams_mcda/"
-#setwd(base_dir)
-
 library(shiny)
 library(ggplot2)
 library(dplyr, warn.conflicts=FALSE)
@@ -23,6 +18,10 @@ source("server.R")
 # default graph dimensions
 graph_width <- "100%"
 graph_height <- 500
+
+# default map dimensions
+map_width <- "100%"
+map_height <- 500
 
 # multiple used labels
 fishSurvivalLabel <- "Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as possible upstream sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). "
@@ -69,12 +68,11 @@ ui <- shinyUI(fluidPage(
 		widths = c(2,10),
 
 		#Define Instructions tab
-		HTML("<li>Step 1: Start Here</li>"),
+		HTML("<li class='step-label'>Step 1: Start Here</li>"),
 		tabPanel("Start Here",
-			#htmlOutput("Step 1: Start Here"),
 			h2("Welcome!"),
 
-			img(src = 'Alewives1.jpg', width="50%", align = "right", style="margin:0.2em;"),
+			img(src='Alewives1.jpg', width="50%", align = "right", style="margin:0.2em;"),
 
 			HTML(
 				"<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
@@ -85,7 +83,6 @@ ui <- shinyUI(fluidPage(
 			),
 
 			#helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
-
 
 			HTML(
 				"<h4>More Information:</h4>\
@@ -101,7 +98,7 @@ ui <- shinyUI(fluidPage(
 		 ),
 
 
-		HTML("<li> Step 2: View Dam Map </li>"),
+		HTML("<li class='step-label'> Step 2: View Dam Map </li>"),
 		tabPanel("View Dam Map",
 			htmlOutput("Map1"), # status and title
 			h2("View Existing FERC Dams Map"),
@@ -112,17 +109,19 @@ ui <- shinyUI(fluidPage(
 			helpText(
 				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>')
 			),
-			#img(src = 'maps/Penobscot_MO_14_53.png', width = "48%", align = "right"),
-			img(src = 'maps/Penobscot_MO_14_443.png', width = "48%", align = "right"),
-			leafletOutput("dam_map", width="50%")
+			leafletOutput("dam_map", width=map_width, height=map_height)
 		),
 
 
-		HTML("<li> Step 3: Enter Preferences </li>"),
+		HTML("<li class='step-label'> Step 3: Enter Preferences </li>"),
 		# ----------------------------------------
 		# West Enfield Dam
 		# ----------------------------------------
-		tabPanel("Dam 1: West Enfield",
+		tabPanel(
+			 # tab button text
+			 htmlOutput("Dam1"),
+
+			 # tab content
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
 				 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
@@ -871,7 +870,7 @@ ui <- shinyUI(fluidPage(
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
 
-		HTML("<li> Step 4: View Results </li>"),
+		HTML("<li class='step-label'> Step 4: View Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
@@ -1316,7 +1315,7 @@ ui <- shinyUI(fluidPage(
 		 ),
 
 
-		HTML("<li> Step 4: View Results </li>"),
+		HTML("<li class='step-label'> Step 4: View Results </li>"),
 		tabPanel("Combined Results",
 			h2("Multi-Dam Results"),
 

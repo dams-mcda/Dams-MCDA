@@ -33,31 +33,31 @@ library(rjson)
 #----------------------------------------
 # Output
 #----------------------------------------
-enable_rownames <- TRUE # set to TRUE to show row names on tables
+enable_rownames <<- TRUE # set to TRUE to show row names on tables
 
 #----------------------------------------
 # Defaults
 #----------------------------------------
 # default graph color array
-colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
+colors <<- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 # default graph score range
-score_range <- c(0, 1)
+score_range <<- c(0, 1)
 # range of final graph of summed scores
-summed_score_range <- c(0, 1)
+summed_score_range <<- c(0, 1)
 # list of dams
-available_dams <- seq(1:8)
+available_dams <<- seq(1:8)
 
 # list of alternatives
-available_alternatives <- seq(1:5)
+available_alternatives <<- seq(1:5)
 
 # smallest input slider increment
-smallest_increment <- 0.025
+smallest_increment <<- 0.025
 # make valid progress values range smaller than the smallest increment
-upper_bound <- (1.0 + (smallest_increment/2))
-lower_bound <- (1.0 - (smallest_increment/2))
+upper_bound <<- (1.0 + (smallest_increment/2))
+lower_bound <<- (1.0 - (smallest_increment/2))
 
 # criteria input identifiers
-criteria_inputs <- c(
+criteria_inputs <<- c(
 	"FishBiomass",
 	"RiverRec",
 	"Reservoir",
@@ -75,7 +75,7 @@ criteria_inputs <- c(
 )
 
 # criteria display names (for labeling tables and graphs)
-criteria_names <- c(
+criteria_names <<- c(
 	"Fish Survival",
 	"River Recreation Area",
 	"Reservoir Storage",
@@ -93,7 +93,7 @@ criteria_names <- c(
 )
 
 # alternative display names (for labeling tables and graphs)
-alternative_names <- c(
+alternative_names <<- c(
    "Remove Dam",
    "Improve Fish Passage",
    "Improve Hydro",
@@ -102,7 +102,7 @@ alternative_names <- c(
 )
 
 # dam display names (for labeling tables and graphs)
-dam_names <- c(
+dam_names <<- c(
     "West Enfield Dam",
     "Medway Dam",
     "Millinocket/Quakish",
@@ -114,9 +114,9 @@ dam_names <- c(
 )
 
 # append summed score to criteria_names array
-criteria_names_and_sum <- as.list(criteria_names) # vector to list
-criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
-criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
+criteria_names_and_sum <<- as.list(criteria_names) # vector to list
+criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <<- "Summed Score" # append summed score
+criteria_names_and_sum <<- unlist(criteria_names_and_sum) # return to vector
 
 # End of global variables
 
@@ -128,18 +128,18 @@ criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 # needed when calling barplot
 pdf(NULL)
 
+# matlab
 # track matlab port for session
-session_matlab_port <- 9998
-
+#session_matlab_port <- 9998
 # for production make sure this is TRUE
-retry_matlab_connection <- TRUE
-max_retries <- 3
+#retry_matlab_connection <- TRUE
+#max_retries <- 3
 
 
 #--------------------------------------------------------------------------------
 # FILE/DATA STORAGE
 #--------------------------------------------------------------------------------
-max_file_size <- 5 # size in MB
+max_file_size <<- 5 # size in MB
 options(shiny.maxRequestSize=max_file_size*1024^2)
 # has to be global (this is data the user can download after finishing
 response_data <<- ("no data")
@@ -808,6 +808,7 @@ server <- function(input, output, session) {
 	}
 
 
+	message("pre-generateOutput")
 	#------------------------------------------------------------
 	# generateOutput
 	# generate the final table and barplot
@@ -1821,6 +1822,7 @@ server <- function(input, output, session) {
 			#	+ scale_y_continuous(expand = c(0, 0))
 			#  )
 			#)
+			}
 
 			# show output html elements
 			shinyjs::show(id="generated-output")
@@ -1833,7 +1835,7 @@ server <- function(input, output, session) {
 	#--------------------------------------------------------------------------------
 	# Initial Application State for session
 	#--------------------------------------------------------------------------------
-	observe({
+	observe(autoDestroy=TRUE, {
 		# hide output html elements
 		shinyjs::hide(id="generated-output")
 		shinyjs::hide(id="dam-1-output")
@@ -1957,6 +1959,7 @@ server <- function(input, output, session) {
 	  return(sum)
 	})
 
+	message("render output for Dam1Progress init")
 	# dam1
 	output[[paste0("Dam", 1,"Progress")]] <- renderUI(list(
 		paste0("Progress for Dam", 1, ": "),
@@ -2323,5 +2326,5 @@ server <- function(input, output, session) {
 	  }
 	)
 
-}} # end server
+} # end server
 
