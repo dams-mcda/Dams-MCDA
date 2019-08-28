@@ -1975,7 +1975,6 @@ server <- function(input, output, session) {
 
 	# Total Progress
 	output[["TotalProgress"]] <- renderUI({
-		message("total progress lower bound", total_lower_bound)
 		parts <- list("Progress: ", NA, "%")
 		# sum of all preferences for each dam
 		progress <- total_progress()
