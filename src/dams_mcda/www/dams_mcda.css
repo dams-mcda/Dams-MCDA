@@ -1,7 +1,7 @@
-.alt-not-complete {
+.dam-not-complete {
 	color:red;
 }
-.alt-complete {
+.dam-complete {
 	color:green;
 }
 .complete {
@@ -199,3 +199,14 @@ table.map-data tr:nth-child(odd) td{
 table.map-data tr td:nth-child(2){
 	text-align:center;
 }
+
+/* total progress tracker */
+#progress-tracker{
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	text-align:center;
+	background-color:#ffffff9e;
+	z-index:999;
+}
+

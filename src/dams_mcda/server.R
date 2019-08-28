@@ -1,14 +1,10 @@
-# server logic
-
-#source("runMatlab.R") # matlab connection logic
 source("plots.R")
 source("WSM.R")
+#source("runMatlab.R") # matlab connection logic
+source(file='f_raw.RData') # loads variable f in file f_raw.RData
 
 DamsData <- read.csv('DamsData.csv') #might delete later
 DamsData <- data.frame(DamsData) #might delete later
-
-# loads variable f in fike f_raw.RData
-source(file='f_raw.RData')
 DamsData <- as.array(f)
 
 library(plotly, warn.conflicts =  FALSE)
@@ -16,48 +12,37 @@ library(R.matlab)
 library(rjson)
 
 #--------------------------------------------------------------------------------
-# Static Variables
+# Global Variables
 #--------------------------------------------------------------------------------
 
 #----------------------------------------
-# Working Directories: path where files are saved/opened (if any)
+# Working Directories
+# path where files are saved/opened (if any)
 #----------------------------------------
 #base_dir <- "/srv/shiny-server/dams_mcda/" # root
 #response_dir <- paste(base_dir, "responses/", sep="") # where responses are saved
 #working_dir <- paste(base_dir, "", sep="") # default
-
 #setwd(working_dir) # initial directory
-
 #responsesDir <- file.path(response_dir) # directory where responses get stored
 
-#----------------------------------------
-# Output
-#----------------------------------------
-enable_rownames <<- TRUE # set to TRUE to show row names on tables
+#-----------------------------------------
+# FILE/DATA STORAGE
+#-----------------------------------------
+max_file_size <- 5 # size in MB
+options(shiny.maxRequestSize=max_file_size*1024^2)
+# user download file (has to be global)
+response_data <<- ("no data")
 
-#----------------------------------------
-# Defaults
-#----------------------------------------
-# default graph color array
-colors <<- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
-# default graph score range
-score_range <<- c(0, 1)
-# range of final graph of summed scores
-summed_score_range <<- c(0, 1)
+#-----------------------------------------
+# App Specific
+#-----------------------------------------
 # list of dams
-available_dams <<- seq(1:8)
-
+available_dams <- seq(1:8)
 # list of alternatives
-available_alternatives <<- seq(1:5)
-
-# smallest input slider increment
-smallest_increment <<- 0.025
-# make valid progress values range smaller than the smallest increment
-upper_bound <<- (1.0 + (smallest_increment/2))
-lower_bound <<- (1.0 - (smallest_increment/2))
+available_alternatives <- seq(1:5)
 
 # criteria input identifiers
-criteria_inputs <<- c(
+criteria_inputs <- c(
 	"FishBiomass",
 	"RiverRec",
 	"Reservoir",
@@ -75,7 +60,7 @@ criteria_inputs <<- c(
 )
 
 # criteria display names (for labeling tables and graphs)
-criteria_names <<- c(
+criteria_names <- c(
 	"Fish Survival",
 	"River Recreation Area",
 	"Reservoir Storage",
@@ -93,7 +78,7 @@ criteria_names <<- c(
 )
 
 # alternative display names (for labeling tables and graphs)
-alternative_names <<- c(
+alternative_names <- c(
    "Remove Dam",
    "Improve Fish Passage",
    "Improve Hydro",
@@ -102,7 +87,7 @@ alternative_names <<- c(
 )
 
 # dam display names (for labeling tables and graphs)
-dam_names <<- c(
+dam_names <- c(
     "West Enfield Dam",
     "Medway Dam",
     "Millinocket/Quakish",
@@ -114,35 +99,58 @@ dam_names <<- c(
 )
 
 # append summed score to criteria_names array
-criteria_names_and_sum <<- as.list(criteria_names) # vector to list
-criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <<- "Summed Score" # append summed score
-criteria_names_and_sum <<- unlist(criteria_names_and_sum) # return to vector
+criteria_names_and_sum <- as.list(criteria_names) # vector to list
+criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
+criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 
-# End of global variables
+#--------------------------------------------------
+# User Interface Default Values
+#--------------------------------------------------
+# default graph color array
+colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
+# default graph score range
+score_range <- c(0, 1)
+# range of final graph of summed scores
+summed_score_range <- c(0, 1)
+# set to TRUE to show row names on tables
+enable_rownames <<- TRUE
 
 #----------------------------------------
-# Misc.
+# Preference Input Value Constraints
 #----------------------------------------
-# fix R.plots.pdf error
-# (see: https://stackoverflow.com/questions/36777416/plotly-plot-not-rendering-on-shiny-server)
-# needed when calling barplot
-pdf(NULL)
+# smallest input slider increment
+smallest_increment <- 0.025
+# make valid progress values range smaller than the smallest increment
+upper_bound <- (1.0 + (smallest_increment/2))
+lower_bound <- (1.0 - (smallest_increment/2))
+# for checking if all prefernces
+total_upper_bound <- (length(available_dams) + (smallest_increment/2))
+total_lower_bound <- (length(available_dams) - (smallest_increment/2))
 
-# matlab
+#----------------------------------------
+# Matlab
+#----------------------------------------
 # track matlab port for session
 #session_matlab_port <- 9998
 # for production make sure this is TRUE
 #retry_matlab_connection <- TRUE
 #max_retries <- 3
 
+#--------------------------------------------------------------------------------
+# End of global variables
+#--------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------
-# FILE/DATA STORAGE
+# Misc.
 #--------------------------------------------------------------------------------
-max_file_size <<- 5 # size in MB
-options(shiny.maxRequestSize=max_file_size*1024^2)
-# has to be global (this is data the user can download after finishing
-response_data <<- ("no data")
+# fix R.plots.pdf error
+# (see: https://stackoverflow.com/questions/36777416/plotly-plot-not-rendering-on-shiny-server)
+# needed when calling barplot
+pdf(NULL)
+
+#--------------------------------------------------------------------------------
+# Methods
+#--------------------------------------------------------------------------------
 
 # epochTime
 #----------------------------------------
@@ -422,7 +430,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	map_data <- read.csv('dam_csv/map_dams.csv')
 
-	# format on-hover labels
+	# format on-hover labels to be header of dam name, followed by attribute table
 	map_marker_table <- lapply(seq(nrow(map_data)), function(i){
 		return(HTML(
 			paste0(
@@ -442,24 +450,20 @@ server <- function(input, output, session) {
 		))
 	})
 
-	# render leaflet
+	# render leaflet dam inspector map
 	output$dam_map <- renderLeaflet({
 		map <- leaflet(data=map_data) %>%
 			addTiles() %>%
 			addCircleMarkers(
 				lat=~map_data[,4], lng=~map_data[,5],
-				radius=6,
-				color="black",
-				weight=1,
-				opacity=1,
+				radius=6, # size
+				color="black", # border color
+				weight=1, # border stroke
+				opacity=1, # line opacity
 				fillColor="lime",
 				fillOpacity=0.9,
 				label=lapply(map_marker_table, htmltools::HTML),
-				labelOptions=labelOptions(
-					style=list(
-						"padding-left"="1.2em"
-					)
-				),
+				labelOptions=labelOptions(style=list("padding-left"="1.2em")), # padding on label
 				popup=lapply(map_marker_table, htmltools::HTML)
 		    ) %>%
 			setView(lng=-69.17626004, lat=45.88144746, zoom=7)
@@ -808,7 +812,6 @@ server <- function(input, output, session) {
 	}
 
 
-	message("pre-generateOutput")
 	#------------------------------------------------------------
 	# generateOutput
 	# generate the final table and barplot
@@ -821,7 +824,6 @@ server <- function(input, output, session) {
 				title = "Not Finished!",
 				'Please complete all dams tabs before generating results'
 			))
-
 		}else{
 			#------------------------------------------------------------
 			# get 2d array of values based on length/values of criteria_inputs and available_dams
@@ -845,7 +847,6 @@ server <- function(input, output, session) {
 						message('input ', input_name, " isNull ")
 					}
 				}
-
 				dams[[row_id]] <- unlist(q) # we want in c and not list
 			}
 			dams <- unlist(dams)
@@ -1958,10 +1959,39 @@ server <- function(input, output, session) {
 	  }
 	  return(sum)
 	})
+	# list of dams
+	available_dams <- seq(1:8)
 
-	message("render output for Dam1Progress init")
-	# dam1
-	output[[paste0("Dam", 1,"Progress")]] <- renderUI(list(
+	# alls dams
+	total_progress <- reactive({
+		sum <- 0.0
+		for (index in 1:length(available_dams)){
+			for (id in criteria_inputs){
+				sum <- as.numeric(sum + input[[paste0(id, toString(index))]])
+			}
+		}
+		return(sum)
+	})
+
+	# Total Progress
+	output[["TotalProgress"]] <- renderUI({
+		message("total progress lower bound", total_lower_bound)
+		parts <- list("Progress: ", NA, "%")
+		# sum of all preferences for each dam
+		progress <- total_progress()
+		# percent complete
+		progress_pct <- as.integer(progress / length(available_dams) * 100)
+
+		if( progress > total_upper_bound || progress < total_lower_bound){
+			parts[2] <- paste0('<span class="not-complete">', progress_pct, '</span>')
+		}else{
+			parts[2] <- paste0('<span class="complete">', progress_pct, '</span>')
+		}
+		# doesnt parse as html by default so force it
+		return(HTML(unlist(parts)))
+	})
+	# Dam1
+	output[[paste0("Dam", 1, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
@@ -1969,7 +1999,7 @@ server <- function(input, output, session) {
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam2
-	output[[paste0("Dam", 2,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 2, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
@@ -1977,7 +2007,7 @@ server <- function(input, output, session) {
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam3
-	output[[paste0("Dam", 3,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 3, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
@@ -1985,7 +2015,7 @@ server <- function(input, output, session) {
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam4
-	output[[paste0("Dam", 4,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 4, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
@@ -1993,7 +2023,7 @@ server <- function(input, output, session) {
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam5
-	output[[paste0("Dam", 5,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 5, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
@@ -2001,30 +2031,29 @@ server <- function(input, output, session) {
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam6
-	output[[paste0("Dam", 6,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 6, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam", 6, ": "),
 	  if( progress6() > upper_bound || progress6() < lower_bound)
-	    tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
 	  else
-	    tags$span("1.0 / 1.0", class="complete")
+		tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam7
-	output[[paste0("Dam", 7,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 7, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam", 7, ": "),
 	  if( progress7() > upper_bound || progress7() < lower_bound)
-	    tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
 	  else
-	    tags$span("1.0 / 1.0", class="complete")
+		tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam8
-	output[[paste0("Dam", 8,"Progress")]] <- renderUI(list(
+	output[[paste0("Dam", 8, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam", 8, ": "),
 	  if( progress8() > upper_bound || progress8() < lower_bound)
-	    tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
 	  else
-	    tags$span("1.0 / 1.0", class="complete")
+		tags$span("1.0 / 1.0", class="complete")
 	))
-
 
 	#--------------------------------------------------------------------------------
 	# User Step 1 Event Listeners
