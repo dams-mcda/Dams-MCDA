@@ -8,7 +8,15 @@
 # Inputs:
 #     CritImportance: #TODO: explain
 #     RawCriteriaMatrix: raw score matrix
-setwd("~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda") # WD used for testing locally
+
+# set working directory only if it exists
+has_wd <- tryCatch({
+	workdir <- "~/Beatrice2/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_06262019/src/dams_mcda"
+	setwd(workdir)
+	message("set Working Directory: ", workdir)
+}, error=function(e){
+	message("Working Directory does NOT exist.")
+})
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
@@ -46,8 +54,7 @@ available_dams <- seq(1:8)
 # list of alternatives
 available_alternatives <- seq(1:5)
 
-WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
-  
+
   # matrix setup
   matrix_cols <- length(criteria_inputs) # 14 default (output size)
   matrix_rows <- length(available_dams) # 8 default
@@ -557,8 +564,9 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
   # warning adding things to list has side effects!
   WSMResults <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
   
-  return(WSMResults)
-}
+ # end of WSM
+message("wsm_graph_test loaded")
+
 
 TableMatrix <- WSMResults[1]
 
@@ -566,7 +574,7 @@ Ind_MCDA_score <- WSMResults[2]
 
 MCDA_score <- WSMResults[3]
 
-map_name <- WSMResults[4]  
+map_name <- WSMResults[4]
 
 #would really like to differentiate between levels somehow in this table (below)...this code doesn't work
 WSMTableOutput <- as.array(TableMatrix, 
@@ -733,9 +741,5 @@ barplot((Dam1Results), main="WestEnfield", ylab="MCDA Score", col=rainbow(14),
 
 # Place the legend at (6,30) using rainbow colors
 #legend(6, 30, names(criteria_inputs), cex=0.6, fill=rainbow(14));
-
-
-
-
 
 
