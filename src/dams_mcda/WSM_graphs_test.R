@@ -281,11 +281,11 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
   # array of rows that use minimization (cost or damage-related)
   min_crit_columns <- c(4, 5, 6) 
   #----------------------------------------
-  WestEnf_NormalizedMatrix <- array(data=NA, dim = c(5, 14))
+  WestEnf_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
 
   # make normalized values of each value in matrix 
   for (k in 1:matrix_cols){
-    for (n in 1:matrix_rows){
+    for (n in 1:5){
         x <- WestEnf_DataMatrix[n,k]
         crit_min_x <- WestEnf_MinVector[k]
         crit_max_x <- WestEnf_MaxVector[k]
@@ -310,8 +310,10 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
       }
     }
   
-  
-  WestEnf_NormalizedMatrix[is.nan(WestEnf_NormalizedMatrix)] <-0
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+    }
+  WestEnf_NormalizedMatrix[is.nan.data.frame(WestEnf_NormalizedMatrix)] <- 0
   
   message('Data column ', WestEnf_DataMatrix[k])
   message('Normalized column ', WestEnf_NormalizedMatrix[k])
