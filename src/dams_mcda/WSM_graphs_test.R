@@ -292,7 +292,7 @@ available_alternatives <- seq(1:5)
 
   # make normalized values of each value in matrix 
   for (k in 1:matrix_cols){
-    for (n in 1:5){
+    for (n in 1:matrix_levs_ind){
         x <- WestEnf_DataMatrix[n,k]
         crit_min_x <- WestEnf_MinVector[k]
         crit_max_x <- WestEnf_MaxVector[k]
@@ -327,28 +327,311 @@ available_alternatives <- seq(1:5)
   
   # debug
   #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  Med_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
   
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- Med_DataMatrix[n,k]
+      crit_min_x <- Med_MinVector[k]
+      crit_max_x <- Med_MaxVector[k]
+      
+      Med_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
   
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  Med_NormalizedMatrix[is.nan.data.frame(Med_NormalizedMatrix)] <- 0
+  
+  message('Data column ', Med_DataMatrix[k])
+  message('Normalized column ', Med_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  Mill_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
+  
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- Mill_DataMatrix[n,k]
+      crit_min_x <- Mill_MinVector[k]
+      crit_max_x <- Mill_MaxVector[k]
+      
+      Mill_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
+  
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  Mill_NormalizedMatrix[is.nan.data.frame(Mill_NormalizedMatrix)] <- 0
+  
+  message('Data column ', Mill_DataMatrix[k])
+  message('Normalized column ', Mill_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  EastMill_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
+  
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- EastMill_DataMatrix[n,k]
+      crit_min_x <- EastMill_MinVector[k]
+      crit_max_x <- EastMill_MaxVector[k]
+      
+      EastMill_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
+  
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  EastMill_NormalizedMatrix[is.nan.data.frame(EastMill_NormalizedMatrix)] <- 0
+  
+  message('Data column ', EastMill_DataMatrix[k])
+  message('Normalized column ', EastMill_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  NorthTw_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
+  
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- NorthTw_DataMatrix[n,k]
+      crit_min_x <- NorthTw_MinVector[k]
+      crit_max_x <- NorthTw_MaxVector[k]
+      
+      NorthTw_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
+  
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  NorthTw_NormalizedMatrix[is.nan.data.frame(NorthTw_NormalizedMatrix)] <- 0
+  
+  message('Data column ', NorthTw_DataMatrix[k])
+  message('Normalized column ', NorthTw_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  Dolby_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
+  
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- Dolby_DataMatrix[n,k]
+      crit_min_x <- Dolby_MinVector[k]
+      crit_max_x <- Dolby_MaxVector[k]
+      
+      Dolby_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
+  
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  Dolby_NormalizedMatrix[is.nan.data.frame(Dolby_NormalizedMatrix)] <- 0
+  
+  message('Data column ', Dolby_DataMatrix[k])
+  message('Normalized column ', Dolby_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  MillLake_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
+  
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- MillLake_DataMatrix[n,k]
+      crit_min_x <- MillLake_MinVector[k]
+      crit_max_x <- MillLake_MaxVector[k]
+      
+      MillLake_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
+  
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  MillLake_NormalizedMatrix[is.nan.data.frame(MillLake_NormalizedMatrix)] <- 0
+  
+  message('Data column ', MillLake_DataMatrix[k])
+  message('Normalized column ', MillLake_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
+  #----------------------------------------
+  Rip_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
+  
+  # make normalized values of each value in matrix 
+  for (k in 1:matrix_cols){
+    for (n in 1:matrix_levs_ind){
+      x <- Rip_DataMatrix[n,k]
+      crit_min_x <- Rip_MinVector[k]
+      crit_max_x <- Rip_MaxVector[k]
+      
+      Rip_NormalizedMatrix[n,k] <- tryCatch({ 
+        
+        if (k %in% min_crit_columns){
+          # alternative method
+          # minimize normalization
+          (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+        }else{
+          # for debugging by cell WSM uncomment next line
+          # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+          
+          # default method
+          # maximize normilization
+          ((x - crit_min_x) / (crit_max_x - crit_min_x))
+        }
+      }, error=function(e){
+        (NA)
+      })
+    }
+  }
+  
+  is.nan.data.frame <- function(a){
+    do.call(cbind, lapply(a, is.nan))
+  }
+  Rip_NormalizedMatrix[is.nan.data.frame(Rip_NormalizedMatrix)] <- 0
+  
+  message('Data column ', Rip_DataMatrix[k])
+  message('Normalized column ', Rip_NormalizedMatrix[k])
+  
+  # debug
+  #message('NormalizedMatrix ', NormalizedMatrix)
   #----------------------------------------
   # WeightedScoreMatrix
   
   #----------------------------------------
   
-  Ind_WeightedScoreMatrix <- (Ind_NormalizedMatrix*Ind_PrefMatrix)
-  
-  Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3) 
+  Dam1Results <- (WestEnf_NormalizedMatrix*WestEnf_PrefMatrix)
+  Dam2Results <- (Med_NormalizedMatrix*Med_PrefMatrix)
+  Dam3Results <- (Mill_NormalizedMatrix*Mill_PrefMatrix)
+  Dam4Results <- (EastMill_NormalizedMatrix*EastMill_PrefMatrix)
+  Dam5Results <- (NorthTw_NormalizedMatrix*NorthTw_PrefMatrix)
+  Dam6Results <- (Dolby_NormalizedMatrix*Dolby_PrefMatrix)
+  Dam7Results <- (MillLake_NormalizedMatrix*MillLake_PrefMatrix)
+  Dam8Results <- (Rip_NormalizedMatrix*Rip_PrefMatrix)
   
   #------Dam 1--------------
-  Dam1Results <- Ind_WeightedScoreMatrix[1,,] #Dam 1 Weighted Matrix
+  Dam1Results <- round(Dam1Results, 3)#Dam 1 Weighted Matrix
   scoresum1 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
     scoresum1[[j]] <- sum(as.numeric(Dam1Results[j, 1:matrix_levs_ind]))
   }
   scoresum1 <- unlist(scoresum1)
-
+    
   #------Dam 2--------------
-  Dam2Results <- Ind_WeightedScoreMatrix[2,,] #Dam 2 Weighted Matrix
+  Dam2Results <- round(Dam2Results, 3) #Dam 2 Weighted Matrix
   scoresum2 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -357,7 +640,7 @@ available_alternatives <- seq(1:5)
   scoresum2 <- unlist(scoresum2)
   
   #------Dam 3--------------
-  Dam3Results <- Ind_WeightedScoreMatrix[3,,] #Dam 3 Weighted Matrix
+  Dam3Results <- round(Dam3Results, 3) #Dam 3 Weighted Matrix
   scoresum3 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -366,7 +649,7 @@ available_alternatives <- seq(1:5)
   scoresum3 <- unlist(scoresum3)
   
   #------Dam 4--------------
-  Dam4Results <- Ind_WeightedScoreMatrix[4,,] #Dam 4 Weighted Matrix
+  Dam4Results <- round(Dam4Results, 3) #Dam 4 Weighted Matrix
   scoresum4 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -375,7 +658,7 @@ available_alternatives <- seq(1:5)
   scoresum4 <- unlist(scoresum4)
   
   #------Dam 5--------------
-  Dam5Results <- Ind_WeightedScoreMatrix[5,,] #Dam 5 Weighted Matrix
+  Dam5Results <- round(Dam5Results, 3) #Dam 5 Weighted Matrix
   scoresum5 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -384,7 +667,7 @@ available_alternatives <- seq(1:5)
   scoresum5 <- unlist(scoresum5)
   
   #------Dam 6--------------
-  Dam6Results  <- Ind_WeightedScoreMatrix[6,,] #Dam 6 Weighted Matrix
+  Dam6Results  <- round(Dam6Results, 3) #Dam 6 Weighted Matrix
   scoresum6 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -393,7 +676,7 @@ available_alternatives <- seq(1:5)
   scoresum6 <- unlist(scoresum6)
   
   #------Dam 7--------------
-  Dam7Results <- Ind_WeightedScoreMatrix[7,,] #Dam 7 Weighted Matrix
+  Dam7Results <- round(Dam7Results, 3) #Dam 7 Weighted Matrix
   scoresum7 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -402,7 +685,7 @@ available_alternatives <- seq(1:5)
   scoresum7 <- unlist(scoresum7)
   
   #------Dam 8--------------
-  Dam8Results <- Ind_WeightedScoreMatrix[8,,] #Dam 8 Weighted Matrix
+  Dam8Results <- round(Dam8Results, 3) #Dam 8 Weighted Matrix
   scoresum8 <- list("list", matrix_levs_ind)
   
   for (j in 1:matrix_levs_ind){
@@ -410,7 +693,7 @@ available_alternatives <- seq(1:5)
   }
   scoresum8 <- unlist(scoresum8)
   
-  Ind_scoresum <- as.data.frame(rbind(scoresum1, scoresum2, scoresum3, scoresum4, scoresum5, scoresum6, scoresum7, scoresum8))
+  Ind_scoresum <- as.data.frame(cbind(scoresum1, scoresum2, scoresum3, scoresum4, scoresum5, scoresum6, scoresum7, scoresum8))
   
   #------------------------------------------------------
   #  STEP A2: MULTI-DAM PROCEDURE FOR PREERENCES
@@ -607,11 +890,11 @@ alternative_names <- as.list(c(
 
 ## stacked bars data table for Individual Dam results
 Score_compare <- as.matrix(Ind_scoresum)
-colnames(Score_compare) <- alternative_names
-rownames(Score_compare) <- dam_names
+colnames(Score_compare) <- dam_names
+rownames(Score_compare) <- alternative_names
 
 # Graph ALL DAM alternative scores with adjacent bars grouped by dam
-WSMPlot <- barplot(t(Score_compare), main="Dam Decision Recommendation Comparison", ylab= "Decision Alternative Score",
+WSMPlot <- barplot((Score_compare), main="Dam Decision Recommendation Comparison", ylab= "Decision Alternative Score",
         beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
