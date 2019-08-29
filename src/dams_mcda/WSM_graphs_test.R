@@ -339,7 +339,6 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 				x <- AllDataMatrix[k,n,dam]
 				crit_min_x <- MinVectors[k,dam]
 				crit_max_x <- MaxVectors[k,dam]
-				#message("MaxVector", crit_max_x)
 
 				NormalizedMatrices[n,k,dam] <- tryCatch({
 					if (k %in% min_crit_columns){
