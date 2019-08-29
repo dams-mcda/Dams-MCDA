@@ -9,3 +9,30 @@
   padding: 15px;
   margin: auto;
 }
+
+.form-register {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-register h2 {
+	text-align:center;
+}
+
+.form-register .container div.row {
+	margin-bottom:2px;
+}
+
+.form-register .container div.row div select{
+	width:100%;
+}
+
+.form-register .container div.row div input{
+	width:100%;
+}
+
+.form-register .container div input{
+	width:100%;
+}
