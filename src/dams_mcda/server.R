@@ -1,7 +1,8 @@
 # server logic
 
 source("runMatlab.R")
-source("WSM.R")
+#source("WSM.R")
+source("WSM_graphs_test.R")
 library(abind)
 #pull from WSM script
 DamsData <- read.csv('DamsData.csv') #might delete later

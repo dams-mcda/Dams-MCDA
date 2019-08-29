@@ -60,7 +60,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	matrix_rows <- length(available_dams) # 8 default
 	matrix_levs_ind <- length(available_alternatives)# 5 default
 	matrix_levs <- length(1:995)
-	message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", matrix_levs)
+	message("Decision Criteria ", matrix_cols, "\nDams ", matrix_rows, "\nDecision Alternatives ", matrix_levs_ind, "\nScenarios ", matrix_levs)
 
 	#----------------------------------------
 	# Step A1 (PREFS, SINGLE DAM PROCEDURE): Build Preference Matrix with blank levels, no normalization
@@ -166,22 +166,41 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
 	Rip_DataMatrix <- data.frame(t(Rip_DataMatrix))
 
+	message("setup all data matrix. firstMatrixCol ", length(WestEnf_DataMatrix[1,]), " firstMatrixRow ", length(WestEnf_DataMatrix[,1]) )
+	AllDataMatrix <- array(data=NA, dim=c(14,5,8))
+	AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("critieria", "alternative", "dam"))
+
+	AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
+	AllDataMatrix[,,2] <- simplify2array(Med_DataMatrix)
+	AllDataMatrix[,,3] <- simplify2array(Mill_DataMatrix)
+	AllDataMatrix[,,4] <- simplify2array(EastMill_DataMatrix)
+	AllDataMatrix[,,5] <- simplify2array(NorthTw_DataMatrix)
+	AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
+	AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
+	AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
+
+	message("setup all data matrix DONE", AllDataMatrix)
+
 	#--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 	# iterate each criteria for min,max
+	MaxVectors <- array(data=NA, dim=c(matrix_cols, matrix_rows))
+	MinVectors <- array(data=NA, dim=c(matrix_cols, matrix_rows))
 
 	WestEnf_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
 		WestEnf_MaxVector[[k]] <- max(WestEnf_DataMatrix[,k], na.rm=FALSE)}
 	WestEnf_MaxVector <- unlist(WestEnf_MaxVector)
+	message("MaxVectors: ", MaxVectors)
 
 	WestEnf_MinVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
 		WestEnf_MinVector[[k]] <- min(WestEnf_DataMatrix[,k], na.rm=FALSE)}
 	WestEnf_MinVector <- unlist(WestEnf_MinVector)
 
+
 	# debug
-	message('min vector ', WestEnf_MinVector)
-	message('max vector ', WestEnf_MaxVector)
+	message('min vector1 ', WestEnf_MinVector)
+	message('max vector1 ', WestEnf_MaxVector)
 	#----------------------------------
 	Med_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -194,8 +213,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	Med_MinVector <- unlist(Med_MinVector)
 
 	# debug
-	message('min vector ', Med_MinVector)
-	message('max vector ', Med_MaxVector)
+	message('min vector2 ', Med_MinVector)
+	message('max vector2 ', Med_MaxVector)
 	#----------------------------------
 	Mill_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -208,8 +227,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	Mill_MinVector <- unlist(Mill_MinVector)
 
 	# debug
-	message('min vector ', Mill_MinVector)
-	message('max vector ', Mill_MaxVector)
+	message('min vector3 ', Mill_MinVector)
+	message('max vector3 ', Mill_MaxVector)
 	#----------------------------------
 	EastMill_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -222,8 +241,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	EastMill_MinVector <- unlist(EastMill_MinVector)
 
 	# debug
-	message('min vector ', EastMill_MinVector)
-	message('max vector ', EastMill_MaxVector)
+	message('min vector4 ', EastMill_MinVector)
+	message('max vector4 ', EastMill_MaxVector)
 	#----------------------------------
 	NorthTw_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -236,8 +255,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	NorthTw_MinVector <- unlist(NorthTw_MinVector)
 
 	# debug
-	message('min vector ', NorthTw_MinVector)
-	message('max vector ', NorthTw_MaxVector)
+	message('min vector5 ', NorthTw_MinVector)
+	message('max vector5 ', NorthTw_MaxVector)
 	#----------------------------------
 	Dolby_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -250,8 +269,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	Dolby_MinVector <- unlist(Dolby_MinVector)
 
 	# debug
-	message('min vector ', Dolby_MinVector)
-	message('max vector ', Dolby_MaxVector)
+	message('min vector6 ', Dolby_MinVector)
+	message('max vector6 ', Dolby_MaxVector)
 	#----------------------------------
 	MillLake_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -264,8 +283,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	MillLake_MinVector <- unlist(MillLake_MinVector)
 
 	# debug
-	message('min vector ', MillLake_MinVector)
-	message('max vector ', MillLake_MaxVector)
+	message('min vector7 ', MillLake_MinVector)
+	message('max vector7 ', MillLake_MaxVector)
 	#----------------------------------
 	Rip_MaxVector <- list("list", matrix_cols)
 	for ( k in 1:matrix_cols ){
@@ -278,48 +297,72 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 	Rip_MinVector <- unlist(Rip_MinVector)
 
 	# debug
-	message('min vector ', Rip_MinVector)
-	message('max vector ', Rip_MaxVector)
+	message('min vector8 ', Rip_MinVector)
+	message('max vector8 ', Rip_MaxVector)
+
+	MaxVectors[,1] <- WestEnf_MaxVector
+	MinVectors[,1] <- WestEnf_MinVector
+	MaxVectors[,2] <- Med_MaxVector
+	MinVectors[,2] <- Med_MinVector
+	MaxVectors[,3] <- Mill_MaxVector
+	MinVectors[,3] <- Mill_MinVector
+	MaxVectors[,4] <- EastMill_MaxVector
+	MinVectors[,4] <- EastMill_MinVector
+	MaxVectors[,5] <- NorthTw_MaxVector
+	MinVectors[,5] <- NorthTw_MinVector
+	MaxVectors[,6] <- Dolby_MaxVector
+	MinVectors[,6] <- Dolby_MinVector
+	MaxVectors[,7] <- MillLake_MaxVector
+	MinVectors[,7] <- MillLake_MinVector
+	MaxVectors[,8] <- Rip_MaxVector
+	MinVectors[,8] <- Rip_MinVector
+
 	#----------------------------------------
 	# (DATA*PREFS): Build Score Matrix for ind. dams
 	# score will be min/max normalized values from 0-1
 	# array of rows that use minimization (cost or damage-related)
-	min_crit_columns <- c(4, 5, 6) 
+	min_crit_columns <- c(4, 5, 6)
 	#----------------------------------------
 	WestEnf_NormalizedMatrix <- array(data=NA, dim = c(5, 14))
+	NormalizedMatrices <- array(data=NA, dim=c(5,14,8))
+	# alldam is 14,5,8 so crit,alt,dam
+	# normal is 5,14,8 so alt,crit,dam
+	# cols -> crit
+	# rows -> dams
+	# levs_inds -> alt
+	# levs -> outcomes
 
-	# make normalized values of each value in matrix 
-	for (k in 1:matrix_cols){
-		for (n in 1:matrix_rows){
-			x <- WestEnf_DataMatrix[n,k]
-			crit_min_x <- WestEnf_MinVector[k]
-			crit_max_x <- WestEnf_MaxVector[k]
+	# make normalized values of each value in matrix
+	for (dam in 1:matrix_rows){
+		for (k in 1:matrix_cols){
+			for (n in 1:matrix_levs_ind){
+				message("Dam ", dam, " k ", k, " n ", n)
+				x <- AllDataMatrix[k,n,dam]
+				crit_min_x <- MinVectors[k,dam]
+				crit_max_x <- MaxVectors[k,dam]
+				#message("MaxVector", crit_max_x)
 
-			WestEnf_NormalizedMatrix[n,k] <- tryCatch({ 
-
-				if (k %in% min_crit_columns){
-					# alternative method
-					# minimize normalization
-					(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-				}else{
-					# for debugging by cell WSM uncomment next line
-					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-					# default method
-					# maximize normilization
-					((x - crit_min_x) / (crit_max_x - crit_min_x))
-				}
-			}, error=function(e){
-				(NA)
-			})
+				NormalizedMatrices[n,k,dam] <- tryCatch({
+					if (k %in% min_crit_columns){
+						(1-(x-crit_min_x) / (crit_max_x - crit_min_x)) # alternative method: minimize normalization
+					}else{
+						# for debugging by cell WSM uncomment next line
+						#message('cell n, k, x, crit, result ', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+						((x - crit_min_x) / (crit_max_x - crit_min_x)) # default method: maximize normilization
+					}
+				}, error=function(e){
+					(NA)
+				})
+			}
 		}
 	}
 
+	#WestEnf_NormalizedMatrix[is.nan(WestEnf_NormalizedMatrix)] <-0
+	#message('Data column ', WestEnf_DataMatrix[k])
+	#message('Normalized column ', WestEnf_NormalizedMatrix[k])
+	#message('Normalized matrix ', WestEnf_NormalizedMatrix)
+	message('Normalized matrix ', NormalizedMatrices[,,1])
 
-	WestEnf_NormalizedMatrix[is.nan(WestEnf_NormalizedMatrix)] <-0
-
-	message('Data column ', WestEnf_DataMatrix[k])
-	message('Normalized column ', WestEnf_NormalizedMatrix[k])
 
 	# debug
 	#message('NormalizedMatrix ', NormalizedMatrix)
@@ -332,7 +375,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 
 	Ind_WeightedScoreMatrix <- (Ind_NormalizedMatrix*Ind_PrefMatrix)
 
-	Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3) 
+	Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
 
 	#------Dam 1--------------
 	Dam1Results <- Ind_WeightedScoreMatrix[1,,] #Dam 1 Weighted Matrix
@@ -562,16 +605,19 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 
 	return(WSMResults)
 } # end of WSM
+
+
+results <- WSM(RawCriteriaMatrix, DamsDataMatrix, DamsData)
 message("wsm_graph_test loaded")
 
 
-TableMatrix <- WSMResults[1]
+TableMatrix <- results[1]
 
-Ind_MCDA_score <- WSMResults[2]
+Ind_MCDA_score <- results[2]
 
-MCDA_score <- WSMResults[3]
+MCDA_score <- results[3]
 
-map_name <- WSMResults[4]
+map_name <- results[4]
 
 #would really like to differentiate between levels somehow in this table (below)...this code doesn't work
 WSMTableOutput <- as.array(TableMatrix, 
