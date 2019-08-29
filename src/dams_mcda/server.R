@@ -1975,7 +1975,7 @@ server <- function(input, output, session) {
 
 	# Total Progress
 	output[["TotalProgress"]] <- renderUI({
-		parts <- list("Progress: ", NA, "%")
+		parts <- list("Total Progress: ", NA, "%")
 		# sum of all preferences for each dam
 		progress <- total_progress()
 		# percent complete
@@ -1991,7 +1991,7 @@ server <- function(input, output, session) {
 	})
 	# Dam1
 	output[[paste0("Dam", 1, "Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 1, ": "),
+		paste0("Progress for Dam ", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
@@ -1999,7 +1999,7 @@ server <- function(input, output, session) {
 	))
 	# Dam2
 	output[[paste0("Dam", 2, "Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 2, ": "),
+		paste0("Progress for Dam ", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
@@ -2007,7 +2007,7 @@ server <- function(input, output, session) {
 	))
 	# Dam3
 	output[[paste0("Dam", 3, "Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 3, ": "),
+		paste0("Progress for Dam ", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
@@ -2015,7 +2015,7 @@ server <- function(input, output, session) {
 	))
 	# Dam4
 	output[[paste0("Dam", 4, "Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 4, ": "),
+		paste0("Progress for Dam ", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
@@ -2023,7 +2023,7 @@ server <- function(input, output, session) {
 	))
 	# Dam5
 	output[[paste0("Dam", 5, "Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 5, ": "),
+		paste0("Progress for Dam ", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
@@ -2031,7 +2031,7 @@ server <- function(input, output, session) {
 	))
 	# Dam6
 	output[[paste0("Dam", 6, "Progress")]] <- renderUI(list(
-	  paste0("Progress for Dam", 6, ": "),
+	  paste0("Progress for Dam ", 6, ": "),
 	  if( progress6() > upper_bound || progress6() < lower_bound)
 		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
 	  else
@@ -2039,7 +2039,7 @@ server <- function(input, output, session) {
 	))
 	# Dam7
 	output[[paste0("Dam", 7, "Progress")]] <- renderUI(list(
-	  paste0("Progress for Dam", 7, ": "),
+	  paste0("Progress for Dam ", 7, ": "),
 	  if( progress7() > upper_bound || progress7() < lower_bound)
 		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
 	  else
@@ -2047,7 +2047,65 @@ server <- function(input, output, session) {
 	))
 	# Dam8
 	output[[paste0("Dam", 8, "Progress")]] <- renderUI(list(
-	  paste0("Progress for Dam", 8, ": "),
+	  paste0("Progress for Dam ", 8, ": "),
+	  if( progress8() > upper_bound || progress8() < lower_bound)
+		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+	  else
+		tags$span("1.0 / 1.0", class="complete")
+	))
+
+	# update button progress trackers
+	output[[paste0("UpdateDam", 1, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 1, ": "),
+		if( progress1() > upper_bound || progress1() < lower_bound)
+			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 2, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 2, ": "),
+		if( progress2() > upper_bound || progress2() < lower_bound)
+			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 3, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 3, ": "),
+		if( progress3() > upper_bound || progress3() < lower_bound)
+			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 4, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 4, ": "),
+		if( progress4() > upper_bound || progress4() < lower_bound)
+			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 5, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 5, ": "),
+		if( progress5() > upper_bound || progress5() < lower_bound)
+			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 6, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 6, ": "),
+	  if( progress6() > upper_bound || progress6() < lower_bound)
+		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+	  else
+		tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 7, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 7, ": "),
+	  if( progress7() > upper_bound || progress7() < lower_bound)
+		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+	  else
+		tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 8, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 8, ": "),
 	  if( progress8() > upper_bound || progress8() < lower_bound)
 		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
 	  else

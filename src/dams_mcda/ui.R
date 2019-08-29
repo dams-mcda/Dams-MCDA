@@ -211,6 +211,7 @@ ui <- shinyUI(fluidPage(
 			),
 
 			# update alt 1 score
+			htmlOutput("UpdateDam1Progress"),
 			actionButton("updateBtn1", "Update")
 
 		), # End West Enfield Dam Tab
