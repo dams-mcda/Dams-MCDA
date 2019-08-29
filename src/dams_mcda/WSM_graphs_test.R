@@ -608,6 +608,8 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, DamsData){
 
 
 results <- WSM(RawCriteriaMatrix, DamsDataMatrix, DamsData)
+
+
 message("wsm_graph_test loaded")
 
 
@@ -643,18 +645,18 @@ alternative_names <- as.list(c(
   "Keep and Maintain Dam",
   "Improve Hydro",
   "Improve Fish Passage",
-  "Improve Hydro AND Fish Passage",
+  "Hydro And Fish",
   "Remove Dam"
 ))
 
 
 ## stacked bars data table for Individual Dam results
 Score_compare <- as.matrix(Ind_scoresum)
-colnames(Score_compare) <- alternative_names
-rownames(Score_compare) <- dam_names
+colnames(Score_compare) <- dam_names
+rownames(Score_compare) <- alternative_names
 
 # Graph ALL DAM alternative scores with adjacent bars grouped by dam
-WSMPlot <- barplot(t(Score_compare), main="Dam Decision Recommendation Comparison", ylab= "Decision Alternative Score",
+WSMPlota <- barplot((Score_compare), main="Dam Decision Recommendation Comparison", ylab= "Decision Alternative Score",
         beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -667,7 +669,7 @@ Score1 <- as.matrix(scoresum1)
 colnames(Score1) <- alternative_names
 
 # Graph West Enfield alternative scores
-WSMPlot1 <- barplot((scoresum1), main="West Enfield Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot1a <- barplot((scoresum1), main="West Enfield Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -681,7 +683,7 @@ Score2 <- as.matrix(scoresum2)
 colnames(Score2) <- alternative_names
 
 # Graph  alternative scores
-WSMPlot2 <- barplot((scoresum2), main="Medway Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot2a <- barplot((scoresum2), main="Medway Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -694,7 +696,7 @@ Score3 <- as.matrix(scoresum3)
 colnames(Score3) <- alternative_names
 
 # Graph alternative scores
-WSMPlot3 <- barplot((scoresum3), main="Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot3a <- barplot((scoresum3), main="Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -707,7 +709,7 @@ Score4 <- as.matrix(scoresum4)
 colnames(Score4) <- alternative_names
 
 # Graph alternative scores
-WSMPlot4 <- barplot((scoresum4), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot4a <- barplot((scoresum4), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -720,7 +722,7 @@ Score5 <- as.matrix(scoresum5)
 colnames(Score5) <- alternative_names
 
 # Graph alternative scores
-WSMPlot5 <- barplot((scoresum5), main="North Twin Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot5a <- barplot((scoresum5), main="North Twin Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -734,7 +736,7 @@ Score6 <- as.matrix(scoresum6)
 colnames(Score6) <- alternative_names
 
 # Graph alternative scores
-WSMPlot6 <- barplot((scoresum6), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot6a <- barplot((scoresum6), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -748,7 +750,7 @@ Score7 <- as.matrix(scoresum7)
 colnames(Score7) <- alternative_names
 
 # Graph alternative scores
-WSMPlot7 <- barplot((scoresum7), main="Millinocket Lake Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot7a <- barplot((scoresum7), main="Millinocket Lake Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -762,7 +764,7 @@ Score8 <- as.matrix(scoresum8)
 names(Score8) <- alternative_names
 
 # Graph alternative scores
-WSMPlot8 <- barplot((scoresum8), main="Ripogenus Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot8a <- barplot((scoresum8), main="Ripogenus Dam Recommendation", ylab= "Decision Alternative Score",
                     names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -771,22 +773,107 @@ legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishAND
        bty="n", fill=rainbow(5));
 
 #--------------------------------------------------------
-# Graph alternatives (broken down by criteria) for individual dams
-CritAlt1 <- as.matrix(rbind(Dam1Results,scoresum1))
-colnames(CritAlt1) <- alternative_names
-rownames(CritAlt1) <- c(criteria_inputs, "sum")
+# Graph alternatives (broken down by criteria) for West Enfield
+CritAlt1 <- as.matrix(Dam1Results)
+colnames(CritAlt1) <- criteria_inputs
+rownames(CritAlt1) <- alternative_names
 
 
 # put 10% of the space between each bar, and make labels  
 # smaller with horizontal y-axis labels
-barplot((Dam1Results), main="WestEnfield", ylab="MCDA Score", col=rainbow(14),
+WSMPlot1b <- barplot(t(CritAlt1), main="West Enfield Dam", ylab="MCDA Score", col=rainbow(14),
         cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
 
-# Place the legend at (6,30) using rainbow colors
-#legend(6, 30, names(criteria_inputs), cex=0.6, fill=rainbow(14));
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for Medway dam
+CritAlt2 <- as.matrix(Dam2Results)
+colnames(CritAlt2) <- criteria_inputs
+rownames(CritAlt2) <- alternative_names
 
 
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot2b <- barplot(t(CritAlt2), main="Medway Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for individual dams
+CritAlt3 <- as.matrix(Dam3Results)
+colnames(CritAlt3) <- criteria_inputs
+rownames(CritAlt3) <- alternative_names
 
 
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot3b <- barplot(t(CritAlt3), main="Millnocket Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
 
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for individual dams
+CritAlt4 <- as.matrix(Dam4Results)
+colnames(CritAlt4) <- criteria_inputs
+rownames(CritAlt4) <- alternative_names
+
+
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot4b <- barplot(t(CritAlt4), main="East Millinocket Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for individual dams
+CritAlt5 <- as.matrix(Dam5Results)
+colnames(CritAlt5) <- criteria_inputs
+rownames(CritAlt5) <- alternative_names
+
+
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot5b <- barplot(t(CritAlt5), main="North Twin Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for individual dams
+CritAlt6 <- as.matrix(Dam6Results)
+colnames(CritAlt6) <- criteria_inputs
+rownames(CritAlt6) <- alternative_names
+
+
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot6b <- barplot(t(CritAlt6), main="Dolby Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for individual dams
+CritAlt7 <- as.matrix(Dam7Results)
+colnames(CritAlt7) <- criteria_inputs
+rownames(CritAlt7) <- alternative_names
+
+
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot7b <- barplot(t(CritAlt7), main="Millinocket Lake Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
+#--------------------------------------------------------
+# Graph alternatives (broken down by criteria) for individual dams
+CritAlt8 <- as.matrix(Dam8Results)
+colnames(CritAlt8) <- criteria_inputs
+rownames(CritAlt8) <- alternative_names
+
+
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot8b <- barplot(t(CritAlt8), main="Ripogenus Dam", ylab="MCDA Score", col=rainbow(14),
+        cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14))
 
