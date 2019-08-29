@@ -1,7 +1,11 @@
-.alt-not-complete {
+body{
+	margin-bottom:1em;
+}
+
+.dam-not-complete {
 	color:red;
 }
-.alt-complete {
+.dam-complete {
 	color:green;
 }
 .complete {
@@ -70,6 +74,20 @@
 #updateBtn1:active, #updateBtn2:active, #updateBtn3:active, #updateBtn4:active, #updateBtn5:active, #updateBtn6:active, #updateBtn7:active, #updateBtn8:active {
 	background-color: #286090;
 	border-color: #204d74;
+}
+
+/* progress tracker near update button */
+#UpdateDam1Progress,
+#UpdateDam2Progress,
+#UpdateDam3Progress,
+#UpdateDam4Progress,
+#UpdateDam5Progress,
+#UpdateDam6Progress,
+#UpdateDam7Progress,
+#UpdateDam8Progress{
+	text-align:center;
+	width:80%;
+	font-weight:700;
 }
 
 /* file upload confirm button */
@@ -199,3 +217,18 @@ table.map-data tr:nth-child(odd) td{
 table.map-data tr td:nth-child(2){
 	text-align:center;
 }
+
+/* total progress tracker */
+#progress-tracker{
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	text-align:center;
+	background-color:#ffffff9e;
+	z-index:999;
+}
+#progress-tracker div#TotalProgress {
+	width:80%;
+	margin:0 9%;
+}
+
