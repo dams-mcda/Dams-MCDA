@@ -143,7 +143,7 @@ available_alternatives <- seq(1:5)
                         DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
                         DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
   Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
-                  DamsData$Properties, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
+                  DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
                   DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
                   DamsData$Health_Remove, DamsData$Justice_Remove)
   
@@ -694,7 +694,9 @@ available_alternatives <- seq(1:5)
   scoresum8 <- unlist(scoresum8)
   
   Ind_scoresum <- as.data.frame(cbind(scoresum1, scoresum2, scoresum3, scoresum4, scoresum5, scoresum6, scoresum7, scoresum8))
-  
+  colnames(Ind_scoresum)<- dam_names
+  Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
+  colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
   #------------------------------------------------------
   #  STEP A2: MULTI-DAM PROCEDURE FOR PREERENCES
   #------------------------------------------------------

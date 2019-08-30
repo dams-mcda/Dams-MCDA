@@ -25,20 +25,20 @@ graph_width <- "100%"
 graph_height <- 500
 
 # multiple used labels
-fishSurvivalLabel <- "Fish survival is measured in thousands of lbs or metric tonnes. It is estimated as possible upstream sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) biomass calculated using functional habitat units (Roy et al., 2018). "
-riverRecLabel <- "River recreation is measured in square miles or kilometers. It is the estimated downstream area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
-resStorageLabel <- "Reservoir storage is measured in cubic miles or kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018)."
-annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
+fishSurvivalLabel <- "Fish survival area is measured in hundreds of square meters. It is a proxy criteria estimated as possible upstream sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) functional habitat (Roy et al., 2018). "
+riverRecLabel <- "River recreation is measured in square kilometers. It is the estimated downstream area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
+resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018)."
+annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
 numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes in viewshed or property value (Roy et al., 2018). "
 breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
-annualElectricityLabel <- "Annual electricity generation is measured in MWh/year. average estimate based on nameplate capacity from FERC licenses for each hydropower project."
-GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in lbs or metric tonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts."
-indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless measure used as a proxy for the importance of preserving or restoring the cultural traditions and lifeways of indigenous people."
-communityIdentityLabel <- "Community identity is a unitless measure used to convey the importance of preserving the existing identity of the community residents."
-industrialHistoryLabel <- "Industrial historical importance is a unitless measure to convey the imprtance of preserving or restoring the industrial historical value of the infrastructure."
-aestheticsLabel <- "Aesthetic value is a unitless measure to convey the importance of improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound) at the dam."
-healthLabel <- "Public health is a unitless measure to convey the importance of human public health connected with a flowing river free from pollutants."
-justiceLabel <- "Socio-environmental justice is a unitless measure to convey the importance of socio-environmental justice issues (e.g. tribal sovereignty) related to the dam."
+annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate capacity from FERC licenses for each hydropower project."
+GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts."
+indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving or restoring the cultural traditions and lifeways of indigenous people."
+communityIdentityLabel <- "Community identity is a unitless rating to convey the importance of preserving the existing identity of the community residents living along or on islands within the river."
+industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring the industrial history of the site. "
+aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound)."
+healthLabel <- "Public health is a unitless rating to convey the importance of public health connected to air, water, and land pollution."
+justiceLabel <- "Socio-environmental justice is a unitless rating to convey the importance of socio-environmental justice issues (e.g. negative environmental effects that target disadvantaged groups - people of lower socio-economic status or with less political or economic power)."
 
 
 
@@ -71,7 +71,7 @@ ui <- shinyUI(fluidPage(
 			#htmlOutput("Step 1: Start Here"),
 			h2("Welcome!"),
 
-			img(src = 'Alewives1.jpg', width="50%", align = "right", style="margin:0.2em;"),
+			img(src = 'River1.jpg', width="50%", align = "right", style="margin:0.2em;"),
 
 			HTML(
 				"<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
@@ -81,7 +81,8 @@ ui <- shinyUI(fluidPage(
 				 improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br>"
 			),
 
-			#helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
+			helpText(a("Background on Dam Decision Support Tool", href = 'BackgroundDamDecisionSupportTool.pdf')),
+			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 
 			HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
 
@@ -104,9 +105,9 @@ ui <- shinyUI(fluidPage(
 				to climate change and poor human health. However, all dams need regular maintenance and older dams may need more extensive repairs as they age. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. \
 				They may also contribute to poor water quality downstream, increased predation, and climate change (decaying plant matter in reservoirs release methane into the atmosphere). Dams have long threatened indigenous cultural traditions, while at the same \
 				time helping to shape post-industrial town or city identities over the last two centuries.<br>"
-			 )
+			 ),
 
-			#helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))),
+			helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115")))
 		 ),
 
 
@@ -118,7 +119,9 @@ ui <- shinyUI(fluidPage(
 		       for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
 		       Hover over the dams on the map for more information on each site.<br>"
 		       ),
-		  helpText( a("Click HERE for more information about dam decision alternatives", href = "https://github.com/dams-mcda/Dams-MCDA/blob/WSMUpdate_Dams/src/dams_mcda/DecisionAlternativesDescriptions.pdf")),
+		  helpText( a("Click HERE for more information about dam decision alternatives", href = 'DecisionAlternativesDescriptions.pdf'),
+		  helpText( a("Click HERE for more information about decision criteria", href = 'DecisionCriteriaDescriptions.pdf')),
+		  helpText( a("Click to download Decision Criteria Data Matrices", href = "DecisionMatrices_All.xlsx")),
 		  img(src = 'Penobscot_MO_14_443.png', width = "100%", align = "center")
 
 		 ),
@@ -135,7 +138,7 @@ ui <- shinyUI(fluidPage(
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				 <br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
-
+      helpText( a("Click to view West Enfield Data", href = "WestEnfield_RawDecisionMatrix.pdf")),
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -230,7 +233,7 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br><b> For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
-
+			helpText( a("Click to view Medway Data", href = "Medway_RawDecisionMatrix.pdf")),
 			htmlOutput("Dam2Progress"),
 
 			#----------------------------------------
@@ -323,7 +326,7 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
-
+			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
 			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
@@ -417,6 +420,7 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
 
+			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
 			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
@@ -511,6 +515,7 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
 
+			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
 			htmlOutput("Dam5Progress"),
 
 			#----------------------------------------
@@ -605,6 +610,7 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
 
+			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
 			htmlOutput("Dam6Progress"),
 
 		  #----------------------------------------
@@ -699,7 +705,8 @@ ui <- shinyUI(fluidPage(
 			<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 		  ),
 
-		  htmlOutput("Dam7Progress"),
+			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
+			htmlOutput("Dam7Progress"),
 
 		  #----------------------------------------
 		  # Criteria Inputs for Millinocket Lake Dam
@@ -792,7 +799,7 @@ ui <- shinyUI(fluidPage(
 		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 		    <br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 		  ),
-
+		  helpText( a("Click to view Ripogenus Data", href = "Ripogenus_RawDecisionMatrix.pdf")),
 		  htmlOutput("Dam8Progress"),
 
 		  #----------------------------------------
