@@ -10,6 +10,10 @@
   margin: auto;
 }
 
+.form-signin div.row {
+	margin-bottom:2px;
+}
+
 .form-register {
   width: 100%;
   max-width: 500px;
@@ -21,18 +25,18 @@
 	text-align:center;
 }
 
-.form-register .container div.row {
+.form-register div.row {
 	margin-bottom:2px;
 }
 
-.form-register .container div.row div select{
+.form-register div.row div select{
 	width:100%;
 }
 
-.form-register .container div.row div input{
+.form-register div.row div input{
 	width:100%;
 }
 
-.form-register .container div input{
+.form-register div input{
 	width:100%;
 }

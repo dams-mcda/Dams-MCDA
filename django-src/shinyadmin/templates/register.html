@@ -8,38 +8,37 @@
 {% endblock head %}
 
 {% block content %}
-
+<div class="container">
 	<form method="post" class="form-register">
 		<h2 class="h3 mb-3 font-weight-normal">Register</h2>
 		{% if errors %} <p style="color:red;"> {{ errors }} </p> {% endif %}
 		{% csrf_token %}
-		<div class="container">
-			{% for field in form %}
-			<div class="row">
-				<div class="col-3">
-					{{ field.label }}
-				</div>
-				<div class="col-9">
-					{% if field.errors %}
-					<span style="color:red;">
-						{{ field.errors }}
-					</span>
-					{% endif %}
-
-					{{ field }}<br>
-
-					{% if field.help_text %}
-					<span style="color:grey; font-size:0.8em;">
-						{{ field.help_text }}
-					</span>
-					<br>
-					{% endif %}
-				</div>
+		{% for field in form %}
+		<div class="row">
+			<div class="col-3">
+				{{ field.label }}
 			</div>
-			{% endfor %}
+			<div class="col-9">
+				{% if field.errors %}
+				<span style="color:red;">
+					{{ field.errors }}
+				</span>
+				{% endif %}
+
+				{{ field }}<br>
+
+				{% if field.help_text %}
+				<span style="color:grey; font-size:0.8em;">
+					{{ field.help_text }}
+				</span>
+				<br>
+				{% endif %}
+			</div>
 		</div>
+		{% endfor %}
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
 	</form>
+</div>
 {% endblock %}
 
 {% block login %}
