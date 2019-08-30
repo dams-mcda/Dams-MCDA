@@ -122,7 +122,7 @@ WSM <- function(RawCriteriaMatrix, DamsDataMatrix, Ind_DamsDataMatrix){
 	                      DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 	                      DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
 	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
-	                DamsData$Properties, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
+	                DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
 	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
 	                DamsData$Health_Remove, DamsData$Justice_Remove)
 	
