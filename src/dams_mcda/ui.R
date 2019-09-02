@@ -84,10 +84,6 @@ ui <- shinyUI(fluidPage(
 			helpText(a("Background on Dam Decision Support Tool", href = 'BackgroundDamDecisionSupportTool.pdf')),
 			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 
-			HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
-
-			actionButton("IndividualBtn", "Individual Preferences"),
-			actionButton("GroupBtn", "Group Preferences"),
 			actionButton("uploadBtn", "UPLOAD DATA"),
 
 			HTML(
@@ -108,7 +104,7 @@ ui <- shinyUI(fluidPage(
 			 ),
 
 			helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115")))
-		 ),
+		  ),
 
 
 		HTML("<li> Step 2: View Dam Map </li>"),
