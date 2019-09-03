@@ -240,7 +240,7 @@ min_crit_columns <- c(4, 5, 6)
 #----------------------------------------
 
 # make normalized values of each value in 3d matrix, [alt, crit, dam]
-NormalizedMatrix <- array(data=NA, dim = c(matrix_levs_ind,matrix_cols,matrix_rows))
+Ind_NormalizedMatrix <- array(data=NA, dim = c(matrix_levs_ind,matrix_cols,matrix_rows))
 # array of rows that use minimization (cost or damage-related)
 min_crit_columns <- c(4, 5, 6)
 
@@ -255,7 +255,7 @@ for (k in 1:matrix_cols){
 				message("NormalMatrx dam ", n, " criteria ", k, " alt ", p, ' min ', crit_min_x, ' max ', crit_max_x)
 			}
 
-			NormalizedMatrix[p,k,n] <- tryCatch({
+			Ind_NormalizedMatrix[p,k,n] <- tryCatch({
 
 				if (k %in% min_crit_columns){
 					# alternative method
@@ -280,9 +280,9 @@ message("Normalized Matrix Done")
 is.nan.data.frame <- function(a){
   do.call(cbind, lapply(a, is.nan))
 }
-NormalizedMatrix[is.nan.data.frame(NormalizedMatrix)] <- 0
+Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
-#message('Normalized column ', NormalizedMatrix[1,,1])
+#message('Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 
 ########################################
@@ -335,8 +335,8 @@ WestEnf_NormalizedMatrix[is.nan.data.frame(WestEnf_NormalizedMatrix)] <- 0
 
 message('old method: ', WestEnf_NormalizedMatrix)
 message('old method col: ', WestEnf_NormalizedMatrix[1])
-message('new method: ', NormalizedMatrix[,,1])
-message('new method col: ', NormalizedMatrix[,1,1])
+message('new method: ', Ind_NormalizedMatrix[,,1])
+message('new method col: ', Ind_NormalizedMatrix[,1,1])
 #message('Normalized column ', NormalizedMatrix[1,,1])
 ########################################
 ### END FOR COMPARING
@@ -345,14 +345,14 @@ message('new method col: ', NormalizedMatrix[,1,1])
 #----------------------------------------
 # SINGLE DAM WEIGHTING PROCEDURE
 #----------------------------------------
-Dam1Results <- (NormalizedMatrix[,,1]*WestEnf_PrefMatrix)
-Dam2Results <- (NormalizedMatrix[,,2]*Med_PrefMatrix)
-Dam3Results <- (NormalizedMatrix[,,3]*Mill_PrefMatrix)
-Dam4Results <- (NormalizedMatrix[,,4]*EastMill_PrefMatrix)
-Dam5Results <- (NormalizedMatrix[,,5]*NorthTw_PrefMatrix)
-Dam6Results <- (NormalizedMatrix[,,6]*Dolby_PrefMatrix)
-Dam7Results <- (NormalizedMatrix[,,7]*MillLake_PrefMatrix)
-Dam8Results <- (NormalizedMatrix[,,8]*Rip_PrefMatrix)
+Dam1Results <- (Ind_NormalizedMatrix[,,1]*WestEnf_PrefMatrix)
+Dam2Results <- (Ind_NormalizedMatrix[,,2]*Med_PrefMatrix)
+Dam3Results <- (Ind_NormalizedMatrix[,,3]*Mill_PrefMatrix)
+Dam4Results <- (Ind_NormalizedMatrix[,,4]*EastMill_PrefMatrix)
+Dam5Results <- (Ind_NormalizedMatrix[,,5]*NorthTw_PrefMatrix)
+Dam6Results <- (Ind_NormalizedMatrix[,,6]*Dolby_PrefMatrix)
+Dam7Results <- (Ind_NormalizedMatrix[,,7]*MillLake_PrefMatrix)
+Dam8Results <- (Ind_NormalizedMatrix[,,8]*Rip_PrefMatrix)
 
 #------Dam 1--------------
 Dam1Results <- round(Dam1Results, 3)#Dam 1 Weighted Matrix
@@ -436,7 +436,7 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
 #----------------------------------------
 
-#WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
+#WeightedScoreMatrix <- (Ind_NormalizedMatrix*PrefMatrix)
 
 #WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
