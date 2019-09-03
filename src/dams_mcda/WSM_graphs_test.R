@@ -21,13 +21,21 @@ has_wd <- tryCatch({
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
 library(abind)
+library(data.table)
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-#source(file = 'f_nrge.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-#NormalizedMatrix <- as.array(f)
-source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' labeled with their decision alternative number, cols = 8 dams
+source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge)
+source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
+#codes:
+#0 = remove dam
+#1 = keep as is
+#2 = improve hydropower
+#3 = improve fish passage
+#4 = improve both
+
 TestData <- read.csv('TestData.csv')
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
@@ -766,9 +774,9 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
 #----------------------------------------
 
-#WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
+WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 
-#WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
+WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
 #----------------------------------------
 # MULTI-DAM WEIGHTED SUM SCORES
@@ -780,14 +788,17 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 #-----------------------------------------
 
 #declare a weighted sum variable
-#scoresum_total <- rep(0,dim(NormalizedMatrix)[3])
+scoresum_total <- rep(0,dim(NormalizedMatrix)[3])
 
 #multiply crit scores by user preferences
-#for (i in 1:dim(NormalizedMatrix)[3]){
-#	WSMMatrix <- NormalizedMatrix[,,i] * PrefMatrix[,,i]
-#	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
-#}
+for (i in 1:dim(NormalizedMatrix)[3]){
+	WSMMatrix <- NormalizedMatrix[,,i] * PrefMatrix[,,i]
+	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
+}
 
+colnames(Decisions) <- dam_names
+idxScen <- c(1:995)
+scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 #-----------------------------------------
 # Rank:
 #  may need to reshape the array produced by the weighted sum procedure
@@ -798,28 +809,38 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 #----------------------------------------
 
 #order scenarios by rank: largest score first
-#idxRank <- order(scoresum_total,decreasing=TRUE)
+idxRank <- setorder(scoresum_index,-scoresum_total)
 
+Dam1Scen <- t(WeightedScoreMatrix[1,,])
+Dam2Scen <- t(WeightedScoreMatrix[2,,])
+Dam3Scen <- t(WeightedScoreMatrix[3,,])
+Dam4Scen <- t(WeightedScoreMatrix[4,,])
+Dam5Scen <- t(WeightedScoreMatrix[5,,])
+Dam6Scen <- t(WeightedScoreMatrix[6,,])
+Dam7Scen <- t(WeightedScoreMatrix[7,,])
+Dam8Scen <- t(WeightedScoreMatrix[8,,])
+
+multiDamResult <- array(data = NA, dim = c(995,8, 14))
+multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 #use scenario idxRank[1] to find corresponding map name
-#fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[1])
-#print(fname)
-
+fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
+print(fname[1])
 
 # warning adding things to list has side effects!
-#WSMResults <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
+WSMResults <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
 
 # end of WSM
-#message("wsm_graph_test loaded")
+message("wsm_graph_test loaded")
 
 
-#TableMatrix <- results[1]
+TableMatrix <- results[1]
 
-#Ind_MCDA_score <- results[2]
+Ind_MCDA_score <- results[2]
 
-#MCDA_score <- results[3]
+MCDA_score <- results[3]
 
-#map_name <- results[4]
+map_name <- results[4]
 
 #----------------------------------------
 # Final Outputs
