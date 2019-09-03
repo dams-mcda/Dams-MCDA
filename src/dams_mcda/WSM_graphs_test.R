@@ -195,7 +195,7 @@ Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
 Rip_DataMatrix <- data.frame(t(Rip_DataMatrix))
 
 
-AllDataMatrix <- array(data=NA, dim=c(14,5,8))
+AllDataMatrix <- array(data=NA, dim=c(5,14,8))
 AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("critieria", "alternative", "dam"))
 
 AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
@@ -207,12 +207,88 @@ AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
 AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
 
-
-
 #--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 # iterate each criteria for min,max
 MaxVectors <- array(data=NA, dim=c(matrix_cols, matrix_rows))
 MinVectors <- array(data=NA, dim=c(matrix_cols, matrix_rows))
+
+for (p in 1:matrix_rows){
+	min_vector_list <- list("list", matrix_cols)
+	max_vector_list <- list("list", matrix_cols)
+	for ( k in 1:matrix_cols ){
+		if (p==1){
+			#message("dam ", p, " column ", k, " vector ",  AllDataMatrix[,k,p])
+		}
+		min_vector_list[[k]] <- min(AllDataMatrix[,k,p], na.rm=FALSE)
+		max_vector_list[[k]] <- max(AllDataMatrix[,k,p], na.rm=FALSE)
+	}
+	MaxVectors[,p] <- unlist(max_vector_list)
+	MinVectors[,p] <- unlist(min_vector_list)
+}
+message("min/max vectors done")
+#message("simplified min vector1 ", MinVectors[,1])
+#message("simplified max vector1 ", MaxVectors[,1])
+
+
+#----------------------------------------
+# SINGLE DAM WEIGHTING PROCEDURE
+
+#Build Weighting Matrix for ind. dams
+# score will be min/max normalized values from 0-1
+# array of rows that use minimization (cost or damage-related)
+min_crit_columns <- c(4, 5, 6)
+#----------------------------------------
+
+# make normalized values of each value in 3d matrix, [alt, crit, dam]
+NormalizedMatrix <- array(data=NA, dim = c(matrix_levs_ind,matrix_cols,matrix_rows))
+# array of rows that use minimization (cost or damage-related)
+min_crit_columns <- c(4, 5, 6)
+
+# make normalized values of each value in matrix
+for (k in 1:matrix_cols){
+	for (n in 1:matrix_rows){
+		for (p in 1:matrix_levs_ind){
+			x <- AllDataMatrix[p,k,n]
+			crit_min_x <- MinVectors[k,n]
+			crit_max_x <- MaxVectors[k,n]
+			if (n == 1){
+				message("NormalMatrx dam ", n, " criteria ", k, " alt ", p, ' min ', crit_min_x, ' max ', crit_max_x)
+			}
+
+			NormalizedMatrix[p,k,n] <- tryCatch({
+
+				if (k %in% min_crit_columns){
+					# alternative method
+					# maximize normalization
+					(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
+				}else{
+					# for debugging by cell WSM uncomment next line
+					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
+
+					# default method
+					# minimize normilization
+					((x - crit_min_x) / (crit_max_x - crit_min_x))
+				}
+			}, error=function(e){
+				(NA)
+			})
+		}
+	}
+}
+message("Normalized Matrix Done")
+
+is.nan.data.frame <- function(a){
+  do.call(cbind, lapply(a, is.nan))
+}
+NormalizedMatrix[is.nan.data.frame(NormalizedMatrix)] <- 0
+
+#message('Normalized column ', NormalizedMatrix[1,,1])
+
+
+########################################
+### FOR COMPARING
+########################################
+WestEnf_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
 
 WestEnf_MaxVector <- list("list", matrix_cols)
 for ( k in 1:matrix_cols ){
@@ -224,144 +300,16 @@ for ( k in 1:matrix_cols ){
 	WestEnf_MinVector[[k]] <- min(WestEnf_DataMatrix[,k], na.rm=FALSE)}
 WestEnf_MinVector <- unlist(WestEnf_MinVector)
 
-# debug
-message('min vector ', WestEnf_MinVector)
-message('max vector ', WestEnf_MaxVector)
-#----------------------------------
-Med_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Med_MaxVector[[k]] <- max(Med_DataMatrix[,k], na.rm=FALSE)}
-Med_MaxVector <- unlist(Med_MaxVector)
-
-Med_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Med_MinVector[[k]] <- min(Med_DataMatrix[,k], na.rm=FALSE)}
-Med_MinVector <- unlist(Med_MinVector)
-
-# debug
-message('min vector ', Med_MinVector)
-message('max vector ', Med_MaxVector)
-#----------------------------------
-Mill_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Mill_MaxVector[[k]] <- max(Mill_DataMatrix[,k], na.rm=FALSE)}
-Mill_MaxVector <- unlist(Mill_MaxVector)
-
-Mill_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Mill_MinVector[[k]] <- min(Mill_DataMatrix[,k], na.rm=FALSE)}
-Mill_MinVector <- unlist(Mill_MinVector)
-
-# debug
-message('min vector ', Mill_MinVector)
-message('max vector ', Mill_MaxVector)
-#----------------------------------
-EastMill_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	EastMill_MaxVector[[k]] <- max(EastMill_DataMatrix[,k], na.rm=FALSE)}
-EastMill_MaxVector <- unlist(EastMill_MaxVector)
-
-EastMill_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	EastMill_MinVector[[k]] <- min(EastMill_DataMatrix[,k], na.rm=FALSE)}
-EastMill_MinVector <- unlist(EastMill_MinVector)
-
-# debug
-message('min vector ', EastMill_MinVector)
-message('max vector ', EastMill_MaxVector)
-#----------------------------------
-NorthTw_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	NorthTw_MaxVector[[k]] <- max(NorthTw_DataMatrix[,k], na.rm=FALSE)}
-NorthTw_MaxVector <- unlist(NorthTw_MaxVector)
-
-NorthTw_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	NorthTw_MinVector[[k]] <- min(NorthTw_DataMatrix[,k], na.rm=FALSE)}
-NorthTw_MinVector <- unlist(NorthTw_MinVector)
-
-# debug
-message('min vector ', NorthTw_MinVector)
-message('max vector ', NorthTw_MaxVector)
-#----------------------------------
-Dolby_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Dolby_MaxVector[[k]] <- max(Dolby_DataMatrix[,k], na.rm=FALSE)}
-Dolby_MaxVector <- unlist(Dolby_MaxVector)
-
-Dolby_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Dolby_MinVector[[k]] <- min(Dolby_DataMatrix[,k], na.rm=FALSE)}
-Dolby_MinVector <- unlist(Dolby_MinVector)
-
-# debug
-message('min vector ', Dolby_MinVector)
-message('max vector ', Dolby_MaxVector)
-#----------------------------------
-MillLake_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	MillLake_MaxVector[[k]] <- max(MillLake_DataMatrix[,k], na.rm=FALSE)}
-MillLake_MaxVector <- unlist(MillLake_MaxVector)
-
-MillLake_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	MillLake_MinVector[[k]] <- min(MillLake_DataMatrix[,k], na.rm=FALSE)}
-MillLake_MinVector <- unlist(MillLake_MinVector)
-
-# debug
-message('min vector ', MillLake_MinVector)
-message('max vector ', MillLake_MaxVector)
-#----------------------------------
-Rip_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Rip_MaxVector[[k]] <- max(Rip_DataMatrix[,k], na.rm=FALSE)}
-Rip_MaxVector <- unlist(Rip_MaxVector)
-
-Rip_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	Rip_MinVector[[k]] <- min(Rip_DataMatrix[,k], na.rm=FALSE)}
-Rip_MinVector <- unlist(Rip_MinVector)
-
-# debug
-message('min vector ', Rip_MinVector)
-message('max vector ', Rip_MaxVector)
-
-MaxVectors[,1] <- WestEnf_MaxVector
-MinVectors[,1] <- WestEnf_MinVector
-MaxVectors[,2] <- Med_MaxVector
-MinVectors[,2] <- Med_MinVector
-MaxVectors[,3] <- Mill_MaxVector
-MinVectors[,3] <- Mill_MinVector
-MaxVectors[,4] <- EastMill_MaxVector
-MinVectors[,4] <- EastMill_MinVector
-MaxVectors[,5] <- NorthTw_MaxVector
-MinVectors[,5] <- NorthTw_MinVector
-MaxVectors[,6] <- Dolby_MaxVector
-MinVectors[,6] <- Dolby_MinVector
-MaxVectors[,7] <- MillLake_MaxVector
-MinVectors[,7] <- MillLake_MinVector
-MaxVectors[,8] <- Rip_MaxVector
-MinVectors[,8] <- Rip_MinVector
-
-#----------------------------------------
-# SINGLE DAM WEIGHTING PROCEDURE 
-
-#Build Weighting Matrix for ind. dams
-# score will be min/max normalized values from 0-1
-# array of rows that use minimization (cost or damage-related)
-min_crit_columns <- c(4, 5, 6) 
-#----------------------------------------
-WestEnf_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
+# make normalized values of each value in matrix
 for (k in 1:matrix_cols){
   for (n in 1:matrix_levs_ind){
     x <- WestEnf_DataMatrix[n,k]
     crit_min_x <- WestEnf_MinVector[k]
     crit_max_x <- WestEnf_MaxVector[k]
-    
-    WestEnf_NormalizedMatrix[n,k] <- tryCatch({ 
-      
+	message("OLD NormalMatrx criteria ", k, " alt ", n, ' min ', crit_min_x, ' max ', crit_max_x)
+
+    WestEnf_NormalizedMatrix[n,k] <- tryCatch({
+
       if (k %in% min_crit_columns){
         # alternative method
         # minimize normalization
@@ -369,7 +317,7 @@ for (k in 1:matrix_cols){
       }else{
         # for debugging by cell WSM uncomment next line
         # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-        
+
         # default method
         # maximize normilization
         ((x - crit_min_x) / (crit_max_x - crit_min_x))
@@ -385,304 +333,26 @@ is.nan.data.frame <- function(a){
 }
 WestEnf_NormalizedMatrix[is.nan.data.frame(WestEnf_NormalizedMatrix)] <- 0
 
-message('Data column ', WestEnf_DataMatrix[k])
-message('Normalized column ', WestEnf_NormalizedMatrix[k])
+message('old method: ', WestEnf_NormalizedMatrix)
+message('old method col: ', WestEnf_NormalizedMatrix[1])
+message('new method: ', NormalizedMatrix[,,1])
+message('new method col: ', NormalizedMatrix[,1,1])
+#message('Normalized column ', NormalizedMatrix[1,,1])
+########################################
+### END FOR COMPARING
+########################################
 
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-Med_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- Med_DataMatrix[n,k]
-		crit_min_x <- Med_MinVector[k]
-		crit_max_x <- Med_MaxVector[k]
-
-		Med_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-Med_NormalizedMatrix[is.nan.data.frame(Med_NormalizedMatrix)] <- 0
-
-message('Data column ', Med_DataMatrix[k])
-message('Normalized column ', Med_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-Mill_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- Mill_DataMatrix[n,k]
-		crit_min_x <- Mill_MinVector[k]
-		crit_max_x <- Mill_MaxVector[k]
-
-		Mill_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-Mill_NormalizedMatrix[is.nan.data.frame(Mill_NormalizedMatrix)] <- 0
-
-message('Data column ', Mill_DataMatrix[k])
-message('Normalized column ', Mill_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-EastMill_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- EastMill_DataMatrix[n,k]
-		crit_min_x <- EastMill_MinVector[k]
-		crit_max_x <- EastMill_MaxVector[k]
-
-		EastMill_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-EastMill_NormalizedMatrix[is.nan.data.frame(EastMill_NormalizedMatrix)] <- 0
-
-message('Data column ', EastMill_DataMatrix[k])
-message('Normalized column ', EastMill_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-NorthTw_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- NorthTw_DataMatrix[n,k]
-		crit_min_x <- NorthTw_MinVector[k]
-		crit_max_x <- NorthTw_MaxVector[k]
-
-		NorthTw_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-NorthTw_NormalizedMatrix[is.nan.data.frame(NorthTw_NormalizedMatrix)] <- 0
-
-message('Data column ', NorthTw_DataMatrix[k])
-message('Normalized column ', NorthTw_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-Dolby_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- Dolby_DataMatrix[n,k]
-		crit_min_x <- Dolby_MinVector[k]
-		crit_max_x <- Dolby_MaxVector[k]
-
-		Dolby_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-Dolby_NormalizedMatrix[is.nan.data.frame(Dolby_NormalizedMatrix)] <- 0
-
-message('Data column ', Dolby_DataMatrix[k])
-message('Normalized column ', Dolby_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-MillLake_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- MillLake_DataMatrix[n,k]
-		crit_min_x <- MillLake_MinVector[k]
-		crit_max_x <- MillLake_MaxVector[k]
-
-		MillLake_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-MillLake_NormalizedMatrix[is.nan.data.frame(MillLake_NormalizedMatrix)] <- 0
-
-message('Data column ', MillLake_DataMatrix[k])
-message('Normalized column ', MillLake_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
-#----------------------------------------
-Rip_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-# make normalized values of each value in matrix 
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_levs_ind){
-		x <- Rip_DataMatrix[n,k]
-		crit_min_x <- Rip_MinVector[k]
-		crit_max_x <- Rip_MaxVector[k]
-
-		Rip_NormalizedMatrix[n,k] <- tryCatch({ 
-
-			if (k %in% min_crit_columns){
-				# alternative method
-				# minimize normalization
-				(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-			}else{
-				# for debugging by cell WSM uncomment next line
-				# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-				# default method
-				# maximize normilization
-				((x - crit_min_x) / (crit_max_x - crit_min_x))
-			}
-		}, error=function(e){
-			(NA)
-		})
-	}
-}
-
-is.nan.data.frame <- function(a){
-	do.call(cbind, lapply(a, is.nan))
-}
-Rip_NormalizedMatrix[is.nan.data.frame(Rip_NormalizedMatrix)] <- 0
-
-message('Data column ', Rip_DataMatrix[k])
-message('Normalized column ', Rip_NormalizedMatrix[k])
-
-# debug
-#message('NormalizedMatrix ', NormalizedMatrix)
 #----------------------------------------
 # SINGLE DAM WEIGHTING PROCEDURE
-
 #----------------------------------------
-
-Dam1Results <- (WestEnf_NormalizedMatrix*WestEnf_PrefMatrix)
-Dam2Results <- (Med_NormalizedMatrix*Med_PrefMatrix)
-Dam3Results <- (Mill_NormalizedMatrix*Mill_PrefMatrix)
-Dam4Results <- (EastMill_NormalizedMatrix*EastMill_PrefMatrix)
-Dam5Results <- (NorthTw_NormalizedMatrix*NorthTw_PrefMatrix)
-Dam6Results <- (Dolby_NormalizedMatrix*Dolby_PrefMatrix)
-Dam7Results <- (MillLake_NormalizedMatrix*MillLake_PrefMatrix)
-Dam8Results <- (Rip_NormalizedMatrix*Rip_PrefMatrix)
+Dam1Results <- (NormalizedMatrix[,,1]*WestEnf_PrefMatrix)
+Dam2Results <- (NormalizedMatrix[,,2]*Med_PrefMatrix)
+Dam3Results <- (NormalizedMatrix[,,3]*Mill_PrefMatrix)
+Dam4Results <- (NormalizedMatrix[,,4]*EastMill_PrefMatrix)
+Dam5Results <- (NormalizedMatrix[,,5]*NorthTw_PrefMatrix)
+Dam6Results <- (NormalizedMatrix[,,6]*Dolby_PrefMatrix)
+Dam7Results <- (NormalizedMatrix[,,7]*MillLake_PrefMatrix)
+Dam8Results <- (NormalizedMatrix[,,8]*Rip_PrefMatrix)
 
 #------Dam 1--------------
 Dam1Results <- round(Dam1Results, 3)#Dam 1 Weighted Matrix
