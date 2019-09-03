@@ -811,7 +811,8 @@ scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 #order scenarios by rank: largest score first
 idxRank <- setorder(scoresum_index,-scoresum_total)
 
-Dam1Scen <- t(WeightedScoreMatrix[1,,])
+
+Dam1Scen <- t(WeightedScoreMatrix[1,,idxTop])
 Dam2Scen <- t(WeightedScoreMatrix[2,,])
 Dam3Scen <- t(WeightedScoreMatrix[3,,])
 Dam4Scen <- t(WeightedScoreMatrix[4,,])
@@ -819,9 +820,6 @@ Dam5Scen <- t(WeightedScoreMatrix[5,,])
 Dam6Scen <- t(WeightedScoreMatrix[6,,])
 Dam7Scen <- t(WeightedScoreMatrix[7,,])
 Dam8Scen <- t(WeightedScoreMatrix[8,,])
-
-multiDamResult <- array(data = NA, dim = c(995,8, 14))
-multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 #use scenario idxRank[1] to find corresponding map name
 fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
