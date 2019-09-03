@@ -208,7 +208,8 @@ AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
 
 #--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
-# iterate each criteria for min,max
+
+# iterate each dam & criteria for min,max
 MaxVectors <- array(data=NA, dim=c(matrix_cols, matrix_rows))
 MinVectors <- array(data=NA, dim=c(matrix_cols, matrix_rows))
 
@@ -225,9 +226,8 @@ for (p in 1:matrix_rows){
 	MaxVectors[,p] <- unlist(max_vector_list)
 	MinVectors[,p] <- unlist(min_vector_list)
 }
-message("min/max vectors done")
-#message("simplified min vector1 ", MinVectors[,1])
-#message("simplified max vector1 ", MaxVectors[,1])
+#message("min vector for dam 1 ", MinVectors[,1])
+#message("max vector for dam 1 ", MaxVectors[,1])
 
 
 #----------------------------------------
@@ -251,9 +251,8 @@ for (k in 1:matrix_cols){
 			x <- AllDataMatrix[p,k,n]
 			crit_min_x <- MinVectors[k,n]
 			crit_max_x <- MaxVectors[k,n]
-			if (n == 1){
-				message("NormalMatrx dam ", n, " criteria ", k, " alt ", p, ' min ', crit_min_x, ' max ', crit_max_x)
-			}
+			# debug Ind_NormalizedMatrix
+			#if (n == 1){ message("NormalMatrx dam ", n, " criteria ", k, " alt ", p, ' min ', crit_min_x, ' max ', crit_max_x) }
 
 			Ind_NormalizedMatrix[p,k,n] <- tryCatch({
 
@@ -262,9 +261,6 @@ for (k in 1:matrix_cols){
 					# maximize normalization
 					(1-(x-crit_min_x) / (crit_max_x - crit_min_x))
 				}else{
-					# for debugging by cell WSM uncomment next line
-					# message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
 					# default method
 					# minimize normilization
 					((x - crit_min_x) / (crit_max_x - crit_min_x))
@@ -275,7 +271,6 @@ for (k in 1:matrix_cols){
 		}
 	}
 }
-message("Normalized Matrix Done")
 
 is.nan.data.frame <- function(a){
   do.call(cbind, lapply(a, is.nan))
@@ -283,64 +278,6 @@ is.nan.data.frame <- function(a){
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
 #message('Normalized column ', Ind_NormalizedMatrix[1,,1])
-
-
-########################################
-### FOR COMPARING
-########################################
-WestEnf_NormalizedMatrix <- data.frame(array(data=NA, dim=c(5, 14)))
-
-WestEnf_MaxVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	WestEnf_MaxVector[[k]] <- max(WestEnf_DataMatrix[,k], na.rm=FALSE)}
-WestEnf_MaxVector <- unlist(WestEnf_MaxVector)
-
-WestEnf_MinVector <- list("list", matrix_cols)
-for ( k in 1:matrix_cols ){
-	WestEnf_MinVector[[k]] <- min(WestEnf_DataMatrix[,k], na.rm=FALSE)}
-WestEnf_MinVector <- unlist(WestEnf_MinVector)
-
-# make normalized values of each value in matrix
-for (k in 1:matrix_cols){
-  for (n in 1:matrix_levs_ind){
-    x <- WestEnf_DataMatrix[n,k]
-    crit_min_x <- WestEnf_MinVector[k]
-    crit_max_x <- WestEnf_MaxVector[k]
-	message("OLD NormalMatrx criteria ", k, " alt ", n, ' min ', crit_min_x, ' max ', crit_max_x)
-
-    WestEnf_NormalizedMatrix[n,k] <- tryCatch({
-
-      if (k %in% min_crit_columns){
-        # alternative method
-        # minimize normalization
-        (1-(x-crit_min_x) / (crit_max_x - crit_min_x))
-      }else{
-        # for debugging by cell WSM uncomment next line
-        # message('cell n, k, x, crit, result', n, ', ', k, ', ', x, ', ', ', ', (((x - crit_min_x) / (crit_max_x - crit_min_x))) )
-
-        # default method
-        # maximize normilization
-        ((x - crit_min_x) / (crit_max_x - crit_min_x))
-      }
-    }, error=function(e){
-      (NA)
-    })
-  }
-}
-
-is.nan.data.frame <- function(a){
-  do.call(cbind, lapply(a, is.nan))
-}
-WestEnf_NormalizedMatrix[is.nan.data.frame(WestEnf_NormalizedMatrix)] <- 0
-
-message('old method: ', WestEnf_NormalizedMatrix)
-message('old method col: ', WestEnf_NormalizedMatrix[1])
-message('new method: ', Ind_NormalizedMatrix[,,1])
-message('new method col: ', Ind_NormalizedMatrix[,1,1])
-#message('Normalized column ', NormalizedMatrix[1,,1])
-########################################
-### END FOR COMPARING
-########################################
 
 #----------------------------------------
 # SINGLE DAM WEIGHTING PROCEDURE
