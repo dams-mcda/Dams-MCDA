@@ -185,7 +185,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 
 	AllDataMatrix <- array(data=NA, dim=c(5,14,8))
-	AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("critieria", "alternative", "dam"))
+	AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("alternative", "criterion", "dam"))
 
 	AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
 	AllDataMatrix[,,2] <- simplify2array(Med_DataMatrix)
@@ -266,7 +266,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
-	#message('Normalized column ', Ind_NormalizedMatrix[1,,1])
+	#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 	#----------------------------------------
 	# SINGLE DAM WEIGHTING PROCEDURE
@@ -304,9 +304,9 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	}
 
 	# Ind ScoreSum
-	Ind_scoresum <- as.data.frame(WeightedResults)
+	Ind_scoresum <- as.data.frame(ScoreSums, rownames=dam_names)
 	message("Ind_scoresum", Ind_scoresum)
-	colnames(Ind_scoresum)<- dam_names
+	colnames(Ind_scoresum)<- alternative_names
 
 	# Ind WeightedScoreMatrix
 	Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
@@ -316,8 +316,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 	#----------------------------------------
 
-	#WeightedScoreMatrix <- (Ind_NormalizedMatrix*PrefMatrix)
+	# NOTE: PrefMatrix is 8x14x995 and Ind_NormalizedMatrix is 5x14x8
+	#message("weightedScoreMatrix Ind_NormlzdMtrx dim: ", dim(Ind_NormalizedMatrix), " PrefMatrix dim: ", dim(PrefMatrix) )
+	message("weightedScoreMatrix NormlzdMtrx dim: ", dim(NormalizedMatrix), " PrefMatrix dim: ", dim(PrefMatrix) )
+	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
+	message("end")
 
 	#----------------------------------------
 	# MULTI-DAM WEIGHTED SUM SCORES
