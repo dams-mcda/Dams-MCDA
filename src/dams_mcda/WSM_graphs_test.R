@@ -25,8 +25,8 @@ library(data.table)
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-#source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-#NormalizedMatrix <- as.array(f_nrge)
+source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
@@ -79,7 +79,7 @@ message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alterna
 #----------------------------------------
 #Ind_* prefix indicates that we are dealing with individual or single dams, where the 5 decision alternatives are taken into account
 #locally and not as a part of the larger set of 8 dams.
-Ind_PrefMatrix <- array(data = NA, dim=c(8,14)) #This is a 3-D blank matrix 
+Ind_PrefMatrix <- array(data = NA, c(8,14)) #This is a 3-D blank matrix 
 
 message("Fill User Preference Matrix")
 # weights in matrix
@@ -96,7 +96,7 @@ for (n in 1:matrix_rows){
 	} #End dams (rows) for loop.
 } #End criteria (columns) for loop.
 
-Ind_PrefMatrix <- array(rep(Ind_PrefMatrix,5), dim=c(dim(Ind_PrefMatrix), 5))
+Ind_PrefMatrix <- array(rep(Ind_PrefMatrix,5), c(dim(Ind_PrefMatrix), 5))
 
 message("fill Ind Pref Matrix")
 
@@ -122,24 +122,24 @@ Rip_PrefMatrix <- data.frame(t(Rip_PrefMatrix))
 #------------------------------------------------------
 #  MULTI-DAM PROCEDURE FOR PREERENCES
 #------------------------------------------------------
-PrefMatrix <- array(data = NA, dim=c(8,14)) #This is a 3-D blank matrix 
+PrefMatrix <- array(data = NA, c(8,14)) #This is a 3-D blank matrix 
 
 message("Fill User Preference Matrix")
 # weights in matrix
 for (k in 1:matrix_cols){
-	for (n in 1:matrix_rows){
-		x <- RawCriteriaMatrix[n,k]
-
-		PrefMatrix[n,k] <- tryCatch({
-			#message("A", x, ', ', crit_imp)
-			(x)
-		}, error=function(e){
-			(NA)
-		})
-	} #End dams (rows) for loop.
+  for (n in 1:matrix_rows){
+    x <- RawCriteriaMatrix[n,k]
+    
+    PrefMatrix[n,k] <- tryCatch({
+      #message("A", x, ', ', crit_imp)
+      (x)
+    }, error=function(e){
+      (NA)
+    })
+  } #End dams (rows) for loop.
 } #End criteria (columns) for loop.
 
-PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) #will address this later
+PrefMatrix <- array(rep(PrefMatrix,995), c(dim(PrefMatrix), 995)) #will address this later
 
 
 message("fill multi-dam Pref Matrix")
@@ -299,35 +299,80 @@ Dam6Results <- (Ind_NormalizedMatrix[,,6]*Dolby_PrefMatrix)
 Dam7Results <- (Ind_NormalizedMatrix[,,7]*MillLake_PrefMatrix)
 Dam8Results <- (Ind_NormalizedMatrix[,,8]*Rip_PrefMatrix)
 
-# store all results in one data structure
-WeightedResults <- array( data=NA, dim=c(matrix_levs_ind,matrix_cols,matrix_rows))
-WeightedResults[,,1] <- as.matrix(Dam1Results)
-WeightedResults[,,2] <- as.matrix(Dam2Results)
-WeightedResults[,,3] <- as.matrix(Dam3Results)
-WeightedResults[,,4] <- as.matrix(Dam4Results)
-WeightedResults[,,5] <- as.matrix(Dam5Results)
-WeightedResults[,,6] <- as.matrix(Dam6Results)
-WeightedResults[,,6] <- as.matrix(Dam6Results)
-WeightedResults[,,7] <- as.matrix(Dam7Results)
-WeightedResults[,,8] <- as.matrix(Dam8Results)
-WeightedResults <- round(WeightedResults, 3)
+#------Dam 1--------------
+Dam1Results <- round(Dam1Results, 3)#Dam 1 Weighted Matrix
+scoresum1 <- list("list", matrix_levs_ind)
 
-# sum scores
-ScoreSums <- array(data=NA, dim=c(matrix_rows))
-for (damid in 1:matrix_rows){
-	for (j in 1:matrix_levs_ind){
-		# debug
-		#if (damid==1){ message( "Scoresum dam: ", damid, " j ", j, " to sum ", WeightedResults[j,,damid], " orig_to_sum ", Dam1Results[j, 1:matrix_cols]) }
-		ScoreSums[damid] <- sum(as.numeric(WeightedResults[j,,damid]))
-	}
+for (j in 1:matrix_levs_ind){
+	scoresum1[[j]] <- sum(as.numeric(Dam1Results[j, 1:matrix_cols]))
 }
+scoresum1 <- unlist(scoresum1)
 
-# Ind ScoreSum
-Ind_scoresum <- as.data.frame(WeightedResults)
-message("Ind_scoresum", Ind_scoresum)
+#------Dam 2--------------
+Dam2Results <- round(Dam2Results, 3) #Dam 2 Weighted Matrix
+scoresum2 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum2[[j]] <- sum(as.numeric(Dam2Results[j, 1:matrix_cols]))
+}
+scoresum2 <- unlist(scoresum2)
+
+#------Dam 3--------------
+Dam3Results <- round(Dam3Results, 3) #Dam 3 Weighted Matrix
+scoresum3 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum3[[j]] <- sum(as.numeric(Dam3Results[j, 1:matrix_cols]))
+}
+scoresum3 <- unlist(scoresum3)
+
+#------Dam 4--------------
+Dam4Results <- round(Dam4Results, 3) #Dam 4 Weighted Matrix
+scoresum4 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum4[[j]] <- sum(as.numeric(Dam4Results[j, 1:matrix_cols]))
+}
+scoresum4 <- unlist(scoresum4)
+
+#------Dam 5--------------
+Dam5Results <- round(Dam5Results, 3) #Dam 5 Weighted Matrix
+scoresum5 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum5[[j]] <- sum(as.numeric(Dam5Results[j, 1:matrix_cols]))
+}
+scoresum5 <- unlist(scoresum5)
+
+#------Dam 6--------------
+Dam6Results  <- round(Dam6Results, 3) #Dam 6 Weighted Matrix
+scoresum6 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum6[[j]] <- sum(as.numeric(Dam6Results[j, 1:matrix_cols]))
+}
+scoresum6 <- unlist(scoresum6)
+
+#------Dam 7--------------
+Dam7Results <- round(Dam7Results, 3) #Dam 7 Weighted Matrix
+scoresum7 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum7[[j]] <- sum(as.numeric(Dam7Results[j, 1:matrix_cols]))
+}
+scoresum7 <- unlist(scoresum7)
+
+#------Dam 8--------------
+Dam8Results <- round(Dam8Results, 3) #Dam 8 Weighted Matrix
+scoresum8 <- list("list", matrix_levs_ind)
+
+for (j in 1:matrix_levs_ind){
+	scoresum8[[j]] <- sum(as.numeric(Dam8Results[j, 1:matrix_cols]))
+}
+scoresum8 <- unlist(scoresum8)
+
+Ind_scoresum <- as.data.frame(cbind(scoresum1, scoresum2, scoresum3, scoresum4, scoresum5, scoresum6, scoresum7, scoresum8))
 colnames(Ind_scoresum)<- dam_names
-
-# Ind WeightedScoreMatrix
 Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
 colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
@@ -387,10 +432,11 @@ fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
 print(fname[1])
 
 # warning adding things to list has side effects!
-results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
+WSMResults <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
 
 # end of WSM
 message("wsm_graph_test loaded")
+
 
 TableMatrix <- results[1]
 

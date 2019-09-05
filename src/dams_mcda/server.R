@@ -670,13 +670,15 @@ server <- function(input, output, session) {
 			matrix_rows <- length(available_dams) # 8 default
 			matrix_levs_ind <- length(available_alternatives) # 5 default
 			matrix_levs <- length(1:995) #multi-dam alternatives
-
-			Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
+			
+      Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
 			Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
-
+			
+      
 			WeightedScoreMatrix <- array(data=NA, c(8,14,995))
 			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
-
+			#
+			  
 			##----------------------------------------
 			## Score Sum
 			##----------------------------------------
@@ -686,8 +688,8 @@ server <- function(input, output, session) {
 			TableMatrix <- WSMResults[1]
 
 			TableMatrix$summedScore <- WSMResults[2]
-
-			map_name <- WSMResults[3]
+			  
+			map_name <- WSMResults[3]  
 
 			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row
