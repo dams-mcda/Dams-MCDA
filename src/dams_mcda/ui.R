@@ -143,72 +143,72 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-1",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-1",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec1", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec1", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-1",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir1", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir1", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-1",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost1", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost1", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-1",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety1", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety1", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-1",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties1", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties1", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-1",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration1", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration1", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-1",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-1",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways1", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways1", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-1",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-1",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity1", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity1", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-1",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-1",
 			    h3("Public Health"),
-			    sliderInput(inputId = "Health1", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Health1", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-1",
 			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice1", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Justice1", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
 			# update alt 1 score
@@ -238,72 +238,72 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-2",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass2", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass2", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-2",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec2", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec2", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-2",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir2", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir2", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-2",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost2", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost2", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-2",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety2", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety2", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-2",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties2", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties2", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-2",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration2", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration2", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-2",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-2",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways2", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways2", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-2",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-2",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity2", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity2", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-2",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-2",
 			    h3("Public Health"),
-			    sliderInput(inputId = "Health2", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Health2", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-2",
 			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
 			actionButton("updateBtn2", "Update")
@@ -331,72 +331,72 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-3",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass3", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass3", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-3",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec3", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec3", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-3",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir3", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir3", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-3",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost3", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost3", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-3",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety3", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety3", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-3",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties3", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties3", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-3",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration3", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration3", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-3",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-3",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways3", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways3", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-3",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-3",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity3", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity3", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-3",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-3",
 			    h3("Public Health"),
-			    sliderInput(inputId = "Health3", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Health3", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-3",
 			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
 			actionButton("updateBtn3", "Update")
@@ -425,72 +425,72 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-4",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass4", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass4", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-4",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec4", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec4", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-4",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir4", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir4", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-4",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost4", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost4", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-4",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety4", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety4", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-4",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties4", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties4", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-4",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration4", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration4", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-4",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-4",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways4", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways4", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-4",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-4",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity4", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity4", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-4",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-4",
 			    h3("Public Health"),
-			    sliderInput(inputId = "Health4", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Health4", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-4",
 			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
 			actionButton("updateBtn4", "Update")
@@ -520,72 +520,72 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-5",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass5", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass5", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-5",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec5", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec5", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-5",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir5", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir5", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-5",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost5", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost5", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-5",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety5", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety5", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-5",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties5", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties5", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-5",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration5", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration5", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-5",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-5",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways5", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways5", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-5",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-5",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity5", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity5", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-5",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-5",
 			    h3("Public Health"),
-			    sliderInput(inputId = "Health5", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Health5", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-5",
 			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
 			actionButton("updateBtn5", "Update")
@@ -615,72 +615,72 @@ ui <- shinyUI(fluidPage(
 		  #Fish Survival
 		  div(id="fish-survival-6",
 		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass6", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "FishBiomass6", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-6",
 		      h3("River Recreation"),
-		      sliderInput(inputId = "RiverRec6", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "RiverRec6", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Reservoir Storage
 		  div(id="res-storage-6",
 		      h3("Reservoir Storage"),
-		      sliderInput(inputId = "Reservoir6", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Reservoir6", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Annuitized Project Costs
 		  div(id="ann-proj-costs-6",
 		      h3("Annuitized Project Costs"),
-		      sliderInput(inputId = "ProjectCost6", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "ProjectCost6", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Breach Damage Potential
 		  div(id="breach-damage-6",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety6", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Safety6", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-6",
 		      h3("Number of Properties"),
-		      sliderInput(inputId = "NumProperties6", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "NumProperties6", label = numPropertiesLabel, value=0, min=0, max=100, step =5)
 		  ),
 		  #Annual Electricity Generation
 		  div(id="ann-elec-gen-6",
 		      h3("Annual Electricity Generation"),
-		      sliderInput(inputId = "ElectricityGeneration6", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "ElectricityGeneration6", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-6",
 		      h3("CO2 Emissions Reductions"),
-		      sliderInput(inputId = "AvoidEmissions6", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "AvoidEmissions6", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
 		  div(id="indig-lifeways-6",
 		      h3("Indigenous Cultural Traditions and Lifeways"),
-		      sliderInput(inputId = "IndigenousLifeways6", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "IndigenousLifeways6", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndustrialHistory
 		  div(id="industrial-6",
 		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory6", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "IndustrialHistory6", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #CommunityIdentity
 		  div(id="community-6",
 		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity6", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "CommunityIdentity6", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-6",
 		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics6", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Aesthetics6", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #PublicHealth
 		  div(id="health-6",
 		      h3("Public Health"),
-		      sliderInput(inputId = "Health6", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Health6", label = healthLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Justice
 		  div(id="justice-6",
 		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
 		  actionButton("updateBtn6", "Update")
@@ -710,72 +710,72 @@ ui <- shinyUI(fluidPage(
 		  #Fish Survival
 		  div(id="fish-survival-7",
 		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-7",
 		      h3("River Recreation"),
-		      sliderInput(inputId = "RiverRec7", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "RiverRec7", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Reservoir Storage
 		  div(id="res-storage-7",
 		      h3("Reservoir Storage"),
-		      sliderInput(inputId = "Reservoir7", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Reservoir7", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Annuitized Project Costs
 		  div(id="ann-proj-costs-7",
 		      h3("Annuitized Project Costs"),
-		      sliderInput(inputId = "ProjectCost7", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "ProjectCost7", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Breach Damage Potential
 		  div(id="breach-damage-7",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-7",
 		      h3("Number of Properties"),
-		      sliderInput(inputId = "NumProperties7", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "NumProperties7", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Annual Electricity Generation
 		  div(id="ann-elec-gen-7",
 		      h3("Annual Electricity Generation"),
-		      sliderInput(inputId = "ElectricityGeneration7", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "ElectricityGeneration7", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-7",
 		      h3("CO2 Emissions Reductions"),
-		      sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
 		  div(id="indig-lifeways-7",
 		      h3("Indigenous Cultural Traditions and Lifeways"),
-		      sliderInput(inputId = "IndigenousLifeways7", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "IndigenousLifeways7", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndustrialHistory
 		  div(id="industrial-7",
 		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #CommunityIdentity
 		  div(id="community-7",
 		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-7",
 		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #PublicHealth
 		  div(id="health-7",
 		      h3("Public Health"),
-		      sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Justice
 		  div(id="justice-7",
 		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
 		  actionButton("updateBtn7", "Update")
@@ -804,72 +804,72 @@ ui <- shinyUI(fluidPage(
 		  #Fish Survival
 		  div(id="fish-survival-8",
 		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-8",
 		      h3("River Recreation"),
-		      sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Reservoir Storage
 		  div(id="res-storage-8",
 		      h3("Reservoir Storage"),
-		      sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Annuitized Project Costs
 		  div(id="ann-proj-costs-8",
 		      h3("Annuitized Project Costs"),
-		      sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Breach Damage Potential
 		  div(id="breach-damage-8",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-8",
 		      h3("Number of Properties"),
-		      sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Annual Electricity Generation
 		  div(id="ann-elec-gen-8",
 		      h3("Annual Electricity Generation"),
-		      sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-8",
 		      h3("CO2 Emissions Reductions"),
-		      sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
 		  div(id="indig-lifeways-8",
 		      h3("Indigenous Cultural Traditions and Lifeways"),
-		      sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndustrialHistory
 		  div(id="industrial-8",
 		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #CommunityIdentity
 		  div(id="community-8",
 		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-8",
 		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #PublicHealth
 		  div(id="health-8",
 		      h3("Public Health"),
-		      sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Justice
 		  div(id="justice-8",
 		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+		      sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
 		  actionButton("updateBtn8", "Update")
