@@ -313,12 +313,12 @@ WeightedResults[,,8] <- as.matrix(Dam8Results)
 WeightedResults <- round(WeightedResults, 3)
 
 # sum scores
-ScoreSums <- array(data=NA, dim=c(matrix_rows))
+ScoreSums <- array(data=NA, dim=c(matrix_rows, matrix_levs_ind))
 for (damid in 1:matrix_rows){
 	for (j in 1:matrix_levs_ind){
 		# debug
 		#if (damid==1){ message( "Scoresum dam: ", damid, " j ", j, " to sum ", WeightedResults[j,,damid], " orig_to_sum ", Dam1Results[j, 1:matrix_cols]) }
-		ScoreSums[damid] <- sum(as.numeric(WeightedResults[j,,damid]))
+		ScoreSums[damid, j] <- sum(as.numeric(WeightedResults[j,,damid]))
 	}
 }
 
