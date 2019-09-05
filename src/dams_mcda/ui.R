@@ -1,11 +1,5 @@
 # This is the user-interface definition of a Shiny web application
 
-# base working directory
-# configured for docker container path
-#base_dir <- "/srv/shiny-server/dams_mcda/"
-#setwd(base_dir)
-
-
 library(shiny)
 library(ggplot2)
 library(dplyr, warn.conflicts=FALSE)
@@ -15,6 +9,7 @@ library(RColorBrewer)
 library(spatstat)
 library(rgdal)
 library(abind)
+library(leaflet)
 
 options(shiny.usecairo=TRUE)
 
@@ -23,6 +18,10 @@ source("server.R")
 # default graph dimensions
 graph_width <- "100%"
 graph_height <- 500
+
+# default map dimensions
+map_width <- "100%"
+map_height <- 500
 
 # multiple used labels
 fishSurvivalLabel <- "Fish survival area is measured in hundreds of square meters. It is a proxy criteria estimated as possible upstream sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) functional habitat (Roy et al., 2018). "
@@ -60,15 +59,21 @@ ui <- shinyUI(fluidPage(
 		 <div id="page-title">Dam Decision Support Tool</div> \
 		 \
 	'),
+	div(
+		id="progress-tracker",
+		htmlOutput("TotalProgress")
+	),
+
+	# intro popup-modal, forces user to decide input before proceeding
+
 
 	navlistPanel(
 		# Define layout widths
 		widths = c(2,10),
 
 		#Define Instructions tab
-		HTML("<li>Step 1: Start Here</li>"),
+		HTML("<li class='step-label'>Step 1: Start Here</li>"),
 		tabPanel("Start Here",
-			#htmlOutput("Step 1: Start Here"),
 			h2("Welcome!"),
 
 			img(src = 'River1.jpg', width="50%", align = "right", style="margin:0.2em;"),
@@ -84,15 +89,6 @@ ui <- shinyUI(fluidPage(
 			helpText(a("Background on Dam Decision Support Tool", href = 'BackgroundDamDecisionSupportTool.pdf')),
 			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
 
-			actionButton("uploadBtn", "UPLOAD DATA"),
-
-			HTML(
-				"<h4>Instructions for Uploading</h4>\
-				Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-				for you or the average preference values for your group. <br>"
-			),
-				 #will want to make sure we have a download button for the blank decision matrix
-
 			HTML(
 				"<h4>More Information:</h4>\
 
@@ -107,30 +103,37 @@ ui <- shinyUI(fluidPage(
 		  ),
 
 
-		HTML("<li> Step 2: View Dam Map </li>"),
+		HTML("<li class='step-label'> Step 2: View Dam Map </li>"),
 		tabPanel("View Dam Map",
-			 htmlOutput("Map1"), # status and title
-			 h2("View Existing FERC Dams Map"),
-			 HTML(
-				  "Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
-				  for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \ 
-				  Hover over the dams on the map for more information on each site.<br>"
-			 ),
-			 helpText(
-				  a("Click HERE for more information about dam decision alternatives", href = 'DecisionAlternativesDescriptions.pdf'),
-				  a("Click HERE for more information about decision criteria", href = 'DecisionCriteriaDescriptions.pdf'),
-				  a("Click to download Decision Criteria Data Matrices", href = "DecisionMatrices_All.xlsx")
-			 ),
-			 img(src = 'Penobscot_MO_14_443.png', width = "100%", align = "center")
-
-		 ),
+			htmlOutput("Map1"), # status and title
+			h2("View Existing FERC Dams Map"),
+			HTML("Please consider the following dams on the Penobscot River. These non-federally owned dams are coming up for FERC relicensing within the next 10 years. These are the dams you will focus on \
+				for the rest of the activity. Note: although the Penobscot Mills Project dams are licensed together under a single FERC license, we separate them here for consistency. \
+				Hover over the dams on the map for more information on each site.<br>"
+			),
+			helpText(
+				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>'),
+				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a>'),
+				HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
+			),
+			leafletOutput("dam_map", width=map_width, height=map_height)
+		),
 
 
-		HTML("<li> Step 3: Enter Preferences </li>"),
+		# ------------------------------------------------------------
+		# Preference Elicitation Tool
+		# ------------------------------------------------------------
+
+		HTML("<li class='step-label'> Step 3: Enter Preferences </li>"),
+
 		# ----------------------------------------
 		# West Enfield Dam
 		# ----------------------------------------
-		tabPanel("Dam 1: West Enfield",
+		tabPanel(
+			 # tab button text
+			 htmlOutput("Dam1"),
+
+			 # tab content
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
 				 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
@@ -215,19 +218,23 @@ ui <- shinyUI(fluidPage(
 			),
 
 			# update alt 1 score
+			htmlOutput("UpdateDam1Progress"),
 			actionButton("updateBtn1", "Update")
 
 		), # End West Enfield Dam Tab
 
-
 		# ----------------------------------------
 		# Medway Dam
 		# ----------------------------------------
-		tabPanel("Dam 2: Medway",
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam2"),
+
+			# tab content
 			h2("Medway Dam (FERC No. P-2666)"),
 
 			HTML(
-				'Please consider and rate the decision criteria listed below for Medway Dam.<a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
+				'Please consider and rate the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br><b> For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
@@ -315,9 +322,13 @@ ui <- shinyUI(fluidPage(
 
 
 		# ----------------------------------------
-		# Millinocket Dam ,
+		# Millinocket Dam
 		# ----------------------------------------
-		tabPanel("Dam 3: Millinocket",
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam3"),
+
+			# tab content
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
@@ -410,10 +421,14 @@ ui <- shinyUI(fluidPage(
 		# ----------------------------------------
 		# East Millinocket Dam
 		# ----------------------------------------
-		tabPanel("Dam 4: East Millinocket",
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam4"),
+
+			# tab content
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
-				'Please consider the decision criteria listed below for East Millinocket Dam.<a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
@@ -504,11 +519,15 @@ ui <- shinyUI(fluidPage(
 		# ----------------------------------------
 		# North Twin Dam
 		# ----------------------------------------
-		tabPanel("Dam 5: North Twin",
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam5"),
+
+			# tab content
 			h2("North Twin Dam (FERC No. P-2458)"),
 
 			HTML(
-				'Please consider the decision criteria listed below for North Twin Dam.<a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+				'Please consider the decision criteria listed below for North Twin Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
@@ -599,11 +618,15 @@ ui <- shinyUI(fluidPage(
 		#----------------------------------------
 		# Dolby Dam
 		#----------------------------------------
-		tabPanel("Dam 6: Dolby",
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam6"),
+
+			# tab content
 			h2("Dolby Dam (FERC No. P-2458)"),
 
 			HTML(
-				'Please consider the decision criteria listed below for Dolby Dam.<a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
@@ -694,94 +717,98 @@ ui <- shinyUI(fluidPage(
 		# ----------------------------------------
 		# Millinocket Lake Dam
 		# ----------------------------------------
-		tabPanel("Dam 7: Millinocket Lake",
-		  h2("Millinocket Lake Dam (FERC No. P-2458)"),
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam7"),
 
-		  HTML(
-			'Please consider the decision criteria listed below for Millinocket Lake Dam.<a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-			<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-			increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-			<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
-		  ),
+			# tab content
+			h2("Millinocket Lake Dam (FERC No. P-2458)"),
 
+			HTML(
+				'Please consider the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+			),
 			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
+
 			htmlOutput("Dam7Progress"),
 
-		  #----------------------------------------
-		  # Criteria Inputs for Millinocket Lake Dam
-		  #----------------------------------------
-		  #Fish Survival
-		  div(id="fish-survival-7",
-		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #River Recreation
-		  div(id="river-rec-7",
-		      h3("River Recreation"),
-		      sliderInput(inputId = "RiverRec7", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Reservoir Storage
-		  div(id="res-storage-7",
-		      h3("Reservoir Storage"),
-		      sliderInput(inputId = "Reservoir7", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Annuitized Project Costs
-		  div(id="ann-proj-costs-7",
-		      h3("Annuitized Project Costs"),
-		      sliderInput(inputId = "ProjectCost7", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Breach Damage Potential
-		  div(id="breach-damage-7",
-		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Number of Properties
-		  div(id="num-prop-7",
-		      h3("Number of Properties"),
-		      sliderInput(inputId = "NumProperties7", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Annual Electricity Generation
-		  div(id="ann-elec-gen-7",
-		      h3("Annual Electricity Generation"),
-		      sliderInput(inputId = "ElectricityGeneration7", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #GHGEmissions
-		  div(id="ghg-emissions-7",
-		      h3("CO2 Emissions Reductions"),
-		      sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #IndigenousLifeways
-		  div(id="indig-lifeways-7",
-		      h3("Indigenous Cultural Traditions and Lifeways"),
-		      sliderInput(inputId = "IndigenousLifeways7", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #IndustrialHistory
-		  div(id="industrial-7",
-		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #CommunityIdentity
-		  div(id="community-7",
-		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Aesthetics
-		  div(id="aesthetics-7",
-		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #PublicHealth
-		  div(id="health-7",
-		      h3("Public Health"),
-		      sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Justice
-		  div(id="justice-7",
-		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
+			#----------------------------------------
+			# Criteria Inputs for Millinocket Lake Dam
+			#----------------------------------------
+			#Fish Survival
+			div(id="fish-survival-7",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#River Recreation
+			div(id="river-rec-7",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec7", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Reservoir Storage
+			div(id="res-storage-7",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir7", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Annuitized Project Costs
+			div(id="ann-proj-costs-7",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost7", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Breach Damage Potential
+			div(id="breach-damage-7",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Number of Properties
+			div(id="num-prop-7",
+				h3("Number of Properties"),
+				sliderInput(inputId = "NumProperties7", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Annual Electricity Generation
+			div(id="ann-elec-gen-7",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration7", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#GHGEmissions
+			div(id="ghg-emissions-7",
+				h3("CO2 Emissions Reductions"),
+				sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#IndigenousLifeways
+			div(id="indig-lifeways-7",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways7", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#IndustrialHistory
+			div(id="industrial-7",
+				h3("Industrial Historical Importance"),
+				sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#CommunityIdentity
+			div(id="community-7",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Aesthetics
+			div(id="aesthetics-7",
+				h3("Aesthetic Value"),
+				sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#PublicHealth
+			div(id="health-7",
+				h3("Public Health"),
+				sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-7",
+				h3("Socio-Environmental Justice"),
+				sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
 
-		  actionButton("updateBtn7", "Update")
+			actionButton("updateBtn7", "Update")
 
 		), # End Millinocket Lake Dam Tab
 
@@ -789,93 +816,98 @@ ui <- shinyUI(fluidPage(
 		# ----------------------------------------
 		# Ripogenus Dam
 		# ----------------------------------------
-		tabPanel("Dam 8: Ripogenus",
-		  h2("Ripogenus Dam (FERC No. P-2572)"),
+		tabPanel(
+			# tab button text
+			htmlOutput("Dam8"),
 
-		  HTML(
-		    'Please consider the decision criteria listed below for Ripogenus Dam.<a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
-		    <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-		    increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-		    <br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
-		  ),
-		  helpText( a("Click to view Ripogenus Data", href = "Ripogenus_RawDecisionMatrix.pdf")),
-		  htmlOutput("Dam8Progress"),
+			# tab content
+			h2("Ripogenus Dam (FERC No. P-2572)"),
 
-		  #----------------------------------------
-		  # Criteria Inputs for Ripogenus Dam
-		  #----------------------------------------
-		  #Fish Survival
-		  div(id="fish-survival-8",
-		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #River Recreation
-		  div(id="river-rec-8",
-		      h3("River Recreation"),
-		      sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Reservoir Storage
-		  div(id="res-storage-8",
-		      h3("Reservoir Storage"),
-		      sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Annuitized Project Costs
-		  div(id="ann-proj-costs-8",
-		      h3("Annuitized Project Costs"),
-		      sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Breach Damage Potential
-		  div(id="breach-damage-8",
-		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Number of Properties
-		  div(id="num-prop-8",
-		      h3("Number of Properties"),
-		      sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Annual Electricity Generation
-		  div(id="ann-elec-gen-8",
-		      h3("Annual Electricity Generation"),
-		      sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #GHGEmissions
-		  div(id="ghg-emissions-8",
-		      h3("CO2 Emissions Reductions"),
-		      sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #IndigenousLifeways
-		  div(id="indig-lifeways-8",
-		      h3("Indigenous Cultural Traditions and Lifeways"),
-		      sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #IndustrialHistory
-		  div(id="industrial-8",
-		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #CommunityIdentity
-		  div(id="community-8",
-		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Aesthetics
-		  div(id="aesthetics-8",
-		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #PublicHealth
-		  div(id="health-8",
-		      h3("Public Health"),
-		      sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
-		  #Justice
-		  div(id="justice-8",
-		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
-		  ),
+			HTML(
+				'Please consider the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
+				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
+				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+			),
+		    helpText( a("Click to view Ripogenus Data", href = "Ripogenus_RawDecisionMatrix.pdf")),
 
-		  actionButton("updateBtn8", "Update")
+			htmlOutput("Dam8Progress"),
+
+			#----------------------------------------
+			# Criteria Inputs for Ripogenus Dam
+			#----------------------------------------
+			#Fish Survival
+			div(id="fish-survival-8",
+				h3("Fish Survival"),
+				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#River Recreation
+			div(id="river-rec-8",
+				h3("River Recreation"),
+				sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Reservoir Storage
+			div(id="res-storage-8",
+				h3("Reservoir Storage"),
+				sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Annuitized Project Costs
+			div(id="ann-proj-costs-8",
+				h3("Annuitized Project Costs"),
+				sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Breach Damage Potential
+			div(id="breach-damage-8",
+				h3("Breach Damage Potential"),
+				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Number of Properties
+			div(id="num-prop-8",
+				h3("Number of Properties"),
+				sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Annual Electricity Generation
+			div(id="ann-elec-gen-8",
+				h3("Annual Electricity Generation"),
+				sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#GHGEmissions
+			div(id="ghg-emissions-8",
+				h3("CO2 Emissions Reductions"),
+				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#IndigenousLifeways
+			div(id="indig-lifeways-8",
+				h3("Indigenous Cultural Traditions and Lifeways"),
+				sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#IndustrialHistory
+			div(id="industrial-8",
+				h3("Industrial Historical Importance"),
+				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#CommunityIdentity
+			div(id="community-8",
+				h3("Community Identity"),
+				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Aesthetics
+			div(id="aesthetics-8",
+				h3("Aesthetic Value"),
+				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#PublicHealth
+			div(id="health-8",
+				h3("Public Health"),
+				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+			),
+			#Justice
+			div(id="justice-8",
+				h3("Socio-Environmental Justice"),
+				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+			),
+
+			actionButton("updateBtn8", "Update")
 
 		), # End Ripogenus Dam Tab
 
@@ -883,7 +915,7 @@ ui <- shinyUI(fluidPage(
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
 
-		HTML("<li> Step 4: View Results </li>"),
+		HTML("<li class='step-label'> Step 4: View Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
@@ -1327,7 +1359,7 @@ ui <- shinyUI(fluidPage(
 		 ),
 
 
-		HTML("<li> Step 4: View Results </li>"),
+		HTML("<li class='step-label'> Step 4: View Results </li>"),
 		tabPanel("Combined Results",
 			h2("Multi-Dam Results"),
 
