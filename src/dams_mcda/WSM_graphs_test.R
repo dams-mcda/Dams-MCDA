@@ -204,7 +204,7 @@ Rip_DataMatrix <- data.frame(t(Rip_DataMatrix))
 
 
 AllDataMatrix <- array(data=NA, dim=c(5,14,8))
-AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("critieria", "alternative", "dam"))
+AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("alternative", "criterion", "dam"))
 
 AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
 AllDataMatrix[,,2] <- simplify2array(Med_DataMatrix)
@@ -325,7 +325,8 @@ for (j in 1:matrix_rows){
 # Ind ScoreSum
 Ind_scoresum <- as.data.frame(ScoreSums, rownames = dam_names)
 message("Ind_scoresum ", Ind_scoresum)
-rownames(Ind_scoresum)<- dam_names
+rownames(Ind_scoresum) <- dam_names
+colnames(Ind_scoresum) <- alternative_names
 
 # Ind WeightedScoreMatrix
 Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
@@ -378,17 +379,6 @@ print(fname[1])
 
 
 
-Dam1Scen <- t(WeightedScoreMatrix[1,,])
-Dam2Scen <- t(WeightedScoreMatrix[2,,])
-Dam3Scen <- t(WeightedScoreMatrix[3,,])
-Dam4Scen <- t(WeightedScoreMatrix[4,,])
-Dam5Scen <- t(WeightedScoreMatrix[5,,])
-Dam6Scen <- t(WeightedScoreMatrix[6,,])
-Dam7Scen <- t(WeightedScoreMatrix[7,,])
-Dam8Scen <- t(WeightedScoreMatrix[8,,])
-
-
-
 # warning adding things to list has side effects!
 results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
 
@@ -420,13 +410,14 @@ alternative_names <- as.list(c(
 							   ))
 
 #-------------------------------------------------------
+
 ## bars for ALL Dam MCDA score results
-Score_compare <- as.matrix(Ind_WeightedScoreMatrix)
+Score_compare <- as.matrix(Ind_scoresum)
 colnames(Score_compare) <- criteria_inputs
 rownames(Score_compare) <- alternative_names
 
 # Graph ALL DAM alternative scores with adjacent bars grouped by dam
-WSMPlota <- barplot((Score_compare), ylim= c(0,1.0), main="Dam Decision Recommendation Comparison", ylab= "MCDA Score",
+WSMPlota <- barplot(t(Score_compare), ylim= c(0,1.0), main="Dam Decision Recommendation Comparison", ylab= "MCDA Score",
                     beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame  
@@ -658,4 +649,32 @@ WSMPlot8b <- barplot(t(CritAlt8), ylim= c(0,1.0), main="Ripogenus Dam", ylab="MC
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7) 
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14))
+#--------------------------------------------------------
+#Graph for Top Scenario for ALL dams across ALL scenarios
 
+Dam1Scen <- t(WeightedScoreMatrix[1,,])
+Dam2Scen <- t(WeightedScoreMatrix[2,,])
+Dam3Scen <- t(WeightedScoreMatrix[3,,])
+Dam4Scen <- t(WeightedScoreMatrix[4,,])
+Dam5Scen <- t(WeightedScoreMatrix[5,,])
+Dam6Scen <- t(WeightedScoreMatrix[6,,])
+Dam7Scen <- t(WeightedScoreMatrix[7,,])
+Dam8Scen <- t(WeightedScoreMatrix[8,,])
+
+MCDASum <- data.frame(cbind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen, idxScen, scoresum_total))
+MCDASum <- data.frame(setorder(MCDASum,-scoresum_total))
+MCDASum_forGraph <- t(MCDASum[1,])
+
+DamsTopScenGraph <- data.frame(cbind(MCDASum_forGraph[1:14], MCDASum_forGraph[15:28], MCDASum_forGraph[29:42],
+                                     MCDASum_forGraph[43:56], MCDASum_forGraph[57:70], MCDASum_forGraph[71:84], 
+                                     MCDASum_forGraph[85:98], MCDASum_forGraph[99:112]))
+DamsTopScenGraph <- as.matrix(DamsTopScenGraph)
+colnames(DamsTopScenGraph) <- dam_names
+rownames(DamsTopScenGraph) <- criteria_inputs
+
+# put 10% of the space between each bar, and make labels  
+# smaller with horizontal y-axis labels
+WSMPlot9 <- barplot((DamsTopScenGraph), ylim= c(0,1.0), main="Top Dam Scenario", ylab="MCDA Score", col=rainbow(14),
+                     cex.axis=0.8, las=1, names.arg= dam_names, cex=0.7) 
+
+legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14))
