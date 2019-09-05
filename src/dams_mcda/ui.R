@@ -118,7 +118,7 @@ ui <- shinyUI(fluidPage(
 		  helpText( a("Click HERE for more information about dam decision alternatives", href = 'DecisionAlternativesDescriptions.pdf'),
 		  helpText( a("Click HERE for more information about decision criteria", href = 'DecisionCriteriaDescriptions.pdf')),
 		  helpText( a("Click to download Decision Criteria Data Matrices", href = "DecisionMatrices_All.xlsx")),
-		  img(src = 'Penobscot_MO_14_443.png', width = "100%", align = "center")
+		  img(src = 'Penobscot_MO_14_443.png', width = "50%", align = "center")
 
 		 ),
 
@@ -1325,7 +1325,7 @@ ui <- shinyUI(fluidPage(
 		 ),
 
 
-		HTML("<li> Step 4: View Results </li>"),
+		HTML("<li> Step 5: Multi-Dam Results </li>"),
 		tabPanel("Combined Results",
 			h2("Multi-Dam Results"),
 
@@ -1346,7 +1346,14 @@ ui <- shinyUI(fluidPage(
 				#plotOutput("WSMPlot2", height=graph_height, width=graph_width)
 			)
 		),
-
+		
+		tabPanel("Map Recommendation",
+		         h2("Optimized Result"),
+		         img(src = fname[1], width="50%", align = "center")
+		         
+		         #TODO
+		         #Link this to WSM output in server.R script
+		),
 
 		tabPanel("Developers",
 			 h2("Developers"),
