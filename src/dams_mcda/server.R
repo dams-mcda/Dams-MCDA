@@ -7,7 +7,9 @@ library(abind)
 DamsData <- read.csv('DamsData.csv') #might delete later
 DamsData <- data.frame(DamsData) #might delete later
 source(file='f_raw.RData')
-DamsData <- as.array(f)
+#DamsData <- as.array(f)
+source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
+Decisions <- as.array(Decisions)# need this for graphing
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
@@ -664,17 +666,6 @@ server <- function(input, output, session) {
 			##----------------------------------------
 			## Call WSM and format response
 			##----------------------------------------
-
-			# source and pass data do wsm function
-
-			DamsData <- data.frame(read.csv('DamsData.csv')) # this is the dataset for the individual dams, where rows = dams and cols = criteria
-			#source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-			#NormalizedMatrix <- as.array(f_nrge)
-			source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
-			Decisions <- as.array(Decisions)# need this for graphing
-			results <- WSM(RawCriteriaMatrix, array(NA, dim=c(14,8,5)), DamsData, Decisions)
-			message("server got results from WSM")
-			# end source and pass data do wsm function
 
 			## matrix setup
 			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
@@ -1951,6 +1942,16 @@ server <- function(input, output, session) {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
+	observeEvent(input$testWSM, {
+		message("testWSM")
+		# source and pass data do wsm function
+
+		#source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+		#NormalizedMatrix <- as.array(f_nrge)
+		results <- WSM(RawCriteriaMatrix, array(NA, dim=c(14,8,5)), DamsData, Decisions)
+		message("server got results from WSM")
+		# end source and pass data do wsm function
+	})
 
 	#NOTE: this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
@@ -2110,6 +2111,7 @@ server <- function(input, output, session) {
 	    )
 	  }
 	)
+	message("server setup")
 
 }} # end server
 
