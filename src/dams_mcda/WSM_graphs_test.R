@@ -25,8 +25,8 @@ library(data.table)
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-#source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-#NormalizedMatrix <- as.array(f_nrge)
+source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
@@ -312,20 +312,20 @@ WeightedResults[,,7] <- as.matrix(Dam7Results)
 WeightedResults[,,8] <- as.matrix(Dam8Results)
 WeightedResults <- round(WeightedResults, 3)
 
-# sum scores
-ScoreSums <- array(data=NA, dim=c(matrix_rows))
-for (damid in 1:matrix_rows){
-	for (j in 1:matrix_levs_ind){
-		# debug
-		#if (damid==1){ message( "Scoresum dam: ", damid, " j ", j, " to sum ", WeightedResults[j,,damid], " orig_to_sum ", Dam1Results[j, 1:matrix_cols]) }
-		ScoreSums[damid] <- sum(as.numeric(WeightedResults[j,,damid]))
-	}
+# sum scores ***THIS ISN'T CALCULATING PROPERLY...IT'S ONLY GETTING A SINGLE SUM PER LEVEL/DAM IN THE ARRAY
+ScoreSums <- array(data=NA, dim=c(matrix_rows, matrix_levs_ind))
+for (j in 1:matrix_rows){
+  for (damid in 1:matrix_levs_ind){
+  		# debug
+  		#if (damid==1){ message( "Scoresum dam: ", damid, " j ", j, " to sum ", WeightedResults[j,,damid], " orig_to_sum ", Dam1Results[j, 1:matrix_cols]) }
+  		ScoreSums[j] <- sum(as.numeric(WeightedResults[damid,,j]))
+  }
 }
 
 # Ind ScoreSum
-Ind_scoresum <- as.data.frame(WeightedResults)
-message("Ind_scoresum", Ind_scoresum)
-colnames(Ind_scoresum)<- dam_names
+Ind_scoresum <- as.data.frame(ScoreSums, rownames = dam_names)
+message("Ind_scoresum ", Ind_scoresum)
+rownames(Ind_scoresum)<- dam_names
 
 # Ind WeightedScoreMatrix
 Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
@@ -336,7 +336,7 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
 #----------------------------------------
 
-#WeightedScoreMatrix <- (Ind_NormalizedMatrix*PrefMatrix)
+WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
 #----------------------------------------
@@ -359,7 +359,7 @@ for (i in 1:dim(NormalizedMatrix)[3]){
 
 colnames(Decisions) <- dam_names
 idxScen <- c(1:995)
-scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
+scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
 #-----------------------------------------
 # Rank:
 #  may need to reshape the array produced by the weighted sum procedure
@@ -370,10 +370,15 @@ scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 #----------------------------------------
 
 #order scenarios by rank: largest score first
-idxRank <- setorder(scoresum_index,-scoresum_total)
+idxRank <- data.frame(setorder(scoresum_index,-scoresum_total))
+
+#use scenario idxRank[1] to find corresponding map name
+fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
+print(fname[1])
 
 
-Dam1Scen <- t(WeightedScoreMatrix[1,,idxTop])
+
+Dam1Scen <- t(WeightedScoreMatrix[1,,])
 Dam2Scen <- t(WeightedScoreMatrix[2,,])
 Dam3Scen <- t(WeightedScoreMatrix[3,,])
 Dam4Scen <- t(WeightedScoreMatrix[4,,])
@@ -382,9 +387,7 @@ Dam6Scen <- t(WeightedScoreMatrix[6,,])
 Dam7Scen <- t(WeightedScoreMatrix[7,,])
 Dam8Scen <- t(WeightedScoreMatrix[8,,])
 
-#use scenario idxRank[1] to find corresponding map name
-fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
-print(fname[1])
+
 
 # warning adding things to list has side effects!
 results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
@@ -418,8 +421,8 @@ alternative_names <- as.list(c(
 
 #-------------------------------------------------------
 ## bars for ALL Dam MCDA score results
-Score_compare <- as.matrix(Ind_scoresum)
-colnames(Score_compare) <- dam_names
+Score_compare <- as.matrix(Ind_WeightedScoreMatrix)
+colnames(Score_compare) <- criteria_inputs
 rownames(Score_compare) <- alternative_names
 
 # Graph ALL DAM alternative scores with adjacent bars grouped by dam
