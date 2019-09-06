@@ -57,6 +57,18 @@ criteria_inputs <- c(
 					 "Justice"
 					 )
 
+#dam display names
+dam_names <- as.list(c('WestEnfield','Medway','Millinocket','E.Millinocket','North Twin','Dolby','Millinocket Lake','Ripogenus'))
+
+# alternative display names (for labeling tables and graphs)
+alternative_names <- as.list(c(
+  "Keep and Maintain Dam",
+  "Improve Hydro",
+  "Improve Fish Passage",
+  "Hydro And Fish",
+  "Remove Dam"
+))
+
 # list of dams
 available_dams <- seq(1:8)
 # list of alternatives
@@ -291,13 +303,29 @@ Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 # SINGLE DAM WEIGHTING PROCEDURE
 #----------------------------------------
 Dam1Results <- (Ind_NormalizedMatrix[,,1]*WestEnf_PrefMatrix)
+rownames(Dam1Results) <- alternative_names
+colnames(Dam1Results) <- criteria_inputs
 Dam2Results <- (Ind_NormalizedMatrix[,,2]*Med_PrefMatrix)
+rownames(Dam2Results) <- alternative_names
+colnames(Dam2Results) <- criteria_inputs
 Dam3Results <- (Ind_NormalizedMatrix[,,3]*Mill_PrefMatrix)
+rownames(Dam3Results) <- alternative_names
+colnames(Dam3Results) <- criteria_inputs
 Dam4Results <- (Ind_NormalizedMatrix[,,4]*EastMill_PrefMatrix)
+rownames(Dam4Results) <- alternative_names
+colnames(Dam4Results) <- criteria_inputs
 Dam5Results <- (Ind_NormalizedMatrix[,,5]*NorthTw_PrefMatrix)
+rownames(Dam5Results) <- alternative_names
+colnames(Dam5Results) <- criteria_inputs
 Dam6Results <- (Ind_NormalizedMatrix[,,6]*Dolby_PrefMatrix)
+rownames(Dam6Results) <- alternative_names
+colnames(Dam6Results) <- criteria_inputs
 Dam7Results <- (Ind_NormalizedMatrix[,,7]*MillLake_PrefMatrix)
+rownames(Dam7Results) <- alternative_names
+colnames(Dam7Results) <- criteria_inputs
 Dam8Results <- (Ind_NormalizedMatrix[,,8]*Rip_PrefMatrix)
+rownames(Dam8Results) <- alternative_names
+colnames(Dam8Results) <- criteria_inputs
 
 # store all results in one data structure
 WeightedResults <- array( data=NA, dim=c(matrix_levs_ind,matrix_cols,matrix_rows))
@@ -375,9 +403,7 @@ scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
 idxRank <- data.frame(setorder(scoresum_index,-scoresum_total))
 
 #use scenario idxRank[1] to find corresponding map name
-fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
-print(fname[1])
-
+fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[1,1])
 
 
 # warning adding things to list has side effects!
@@ -397,29 +423,28 @@ map_name <- results[4]
 #----------------------------------------
 # Final Outputs
 #----------------------------------------
-# final output table commented out due to redundancy
-#dam display names
-dam_names <- as.list(c('WestEnfield','Medway','Millinocket','E.Millinocket','North Twin','Dolby','Millinocket Lake','Ripogenus'))
+# output table(s)
 
-# alternative display names (for labeling tables and graphs)
-alternative_names <- as.list(c(
-							   "Keep and Maintain Dam",
-							   "Improve Hydro",
-							   "Improve Fish Passage",
-							   "Hydro And Fish",
-							   "Remove Dam"
-							   ))
+Dam1RawTable <- as.table(Dam1Results)
+Dam2RawTable <- as.table(Dam2Results)
+Dam3RawTable <- as.table(Dam3Results)
+Dam4RawTable <- as.table(Dam4Results)
+Dam5RawTable <- as.table(Dam5Results)
+Dam6RawTable <- as.table(Dam6Results)
+Dam7RawTable <- as.table(Dam7Results)
+Dam8RawTable <- as.table(Dam8Results)
+
 
 #-------------------------------------------------------
 
 ## bars for ALL Dam MCDA score results
 Score_compare <- as.matrix(Ind_scoresum)
-colnames(Score_compare) <- criteria_inputs
-rownames(Score_compare) <- alternative_names
+colnames(Score_compare) <- alternative_names
+rownames(Score_compare) <- dam_names
 
 # Graph ALL DAM alternative scores with adjacent bars grouped by dam
 WSMPlota <- barplot(t(Score_compare), ylim= c(0,1.0), main="Dam Decision Recommendation Comparison", ylab= "MCDA Score",
-                    beside=TRUE, col=rainbow(5))
+                    beside=TRUE, col=rainbow(5), cex.axis=0.8, names.arg= dam_names, cex=0.7)
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
@@ -429,13 +454,13 @@ legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishAND
 # stacked bars for ALL dam MCDA scores (broken down by criteria)
 CritAlt <- as.matrix(Ind_WeightedScoreMatrix)
 colnames(CritAlt) <- criteria_inputs
-rownames(CritAlt) <- alternative_names
 
 
 # put 10% of the space between each bar, and make labels  
 # smaller with horizontal y-axis labels
 WSMPlotb <- barplot(t(CritAlt), ylim= c(0,1.0), main="Dam Decision Alternative Comparison", ylab="MCDA Score", 
-                    col=rainbow(14), cex.axis=0.8, las=1, cex=0.7) 
+                    col=rainbow(14), cex.axis=0.8, las=1, names.arg= c(alternative_names, alternative_names, alternative_names, alternative_names,
+                                                                       alternative_names, alternative_names, alternative_names, alternative_names), cex=0.7) 
 
 # Place the legend at the top-left corner with no frame  
 # using rainbow colors
