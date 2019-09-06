@@ -1025,6 +1025,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData2", "Download Medway")
 				 )
 		),
+
 		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
 		         div(id="dam-3-output",
@@ -1078,6 +1079,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData3", "Download Millinocket")
 				 )
 		),
+
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
 		         div(id="dam-4-output",
@@ -1131,6 +1133,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData4", "Download East Millinocket")
 				 )
 		 ),
+
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
 		         div(id="dam-5-output",
@@ -1346,7 +1349,7 @@ ui <- shinyUI(fluidPage(
 		             h3('Download Ripogenus Results'),
 		             downloadButton("downloadData8", "Download Ripogenus")
 				 )
-		 ),
+		),
 
 		HTML("<li> Step 5: Multi-Dam Results </li>"),
 
@@ -1371,7 +1374,7 @@ ui <- shinyUI(fluidPage(
 				#plotOutput("WSMPlot2", height=graph_height, width=graph_width)
 			)
 		),
-		
+
 		tabPanel("Map Recommendation",
 		    h2("Optimized Result"),
 				HTML('<div id="MapRecommendation"></div>'),
