@@ -140,7 +140,9 @@ ui <- shinyUI(fluidPage(
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
 				 <br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
 			),
-      helpText( a("Click to view West Enfield Data", href = "WestEnfield_RawDecisionMatrix.pdf")),
+
+			helpText( a("Click to view West Enfield Data", href = "WestEnfield_RawDecisionMatrix.pdf")),
+
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -1377,7 +1379,7 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Map Recommendation",
 		    h2("Optimized Result"),
-				HTML('<div id="MapRecommendation"></div>'),
+			HTML('<div id="MapRecommendation"></div>')
 		),
 
 		# Developer and aknowledgements secion
