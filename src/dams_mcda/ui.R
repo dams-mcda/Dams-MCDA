@@ -112,8 +112,8 @@ ui <- shinyUI(fluidPage(
 				Hover over the dams on the map for more information on each site.<br>"
 			),
 			helpText(
-				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>'),
-				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a>'),
+				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a><br>'),
+				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a><br>'),
 				HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
 			),
 			leafletOutput("dam_map", width=map_width, height=map_height)
