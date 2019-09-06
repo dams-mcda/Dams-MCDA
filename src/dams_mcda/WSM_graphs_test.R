@@ -36,7 +36,7 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('TestData.csv')
+TestData <- read.csv('TestData2.csv')
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -139,7 +139,7 @@ for (k in 1:matrix_cols){
 	} #End dams (rows) for loop.
 } #End criteria (columns) for loop.
 
-PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) #will address this later
+PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) 
 
 
 message("fill multi-dam Pref Matrix")
@@ -176,7 +176,7 @@ FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, Dams
 					  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 					  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
+Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage, 
 				DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
 				DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
 				DamsData$Health_Remove, DamsData$Justice_Remove)
