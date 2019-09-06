@@ -1,0 +1,9 @@
+"pk","Dam_ID","Name","Latitude","Longitude","Ferc_No","Penob_Mills_Project","Single_or_Multi","Power_Capacity","Average_Annual_Electricity_Generation","Year_of_Installation"
+1,"DamID_4190","Ripogenus Dam",45.88144746,-69.17626004,2572,FALSE,"S",37.5,234,1916
+2,"DamID_4679","Medway Dam",45.60743512,-68.54566603,2666,FALSE,"S",3.4,28.1,1922
+3,"DamID_4180","Millonocket/Quakish Dam",45.63856608,-68.72847936,2458,TRUE,"M",36,203.3,1900
+4,"DamID_4179","Millonocket Lake Dam",45.74234707,-68.73347543,2458,TRUE,"M",0,0,1883
+5,"DamID_4178","Dolby Dam",45.6326293,-68.60699086,2458,TRUE,"M",20.9,98.1,1907
+6,"DamID_4181","North Twin Dam",45.63470712,-68.78039159,2458,TRUE,"M",7,47.3,1846
+7,"DamID_4677","East Millonocket Dam",45.62091833,-68.57601026,2458,TRUE,"M",6.9,37.7,1906
+8,"DamID_4702","West Enfield Dam",45.25014604,-68.64874868,2600,FALSE,"S",13,91.8,1894

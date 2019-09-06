@@ -7,7 +7,7 @@
 # when no value is needed pass NULL for a field
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
-renderPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
+renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
 	# debug data
 	message('------------------')
 	message(
