@@ -125,12 +125,13 @@ enable_rownames <<- TRUE
 #----------------------------------------
 # smallest input slider increment
 smallest_increment <- 5
+max_slider_value <- 100.0
 # make valid progress values range smaller than the smallest increment
-upper_bound <- (100.0 + (smallest_increment/2))
-lower_bound <- (100.0 - (smallest_increment/2))
+upper_bound <- (max_slider_value + (smallest_increment/2))
+lower_bound <- (max_slider_value - (smallest_increment/2))
 # for checking if all prefernces
-total_upper_bound <- (length(available_dams) + (smallest_increment/2))
-total_lower_bound <- (length(available_dams) - (smallest_increment/2))
+total_upper_bound <- (length(available_dams) * max_slider_value + (smallest_increment/2))
+total_lower_bound <- (length(available_dams) * max_slider_value - (smallest_increment/2))
 
 #----------------------------------------
 # Matlab
@@ -1082,7 +1083,7 @@ server <- function(input, output, session) {
 		# sum of all preferences for each dam
 		progress <- total_progress()
 		# percent complete
-		progress_pct <- as.integer(progress / length(available_dams) * 100)
+		progress_pct <- as.integer(progress / length(available_dams))
 
 		if( progress > total_upper_bound || progress < total_lower_bound){
 			parts[2] <- paste0('<span class="not-complete">', progress_pct, '</span>')
