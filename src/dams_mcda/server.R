@@ -124,10 +124,10 @@ enable_rownames <<- TRUE
 # Preference Input Value Constraints
 #----------------------------------------
 # smallest input slider increment
-smallest_increment <- 0.025
+smallest_increment <- 5
 # make valid progress values range smaller than the smallest increment
-upper_bound <- (1.0 + (smallest_increment/2))
-lower_bound <- (1.0 - (smallest_increment/2))
+upper_bound <- (100.0 + (smallest_increment/2))
+lower_bound <- (100.0 - (smallest_increment/2))
 # for checking if all prefernces
 total_upper_bound <- (length(available_dams) + (smallest_increment/2))
 total_lower_bound <- (length(available_dams) - (smallest_increment/2))
@@ -1096,123 +1096,123 @@ server <- function(input, output, session) {
 	output[[paste0("Dam", 1, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
-			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress1(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	# Dam2
 	output[[paste0("Dam", 2, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
-			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress2(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	# Dam3
 	output[[paste0("Dam", 3, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
-			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress3(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	# Dam4
 	output[[paste0("Dam", 4, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
-			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress4(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	# Dam5
 	output[[paste0("Dam", 5, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
-			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress5(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	# Dam6
 	output[[paste0("Dam", 6, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam ", 6, ": "),
 	  if( progress6() > upper_bound || progress6() < lower_bound)
-		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress6(), " / 100"), class="not-complete")
 	  else
-		tags$span("1.0 / 1.0", class="complete")
+		tags$span("100 / 100", class="complete")
 	))
 	# Dam7
 	output[[paste0("Dam", 7, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam ", 7, ": "),
 	  if( progress7() > upper_bound || progress7() < lower_bound)
-		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress7(), " / 100"), class="not-complete")
 	  else
-		tags$span("1.0 / 1.0", class="complete")
+		tags$span("100 / 100", class="complete")
 	))
 	# Dam8
 	output[[paste0("Dam", 8, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam ", 8, ": "),
 	  if( progress8() > upper_bound || progress8() < lower_bound)
-		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress8(), " / 100"), class="not-complete")
 	  else
-		tags$span("1.0 / 1.0", class="complete")
+		tags$span("100 / 100", class="complete")
 	))
 
 	# update button progress trackers
 	output[[paste0("UpdateDam", 1, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
-			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress1(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 2, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
-			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress2(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 3, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
-			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress3(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 4, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
-			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress4(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 5, "Progress")]] <- renderUI(list(
 		paste0("Progress for Dam ", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
-			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
+			tags$span(paste0(progress5(), " / 100"), class="not-complete")
 		else
-			tags$span("1.0 / 1.0", class="complete")
+			tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 6, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam ", 6, ": "),
 	  if( progress6() > upper_bound || progress6() < lower_bound)
-		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress6(), " / 100"), class="not-complete")
 	  else
-		tags$span("1.0 / 1.0", class="complete")
+		tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 7, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam ", 7, ": "),
 	  if( progress7() > upper_bound || progress7() < lower_bound)
-		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress7(), " / 100"), class="not-complete")
 	  else
-		tags$span("1.0 / 1.0", class="complete")
+		tags$span("100 / 100", class="complete")
 	))
 	output[[paste0("UpdateDam", 8, "Progress")]] <- renderUI(list(
 	  paste0("Progress for Dam ", 8, ": "),
 	  if( progress8() > upper_bound || progress8() < lower_bound)
-		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress8(), " / 100"), class="not-complete")
 	  else
-		tags$span("1.0 / 1.0", class="complete")
+		tags$span("100 / 100", class="complete")
 	))
 
 	#--------------------------------------------------------------------------------
@@ -1245,7 +1245,7 @@ server <- function(input, output, session) {
 		if(progress1() > upper_bound || progress1() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
-				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress1())
+				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress1())
 			))
 		}else{
 			 updateDam1()
@@ -1257,7 +1257,7 @@ server <- function(input, output, session) {
 		if(progress2() > upper_bound || progress2() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
-				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress2())
+				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress2())
 			))
 		}else{
 			updateDam2()
@@ -1269,7 +1269,7 @@ server <- function(input, output, session) {
 		if(progress3() > upper_bound || progress3() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
-				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress3())
+				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress3())
 			))
 		}else{
 			 updateDam3()
@@ -1281,7 +1281,7 @@ server <- function(input, output, session) {
 		if(progress4() > upper_bound || progress4() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
-				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress4())
+				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress4())
 			))
 		}else{
 			updateDam4()
@@ -1293,7 +1293,7 @@ server <- function(input, output, session) {
 		if(progress5() > upper_bound || progress5() < lower_bound){
 			showModal(modalDialog(
 				title = "Not Finished!",
-				paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress5())
+				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress5())
 			))
 		}else{
 			updateDam5()
@@ -1305,7 +1305,7 @@ server <- function(input, output, session) {
 	  if(progress6() > upper_bound || progress6() < lower_bound){
 	    showModal(modalDialog(
 	      title = "Not Finished!",
-	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress6())
+	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress6())
 	    ))
 	  }else{
 	    updateDam6()
@@ -1317,7 +1317,7 @@ server <- function(input, output, session) {
 	  if(progress7() > upper_bound || progress7() < lower_bound){
 	    showModal(modalDialog(
 	      title = "Not Finished!",
-	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress7())
+	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress7())
 	    ))
 	  }else{
 	    updateDam7()
@@ -1329,7 +1329,7 @@ server <- function(input, output, session) {
 	  if(progress8() > upper_bound || progress8() < lower_bound){
 	    showModal(modalDialog(
 	      title = "Not Finished!",
-	      paste0('The sum of all sliders must be equal to 1.0! Currently the sum is: ', progress8())
+	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress8())
 	    ))
 	  }else{
 	    updateDam8()

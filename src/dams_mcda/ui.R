@@ -841,72 +841,72 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-8",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-8",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-8",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-8",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-8",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-8",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-8",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-8",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-8",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-8",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-8",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-8",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-8",
 				h3("Public Health"),
-				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-8",
 				h3("Socio-Environmental Justice"),
-				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
 			actionButton("updateBtn8", "Update")
