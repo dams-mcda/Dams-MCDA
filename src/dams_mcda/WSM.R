@@ -14,30 +14,28 @@
 #     DamsData:
 #     Decisions:
 
-
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
 library(abind)
 library(data.table)
 
-
 # criteria input identifiers
 criteria_inputs <- c(
-					 "FishBiomass",
-					 "RiverRec",
-					 "Reservoir",
-					 "ProjectCost",
-					 "Safety",
-					 "NumProperties",
-					 "ElectricityGeneration",
-					 "AvoidEmissions",
-					 "IndigenousLifeways",
-					 "IndustrialHistory",
-					 "CommunityIdentity",
-					 "Aesthetics",
-					 "Health",
-					 "Justice"
-					 )
+	 "FishBiomass",
+	 "RiverRec",
+	 "Reservoir",
+	 "ProjectCost",
+	 "Safety",
+	 "NumProperties",
+	 "ElectricityGeneration",
+	 "AvoidEmissions",
+	 "IndigenousLifeways",
+	 "IndustrialHistory",
+	 "CommunityIdentity",
+	 "Aesthetics",
+	 "Health",
+	 "Justice"
+)
 
 # list of dams
 available_dams <- seq(1:8)
@@ -50,8 +48,9 @@ matrix_rows <- length(available_dams) # 8 default
 matrix_levs_ind <- length(available_alternatives)# 5 default
 matrix_levs <- length(1:995)
 
+
 WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
-	message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", matrix_levs)
+	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", matrix_levs)
 
 	#----------------------------------------
 	# SINGLE DAM PROCEDURE FOR PREFERENCES
@@ -63,7 +62,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#locally and not as a part of the larger set of 8 dams.
 	Ind_PrefMatrix <- array(data = NA, dim=c(8,14)) #This is a 2D blank matrix
 
-	message("Fill User Preference Matrix")
 	# weights in matrix
 	for (n in 1:matrix_rows){
 		for (k in 1:matrix_cols){
@@ -80,10 +78,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 	Ind_PrefMatrix <- array(rep(Ind_PrefMatrix,5), dim=c(dim(Ind_PrefMatrix), 5))
 
-	message("fill Ind Pref Matrix")
 	#This subsets by dam (row) and transforms individual dam matrices
-
-	#This subsets by dam (row)
 	WestEnf_PrefMatrix <- subset(Ind_PrefMatrix[1,,])
 	WestEnf_PrefMatrix <- data.frame(t(WestEnf_PrefMatrix))
 	Med_PrefMatrix <- subset(Ind_PrefMatrix[2,,])
@@ -100,12 +95,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	MillLake_PrefMatrix <- data.frame(t(MillLake_PrefMatrix))
 	Rip_PrefMatrix <- subset(Ind_PrefMatrix[8,,])
 	Rip_PrefMatrix <- data.frame(t(Rip_PrefMatrix))
+
 	#------------------------------------------------------
 	#  MULTI-DAM PROCEDURE FOR PREERENCES
 	#------------------------------------------------------
 	PrefMatrix <- array(data = NA, dim=c(8,14)) #This is a 2D blank matrix
 
-	message("Fill User Preference Matrix")
 	# weights in matrix
 	for (k in 1:matrix_cols){
 		for (n in 1:matrix_rows){
@@ -122,15 +117,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 	PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) #will address this later
 
-
-	message("fill multi-dam Pref Matrix")
-
 	#----------------------------------------
 	# SINGLE DAM DATA NORMALIATION PROCEDURE
-
-	#Data Normalization using Min / Max Vectors
+	#
+	# Data Normalization using Min / Max Vectors
 	# Retrieve criteria values for each dam (referred to as Ind_DamsDataMartrix), for each MCDA scenario (from server?) a 3D matrix [dams,criteria,alternatives] 
-
+	#
 	# Normalization procedure:
 	#  get maximum and minimum criteria value for each criterion, each dam, produces two 2D matrices [dams, max/min criteria]
 	#  for positive values: norm = (f - f_min) / (f_max - f_min)
@@ -141,25 +133,25 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#retrieve DamsData to manipulate into DamsDataMatrix
 	Ind_DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
 
-	KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
-						  DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
-						  DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
+	KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage,
+						  DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
+						  DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain,
 						  DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
-	Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage, 
-						   DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
-						   DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro, 
+	Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage,
+						   DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
+						   DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro,
 						   DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
-	Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
-						  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
-						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
+	Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage,
+						  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
+						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish,
 						  DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
-	FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage, 
-						  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
+	FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage,
+						  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
 						  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 						  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage, 
-					DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
-					DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
+	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_Remove, DamsData$Damage,
+					DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,
+					DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove,
 					DamsData$Health_Remove, DamsData$Justice_Remove)
 
 	#This abind creates our 3D matrix
@@ -221,8 +213,8 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 	#----------------------------------------
 	# SINGLE DAM WEIGHTING PROCEDURE
-
-	#Build Weighting Matrix for ind. dams
+	#
+	# Build Weighting Matrix for ind. dams
 	# score will be min/max normalized values from 0-1
 	# array of rows that use minimization (cost or damage-related)
 	min_crit_columns <- c(4, 5, 6)
@@ -305,7 +297,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 	# Ind ScoreSum
 	Ind_scoresum <- as.data.frame(ScoreSums, rownames=dam_names)
-	message("Ind_scoresum", Ind_scoresum)
 	colnames(Ind_scoresum)<- alternative_names
 
 	# Ind WeightedScoreMatrix
@@ -316,12 +307,8 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 	#----------------------------------------
 
-	# NOTE: PrefMatrix is 8x14x995 and Ind_NormalizedMatrix is 5x14x8
-	#message("weightedScoreMatrix Ind_NormlzdMtrx dim: ", dim(Ind_NormalizedMatrix), " PrefMatrix dim: ", dim(PrefMatrix) )
-	message("weightedScoreMatrix NormlzdMtrx dim: ", dim(NormalizedMatrix), " PrefMatrix dim: ", dim(PrefMatrix) )
 	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
-	message("end")
 
 	#----------------------------------------
 	# MULTI-DAM WEIGHTED SUM SCORES
@@ -332,10 +319,10 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#  sum this across all dams for each scenario
 	#-----------------------------------------
 
-	#declare a weighted sum variable
+	# declare a weighted sum variable
 	scoresum_total <- rep(0,dim(NormalizedMatrix)[3])
 
-	#multiply crit scores by user preferences
+	# multiply crit scores by user preferences
 	for (i in 1:dim(NormalizedMatrix)[3]){
 		WSMMatrix <- NormalizedMatrix[,,i] * PrefMatrix[,,i]
 		scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
@@ -344,16 +331,18 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	colnames(Decisions) <- dam_names
 	idxScen <- c(1:995)
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
+
 	#-----------------------------------------
 	# Rank:
 	#  may need to reshape the array produced by the weighted sum procedure
 	#  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
+	#
 	# Retrieve table, map of highest ranked scenario:
 	#  use server url or whatever, searching for map name with the matching index number
 	#  take the map image, table, and stick them in the webpage
 	#----------------------------------------
 
-	#order scenarios by rank: largest score first
+	# order scenarios by rank: largest score first
 	idxRank <- setorder(scoresum_index,-scoresum_total)
 
 	Dam1Scen <- t(WeightedScoreMatrix[1,,])
@@ -368,11 +357,17 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	multiDamResult <- array(data = NA, dim = c(995,8, 14))
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
-	#use scenario idxRank[1] to find corresponding map name
-	fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[[1]])
-	print(fname[1])
+	# use scenario idxRank[1] to find corresponding map name
+	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[[1]]))
+
+	# debug
+	message("length fname ", length(fname))
+	message("map image output from WSM: ", fname[1])
+	#message("map image output from WSM (all): ", fname)
+	#message("Ind_WSM: ", Ind_WeightedScoreMatrix, " DIMS ", dim(Ind_WeightedScoreMatrix))
+	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
-	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
+	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname[1])
 
 } # end of WSM

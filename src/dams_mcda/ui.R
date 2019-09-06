@@ -915,7 +915,7 @@ ui <- shinyUI(fluidPage(
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
 
-		HTML("<li class='step-label'> Step 4: View Results </li>"),
+		HTML("<li class='step-label'> Step 4: View Dam Specific Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
@@ -990,8 +990,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 5: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1045,8 +1043,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1100,8 +1096,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
 		             HTML(
 		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1155,8 +1149,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1192,6 +1184,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData5", "Download North Twin")
 				 )
 		 ),
+
 		tabPanel("Dam 6: Dolby",
 		         h2("Results: Dolby Dam"),
 		         div(id="dam-6-output",
@@ -1210,8 +1203,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
 		             HTML(
 		               "<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1247,6 +1238,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData6", "Download Dolby")
 				 )
 		 ),
+
 		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
 		         div(id="dam-7-output",
@@ -1265,7 +1257,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
 
 		             HTML(
 		               "<br><b>Results Interpretation </b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1300,8 +1291,9 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Download Millinocket Lake Results'),
 		             downloadButton("downloadData7", "Download Millinocket Lake")
-		             )
-		             ),
+			 )
+		 ),
+
 		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
 		         div(id="dam-8-output",
@@ -1320,8 +1312,6 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output",
-		             #tableOutput("FilledCriteriaTable"), # for debugging criteria table
-
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 				          	alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1358,8 +1348,8 @@ ui <- shinyUI(fluidPage(
 				 )
 		 ),
 
+		HTML("<li class='step-label'> Step 4: View Combined Results </li>"),
 
-		HTML("<li class='step-label'> Step 4: View Results </li>"),
 		tabPanel("Combined Results",
 			h2("Multi-Dam Results"),
 
@@ -1369,18 +1359,25 @@ ui <- shinyUI(fluidPage(
 			actionButton("generateCombinedMatrix", "Generate"),
 
 			div(id="combined-output",
-				h2('WSM1'),
+				h2('All Preferences'),
+				tableOutput("FilledCriteriaTable"),
 
+				h2('map'),
+				HTML('<div id="MapRecommendation"></div>'),
+
+				h2('WSM1'),
 				#TODO
 				#plotOutput("WSMPlot1", height=graph_height, width=graph_width),
 
 				h2('WSM2')
-
 				#TODO
 				#plotOutput("WSMPlot2", height=graph_height, width=graph_width)
 			)
 		),
 
+
+		# Developer and aknowledgements secion
+		HTML("<li class='step-label'>About</li>"),
 
 		tabPanel("Developers",
 			 h2("Developers"),
