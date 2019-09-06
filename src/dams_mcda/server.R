@@ -469,13 +469,12 @@ server <- function(input, output, session) {
 				fillColor="lime",
 				fillOpacity=0.9,
 				label=lapply(map_marker_table, htmltools::HTML),
-				labelOptions=labelOptions(style=list("padding-left"="1.2em")), # padding on label
+				labelOptions=labelOptions(style=list("padding-left"="1.2em", "font-size"="1em")), # padding on label
 				popup=lapply(map_marker_table, htmltools::HTML)
 		    ) %>%
-			setView(lng=-69.17626004, lat=45.88144746, zoom=7)
+			setView(lng=-69.17626004, lat=45.88144746, zoom=8)
 		map
 	})
-
 
 
 	#------------------------------------------------------------
@@ -929,8 +928,15 @@ server <- function(input, output, session) {
 			#Score <- alternatives
 			#Data <- data.frame(Alternative, Criteria, Score)
 
-			# show output html elements
-			shinyjs::show(id="generated-output")
+			# show output html elements (as of now generateOutput does all individual dams + combined)
+			shinyjs::show(id="generated-output-1")
+			shinyjs::show(id="generated-output-2")
+			shinyjs::show(id="generated-output-3")
+			shinyjs::show(id="generated-output-4")
+			shinyjs::show(id="generated-output-5")
+			shinyjs::show(id="generated-output-6")
+			shinyjs::show(id="generated-output-7")
+			shinyjs::show(id="generated-output-8")
 			shinyjs::show(id="combined-output")
 			message("generateOutput done")
 		}
@@ -951,6 +957,14 @@ server <- function(input, output, session) {
 		shinyjs::hide(id="dam-6-output")
 		shinyjs::hide(id="dam-7-output")
 		shinyjs::hide(id="dam-8-output")
+		shinyjs::hide(id="generated-output-1")
+		shinyjs::hide(id="generated-output-2")
+		shinyjs::hide(id="generated-output-3")
+		shinyjs::hide(id="generated-output-4")
+		shinyjs::hide(id="generated-output-5")
+		shinyjs::hide(id="generated-output-6")
+		shinyjs::hide(id="generated-output-7")
+		shinyjs::hide(id="generated-output-8")
 		shinyjs::hide(id="combined-output")
 
 		#----------------------------------------

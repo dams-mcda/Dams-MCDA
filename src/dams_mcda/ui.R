@@ -922,14 +922,6 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
 
-			#TODO: remove for production
-			actionButton("autoGenerateMatrix", "Autofill: debug only"),
-			actionButton("testWSM", "test WSM: debug only"),
-			actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
-
-			# generate event
-			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-			actionButton("generateMatrix", "Generate"), #will need to move below summplot1 output after debugging
 
 			div(id="dam-1-output",
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
@@ -938,9 +930,15 @@ ui <- shinyUI(fluidPage(
 					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
-
 			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
 
+				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
+				actionButton("generateMatrix", "Generate") #will need to move below summplot1 output after debugging
+
+			),
+
+			# output post generate
+			div(id="generated-output-1",
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -982,16 +980,14 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 4. Raw Preference Scores for Medway"),
-		             plotOutput("SummPlot2", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot2", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix2", "Generate")
 		         ),
 
-				 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix2", "Generate"),
-
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-2",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 5: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1036,16 +1032,14 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 7. Raw Preference Scores for Millinocket"),
-		             plotOutput("SummPlot3", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix3", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix3", "Generate"),
-
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-3",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1090,16 +1084,16 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
-					 plotOutput("SummPlot4", height=graph_height, width=graph_width)
+					 plotOutput("SummPlot4", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 # generate event
+					 actionButton("generateMatrix4", "Generate")
 				 ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix4", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-4",
 		             HTML(
 		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1144,16 +1138,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
-		             plotOutput("SummPlot5", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot5", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix5", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix5", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-5",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1198,16 +1191,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 16. Raw Preference Scores for Dolby"),
-		             plotOutput("SummPlot6", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix6", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix6", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-6",
 		             HTML(
 		               "<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1252,16 +1244,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
-		             plotOutput("SummPlot7", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix7", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix7", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-7",
 
 		             HTML(
 		               "<br><b>Results Interpretation </b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1307,16 +1298,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
-		             plotOutput("SummPlot8", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix8", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix8", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-8",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 				          	alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1357,8 +1347,12 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Combined Results",
 			h2("Multi-Dam Results"),
-
 			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+
+			#TODO: remove for production
+			#actionButton("autoGenerateMatrix", "Autofill: debug only"),
+			#actionButton("testWSM", "test WSM: debug only"),
+			#actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
 			# generate event
 			actionButton("generateCombinedMatrix", "Generate"),
