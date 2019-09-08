@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'auth_base.html' %}
 {% load static %}
 
 {% block title %}Login{% endblock %}
@@ -11,12 +11,33 @@
 
 
 {% block content %}
-
+<div class="container">
 	<form method="post" class="form-signin">
 		<h2 class="h3 mb-3 font-weight-normal">Login</h2>
-		{% if errors %} <p style="color:red;"> {{ errors }} </p> {% endif %}
 		{% csrf_token %}
-		{{ form.as_p }}
+			{% for field in form %}
+			<div class="row">
+				<div class="col-3">
+					{{ field.label }}
+				</div>
+				<div class="col-9">
+					{% if field.errors %}
+					<span style="color:red;">
+						{{ field.errors }}
+					</span>
+					{% endif %}
+
+					{{ field }}<br>
+
+					{% if field.help_text %}
+					<span style="color:grey; font-size:0.8em;">
+						{{ field.help_text }}
+					</span>
+					<br>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 	</form>
 	<a href="{% url 'register' %}">
@@ -26,6 +47,7 @@
 	{# Assumes you setup the password_reset view in your URLconf #}
 	<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
+</div>
 {% endblock %}
 
 {% block login %}

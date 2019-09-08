@@ -9,3 +9,34 @@
   padding: 15px;
   margin: auto;
 }
+
+.form-signin div.row {
+	margin-bottom:2px;
+}
+
+.form-register {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-register h2 {
+	text-align:center;
+}
+
+.form-register div.row {
+	margin-bottom:2px;
+}
+
+.form-register div.row div select{
+	width:100%;
+}
+
+.form-register div.row div input{
+	width:100%;
+}
+
+.form-register div input{
+	width:100%;
+}

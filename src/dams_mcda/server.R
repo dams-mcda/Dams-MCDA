@@ -1,62 +1,50 @@
-# server logic
+source("plots.R")
+source("WSM.R")
 
-source("runMatlab.R")
-#source("WSM.R")
-source("WSM_graphs_test.R")
-library(abind)
 #pull from WSM script
 DamsData <- read.csv('DamsData.csv') #might delete later
 DamsData <- data.frame(DamsData) #might delete later
 source(file='f_raw.RData')
-DamsData <- as.array(f)
+source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge)
+#DamsData <- as.array(f)
+source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
+Decisions <- as.array(Decisions)# need this for graphing
 
-source("plots.R")
+library(abind)
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
-set.seed(123)
-
 
 #--------------------------------------------------------------------------------
-# Static Variables
+# Global Variables
 #--------------------------------------------------------------------------------
 
 #----------------------------------------
-# Working Directories: path where files are saved/opened (if any)
+# Working Directories
+# path where files are saved/opened (if any)
 #----------------------------------------
 #base_dir <- "/srv/shiny-server/dams_mcda/" # root
 #response_dir <- paste(base_dir, "responses/", sep="") # where responses are saved
 #working_dir <- paste(base_dir, "", sep="") # default
-
 #setwd(working_dir) # initial directory
-
 #responsesDir <- file.path(response_dir) # directory where responses get stored
 
-#----------------------------------------
-# Output
-#----------------------------------------
-enable_rownames <- TRUE # set to TRUE to show row names on tables
+#-----------------------------------------
+# FILE/DATA STORAGE
+#-----------------------------------------
+max_file_size <- 5 # size in MB
+options(shiny.maxRequestSize=max_file_size*1024^2)
+# user download file (has to be global)
+response_data <<- ("no data")
 
-#----------------------------------------
-# Defaults
-#----------------------------------------
-# default graph color array
-colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
-# default graph score range
-score_range <- c(0, 1)
-# range of final graph of summed scores
-summed_score_range <- c(0, 1)
+#-----------------------------------------
+# App Specific
+#-----------------------------------------
 # list of dams
 available_dams <- seq(1:8)
-
 # list of alternatives
 available_alternatives <- seq(1:5)
-
-# smallest input slider increment
-smallest_increment <- 0.025
-# make valid progress values range smaller than the smallest increment
-upper_bound <- (1.0 + (smallest_increment/2))
-lower_bound <- (1.0 - (smallest_increment/2))
 
 # criteria input identifiers
 criteria_inputs <- c(
@@ -120,29 +108,54 @@ criteria_names_and_sum <- as.list(criteria_names) # vector to list
 criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
 criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 
-# End of global variables
+#--------------------------------------------------
+# User Interface Default Values
+#--------------------------------------------------
+# default graph color array
+colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
+# default graph score range
+score_range <- c(0, 1)
+# range of final graph of summed scores
+summed_score_range <- c(0, 1)
+# set to TRUE to show row names on tables
+enable_rownames <<- TRUE
 
 #----------------------------------------
-# Misc.
+# Preference Input Value Constraints
 #----------------------------------------
+# smallest input slider increment
+smallest_increment <- 0.025
+# make valid progress values range smaller than the smallest increment
+upper_bound <- (1.0 + (smallest_increment/2))
+lower_bound <- (1.0 - (smallest_increment/2))
+# for checking if all prefernces
+total_upper_bound <- (length(available_dams) + (smallest_increment/2))
+total_lower_bound <- (length(available_dams) - (smallest_increment/2))
+
+#----------------------------------------
+# Matlab
+#----------------------------------------
+# track matlab port for session
+#session_matlab_port <- 9998
+# for production make sure this is TRUE
+#retry_matlab_connection <- TRUE
+#max_retries <- 3
+
+#--------------------------------------------------------------------------------
+# End of global variables
+#--------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------
+# Misc.
+#--------------------------------------------------------------------------------
 # fix R.plots.pdf error
 # (see: https://stackoverflow.com/questions/36777416/plotly-plot-not-rendering-on-shiny-server)
 # needed when calling barplot
 pdf(NULL)
 
-# track matlab port for session
-session_matlab_port <- 9998
-
-# for production make sure this is TRUE
-retry_matlab_connection <- TRUE
-max_retries <- 3
-
-
 #--------------------------------------------------------------------------------
-# FILE/DATA STORAGE
+# Methods
 #--------------------------------------------------------------------------------
-# has to be global (this is data the user can download after finishing
-response_data <<- ("no data")
 
 # epochTime
 #----------------------------------------
@@ -230,19 +243,238 @@ damsCompleted <- function(completed){
 
 #--------------------------------------------------------------------------------
 # SERVER
-#
-# Define server logic required to draw a histogram
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
-
-	# debug matlab
-	#runMatlab()
-
 	#------------------------------------------------------------
 	# JS data passing test
 	#------------------------------------------------------------
 	# debug/validate authentication
 	session$sendCustomMessage("validateSession", "any message")
+
+
+	#------------------------------------------------------------
+	# Session Mode
+	#
+	# 	on app init prompts a modal requiring the user to decide which mode
+	#
+	# 	for now mode can be either:
+	# 		group or individual
+	#   could be expanded to include different modes depending on the application state requirements
+	#------------------------------------------------------------
+	session_mode <<- "individual" # default mode of session
+
+	intro_modal_visible <<- TRUE # intro modal is visible on page load
+	upload_modal_visible <<- FALSE # file upload modal
+
+	# choose individual/group modal
+	showModal(
+		modalDialog(
+			title = "Group or Individual",
+			footer=NULL, # NULL to disable dismiss button
+			easyClose=FALSE, # False to disable closing by clicking outside of modal
+			div(
+				HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+
+				actionButton("selectIndividualSessionMode", "Individual Preferences"),
+				actionButton("selectGroupSessionMode", "Group Preferences"),
+				actionButton("uploadBtn", "UPLOAD DATA"),
+
+				HTML(
+					"<h4>Instructions for Uploading</h4>\
+					Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+					for you or the average preference values for your group. <br>"
+				)
+			)
+		)
+	)
+
+	# track the user group
+	# NOTE: only set when the user is using application in group input mode
+	# this is important because changing the value of this variable causes effects
+	observeEvent(input$session_user_group, {
+		if (input$session_user_group == "false"){
+			message("Group Mode Set with no group: ", input$session_user_group)
+			# no group attached to user, but they select group mode!
+		}else{
+			message("Group Mode Set for group_id: ", input$session_user_group)
+			removeModal()
+		}
+	})
+
+	# userHasGroup will query the users group relation
+	# will set the variable input$session_user_group on completion
+	checkUserHasGroup <- function(){
+		session$sendCustomMessage("checkUserHasGroup", "")
+	}
+
+	# on mode update
+	setSessionMode <- function(newMode){
+		session_mode <- newMode
+
+		if (newMode == "group"){
+			# check if user already picked a group
+			checkUserHasGroup()
+		}else if (intro_modal_visible){
+			removeModal()
+			intro_modal_visible <<- FALSE
+		}
+	}
+
+	# on mode file upload
+	pickUploadFile <- function(){
+		# hide other modal
+		if (intro_modal_visible){
+			removeModal()
+			intro_modal_visible <<- FALSE
+		}
+
+		# mark as visible
+		upload_modal_visible <<- TRUE
+
+		# upload file modal
+		showModal(
+			modalDialog(
+				title = "File Upload",
+				footer=NULL, # NULL to disable dismiss button
+				easyClose=FALSE, # False to disable closing by clicking outside of modal
+				div(
+					HTML(
+						"<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+						for you or the average preference values for your group. <br><br>"
+					),
+
+					#TODO: add xlsx support?
+					fileInput("file1",
+						label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
+						width="100%",
+						multiple=FALSE,
+						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+					),
+
+					# confirm upload
+					actionButton("confirmUploadBtn", width="100%", "Continue")
+				)
+			)
+		)
+	}
+
+
+	# ----------------------------------------
+	# uploadFile
+	# validate and process a user uploaded file
+	# ----------------------------------------
+	uploadFile <- function(){
+		# make sure user selected a file before trying to validate
+		if(is.null(input$file1)){
+			message("input file null")
+			session$sendCustomMessage("noFileSelected", "any message")
+			return(NA) # break (stop execution of function)
+		}
+
+		#message("uploaded file temp path: ", input$file1$datapath)
+
+		# open the file locally
+		df <- read.csv(input$file1$datapath,
+             header = TRUE,
+             sep = ",",
+             quote = '"')
+
+		# debug contents of file
+		#message("file header: ", head(df, n=1))
+		#message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
+
+		# ------------------------------
+		# verify contents of file
+		# ------------------------------
+		# check it has correct amount of columns and rows
+		row_count <- length(head(t(df),n=1))
+		column_count <- length(head(df,n=1))
+		# TODO: set required_* variables to size of valid input
+		required_rows <- 5
+		required_cols <- 3
+
+		# valid unless proven otherwise
+		file_valid <- TRUE
+		fail_reason <- "File is invalid:"
+
+		if (row_count != required_rows){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of rows", sep=" ")
+		} else if (column_count != required_cols){
+			file_valid <- FALSE
+			fail_reason <- paste(fail_reason, "incorrect number of columns", sep=" ")
+		}
+
+		# if valid remove modal and process the file
+		if (upload_modal_visible && file_valid){
+			#message("file upload success")
+			removeModal()
+			upload_modal_visible <<- FALSE
+			#TODO: process file here
+		}else{
+			# warn the user that the file is not acceptable
+			#message("file upload fail", fail_reason)
+			session$sendCustomMessage("invalidFileSelected", fail_reason)
+		}
+
+	}
+
+	# select mode / file upload event listeners
+	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
+	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
+	observeEvent(input$uploadBtn, { pickUploadFile() })
+	observeEvent(input$confirmUploadBtn, { uploadFile() })
+
+
+	#------------------------------------------------------------
+	# initDamMap
+	# initialize the leaflet map for displaying dam location/attributes
+	# random dam as marker
+	# random dam as center of viewport
+	#------------------------------------------------------------
+	map_data <- read.csv('dam_csv/map_dams.csv')
+
+	# format on-hover labels to be header of dam name, followed by attribute table
+	map_marker_table <- lapply(seq(nrow(map_data)), function(i){
+		return(HTML(
+			paste0(
+				"<h4>",
+				map_data[i, "Name"],
+				"</h4>",
+				"<table class='map-data'><tr><th>Attribute</th><th>Value</th></tr><tr><td>Single or Multi-Dam</td><td>",
+				map_data[i, "Single_or_Multi"],
+				"</td></tr><tr><td>Power Capacity (MW)</td><td>",
+				map_data[i, "Power_Capacity"],
+				"</td></tr><tr><td>Avg. Annual Electricity<br>Generation (GWh)</td><td>",
+				map_data[i, "Average_Annual_Electricity_Generation"],
+				"</td></tr><tr><td>Date Installed (Year)</td><td>",
+				map_data[i, "Year_of_Installation"],
+				"</td></tr></table>"
+			)
+		))
+	})
+
+	# render leaflet dam inspector map
+	output$dam_map <- renderLeaflet({
+		map <- leaflet(data=map_data) %>%
+			addTiles() %>%
+			addCircleMarkers(
+				lat=~map_data[,4], lng=~map_data[,5],
+				radius=6, # size
+				color="black", # border color
+				weight=1, # border stroke
+				opacity=1, # line opacity
+				fillColor="lime",
+				fillOpacity=0.9,
+				label=lapply(map_marker_table, htmltools::HTML),
+				labelOptions=labelOptions(style=list("padding-left"="1.2em")), # padding on label
+				popup=lapply(map_marker_table, htmltools::HTML)
+		    ) %>%
+			setView(lng=-69.17626004, lat=45.88144746, zoom=7)
+		map
+	})
+
 
 
 	#------------------------------------------------------------
@@ -597,7 +829,6 @@ server <- function(input, output, session) {
 				title = "Not Finished!",
 				'Please complete all dams tabs before generating results'
 			))
-
 		}else{
 			#------------------------------------------------------------
 			# get 2d array of values based on length/values of criteria_inputs and available_dams
@@ -621,78 +852,66 @@ server <- function(input, output, session) {
 						message('input ', input_name, " isNull ")
 					}
 				}
-
 				dams[[row_id]] <- unlist(q) # we want in c and not list
 			}
 			dams <- unlist(dams)
 
 			#NOT SURE HOW TO RECONCILE THIS SPECIFIC TO EACH INDIVIDuaL DAM
 			#for alternatives in tables/graphs, this generates a blank vector with labels
-			alternatives <- vector("list", length(available_alternatives))
-			for (row_id in 1:length(available_alternatives)){
-			  # for each criterion in alternatives
-			  r <- vector("list", length(available_alternatives))
+			#alternatives <- vector("list", length(available_alternatives))
+			#for (row_id in 1:length(available_alternatives)){
+			#  # for each criterion in alternatives
+			#  r <- vector("list", length(available_alternatives))
 
-			  for (id in criteria_inputs){
-			    input_name <- paste(id, toString(row_id), sep='')
-			    value <- input[[input_name]]
-			    r[[id]] <- value
+			#  for (id in criteria_inputs){
+			#    input_name <- paste(id, toString(row_id), sep='')
+			#    value <- input[[input_name]]
+			#    r[[id]] <- value
 
-			    if (is.null(value)){
-			      # debug nulls, doesn't modify data
-			      message('input ', input_name, " isNull ")
-			    }
-			    alternatives[[row_id]] <- unlist(r)
-			  }
-			  alternatives <- unlist(alternatives)
+			#    if (is.null(value)){
+			#      # debug nulls, doesn't modify data
+			#      message('input ', input_name, " isNull ")
+			#    }
+			#    alternatives[[row_id]] <- unlist(r)
+			#  }
+			#  alternatives <- unlist(alternatives)
+			#}
 
 			# -------------------------------------------------------------#
 			# assign values in new matrix
-			raw_scores <- getRawScores()
 			RawCriteriaMatrix <- data.frame(
-				matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+				matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs))
 			)
-			message("RawCriteriaMatrix", RawCriteriaMatrix)
-
-			## assign table row, column names
+			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
+			message("generateOutput RawCriteriaMatrix: ", RawCriteriaMatrix)
 
 			## origial scores in table form
 			## for debugging table size
 			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
 
-			##----------------------------------------
-			## Call WSM and format response
-			##----------------------------------------
-			## matrix setup
-			matrix_cols <- length(criteria_inputs) # 14 default (output size, adds summedscore)
-			matrix_rows <- length(available_dams) # 8 default
-			matrix_levs_ind <- length(available_alternatives) # 5 default
-			matrix_levs <- length(1:995) #multi-dam alternatives
+			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
-			Ind_WeightedScoreMatrix <- array(data=NA, c(8,14,5))
-			Ind_WeightedScoreMatrix <- round(Ind_WeightedScoreMatrix,3)
+			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
+			message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
 
-			WeightedScoreMatrix <- array(data=NA, c(8,14,995))
-			WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
+			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
+			message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
 
-			##----------------------------------------
-			## Score Sum
-			##----------------------------------------
+			map_name <- WSMResults[4]
 
-			## warning adding things to list has side effects!
-			WSMResults <- list(WeightedScoreMatrix, scoresum_total, fname)
-			TableMatrix <- WSMResults[1]
+			#message("WSMTableOutput Matrix: ", dim(WSMMatrix), " summedScore: ", dim(WSMSummedScore))
+			#message("WSMTableOutput length(dam_names): ", length(dam_names))
+			message("WSM map name: ", map_name, " type ", class(map_name))
+			WSMTableOutput <- data.frame(WSMMatrix)#, row.names=dam_names, check.names=FALSE)
 
-			TableMatrix$summedScore <- WSMResults[2]
 
-			map_name <- WSMResults[3]
+			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
-			WSMTableOutput <- data.frame( TableMatrix, row.names=dam_names, check.names=FALSE)
 			## this ones different because it has sum row
-			names(WSMTableOutput) <- criteria_names_and_sum
-			# -------------------------------END REWRITE BY DAM------------------------------#
+			#message("WSMTableOutput names")
+			#names(WSMTableOutput) <- criteria_names_and_sum
 
 			#----------------------------------------
 			# Final Outputs
@@ -706,898 +925,8 @@ server <- function(input, output, session) {
 			## stacked bars data table
 			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
 			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
-			Score <- alternatives
-			Data <- data.frame(Alternative, Criteria, Score)
-
-			# decision criteria ids
-			#Criteria <- c(rep(criteria_names, times=length(1)))
-			## score needs to be vector and not data frame or it will repeat for each criteria
-			#Score <- as.numeric(RawCriteriaMatrix[1, ])
-			## two columns, score and criteria of score
-			#Data <- data.frame(score=Score, criteria=Criteria)
-
-			# Figure 2 Stacked Bar 100%
-			#output$WSMPlot1 <- renderPlot(
-			#	ggplot(
-			#	  data=Data,
-			#	  aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#	  environment = environment()
-			#	)
-			#	+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#	+ geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#	#+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#	+ theme_minimal()
-			#	#+ coord_flip()
-			#	+ theme(
-			#		text=element_text(size=16),
-			#		legend.position="bottom",
-			#		axis.text.y = element_text(angle = 0, hjust = 1),
-			#		axis.text.x = element_text(angle = 45, hjust = 1)
-			#	)
-			#	+ scale_x_discrete(limits=rev(alternative_names))
-			#	+ scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-
-			# order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-
-			## Figure 3 stacked bar plot
-			#output$WSMPlot2 <- renderPlot(
-			#	ggplot(
-			#	  data=Data,
-			#	  aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#	  environment = environment()
-			#	)
-			#	+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#	+ geom_text(
-			#		data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#	)
-			#	+ geom_text(
-			#		data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#	)
-			#	+ theme_minimal()
-			#	#+ coord_flip()
-			#	+ theme(
-			#		text=element_text(size=16),
-			#		legend.position="top",
-			#		axis.text.x = element_text(angle = 45, hjust = 1)
-			#	)
-			#	+ scale_x_discrete(limits=rev(criteria_names))
-			#	+ scale_y_continuous(expand = c(0, 0))
-			#)
-
-			## Figure 5 Stacked Bar 100%
-			#output$WSMPlot3 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 6 stacked bar plot
-			#output$WSMPlot4 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-
-			## Figure 8 Stacked Bar 100%
-			#output$WSMPlot5 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 9 stacked bar plot
-			#output$WSMPlot6 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 11 Stacked Bar 100%
-			#output$WSMPlot7 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 12 stacked bar plot
-			#output$WSMPlot8 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 14 Stacked Bar 100%
-			#output$WSMPlot9 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 15 stacked bar plot
-			#output$WSMPlot10 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-
-			## Figure 17 Stacked Bar 100%
-			#output$WSMPlot11 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 18 stacked bar plot
-			#output$WSMPlot12 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 20 Stacked Bar 100%
-			#output$WSMPlot13 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 21 stacked bar plot
-			#output$WSMPlot14 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 23 Stacked Bar 100%
-			#output$WSMPlot15 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 24 stacked bar plot
-			#output$WSMPlot16 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-
-			## Figure 3 stacked bar plot
-			#output$WSMPlot2 <- renderPlot(
-			#	ggplot(
-			#	  data=Data,
-			#	  aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#	  environment = environment()
-			#	)
-			#	+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#	+ geom_text(
-			#		data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#	)
-			#	+ geom_text(
-			#		data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#	)
-			#	+ theme_minimal()
-			#	#+ coord_flip()
-			#	+ theme(
-			#		text=element_text(size=16),
-			#		legend.position="top",
-			#		axis.text.x = element_text(angle = 45, hjust = 1)
-			#	)
-			#	+ scale_x_discrete(limits=rev(criteria_names))
-			#	+ scale_y_continuous(expand = c(0, 0))
-			#)
-
-			## Figure 4 raw pref plot
-			#output$SummPlot2 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for Medway", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-
-			## Figure 5 Stacked Bar 100%
-			#output$WSMPlot3 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-
-			## Figure 6 stacked bar plot
-			#output$WSMPlot4 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 7 raw pref plot
-			#output$SummPlot3 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for Millinocket/Quakish", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-			#
-			## Figure 8 Stacked Bar 100%
-			#output$WSMPlot5 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 9 stacked bar plot
-			#output$WSMPlot6 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 10 raw pref plot
-			#output$SummPlot4 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for East Millinocket", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-			#
-			## Figure 11 Stacked Bar 100%
-			#output$WSMPlot7 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 12 stacked bar plot
-			#output$WSMPlot8 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 13 raw pref plot
-			#output$SummPlot5 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for North Twin", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-			#
-			## Figure 14 Stacked Bar 100%
-			#output$WSMPlot9 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 15 stacked bar plot
-			#output$WSMPlot10 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 16 raw pref plot
-			#output$SummPlot6 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for Dolby", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-			#
-			## Figure 17 Stacked Bar 100%
-			#output$WSMPlot11 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 18 stacked bar plot
-			#output$WSMPlot12 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 19 raw pref plot
-			#output$SummPlot7 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for Millinocket Lake", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-			#
-			## Figure 20 Stacked Bar 100%
-			#output$WSMPlot13 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 21 stacked bar plot
-			#output$WSMPlot14 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			## Figure 22 raw pref plot
-			#output$SummPlot8 <- renderBarPlot(
-			#  Dam8, # data
-			#  "Raw Preference Scores for Ripogenus", # title
-			#  criteria_names, # x_labels
-			#  "Topic", # x axis label
-			#  "Score", # y axis label
-			#  colors, # colors
-			#  NULL, # x value limit
-			#  score_range # y value limit (0-100 value range)
-			#)
-			#
-			## Figure 23 Stacked Bar 100%
-			#output$WSMPlot15 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Alternative, y=Score, fill=Criteria, label=Score),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(data=subset(Data, Score != 0), size=4, position = position_stack(vjust = 0.5))
-			#  #+ geom_text(data=subset(Data, (Score < 0.06) & (Score > 0)), size=4, angle = 90, position = position_stack(vjust = 0.5))
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="bottom",
-			#    axis.text.y = element_text(angle = 0, hjust = 1),
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(alternative_names))
-			#  + scale_y_continuous(limits = c(0,1), expand = c(0, 0))
-			#)
-			#
-			## order of stacked bars for plot2
-			#Data$Alternative <- factor(Data$Alternative, levels = rev(levels(Data$Alternative)))
-			#
-			## Figure 24 stacked bar plot
-			#output$WSMPlot16 <- renderPlot(
-			#  ggplot(
-			#    data=Data,
-			#    aes(x=Criteria, y=Score, fill=Alternative, label=Score, order=Alternative),
-			#    environment = environment()
-			#  )
-			#  + geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#  + geom_text(
-			#    data=subset(Data, Score > 0.05), size=4, position = position_stack(vjust = 0.5)
-			#  )
-			#  + geom_text(
-			#    data=subset(Data, (Score != 0) & (Score < 0.06)), size=2, position = position_stack(vjust = 0.5)
-			#  )
-			#  + theme_minimal()
-			#  #+ coord_flip()
-			#  + theme(
-			#    text=element_text(size=16),
-			#    legend.position="top",
-			#    axis.text.x = element_text(angle = 45, hjust = 1)
-			#  )
-			#  + scale_x_discrete(limits=rev(criteria_names))
-			#  + scale_y_continuous(expand = c(0, 0))
-			#)
-			#
-			# plotly example graph
-			#output$WSMPlotly2 <- renderPlotly(
-			#  ggplotly(
-			#	ggplot(
-			#	  data=Data,
-			#	  aes(x=Criteria, y=Score, fill=Alternative, label=Score),
-			#	  environment = environment()
-			#	)
-			#	+ geom_bar(data=subset(Data, Score != 0), stat="identity") # ignore empty values
-			#	+ theme_minimal()
-			#	+ coord_flip()
-			#	+ theme(
-			#		text=element_text(size=16),
-			#		legend.position="top",
-			#		axis.text.x = element_text(angle = 90, hjust = 1)
-			#	)
-			#	+ scale_x_discrete(limits=rev(criteria_names))
-			#	+ scale_y_continuous(expand = c(0, 0))
-			#  )
-			#)
+			#Score <- alternatives
+			#Data <- data.frame(Alternative, Criteria, Score)
 
 			# show output html elements
 			shinyjs::show(id="generated-output")
@@ -1610,7 +939,7 @@ server <- function(input, output, session) {
 	#--------------------------------------------------------------------------------
 	# Initial Application State for session
 	#--------------------------------------------------------------------------------
-	observe({
+	observe(autoDestroy=TRUE, {
 		# hide output html elements
 		shinyjs::hide(id="generated-output")
 		shinyjs::hide(id="dam-1-output")
@@ -1733,72 +1062,158 @@ server <- function(input, output, session) {
 	  }
 	  return(sum)
 	})
+	# list of dams
+	available_dams <- seq(1:8)
 
-	# dam1
-	output[[paste0("Dam", 1,"Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 1, ": "),
+	# alls dams
+	total_progress <- reactive({
+		sum <- 0.0
+		for (index in 1:length(available_dams)){
+			for (id in criteria_inputs){
+				sum <- as.numeric(sum + input[[paste0(id, toString(index))]])
+			}
+		}
+		return(sum)
+	})
+
+	# Total Progress
+	output[["TotalProgress"]] <- renderUI({
+		parts <- list("Total Progress: ", NA, "%")
+		# sum of all preferences for each dam
+		progress <- total_progress()
+		# percent complete
+		progress_pct <- as.integer(progress / length(available_dams) * 100)
+
+		if( progress > total_upper_bound || progress < total_lower_bound){
+			parts[2] <- paste0('<span class="not-complete">', progress_pct, '</span>')
+		}else{
+			parts[2] <- paste0('<span class="complete">', progress_pct, '</span>')
+		}
+		# doesnt parse as html by default so force it
+		return(HTML(unlist(parts)))
+	})
+	# Dam1
+	output[[paste0("Dam", 1, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 1, ": "),
 		if( progress1() > upper_bound || progress1() < lower_bound)
 			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam2
-	output[[paste0("Dam", 2,"Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 2, ": "),
+	output[[paste0("Dam", 2, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 2, ": "),
 		if( progress2() > upper_bound || progress2() < lower_bound)
 			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam3
-	output[[paste0("Dam", 3,"Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 3, ": "),
+	output[[paste0("Dam", 3, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 3, ": "),
 		if( progress3() > upper_bound || progress3() < lower_bound)
 			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam4
-	output[[paste0("Dam", 4,"Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 4, ": "),
+	output[[paste0("Dam", 4, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 4, ": "),
 		if( progress4() > upper_bound || progress4() < lower_bound)
 			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam5
-	output[[paste0("Dam", 5,"Progress")]] <- renderUI(list(
-		paste0("Progress for Dam", 5, ": "),
+	output[[paste0("Dam", 5, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 5, ": "),
 		if( progress5() > upper_bound || progress5() < lower_bound)
 			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
 		else
 			tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam6
-	output[[paste0("Dam", 6,"Progress")]] <- renderUI(list(
-	  paste0("Progress for Dam", 6, ": "),
+	output[[paste0("Dam", 6, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 6, ": "),
 	  if( progress6() > upper_bound || progress6() < lower_bound)
-	    tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
 	  else
-	    tags$span("1.0 / 1.0", class="complete")
+		tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam7
-	output[[paste0("Dam", 7,"Progress")]] <- renderUI(list(
-	  paste0("Progress for Dam", 7, ": "),
+	output[[paste0("Dam", 7, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 7, ": "),
 	  if( progress7() > upper_bound || progress7() < lower_bound)
-	    tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
 	  else
-	    tags$span("1.0 / 1.0", class="complete")
+		tags$span("1.0 / 1.0", class="complete")
 	))
 	# Dam8
-	output[[paste0("Dam", 8,"Progress")]] <- renderUI(list(
-	  paste0("Progress for Dam", 8, ": "),
+	output[[paste0("Dam", 8, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 8, ": "),
 	  if( progress8() > upper_bound || progress8() < lower_bound)
-	    tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
 	  else
-	    tags$span("1.0 / 1.0", class="complete")
+		tags$span("1.0 / 1.0", class="complete")
 	))
 
+	# update button progress trackers
+	output[[paste0("UpdateDam", 1, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 1, ": "),
+		if( progress1() > upper_bound || progress1() < lower_bound)
+			tags$span(paste0(progress1(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 2, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 2, ": "),
+		if( progress2() > upper_bound || progress2() < lower_bound)
+			tags$span(paste0(progress2(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 3, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 3, ": "),
+		if( progress3() > upper_bound || progress3() < lower_bound)
+			tags$span(paste0(progress3(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 4, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 4, ": "),
+		if( progress4() > upper_bound || progress4() < lower_bound)
+			tags$span(paste0(progress4(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 5, "Progress")]] <- renderUI(list(
+		paste0("Progress for Dam ", 5, ": "),
+		if( progress5() > upper_bound || progress5() < lower_bound)
+			tags$span(paste0(progress5(), " / 1.0"), class="not-complete")
+		else
+			tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 6, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 6, ": "),
+	  if( progress6() > upper_bound || progress6() < lower_bound)
+		tags$span(paste0(progress6(), " / 1.0"), class="not-complete")
+	  else
+		tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 7, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 7, ": "),
+	  if( progress7() > upper_bound || progress7() < lower_bound)
+		tags$span(paste0(progress7(), " / 1.0"), class="not-complete")
+	  else
+		tags$span("1.0 / 1.0", class="complete")
+	))
+	output[[paste0("UpdateDam", 8, "Progress")]] <- renderUI(list(
+	  paste0("Progress for Dam ", 8, ": "),
+	  if( progress8() > upper_bound || progress8() < lower_bound)
+		tags$span(paste0(progress8(), " / 1.0"), class="not-complete")
+	  else
+		tags$span("1.0 / 1.0", class="complete")
+	))
 
 	#--------------------------------------------------------------------------------
 	# User Step 1 Event Listeners
@@ -1940,6 +1355,22 @@ server <- function(input, output, session) {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
+	observeEvent(input$testWSM, {
+		message("testWSM")
+		# source and pass data do wsm function
+
+		raw_scores <- getRawScores()
+
+		# assign values in new matrix
+		RawCriteriaMatrix <- data.frame(
+			matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+		)
+
+		NormalizedMatrix <- as.array(f_nrge)
+		results <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
+		message("server got results from WSM")
+		# end source and pass data do wsm function
+	})
 
 	#NOTE: this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
@@ -2100,5 +1531,5 @@ server <- function(input, output, session) {
 	  }
 	)
 
-}} # end server
+} # end server
 
