@@ -1,5 +1,6 @@
 # plots.R
 # all wrappers for plot rendering
+library(reshape2)
 
 # renderBarPlot
 #----------------------------------------
@@ -26,10 +27,14 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		message('BarPlot convert vector data to frame')
 		df <- data.frame(criteria=x_names, score=df)
 	}
+	else if (is.matrix(df)){
+		message('BarPlot convert matrix data to frame')
+		df <- data.frame(criteria=x_names, score=df)
+	}
 
 	plot <- ggplot(
 		data=df,
-		mapping =aes(x=criteria, y=score, fill=criteria)
+		mapping = aes(x=criteria, y=score, fill=criteria)
 		# if data frame column mappings conflict with environment we may need to specify an execution environment
 		#environment = environment(),
 	)
@@ -42,6 +47,67 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		+ theme_minimal()
 		+ theme(legend.position="none", text=element_text(size=20))
 		+ scale_x_discrete(limits=rev(x_names))
+		+ ylab(y_label)
+		+ xlab(x_label)
+	)
+	return(result)
+}
+
+
+# renderCombinedBarPlot
+#----------------------------------------
+# wrapper for barplot with a debug message
+# when no value is needed pass NULL for a field
+# x_limit and y_limit are arrays when not NULL
+# xpd == False disables bars being drawn outsize graph canvas
+renderCombinedBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
+	# debug data
+	message('------------------')
+	message(
+		'CombinedBarPlot title: ', title,
+		# '\ndata: ', df,
+		"\n#(values in data): ", length(df),
+		"\n#(dim of data): ", dim(df),
+		"\nclasstype: ", class(df),
+		"\ndatatype: ", typeof(df),
+		"\n#(x names): ", length(x_names)
+	)
+	message('------------------')
+
+	Dam <- c(rep(dam_names, times=length(x_names)))
+	Criteria <- c(rep(x_names, each=length(dam_names)))
+	Score <- unlist(as.data.frame(df))
+	df <- data.frame(Criteria, Dam, Score)
+
+	# ordering by order of criteria appearance
+	df$Criteria <- factor(df$Criteria, levels=unique(df$Criteria))
+
+	#message("Dams ", Dam, " dim ", dim(Dam))
+	#message("Crits ", Criteria, " dim ", dim(Criteria))
+	#message("Score ", Score, " dim ", dim(Score))
+
+	plot <- ggplot(
+		data=df,
+		# if data frame column mappings conflict with environment we may need to specify an execution environment
+		#environment = environment(),
+		mapping = aes(x=Criteria, y=Score, fill=Dam, label=Score)
+	)
+
+	result <-  renderPlot(
+		plot
+		# inclue empty values
+		+ geom_bar(stat="identity")
+		# ignore empty values (uncomment)
+		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
+		#+ coord_flip() # sometimes helpful for better fitting graph on screen
+		+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
+		+ theme_minimal()
+		+ theme(
+			text=element_text(size=16),
+			legend.position="bottom",
+			axis.text.y = element_text(angle = 0, hjust = 1),
+			axis.text.x = element_text(angle = 45, hjust = 1)
+		)
 		+ ylab(y_label)
 		+ xlab(x_label)
 	)

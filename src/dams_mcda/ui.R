@@ -1,10 +1,10 @@
 # This is the user-interface definition of a Shiny web application
 
 library(shiny)
-library(ggplot2)
 library(dplyr, warn.conflicts=FALSE)
 library(shinyjs, warn.conflicts=FALSE)
 library(Cairo)
+library(ggplot2)
 library(RColorBrewer)
 library(spatstat)
 library(rgdal)
@@ -1360,7 +1360,7 @@ ui <- shinyUI(fluidPage(
 			div(id="combined-output",
 				h2('All Preferences'),
 				tableOutput("FilledCriteriaTable"),
-				tableOutput("FilledCriteriaGraph"),
+				plotOutput("FilledCriteriaGraph"),
 
 				h2('WSM1'),
 				#TODO

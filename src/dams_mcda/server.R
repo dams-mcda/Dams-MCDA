@@ -114,9 +114,9 @@ criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
 # default graph color array
 colors <- c("darkblue", "purple", "green", "red", "yellow", "orange", "pink")
 # default graph score range
-score_range <- c(0, 1)
+score_range <- c(0, 100)
 # range of final graph of summed scores
-summed_score_range <- c(0, 1)
+summed_score_range <- c(0, 100)
 # set to TRUE to show row names on tables
 enable_rownames <<- TRUE
 
@@ -885,19 +885,32 @@ server <- function(input, output, session) {
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
-			message("generateOutput RawCriteriaMatrix: ", RawCriteriaMatrix)
+			#message("generateOutput RawCriteriaMatrix: ", RawCriteriaMatrix)
 
-			## origial scores in table form
-			## for debugging table size
-			output$FilledCriteriaTable <- renderTable(RawCriteriaMatrix, rownames=enable_rownames)
+			# origial scores in table form
+			# for debugging table size
+			# invert matrix to better fit on screen for mobile users
+			output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
+
+			# same as Table, but a graph
+			output$FilledCriteriaGraph <- renderCombinedBarPlot(
+				RawCriteriaMatrix, # data
+				"Preferences for all dams", # title
+				criteria_names, # x_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (Unknown in this case)
+			)
 
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
-			message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
+			#message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
 
 			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
-			message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
+			#message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
 
 			map_name <- WSMResults[4]
 
@@ -905,7 +918,6 @@ server <- function(input, output, session) {
 			#message("WSMTableOutput length(dam_names): ", length(dam_names))
 			message("WSM map name: ", map_name, " type ", class(map_name))
 			WSMTableOutput <- data.frame(WSMMatrix)#, row.names=dam_names, check.names=FALSE)
-
 
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
