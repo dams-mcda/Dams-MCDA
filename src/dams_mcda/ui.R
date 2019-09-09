@@ -136,7 +136,7 @@ ui <- shinyUI(fluidPage(
 			 # tab content
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
-				 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				 <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -237,7 +237,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider and rate the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b> For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -334,7 +334,7 @@ ui <- shinyUI(fluidPage(
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -431,7 +431,7 @@ ui <- shinyUI(fluidPage(
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -530,7 +530,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider the decision criteria listed below for North Twin Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -629,7 +629,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -728,7 +728,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
@@ -827,7 +827,7 @@ ui <- shinyUI(fluidPage(
 			h2("Ripogenus Dam (FERC No. P-2572)"),
 			HTML(
 				'Please consider the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
