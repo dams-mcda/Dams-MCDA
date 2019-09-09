@@ -1360,7 +1360,10 @@ ui <- shinyUI(fluidPage(
 			div(id="combined-output",
 				h2('All Preferences'),
 				tableOutput("FilledCriteriaTable"),
+				# by criteria
 				plotOutput("FilledCriteriaGraph"),
+				# by dam
+				plotOutput("FilledCriteriaGraph2"),
 
 				h2('WSM1'),
 				#TODO

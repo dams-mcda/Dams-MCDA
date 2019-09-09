@@ -61,18 +61,19 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
 renderCombinedBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
+	# this method plots by criteria
 	# debug data
-	message('------------------')
 	message(
+		'------------------\n',
 		'CombinedBarPlot title: ', title,
 		# '\ndata: ', df,
 		"\n#(values in data): ", length(df),
 		"\n#(dim of data): ", dim(df),
 		"\nclasstype: ", class(df),
 		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names)
+		"\n#(x names): ", length(x_names),
+		'\n------------------'
 	)
-	message('------------------')
 
 	Dam <- c(rep(dam_names, times=length(x_names)))
 	Criteria <- c(rep(x_names, each=length(dam_names)))
@@ -91,6 +92,68 @@ renderCombinedBarPlot <- function(df, title, x_names, x_label, y_label, colors, 
 		# if data frame column mappings conflict with environment we may need to specify an execution environment
 		#environment = environment(),
 		mapping = aes(x=Criteria, y=Score, fill=Dam, label=Score)
+	)
+
+	result <-  renderPlot(
+		plot
+		# inclue empty values
+		+ geom_bar(stat="identity")
+		# ignore empty values (uncomment)
+		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
+		#+ coord_flip() # sometimes helpful for better fitting graph on screen
+		+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
+		+ theme_minimal()
+		+ theme(
+			text=element_text(size=16),
+			legend.position="bottom",
+			axis.text.y = element_text(angle = 0, hjust = 1),
+			axis.text.x = element_text(angle = 45, hjust = 1)
+		)
+		+ ylab(y_label)
+		+ xlab(x_label)
+	)
+	return(result)
+}
+
+
+# renderCombinedBarPlot2
+#----------------------------------------
+# wrapper for barplot with a debug message
+# when no value is needed pass NULL for a field
+# x_limit and y_limit are arrays when not NULL
+# xpd == False disables bars being drawn outsize graph canvas
+renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
+	# this method plots by dam 
+	# debug data
+	message(
+		'------------------\n',
+		'CombinedBarPlot title: ', title,
+		# '\ndata: ', df,
+		"\n#(values in data): ", length(df),
+		"\n#(dim of data): ", dim(df),
+		"\nclasstype: ", class(df),
+		"\ndatatype: ", typeof(df),
+		"\n#(x names): ", length(x_names),
+		'\n------------------'
+	)
+
+	Dam <- c(rep(dam_names, times=length(x_names)))
+	Criteria <- c(rep(x_names, each=length(dam_names)))
+	Score <- unlist(as.data.frame(df))
+	df <- data.frame(Criteria, Dam, Score)
+
+	# ordering by order of dam appearance
+	df$Dam <- factor(df$Dam, levels=unique(df$Dam))
+
+	#message("Dams ", Dam, " dim ", dim(Dam))
+	#message("Crits ", Criteria, " dim ", dim(Criteria))
+	#message("Score ", Score, " dim ", dim(Score))
+
+	plot <- ggplot(
+		data=df,
+		# if data frame column mappings conflict with environment we may need to specify an execution environment
+		#environment = environment(),
+		mapping = aes(x=Dam, y=Score, fill=Criteria, label=Score, order=Criteria)
 	)
 
 	result <-  renderPlot(

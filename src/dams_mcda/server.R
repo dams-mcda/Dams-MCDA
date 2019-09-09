@@ -904,6 +904,18 @@ server <- function(input, output, session) {
 				NULL # y value limit (Unknown in this case)
 			)
 
+			# same as Table, but a graph
+			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
+				RawCriteriaMatrix, # data
+				"Preferences for all dams", # title
+				criteria_names, # x_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (Unknown in this case)
+			)
+
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
