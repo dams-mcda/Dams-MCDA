@@ -108,13 +108,24 @@ body{
 	border-color:#3ebb37;
 }
 
-#generateMatrix {
+#generateMatrix,
+#generateMatrix1,
+#generateMatrix2,
+#generateMatrix3,
+#generateMatrix4,
+#generateMatrix5,
+#generateMatrix6,
+#generateMatrix7,
+#generateMatrix8,
+#generateCombinedMatrix
+{
 	width:80%; /* same width as form */
 	color:#fff;
 	background-color:#337ab7;
 	border-color:#2e6da4;
 	margin-bottom:0.8em;
 }
+
 #downloadData {
 	width:80%; /* same width as form */
 	margin-bottom:0.8em;
@@ -166,17 +177,23 @@ li.active > a[data-value="Acknowledgements"] {
 	background-color:#F9C04C;
 }
 
-.nav > li > a[data-value="Results"]{
+.nav > li > a[data-value="Combined Results"],
+.nav > li > a[data-value="Map Recommendation"]
+{
 	background-color:#F0c0A8;
 	color:#4e4e4e !important;
 }
 
-.nav > li > a[data-value="Results"]:hover{
+.nav > li > a[data-value="Combined Results"]:hover,
+.nav > li > a[data-value="Map Recommendation"]:hover
+{
 	background-color:#f3a57b !important;
 	color:#4e4e4e !important;
 }
 
-.nav > li.active > a[data-value="Results"]{
+.nav > li.active > a[data-value="Combined Results"],
+.nav > li.active > a[data-value="Map Recommendation"]
+{
 	background-color:#f09768 !important;
 }
 
