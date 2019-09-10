@@ -13,7 +13,7 @@ source("WSM.R")
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-source(file = 'f_nrge.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+source(file='f_nrge.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
 NormalizedMatrix <- as.array(f_nrge)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
@@ -176,7 +176,7 @@ FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, Dams
 					  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 					  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage, 
+Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage, 
 				DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
 				DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
 				DamsData$Health_Remove, DamsData$Justice_Remove)
