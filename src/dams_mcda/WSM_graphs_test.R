@@ -50,6 +50,117 @@ dam_names <- as.list(c('WestEnfield','Medway','Millinocket','E.Millinocket','Nor
 # alternative display names (for labeling tables and graphs)
 alternative_names <- as.list(c( "Keep and Maintain Dam", "Improve Hydro", "Improve Fish Passage", "Hydro And Fish", "Remove Dam"))
 
+# West Enfield/Dam 1 output table(s)
+
+Dam1RawTable <- setDT(WestEnf_DataMatrix)
+row.names(Dam1RawTable) <- alternative_names
+colnames(Dam1RawTable) <- criteria_inputs
+
+Dam1NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,1]))
+row.names(Dam1NormTable) <- alternative_names
+colnames(Dam1NormTable) <- criteria_inputs
+
+Dam1ScoreTable <- setDT(Dam1Results)
+row.names(Dam1ScoreTable) <- alternative_names
+colnames(Dam1ScoreTable) <- criteria_inputs
+
+# Medway/Dam 2 output table(s)
+
+Dam2RawTable <- setDT(Med_DataMatrix)
+rownames(Dam2RawTable) <- alternative_names
+colnames(Dam2RawTable) <- criteria_inputs
+
+Dam2NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,2]))
+row.names(Dam2NormTable) <- alternative_names
+colnames(Dam2NormTable) <- criteria_inputs
+
+Dam2ScoreTable <- setDT(Dam2Results)
+row.names(Dam2ScoreTable) <- alternative_names
+colnames(Dam2ScoreTable) <- criteria_inputs
+
+# Millinocket/Dam 3 output table(s)
+
+Dam3RawTable <- setDT(Mill_DataMatrix)
+rownames(Dam3RawTable) <- alternative_names
+colnames(Dam3RawTable) <- criteria_inputs
+
+Dam3NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,3]))
+row.names(Dam3NormTable) <- alternative_names
+colnames(Dam3NormTable) <- criteria_inputs
+
+Dam3ScoreTable <- setDT(Dam3Results)
+row.names(Dam3ScoreTable) <- alternative_names
+colnames(Dam3ScoreTable) <- criteria_inputs
+
+# East Millinocket/Dam 4 output table(s)
+
+Dam4RawTable <- setDT(EastMill_DataMatrix)
+rownames(Dam4RawTable) <- alternative_names
+colnames(Dam4RawTable) <- criteria_inputs
+
+Dam4NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,4]))
+row.names(Dam4NormTable) <- alternative_names
+colnames(Dam4NormTable) <- criteria_inputs
+
+Dam4ScoreTable <- setDT(Dam4Results)
+row.names(Dam4ScoreTable) <- alternative_names
+colnames(Dam4ScoreTable) <- criteria_inputs
+
+# North Twin/Dam 5 output table(s)
+
+Dam5RawTable <- setDT(NorthTw_DataMatrix)
+rownames(Dam5RawTable) <- alternative_names
+colnames(Dam5RawTable) <- criteria_inputs
+
+Dam5NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,5]))
+row.names(Dam5NormTable) <- alternative_names
+colnames(Dam5NormTable) <- criteria_inputs
+
+Dam5ScoreTable <- setDT(Dam5Results)
+row.names(Dam5ScoreTable) <- alternative_names
+colnames(Dam5ScoreTable) <- criteria_inputs
+
+# Dolby/Dam 6 output table(s)
+
+Dam6RawTable <- setDT(Dolby_DataMatrix)
+rownames(Dam6RawTable) <- alternative_names
+colnames(Dam6RawTable) <- criteria_inputs
+
+Dam6NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,6]))
+row.names(Dam6NormTable) <- alternative_names
+colnames(Dam6NormTable) <- criteria_inputs
+
+Dam6ScoreTable <- setDT(Dam6Results)
+row.names(Dam6ScoreTable) <- alternative_names
+colnames(Dam6ScoreTable) <- criteria_inputs
+
+# Millinocket Lake /Dam 7 output table(s)
+
+Dam7RawTable <- setDT(MillLake_DataMatrix)
+rownames(Dam7RawTable) <- alternative_names
+colnames(Dam7RawTable) <- criteria_inputs
+
+Dam7NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,7]))
+row.names(Dam7NormTable) <- alternative_names
+colnames(Dam7NormTable) <- criteria_inputs
+
+Dam7ScoreTable <- setDT(Dam7Results)
+row.names(Dam7ScoreTable) <- alternative_names
+colnames(Dam4ScoreTable) <- criteria_inputs
+
+# Ripogenus/Dam 8 output table(s)
+
+Dam8RawTable <- setDT(Rip_DataMatrix)
+rownames(Dam8RawTable) <- alternative_names
+colnames(Dam8RawTable) <- criteria_inputs
+
+Dam8NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,8]))
+row.names(Dam8NormTable) <- alternative_names
+colnames(Dam8NormTable) <- criteria_inputs
+
+Dam8ScoreTable <- setDT(Dam8Results)
+row.names(Dam8ScoreTable) <- alternative_names
+colnames(Dam8ScoreTable) <- criteria_inputs
 #-------------------------------------------------------
 
 ## bars for ALL Dam MCDA score results
