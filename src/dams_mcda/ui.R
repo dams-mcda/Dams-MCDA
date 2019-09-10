@@ -318,6 +318,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam2Progress"),
 			actionButton("updateBtn2", "Update")
 
 		), # End Medway Dam Tab
@@ -415,6 +416,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam3Progress"),
 			actionButton("updateBtn3", "Update")
 
 		), # End Millinocket Dam
@@ -513,6 +515,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam4Progress"),
 			actionButton("updateBtn4", "Update")
 
 		), # End East Millinocket Dam Tab
@@ -612,6 +615,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam5Progress"),
 			actionButton("updateBtn5", "Update")
 
 		), # End North Twin Dam Tab
@@ -711,6 +715,7 @@ ui <- shinyUI(fluidPage(
 		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
+		  htmlOutput("UpdateDam6Progress"),
 		  actionButton("updateBtn6", "Update")
 
 		), # End Dolby Dam Tab
@@ -811,6 +816,7 @@ ui <- shinyUI(fluidPage(
 		  ),
 
 
+			htmlOutput("UpdateDam7Progress"),
 			actionButton("updateBtn7", "Update")
 
 		), # End Millinocket Lake Dam Tab
@@ -909,6 +915,7 @@ ui <- shinyUI(fluidPage(
 				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam8Progress"),
 			actionButton("updateBtn8", "Update")
 
 		), # End Ripogenus Dam Tab
