@@ -890,14 +890,14 @@ server <- function(input, output, session) {
 			# origial scores in table form
 			# for debugging table size
 			# invert matrix to better fit on screen for mobile users
-			output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
+			#output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
 
 			# same as Table, but a graph
 			output$FilledCriteriaGraph <- renderCombinedBarPlot(
 				RawCriteriaMatrix, # data
 				"Preferences for all dams", # title
 				criteria_names, # x_labels
-				"Criteria", # x axis label
+				"Alternative", # x axis label
 				"Score", # y axis label
 				colors, # colors
 				NULL, # x value limit
@@ -909,7 +909,7 @@ server <- function(input, output, session) {
 				RawCriteriaMatrix, # data
 				"Preferences for all dams", # title
 				criteria_names, # x_labels
-				"Criteria", # x axis label
+				"Alternative", # x axis label
 				"Score", # y axis label
 				colors, # colors
 				NULL, # x value limit
@@ -942,9 +942,10 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# final output table commented out due to redundancy
 			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
+			message("WSMTableOutput: ", WSMTableOutput)
 
 			message('saveResponse')
-			saveResponse(WSMTableOutput)
+			#saveResponse(WSMTableOutput)
 
 			## stacked bars data table
 			Alternative <- c(rep(alternative_names, each=length(criteria_names)))

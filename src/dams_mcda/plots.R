@@ -2,6 +2,7 @@
 # all wrappers for plot rendering
 library(reshape2)
 library(viridis)
+library(stringr)
 
 # renderBarPlot
 #----------------------------------------
@@ -156,7 +157,7 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 		data=df,
 		# if data frame column mappings conflict with environment we may need to specify an execution environment
 		#environment = environment(),
-		mapping = aes(x=Dam, y=Score, fill=Criteria, label=Score, order=Criteria)
+		mapping = aes(x=Dam, y=Score, fill=str_wrap(Criteria, 24), label=Score, order=Criteria)
 	)
 
 	result <-  renderPlot(
@@ -171,9 +172,11 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
+			legend.key.height=unit(1.5,"cm"),
 			axis.text.y = element_text(angle = 0, hjust = 1),
 			axis.text.x = element_text(angle = 45, hjust = 1)
 		)
+		+ guides(fill=guide_legend(title=x_label))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		# Criteria labels are long

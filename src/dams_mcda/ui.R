@@ -1350,7 +1350,7 @@ ui <- shinyUI(fluidPage(
 			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 
 			#TODO: remove for production
-			#actionButton("autoGenerateMatrix", "Autofill: debug only"),
+			actionButton("autoGenerateMatrix", "Autofill: debug only"),
 			#actionButton("testWSM", "test WSM: debug only"),
 			#actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
@@ -1358,12 +1358,19 @@ ui <- shinyUI(fluidPage(
 			actionButton("generateCombinedMatrix", "Generate"),
 
 			div(id="combined-output",
-				h2('All Preferences'),
-				tableOutput("FilledCriteriaTable"),
-				# by criteria
-				plotOutput("FilledCriteriaGraph"),
+				#h2('All Preferences'),
+				#tableOutput("FilledCriteriaTable"),
+
 				# by dam
-				plotOutput("FilledCriteriaGraph2"),
+				h2('All Preferences by Dam'),
+				plotOutput("FilledCriteriaGraph2", height="35em"),
+
+				# by criteria
+				h2('All Preferences by Alternative'),
+				plotOutput("FilledCriteriaGraph", height="35em"),
+
+				h2('WSMTableOutput'),
+				tableOutput("WSMTable"),
 
 				h2('WSM1'),
 				#TODO
