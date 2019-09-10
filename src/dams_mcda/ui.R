@@ -99,7 +99,9 @@ ui <- shinyUI(fluidPage(
 				time helping to shape post-industrial town or city identities over the last two centuries.<br>"
 			 ),
 
-			helpText( a("Click HERE for more information about the tradeoffs involved in dam decision making", href = "http://www.pnas.org/content/early/2018/10/31/1807437115"))
+			helpText( 
+			  HTML('<a href = "http://www.pnas.org/content/early/2018/10/31/1807437115" target="_blank">Click HERE for more information about the tradeoffs involved in dam decision making</a>')
+			  )
 		  ),
 
 
@@ -116,7 +118,9 @@ ui <- shinyUI(fluidPage(
 				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a><br>'),
 				HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
 			),
-			leafletOutput("dam_map", width=map_width, height=map_height)
+			leafletOutput("dam_map", width=map_width, height=map_height),
+			img(src = 'Penobscot_MO_14_443', width="50%", align = "center", style="margin:0.2em;")
+			
 		),
 
 
@@ -140,9 +144,10 @@ ui <- shinyUI(fluidPage(
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-
-			helpText( a("Click to view West Enfield Data", href = "WestEnfield_RawDecisionMatrix.pdf")),
-
+      helpText( 
+        HTML('<a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>')
+        
+        ),
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -241,7 +246,10 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b> For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( a("Click to view Medway Data", href = "Medway_RawDecisionMatrix.pdf")),
+			helpText( 
+			  HTML('<a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>')
+			  
+			),
 			htmlOutput("Dam2Progress"),
 
 			#----------------------------------------
@@ -339,7 +347,10 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
+			helpText( 
+			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
+			  
+			),
 			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
@@ -438,7 +449,10 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
+			helpText( 
+			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
+			  
+			),
 			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
@@ -538,7 +552,10 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
+			helpText( 
+			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
+			  
+			),
 			htmlOutput("Dam5Progress"),
 
 			#----------------------------------------
@@ -638,7 +655,10 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
+			helpText( 
+			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
+			  
+			),
 			htmlOutput("Dam6Progress"),
 
 		  #----------------------------------------
@@ -737,8 +757,10 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( a("Click to view Penobscot Mills Project Data", href = "PenobscotMills_RawDecisionMatrix.pdf")),
-
+			helpText( 
+			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
+			  
+			),
 			htmlOutput("Dam7Progress"),
 
 		  #----------------------------------------
@@ -837,8 +859,10 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-		  helpText( a("Click to view Ripogenus Data", href = "Ripogenus_RawDecisionMatrix.pdf")),
-
+			helpText( 
+			  HTML('<a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>')
+			  
+			),
 			htmlOutput("Dam8Progress"),
 
 			#----------------------------------------
