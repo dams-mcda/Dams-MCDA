@@ -52,6 +52,8 @@ matrix_levs <- length(1:995)
 WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", matrix_levs)
 
+	colnames(Decisions) <- dam_names
+
 	#----------------------------------------
 	# SINGLE DAM PROCEDURE FOR PREFERENCES
 	#
@@ -264,6 +266,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	# SINGLE DAM WEIGHTING PROCEDURE
 	#----------------------------------------
 	Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
+	message("Dam1 weighted results", Dam1Results, " dims ", dim(Dam1Results))
 	Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
@@ -272,8 +275,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
 
+	# Ind WeightedScoreMatrix, this binds each dam to 5 rows, one for each alternative
+	Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
+	colnames(Ind_WeightedScoreMatrix) <- criteria_inputs
+
 	# store all results in one data structure
-	WeightedResults <- array( data=NA, dim=c(matrix_levs_ind,matrix_cols,matrix_rows))
+	WeightedResults <- array( data=NA, dim=c(matrix_levs_ind, matrix_cols, matrix_rows))
 	WeightedResults[,,1] <- as.matrix(Dam1Results)
 	WeightedResults[,,2] <- as.matrix(Dam2Results)
 	WeightedResults[,,3] <- as.matrix(Dam3Results)
@@ -298,10 +305,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	# Ind ScoreSum
 	Ind_scoresum <- as.data.frame(ScoreSums, rownames=dam_names)
 	colnames(Ind_scoresum)<- alternative_names
-
-	# Ind WeightedScoreMatrix
-	Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
-	colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
 	#----------------------------------------
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
@@ -328,10 +331,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 		scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
 	}
 
-	colnames(Decisions) <- dam_names
-	idxScen <- c(1:995)
-	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
-
 	#-----------------------------------------
 	# Rank:
 	#  may need to reshape the array produced by the weighted sum procedure
@@ -343,7 +342,9 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxRank <- setorder(scoresum_index,-scoresum_total)
+	idxScen <- c(1:995)
+	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
+	idxRank <- setorder(scoresum_index, -scoresum_total)
 
 	Dam1Scen <- t(WeightedScoreMatrix[1,,])
 	Dam2Scen <- t(WeightedScoreMatrix[2,,])
@@ -354,7 +355,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	Dam7Scen <- t(WeightedScoreMatrix[7,,])
 	Dam8Scen <- t(WeightedScoreMatrix[8,,])
 
-	multiDamResult <- array(data = NA, dim = c(995,8, 14))
+	multiDamResult <- array(data = NA, dim = c(995, 8, 14))
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 	# use scenario idxRank[1] to find corresponding map name
