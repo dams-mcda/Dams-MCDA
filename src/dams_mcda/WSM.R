@@ -263,14 +263,14 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	# SINGLE DAM WEIGHTING PROCEDURE
 	#----------------------------------------
-	Dam1Results <- (Ind_NormalizedMatrix[,,1]*WestEnf_PrefMatrix)
-	Dam2Results <- (Ind_NormalizedMatrix[,,2]*Med_PrefMatrix)
-	Dam3Results <- (Ind_NormalizedMatrix[,,3]*Mill_PrefMatrix)
-	Dam4Results <- (Ind_NormalizedMatrix[,,4]*EastMill_PrefMatrix)
-	Dam5Results <- (Ind_NormalizedMatrix[,,5]*NorthTw_PrefMatrix)
-	Dam6Results <- (Ind_NormalizedMatrix[,,6]*Dolby_PrefMatrix)
-	Dam7Results <- (Ind_NormalizedMatrix[,,7]*MillLake_PrefMatrix)
-	Dam8Results <- (Ind_NormalizedMatrix[,,8]*Rip_PrefMatrix)
+	Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam5Results <- ((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
 
 	# store all results in one data structure
 	WeightedResults <- array( data=NA, dim=c(matrix_levs_ind,matrix_cols,matrix_rows))
