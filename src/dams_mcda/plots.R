@@ -1,6 +1,7 @@
 # plots.R
 # all wrappers for plot rendering
 library(reshape2)
+library(viridis)
 
 # renderBarPlot
 #----------------------------------------
@@ -49,6 +50,7 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		+ scale_x_discrete(limits=rev(x_names))
 		+ ylab(y_label)
 		+ xlab(x_label)
+		+ scale_fill_viridis(discrete=TRUE)
 	)
 	return(result)
 }
@@ -111,6 +113,7 @@ renderCombinedBarPlot <- function(df, title, x_names, x_label, y_label, colors, 
 		)
 		+ ylab(y_label)
 		+ xlab(x_label)
+		+ scale_fill_viridis(discrete=TRUE)
 	)
 	return(result)
 }
@@ -173,6 +176,8 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 		)
 		+ ylab(y_label)
 		+ xlab(x_label)
+		# Criteria labels are long
+		+ scale_fill_viridis(discrete=TRUE)
 	)
 	return(result)
 }
