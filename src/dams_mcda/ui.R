@@ -1,10 +1,10 @@
 # This is the user-interface definition of a Shiny web application
 
 library(shiny)
-library(ggplot2)
 library(dplyr, warn.conflicts=FALSE)
 library(shinyjs, warn.conflicts=FALSE)
 library(Cairo)
+library(ggplot2)
 library(RColorBrewer)
 library(spatstat)
 library(rgdal)
@@ -114,9 +114,9 @@ ui <- shinyUI(fluidPage(
 				Hover over the dams on the map for more information on each site.<br>"
 			),
 			helpText(
-				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a>'),
-				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a>'),
-				HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
+				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a><br>'),
+				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a><br>'),
+				HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
 			),
 			leafletOutput("dam_map", width=map_width, height=map_height),
 			img(src = 'Penobscot_MO_14_443', width="50%", align = "center", style="margin:0.2em;")
@@ -140,9 +140,9 @@ ui <- shinyUI(fluidPage(
 			 # tab content
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
-				 <br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				 <br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				 <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
       helpText( 
         HTML('<a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>')
@@ -242,9 +242,9 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider and rate the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b> For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b> For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
 			  HTML('<a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>')
@@ -326,6 +326,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam2Progress"),
 			actionButton("updateBtn2", "Update")
 
 		), # End Medway Dam Tab
@@ -342,9 +343,9 @@ ui <- shinyUI(fluidPage(
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
@@ -426,6 +427,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam3Progress"),
 			actionButton("updateBtn3", "Update")
 
 		), # End Millinocket Dam
@@ -442,9 +444,9 @@ ui <- shinyUI(fluidPage(
 			h2("East Millinocket Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
 			helpText( 
@@ -527,6 +529,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam4Progress"),
 			actionButton("updateBtn4", "Update")
 
 		), # End East Millinocket Dam Tab
@@ -544,9 +547,9 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider the decision criteria listed below for North Twin Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
 			helpText( 
@@ -629,6 +632,7 @@ ui <- shinyUI(fluidPage(
 			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam5Progress"),
 			actionButton("updateBtn5", "Update")
 
 		), # End North Twin Dam Tab
@@ -646,9 +650,9 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
 			helpText( 
@@ -731,6 +735,7 @@ ui <- shinyUI(fluidPage(
 		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
+		  htmlOutput("UpdateDam6Progress"),
 		  actionButton("updateBtn6", "Update")
 
 		), # End Dolby Dam Tab
@@ -748,9 +753,9 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
@@ -833,6 +838,7 @@ ui <- shinyUI(fluidPage(
 		  ),
 
 
+			htmlOutput("UpdateDam7Progress"),
 			actionButton("updateBtn7", "Update")
 
 		), # End Millinocket Lake Dam Tab
@@ -849,9 +855,9 @@ ui <- shinyUI(fluidPage(
 			h2("Ripogenus Dam (FERC No. P-2572)"),
 			HTML(
 				'Please consider the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 1!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 1, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 1). <br>\
-				<br><b>For ratings, 0 = not at all important and 1 = extremely important.</b><br>'
+				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
 			  HTML('<a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>')
@@ -865,74 +871,75 @@ ui <- shinyUI(fluidPage(
 			#Fish Survival
 			div(id="fish-survival-8",
 				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-8",
 				h3("River Recreation"),
-				sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "RiverRec8", label = riverRecLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Reservoir Storage
 			div(id="res-storage-8",
 				h3("Reservoir Storage"),
-				sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Reservoir8", label = resStorageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annuitized Project Costs
 			div(id="ann-proj-costs-8",
 				h3("Annuitized Project Costs"),
-				sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ProjectCost8", label = annuitizedProjCostsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Breach Damage Potential
 			div(id="breach-damage-8",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-8",
 				h3("Number of Properties"),
-				sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "NumProperties8", label = numPropertiesLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Annual Electricity Generation
 			div(id="ann-elec-gen-8",
 				h3("Annual Electricity Generation"),
-				sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "ElectricityGeneration8", label = annualElectricityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-8",
 				h3("CO2 Emissions Reductions"),
-				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
 			div(id="indig-lifeways-8",
 				h3("Indigenous Cultural Traditions and Lifeways"),
-				sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndigenousLifeways8", label = indigenousLifewaysLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndustrialHistory
 			div(id="industrial-8",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
 			#CommunityIdentity
 			div(id="community-8",
 				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-8",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#PublicHealth
 			div(id="health-8",
 				h3("Public Health"),
-				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Justice
 			div(id="justice-8",
 				h3("Socio-Environmental Justice"),
-				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=1, step = 0.025)
+				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=100, step = 5)
 			),
 
+			htmlOutput("UpdateDam8Progress"),
 			actionButton("updateBtn8", "Update")
 
 		), # End Ripogenus Dam Tab
@@ -946,14 +953,6 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
 
-			#TODO: remove for production
-			actionButton("autoGenerateMatrix", "Autofill: debug only"),
-			actionButton("testWSM", "test WSM: debug only"),
-			actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
-
-			# generate event
-			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-			actionButton("generateMatrix", "Generate"), #will need to move below summplot1 output after debugging
 
 			div(id="dam-1-output",
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
@@ -962,9 +961,15 @@ ui <- shinyUI(fluidPage(
 					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
-
 			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
 
+				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
+				actionButton("generateMatrix", "Generate") #will need to move below summplot1 output after debugging
+
+			),
+
+			# output post generate
+			div(id="generated-output-1",
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1006,16 +1011,14 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 4. Raw Preference Scores for Medway"),
-		             plotOutput("SummPlot2", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot2", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix2", "Generate")
 		         ),
 
-				 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix2", "Generate"),
-
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-2",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 5: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1051,6 +1054,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData2", "Download Medway")
 				 )
 		),
+
 		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
 		         div(id="dam-3-output",
@@ -1059,16 +1063,14 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 7. Raw Preference Scores for Millinocket"),
-		             plotOutput("SummPlot3", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix3", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix3", "Generate"),
-
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-3",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1104,6 +1106,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData3", "Download Millinocket")
 				 )
 		),
+
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
 		         div(id="dam-4-output",
@@ -1112,16 +1115,16 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
-					 plotOutput("SummPlot4", height=graph_height, width=graph_width)
+					 plotOutput("SummPlot4", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 # generate event
+					 actionButton("generateMatrix4", "Generate")
 				 ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix4", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-4",
 		             HTML(
 		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1157,6 +1160,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData4", "Download East Millinocket")
 				 )
 		 ),
+
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
 		         div(id="dam-5-output",
@@ -1165,16 +1169,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
-		             plotOutput("SummPlot5", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot5", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix5", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix5", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-5",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1219,16 +1222,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 16. Raw Preference Scores for Dolby"),
-		             plotOutput("SummPlot6", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix6", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix6", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-6",
 		             HTML(
 		               "<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1273,16 +1275,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
-		             plotOutput("SummPlot7", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix7", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix7", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-7",
 
 		             HTML(
 		               "<br><b>Results Interpretation </b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1328,16 +1329,15 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
-		             plotOutput("SummPlot8", height=graph_height, width=graph_width)
+		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
+
+					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+					 actionButton("generateMatrix8", "Generate")
 		         ),
 
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-		         # generate event
-		         actionButton("generateMatrix8", "Generate"),
 
 		         # output post generate
-		         div(id="generated-output",
+		         div(id="generated-output-8",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 				          	alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1372,21 +1372,36 @@ ui <- shinyUI(fluidPage(
 		             h3('Download Ripogenus Results'),
 		             downloadButton("downloadData8", "Download Ripogenus")
 				 )
-		 ),
+		),
 
 		HTML("<li> Step 5: Multi-Dam Results </li>"),
 
 		tabPanel("Combined Results",
 			h2("Multi-Dam Results"),
-
 			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+
+			#TODO: remove for production
+			actionButton("autoGenerateMatrix", "Autofill: debug only"),
+			#actionButton("testWSM", "test WSM: debug only"),
+			#actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
 			# generate event
 			actionButton("generateCombinedMatrix", "Generate"),
 
 			div(id="combined-output",
-				h2('All Preferences'),
-				tableOutput("FilledCriteriaTable"),
+				#h2('All Preferences'),
+				#tableOutput("FilledCriteriaTable"),
+
+				# by dam
+				h2('All Preferences by Dam'),
+				plotOutput("FilledCriteriaGraph2", height="35em"),
+
+				# by criteria
+				h2('All Preferences by Alternative'),
+				plotOutput("FilledCriteriaGraph", height="35em"),
+
+				h2('WSMTableOutput'),
+				tableOutput("WSMTable"),
 
 				h2('WSM1'),
 				#TODO
@@ -1397,10 +1412,10 @@ ui <- shinyUI(fluidPage(
 				#plotOutput("WSMPlot2", height=graph_height, width=graph_width)
 			)
 		),
-		
+
 		tabPanel("Map Recommendation",
 		    h2("Optimized Result"),
-				HTML('<div id="MapRecommendation"></div>'),
+			HTML('<div id="MapRecommendation"></div>')
 		),
 
 		# Developer and aknowledgements secion

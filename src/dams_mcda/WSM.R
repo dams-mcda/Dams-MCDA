@@ -358,16 +358,13 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 	# use scenario idxRank[1] to find corresponding map name
-	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[[1]]))
+	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[1,1]))
 
 	# debug
-	message("length fname ", length(fname))
-	message("map image output from WSM: ", fname[1])
-	#message("map image output from WSM (all): ", fname)
 	#message("Ind_WSM: ", Ind_WeightedScoreMatrix, " DIMS ", dim(Ind_WeightedScoreMatrix))
 	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
-	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname[1])
+	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
 
 } # end of WSM
