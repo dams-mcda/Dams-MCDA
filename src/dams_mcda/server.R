@@ -894,7 +894,8 @@ server <- function(input, output, session) {
 
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
-			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
+			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
+			# putting into data frame alters shape of 3d array to 2d
 			WSMTableOutput <- data.frame(WSMMatrix)
 			#message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
 
@@ -907,7 +908,6 @@ server <- function(input, output, session) {
 			#message("WSM map name: ", map_name, " type ", class(map_name))
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
-			#message("WSMTableOutput Matrix: ", dim(WSMMatrix), " summedScore: ", dim(WSMSummedScore))
 			#message("WSMTableOutput length(dam_names): ", length(dam_names))
 
 			#----------------------------------------
@@ -939,15 +939,14 @@ server <- function(input, output, session) {
 
 			# (d)
 			# weighted value
-			message("First Dam WSMTableOutput> ", WSMTableOutput[,,1], " dims ", dim(WSMTableOutput))
-			output[[paste0("Dam", 1, "GenTable3")]] <- renderTable(WSMTableOutput[,,1])
-			output[[paste0("Dam", 2, "GenTable3")]] <- renderTable(WSMTableOutput[,,2])
-			output[[paste0("Dam", 3, "GenTable3")]] <- renderTable(WSMTableOutput[,,3])
-			output[[paste0("Dam", 4, "GenTable3")]] <- renderTable(WSMTableOutput[,,4])
-			output[[paste0("Dam", 5, "GenTable3")]] <- renderTable(WSMTableOutput[,,5])
-			output[[paste0("Dam", 6, "GenTable3")]] <- renderTable(WSMTableOutput[,,6])
-			output[[paste0("Dam", 7, "GenTable3")]] <- renderTable(WSMTableOutput[,,7])
-			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMTableOutput[,,8])
+			output[[paste0("Dam", 1, "GenTable3")]] <- renderTable(WSMMatrix[,,1])
+			output[[paste0("Dam", 2, "GenTable3")]] <- renderTable(WSMMatrix[,,2])
+			output[[paste0("Dam", 3, "GenTable3")]] <- renderTable(WSMMatrix[,,3])
+			output[[paste0("Dam", 4, "GenTable3")]] <- renderTable(WSMMatrix[,,4])
+			output[[paste0("Dam", 5, "GenTable3")]] <- renderTable(WSMMatrix[,,5])
+			output[[paste0("Dam", 6, "GenTable3")]] <- renderTable(WSMMatrix[,,6])
+			output[[paste0("Dam", 7, "GenTable3")]] <- renderTable(WSMMatrix[,,7])
+			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMMatrix[,,8])
 
 			#----------------------------------------
 			# Combined Dam Final Outputs
@@ -976,10 +975,6 @@ server <- function(input, output, session) {
 				NULL, # x value limit
 				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value
 			)
-
-			# weighted scores
-			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
-			message("WSMTableOutput: ", WSMTableOutput)
 
 			message('saveResponse')
 			#saveResponse(WSMTableOutput)
