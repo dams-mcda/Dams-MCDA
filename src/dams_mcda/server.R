@@ -928,14 +928,14 @@ server <- function(input, output, session) {
 
 			# (b)
 			# summ plot
-			output[[paste0("Dam", 1, "GenTable4")]] <- renderTable({WSMSummedScore[1,]})
-			output[[paste0("Dam", 2, "GenTable4")]] <- renderTable({WSMSummedScore[2,]})
-			output[[paste0("Dam", 3, "GenTable4")]] <- renderTable({WSMSummedScore[3,]})
-			output[[paste0("Dam", 4, "GenTable4")]] <- renderTable({WSMSummedScore[4,]})
-			output[[paste0("Dam", 5, "GenTable4")]] <- renderTable({WSMSummedScore[5,]})
-			output[[paste0("Dam", 6, "GenTable4")]] <- renderTable({WSMSummedScore[6,]})
-			output[[paste0("Dam", 7, "GenTable4")]] <- renderTable({WSMSummedScore[7,]})
-			output[[paste0("Dam", 8, "GenTable4")]] <- renderTable({WSMSummedScore[8,]})
+			output[[paste0("Dam", 1, "GenTable4")]] <- renderTable({t(WSMSummedScore[1,])})
+			output[[paste0("Dam", 2, "GenTable4")]] <- renderTable({t(WSMSummedScore[2,])})
+			output[[paste0("Dam", 3, "GenTable4")]] <- renderTable({t(WSMSummedScore[3,])})
+			output[[paste0("Dam", 4, "GenTable4")]] <- renderTable({t(WSMSummedScore[4,])})
+			output[[paste0("Dam", 5, "GenTable4")]] <- renderTable({t(WSMSummedScore[5,])})
+			output[[paste0("Dam", 6, "GenTable4")]] <- renderTable({t(WSMSummedScore[6,])})
+			output[[paste0("Dam", 7, "GenTable4")]] <- renderTable({t(WSMSummedScore[7,])})
+			output[[paste0("Dam", 8, "GenTable4")]] <- renderTable({t(WSMSummedScore[8,])})
 
 			# (c)
 			# normalized value
