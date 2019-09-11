@@ -915,6 +915,7 @@ server <- function(input, output, session) {
 			# for some reason these dont work in a for loop
 			#----------------------------------------
 
+			# (a)
 			# Ind_DamsDataMatrix for each dam
 			output[[paste0("Dam", 1, "GenTable1")]] <- renderTable({all_data_matrix[,,1]})
 			output[[paste0("Dam", 2, "GenTable1")]] <- renderTable({all_data_matrix[,,2]})
@@ -925,6 +926,18 @@ server <- function(input, output, session) {
 			output[[paste0("Dam", 7, "GenTable1")]] <- renderTable({all_data_matrix[,,7]})
 			output[[paste0("Dam", 8, "GenTable1")]] <- renderTable({all_data_matrix[,,8]})
 
+			# (b)
+			# summ plot
+			output[[paste0("Dam", 1, "GenTable4")]] <- renderTable({WSMSummedScore[1,]})
+			output[[paste0("Dam", 2, "GenTable4")]] <- renderTable({WSMSummedScore[2,]})
+			output[[paste0("Dam", 3, "GenTable4")]] <- renderTable({WSMSummedScore[3,]})
+			output[[paste0("Dam", 4, "GenTable4")]] <- renderTable({WSMSummedScore[4,]})
+			output[[paste0("Dam", 5, "GenTable4")]] <- renderTable({WSMSummedScore[5,]})
+			output[[paste0("Dam", 6, "GenTable4")]] <- renderTable({WSMSummedScore[6,]})
+			output[[paste0("Dam", 7, "GenTable4")]] <- renderTable({WSMSummedScore[7,]})
+			output[[paste0("Dam", 8, "GenTable4")]] <- renderTable({WSMSummedScore[8,]})
+
+			# (c)
 			# normalized value
 			output[[paste0("Dam", 1, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,1])
 			output[[paste0("Dam", 2, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,2])
@@ -935,7 +948,9 @@ server <- function(input, output, session) {
 			output[[paste0("Dam", 7, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,7])
 			output[[paste0("Dam", 8, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,8])
 
+			# (d)
 			# weighted value
+			message("First Dam WSMTableOutput> ", WSMTableOutput[,,1], " dims ", dim(WSMTableOutput))
 			output[[paste0("Dam", 1, "GenTable3")]] <- renderTable(WSMTableOutput[,,1])
 			output[[paste0("Dam", 2, "GenTable3")]] <- renderTable(WSMTableOutput[,,2])
 			output[[paste0("Dam", 3, "GenTable3")]] <- renderTable(WSMTableOutput[,,3])
