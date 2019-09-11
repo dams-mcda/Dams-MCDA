@@ -892,7 +892,6 @@ server <- function(input, output, session) {
 			# invert matrix to better fit on screen for mobile users
 			#output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
 
-
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
@@ -903,6 +902,8 @@ server <- function(input, output, session) {
 			#message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
 
 			map_name <- WSMResults[4]
+			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
 			#message("WSM map name: ", map_name, " type ", class(map_name))
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
@@ -910,7 +911,42 @@ server <- function(input, output, session) {
 			#message("WSMTableOutput length(dam_names): ", length(dam_names))
 
 			#----------------------------------------
-			# Final Outputs
+			# Individual Dam Final Outputs
+			# for some reason these dont work in a for loop
+			#----------------------------------------
+
+			# Ind_DamsDataMatrix for each dam
+			output[[paste0("Dam", 1, "GenTable1")]] <- renderTable({all_data_matrix[,,1]})
+			output[[paste0("Dam", 2, "GenTable1")]] <- renderTable({all_data_matrix[,,2]})
+			output[[paste0("Dam", 3, "GenTable1")]] <- renderTable({all_data_matrix[,,3]})
+			output[[paste0("Dam", 4, "GenTable1")]] <- renderTable({all_data_matrix[,,4]})
+			output[[paste0("Dam", 5, "GenTable1")]] <- renderTable({all_data_matrix[,,5]})
+			output[[paste0("Dam", 6, "GenTable1")]] <- renderTable({all_data_matrix[,,6]})
+			output[[paste0("Dam", 7, "GenTable1")]] <- renderTable({all_data_matrix[,,7]})
+			output[[paste0("Dam", 8, "GenTable1")]] <- renderTable({all_data_matrix[,,8]})
+
+			# normalized value
+			output[[paste0("Dam", 1, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,1])
+			output[[paste0("Dam", 2, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,2])
+			output[[paste0("Dam", 3, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,3])
+			output[[paste0("Dam", 4, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,4])
+			output[[paste0("Dam", 5, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,5])
+			output[[paste0("Dam", 6, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,6])
+			output[[paste0("Dam", 7, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,7])
+			output[[paste0("Dam", 8, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,8])
+
+			# weighted value
+			output[[paste0("Dam", 1, "GenTable3")]] <- renderTable(WSMTableOutput[,,1])
+			output[[paste0("Dam", 2, "GenTable3")]] <- renderTable(WSMTableOutput[,,2])
+			output[[paste0("Dam", 3, "GenTable3")]] <- renderTable(WSMTableOutput[,,3])
+			output[[paste0("Dam", 4, "GenTable3")]] <- renderTable(WSMTableOutput[,,4])
+			output[[paste0("Dam", 5, "GenTable3")]] <- renderTable(WSMTableOutput[,,5])
+			output[[paste0("Dam", 6, "GenTable3")]] <- renderTable(WSMTableOutput[,,6])
+			output[[paste0("Dam", 7, "GenTable3")]] <- renderTable(WSMTableOutput[,,7])
+			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMTableOutput[,,8])
+
+			#----------------------------------------
+			# Combined Dam Final Outputs
 			#----------------------------------------
 
 			# Preference scores for all dams
@@ -922,7 +958,7 @@ server <- function(input, output, session) {
 				"Score", # y axis label
 				colors, # colors
 				NULL, # x value limit
-				NULL # y value limit (Unknown in this case)
+				c(0, max_slider_value) # y value limit (100 in this case)
 			)
 
 			# Preference scores by criteria
@@ -934,7 +970,7 @@ server <- function(input, output, session) {
 				"Score", # y axis label
 				colors, # colors
 				NULL, # x value limit
-				NULL # y value limit (Unknown in this case)
+				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value
 			)
 
 			# weighted scores
@@ -1391,6 +1427,7 @@ server <- function(input, output, session) {
 	observeEvent(input$generateCombinedMatrix, {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
+
 
 	observeEvent(input$testWSM, {
 		message("testWSM")

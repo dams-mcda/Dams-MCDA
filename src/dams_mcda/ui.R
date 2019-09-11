@@ -964,12 +964,39 @@ ui <- shinyUI(fluidPage(
 			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
 
 				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-				actionButton("generateMatrix", "Generate") #will need to move below summplot1 output after debugging
+				actionButton("generateMatrix1", "Generate") #will need to move below summplot1 output after debugging
 
 			),
 
 			# output post generate
 			div(id="generated-output-1",
+				h2("Individual Table1"),
+				tableOutput("Dam1GenTable1"),
+				tableOutput("Dam2GenTable1"),
+				tableOutput("Dam3GenTable1"),
+				tableOutput("Dam4GenTable1"),
+				tableOutput("Dam5GenTable1"),
+				tableOutput("Dam6GenTable1"),
+				tableOutput("Dam7GenTable1"),
+				tableOutput("Dam8GenTable1"),
+				h2("Individual Table2"),
+				tableOutput("Dam1GenTable2"),
+				tableOutput("Dam2GenTable2"),
+				tableOutput("Dam3GenTable2"),
+				tableOutput("Dam4GenTable2"),
+				tableOutput("Dam5GenTable2"),
+				tableOutput("Dam6GenTable2"),
+				tableOutput("Dam7GenTable2"),
+				tableOutput("Dam8GenTable2"),
+				h2("Individual Table3"),
+				tableOutput("Dam1GenTable3"),
+				tableOutput("Dam2GenTable3"),
+				tableOutput("Dam3GenTable3"),
+				tableOutput("Dam4GenTable3"),
+				tableOutput("Dam5GenTable3"),
+				tableOutput("Dam6GenTable3"),
+				tableOutput("Dam7GenTable3"),
+				tableOutput("Dam8GenTable3"),
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
