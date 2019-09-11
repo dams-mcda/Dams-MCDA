@@ -13,8 +13,8 @@ source("WSM.R")
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-source(file='f_nrge.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge)
+NormalizedMatrix <- as.array(source(file='f_nrge.RData')) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- array(NormalizedMatrix, dim = 3)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
@@ -511,10 +511,7 @@ colnames(Dam8NormTable) <- criteria_inputs
 Dam8ScoreTable <- setDT(Dam8Results)
 row.names(Dam8ScoreTable) <- alternative_names
 colnames(Dam8ScoreTable) <- criteria_inputs
-<<<<<<< HEAD
-=======
 
->>>>>>> 1ad8b2c2f451ec7bc47a7b0701e4e642ec0d74f4
 #-------------------------------------------------------
 
 ## bars for ALL Dam MCDA score results

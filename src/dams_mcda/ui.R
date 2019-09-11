@@ -114,11 +114,15 @@ ui <- shinyUI(fluidPage(
 				Hover over the dams on the map for more information on each site.<br>"
 			),
 			helpText(
-				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click HERE for more information about dam decision alternatives</a><br>'),
-				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click HERE for more information about decision criteria</a><br>'),
+				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click for more information about dam decision alternatives</a><br>'),
+				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>'),
 				HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
 			),
+			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
+			),
 			leafletOutput("dam_map", width=map_width, height=map_height),
+			HTML("Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
+			),
 			img(src = 'Penobscot_MO_14_443', width="50%", align = "center", style="margin:0.2em;")
 			
 		),
@@ -141,7 +145,7 @@ ui <- shinyUI(fluidPage(
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
 				 <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
       helpText( 
@@ -243,7 +247,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider and rate the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b> For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
@@ -344,7 +348,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
@@ -445,7 +449,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
@@ -548,7 +552,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider the decision criteria listed below for North Twin Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
@@ -651,7 +655,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
@@ -754,7 +758,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
@@ -856,7 +860,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				'Please consider the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
+				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText( 
@@ -952,8 +956,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-
-
+			# raw preference table/Matrix
+			HTML(
+			  "Table 1. These are your preference inputs for West Enfield Dam."
+			),			
+      #raw preference graph
 			div(id="dam-1-output",
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
 
@@ -964,10 +971,26 @@ ui <- shinyUI(fluidPage(
 			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
 
 				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-				actionButton("generateMatrix", "Generate") #will need to move below summplot1 output after debugging
+				actionButton("generateMatrix", "Generate") 
 
 			),
-
+      
+			# TODO: add raw data table/Matrix
+			HTML(
+			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+			),
+			# TODO: add normalized data table/Matrix
+			HTML(
+			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+         Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+			   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+         high costs are less desirable than low costs.<br>"
+			),
+			#TODO: add weighted score data table/Matrix
+			HTML(
+			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+			),
 			# output post generate
 			div(id="generated-output-1",
 				HTML(
@@ -1005,6 +1028,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 2: Medway Dam",
 		         h2("Results: Medway Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-2-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
@@ -1016,7 +1041,23 @@ ui <- shinyUI(fluidPage(
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix2", "Generate")
 		         ),
-
+					 
+					 # TODO: add raw data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 6. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+					 ),
+					 # TODO: add normalized data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 7. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					   high costs are less desirable than low costs.<br>"
+					 ),
+					 #TODO: add weighted score data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					 ),
 		         # output post generate
 		         div(id="generated-output-2",
 		             HTML(
@@ -1057,6 +1098,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-3-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
@@ -1064,12 +1107,29 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             h3("Figure 7. Raw Preference Scores for Millinocket"),
 		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
+		             
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix3", "Generate")
 		         ),
 
-		         # output post generate
+					 # TODO: add raw data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 10. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+					 ),
+					 # TODO: add normalized data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					   high costs are less desirable than low costs.<br>"
+					 ),
+					 #TODO: add weighted score data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					 ),  
+					 # output post generate
 		         div(id="generated-output-3",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1109,6 +1169,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-4-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
@@ -1116,13 +1178,29 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
 					 plotOutput("SummPlot4", height=graph_height, width=graph_width),
+					 
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 # generate event
 					 actionButton("generateMatrix4", "Generate")
 				 ),
 
-
+				 # TODO: add raw data table/Matrix
+				 HTML(
+				   "<br><b>Results Interpretation</b> for Table 14. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+				 ),
+				 # TODO: add normalized data table/Matrix
+				 HTML(
+				   "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+				   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+				   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+				   high costs are less desirable than low costs.<br>"
+				 ),
+				 #TODO: add weighted score data table/Matrix
+				 HTML(
+				   "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+				   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+				 ),
 		         # output post generate
 		         div(id="generated-output-4",
 		             HTML(
@@ -1163,6 +1241,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-5-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
@@ -1170,12 +1250,28 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
 		             plotOutput("SummPlot5", height=graph_height, width=graph_width),
+		             
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix5", "Generate")
 		         ),
 
-
+					 # TODO: add raw data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 18. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+					 ),
+					 # TODO: add normalized data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 19. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					   high costs are less desirable than low costs.<br>"
+					 ),
+					 #TODO: add weighted score data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					 ),
 		         # output post generate
 		         div(id="generated-output-5",
 		             HTML(
@@ -1216,6 +1312,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 6: Dolby",
 		         h2("Results: Dolby Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-6-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
@@ -1223,12 +1321,28 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             h3("Figure 16. Raw Preference Scores for Dolby"),
 		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
+		             
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix6", "Generate")
 		         ),
 
-
+					 # TODO: add raw data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 22. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+					 ),
+					 # TODO: add normalized data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					   high costs are less desirable than low costs.<br>"
+					 ),
+					 #TODO: add weighted score data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					 ),
 		         # output post generate
 		         div(id="generated-output-6",
 		             HTML(
@@ -1269,6 +1383,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-7-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 19: The bars visually represent your preference scores for each decision criterion.\
@@ -1276,12 +1392,28 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
 		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
+		             
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix7", "Generate")
 		         ),
 
-
+					 # TODO: add raw data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 26. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+					 ),
+					 # TODO: add normalized data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 27. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					   high costs are less desirable than low costs.<br>"
+					 ),
+					 #TODO: add weighted score data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 28. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					 ),
 		         # output post generate
 		         div(id="generated-output-7",
 
@@ -1323,6 +1455,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
+		         # raw preference table/Matrix
+		         #raw preference graph
 		         div(id="dam-8-output",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
@@ -1331,11 +1465,28 @@ ui <- shinyUI(fluidPage(
 		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
 		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
 
+
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix8", "Generate")
 		         ),
 
-
+					 
+					 # TODO: add raw data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 29. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent.<br>"
+					 ),
+					 # TODO: add normalized data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 30. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					   high costs are less desirable than low costs.<br>"
+					 ),
+					 #TODO: add weighted score data table/Matrix
+					 HTML(
+					   "<br><b>Results Interpretation</b> for Table 31. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					 ),
 		         # output post generate
 		         div(id="generated-output-8",
 		             HTML(
