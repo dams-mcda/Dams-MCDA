@@ -997,15 +997,7 @@ ui <- shinyUI(fluidPage(
 				tableOutput("Dam6GenTable3"),
 				tableOutput("Dam7GenTable3"),
 				tableOutput("Dam8GenTable3"),
-				h2("Individual Table4 (b)"),
-				tableOutput("Dam1GenTable4"),
-				tableOutput("Dam2GenTable4"),
-				tableOutput("Dam3GenTable4"),
-				tableOutput("Dam4GenTable4"),
-				tableOutput("Dam5GenTable4"),
-				tableOutput("Dam6GenTable4"),
-				tableOutput("Dam7GenTable4"),
-				tableOutput("Dam8GenTable4"),
+
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \

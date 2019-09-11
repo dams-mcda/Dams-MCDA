@@ -926,17 +926,6 @@ server <- function(input, output, session) {
 			output[[paste0("Dam", 7, "GenTable1")]] <- renderTable({all_data_matrix[,,7]})
 			output[[paste0("Dam", 8, "GenTable1")]] <- renderTable({all_data_matrix[,,8]})
 
-			# (b)
-			# summ plot
-			output[[paste0("Dam", 1, "GenTable4")]] <- renderTable({t(WSMSummedScore[1,])})
-			output[[paste0("Dam", 2, "GenTable4")]] <- renderTable({t(WSMSummedScore[2,])})
-			output[[paste0("Dam", 3, "GenTable4")]] <- renderTable({t(WSMSummedScore[3,])})
-			output[[paste0("Dam", 4, "GenTable4")]] <- renderTable({t(WSMSummedScore[4,])})
-			output[[paste0("Dam", 5, "GenTable4")]] <- renderTable({t(WSMSummedScore[5,])})
-			output[[paste0("Dam", 6, "GenTable4")]] <- renderTable({t(WSMSummedScore[6,])})
-			output[[paste0("Dam", 7, "GenTable4")]] <- renderTable({t(WSMSummedScore[7,])})
-			output[[paste0("Dam", 8, "GenTable4")]] <- renderTable({t(WSMSummedScore[8,])})
-
 			# (c)
 			# normalized value
 			output[[paste0("Dam", 1, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,1])
