@@ -961,7 +961,7 @@ ui <- shinyUI(fluidPage(
 					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
-			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
+			    plotOutput("PreferencePlot1", height=graph_height, width=graph_width),
 
 				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
 				actionButton("generateMatrix1", "Generate") #will need to move below summplot1 output after debugging
@@ -1039,7 +1039,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 4. Raw Preference Scores for Medway"),
-		             plotOutput("SummPlot2", height=graph_height, width=graph_width),
+		             plotOutput("PreferencePlot2", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix2", "Generate")
@@ -1091,7 +1091,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 7. Raw Preference Scores for Millinocket"),
-		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
+		             plotOutput("PreferencePlot3", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix3", "Generate")
@@ -1143,7 +1143,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
-					 plotOutput("SummPlot4", height=graph_height, width=graph_width),
+					 plotOutput("PreferencePlot4", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 # generate event
@@ -1197,7 +1197,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
-		             plotOutput("SummPlot5", height=graph_height, width=graph_width),
+		             plotOutput("PreferencePlot5", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix5", "Generate")
@@ -1250,7 +1250,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 16. Raw Preference Scores for Dolby"),
-		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
+		             plotOutput("PreferencePlot6", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix6", "Generate")
@@ -1303,7 +1303,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
-		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
+		             plotOutput("PreferencePlot7", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix7", "Generate")
@@ -1357,7 +1357,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
-		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
+		             plotOutput("PreferencePlot8", height=graph_height, width=graph_width),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix8", "Generate")

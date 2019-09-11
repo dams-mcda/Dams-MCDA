@@ -490,7 +490,7 @@ server <- function(input, output, session) {
 		Data <- data.frame(score=scoreVector, criteria=Criteria)
 
 		# Figure 1 raw pref plot
-		output[[paste0("SummPlot", damId)]] <- renderBarPlot(
+		output[[paste0("PreferencePlot", damId)]] <- renderBarPlot(
 			Data, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
