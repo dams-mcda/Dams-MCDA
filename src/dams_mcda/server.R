@@ -892,55 +892,52 @@ server <- function(input, output, session) {
 			# invert matrix to better fit on screen for mobile users
 			#output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
 
-			# same as Table, but a graph
-			output$FilledCriteriaGraph <- renderCombinedBarPlot(
-				RawCriteriaMatrix, # data
-				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Alternative", # x axis label
-				"Score", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				NULL # y value limit (Unknown in this case)
-			)
-
-			# same as Table, but a graph
-			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
-				RawCriteriaMatrix, # data
-				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Alternative", # x axis label
-				"Score", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				NULL # y value limit (Unknown in this case)
-			)
 
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
+			WSMTableOutput <- data.frame(WSMMatrix)
 			#message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
 
 			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
 			#message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
 
 			map_name <- WSMResults[4]
+			#message("WSM map name: ", map_name, " type ", class(map_name))
+			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
 			#message("WSMTableOutput Matrix: ", dim(WSMMatrix), " summedScore: ", dim(WSMSummedScore))
 			#message("WSMTableOutput length(dam_names): ", length(dam_names))
-			message("WSM map name: ", map_name, " type ", class(map_name))
-			WSMTableOutput <- data.frame(WSMMatrix)#, row.names=dam_names, check.names=FALSE)
-
-			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
-
-			## this ones different because it has sum row
-			#message("WSMTableOutput names")
-			#names(WSMTableOutput) <- criteria_names_and_sum
 
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
-			# final output table commented out due to redundancy
+
+			# Preference scores for all dams
+			output$FilledCriteriaGraph <- renderCombinedBarPlot(
+				RawCriteriaMatrix, # data
+				"Preferences for all dams", # title
+				criteria_names, # x_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (Unknown in this case)
+			)
+
+			# Preference scores by criteria
+			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
+				RawCriteriaMatrix, # data
+				"Preferences for all dams", # title
+				criteria_names, # x_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (Unknown in this case)
+			)
+
+			# weighted scores
 			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
 			message("WSMTableOutput: ", WSMTableOutput)
 
