@@ -1413,6 +1413,9 @@ ui <- shinyUI(fluidPage(
 			#actionButton("testWSM", "test WSM: debug only"),
 			#actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
+			#TODO: help text why downloading preference selection is helpful
+			downloadButton("downloadPreferenceSelection", "Download Preference Selection"),
+
 			# generate event
 			actionButton("generateCombinedMatrix", "Generate"),
 

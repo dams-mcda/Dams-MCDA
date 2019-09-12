@@ -37,6 +37,7 @@ max_file_size <- 5 # size in MB
 options(shiny.maxRequestSize=max_file_size*1024^2)
 # user download file (has to be global)
 response_data <<- ("no data")
+preference_selection <<- ("no data")
 
 #-----------------------------------------
 # App Specific
@@ -180,6 +181,14 @@ humanTime <- function() {
 saveResponse <- function(table_data) {
 	response_data <<- table_data
 }
+
+# savePreferences
+#----------------------------------------
+# save preference input selection
+savePreferences <- function(pref_data) {
+	preference_selection <<- pref_data
+}
+
 
 
 # saveData
@@ -382,8 +391,8 @@ server <- function(input, output, session) {
              quote = '"')
 
 		# debug contents of file
-		#message("file header: ", head(df, n=1))
-		#message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
+		message("file header: ", head(df, n=1))
+		message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
 
 		# ------------------------------
 		# verify contents of file
@@ -392,8 +401,8 @@ server <- function(input, output, session) {
 		row_count <- length(head(t(df),n=1))
 		column_count <- length(head(df,n=1))
 		# TODO: set required_* variables to size of valid input
-		required_rows <- 5
-		required_cols <- 3
+		required_rows <- 8
+		required_cols <- 15
 
 		# valid unless proven otherwise
 		file_valid <- TRUE
@@ -409,10 +418,74 @@ server <- function(input, output, session) {
 
 		# if valid remove modal and process the file
 		if (upload_modal_visible && file_valid){
-			#message("file upload success")
-			removeModal()
-			upload_modal_visible <<- FALSE
 			#TODO: process file here
+			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
+			message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
+			criteria_input_names <- c(
+				"FishBiomass",
+				"RiverRec",
+				"Reservoir",
+				"ProjectCost",
+				"Safety",
+				"NumProperties",
+				"ElectricityGeneration",
+				"AvoidEmissions",
+				"IndigenousLifeways",
+				"IndustrialHistory",
+				"CommunityIdentity",
+				"Aesthetics",
+				"Health",
+				"Justice"
+			)
+
+			scores_valid <- TRUE # valid unless proven otherwise
+
+			# assume order of dams is constant
+			for (damIndex in 1:dim(upload_file_data)[1]){
+				# track total
+				total <- 0
+
+				# first column is the damn name
+				for (critIndex in 2:dim(upload_file_data)[2]){
+					# target
+					slider_id <- paste0(criteria_input_names[critIndex-1], damIndex)
+					# value
+					val <- upload_file_data[damIndex, critIndex]
+					total <- (total + val)
+
+					updateSliderInput(session, slider_id, value=val)
+				}
+
+				# validate inputs for each dam total
+				if (total > upper_bound || total < lower_bound){
+					scores_valid <- FALSE
+				}
+			}
+
+			if (scores_valid == TRUE){
+				#message("file upload success")
+				removeModal()
+				upload_modal_visible <<- FALSE
+
+				# make preferences and generate
+				updateDam1()
+				updateDam2()
+				updateDam3()
+				updateDam4()
+				updateDam5()
+				updateDam6()
+				updateDam7()
+				updateDam8()
+				# generate
+				generateOutput()
+
+			}else{
+				# warn the user that the file is not acceptable (not valid scores)
+				fail_reason <- "Scores do not total correctly, Invalid File."
+				#message("file upload fail", fail_reason)
+				session$sendCustomMessage("invalidFileSelected", fail_reason)
+			}
+
 		}else{
 			# warn the user that the file is not acceptable
 			#message("file upload fail", fail_reason)
@@ -976,8 +1049,8 @@ server <- function(input, output, session) {
 				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value
 			)
 
-			message('saveResponse')
-			#saveResponse(WSMTableOutput)
+			#message('save selected preferences to file after successfull generation of results')
+			savePreferences(RawCriteriaMatrix)
 
 			## stacked bars data table
 			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
@@ -1597,6 +1670,20 @@ server <- function(input, output, session) {
 	  content = function(file) {
 	    write.csv(
 	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+
+	output$downloadPreferenceSelection <- downloadHandler(
+	  filename = function() {
+	    format(Sys.time(), "mcda_preferences_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      preference_selection,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
