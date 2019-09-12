@@ -80,10 +80,12 @@ ui <- shinyUI(fluidPage(
 
 			HTML(
 				"<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
-				 Federal Energy Regulatory Commission (FERC), but could easily be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
+				 Federal Energy Regulatory Commission (FERC), but could potentially be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
 				 to support your interaction in the FERC licensing process. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized \
-				 cost, greenhouse gas emissions reductions, sea-run fish survival, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, \
-				 improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated dam decision.<br>"
+				 cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, \
+				 improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
+				 is to encourage you to consider dams on the river as a system, in addition to one at a time.\ <br>
+				 <br>The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br>"
 			),
 
 			helpText(a("Background on Dam Decision Support Tool", href = 'BackgroundDamDecisionSupportTool.pdf')),
@@ -123,7 +125,7 @@ ui <- shinyUI(fluidPage(
 			leafletOutput("dam_map", width=map_width, height=map_height),
 			HTML("Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
-			img(src = 'Penobscot_MO_14_443', width="50%", align = "center", style="margin:0.2em;")
+			img(src = 'Penobscot_MO_14_443', width="50%", align = "center")
 			
 		),
 
@@ -956,25 +958,25 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-			# raw preference table/Matrix
-			HTML(
-			  "Table 1. These are your preference inputs for West Enfield Dam."
-			),			
+
       #raw preference graph
 			div(id="dam-1-output",
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
 
+			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
 			    HTML(
-					"<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
+			      "<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
-			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
-
 				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
 				actionButton("generateMatrix", "Generate") 
 
 			),
-      
+      #TODO: add  preference table/Matrix
+			HTML(
+			  "Table 1. Preference inputs for West Enfield Dam (table of preference data depicted in Fig.1)."
+			),
+			
 			# TODO: add raw data table/Matrix
 			HTML(
 			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
