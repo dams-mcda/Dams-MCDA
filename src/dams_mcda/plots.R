@@ -185,7 +185,7 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 	return(result)
 }
 
-# renderPlotD1
+# renderPlotD
 #----------------------------------------
 # wrapper for barplot with a debug message
 # when no value is needed pass NULL for a field
@@ -205,8 +205,8 @@ renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, legend_la
 		'\n------------------'
 	)
 
-	Y <- c(rep(y_names, times=length(x_names)))
-	X <- c(rep(x_names, each=length(y_names)))
+	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
+	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))
 	Score <- unlist(as.data.frame(df))
 	df <- data.frame(X=X, Y=Y, Score=Score)
 
@@ -214,7 +214,7 @@ renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, legend_la
 	df$X <- factor(df$X, levels=unique(df$X))
 
 	result <- renderPlot(
-		ggplot(data=df, mapping = aes(x=str_wrap(df$X, 24), y=df$Score, fill=str_wrap(df$Y, 24), label=df$Score))
+		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score))
 		# inclue empty values
 		+ geom_bar(stat="identity")
 		# ignore empty values (uncomment)
