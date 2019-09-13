@@ -813,7 +813,7 @@ server <- function(input, output, session) {
 
 		damId <- 6
 		output[[paste0("Dam", damId)]] <- renderUI(list(
-			"Dam 6:Dolby Dam",
+			"Dam 6: Dolby Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -914,59 +914,9 @@ server <- function(input, output, session) {
 				'Please complete all dams tabs before generating results'
 			))
 		}else{
-			#------------------------------------------------------------
-			# get 2d array of values based on length/values of criteria_inputs and available_dams
-			# criterion -> columns
-			# dams -> rows
-			# example 14 criterion 8 dams results in 14 column (criteria) by 8 row (dams) 2d data structure 
-			#------------------------------------------------------------
 
-			dams <- vector("list")
-			for (row_id in 1:length(available_dams)){
-				# for each criterion for dam
-				q <- vector("list")
-
-				for (id in criteria_inputs){
-					input_name <- paste(id, toString(row_id), sep='')
-					value <- input[[input_name]]
-					q[[id]] <- value
-
-					if (is.null(value)){
-						# debug nulls, doesn't modify data
-						message('input ', input_name, " isNull ")
-					}
-				}
-				dams[[row_id]] <- unlist(q) # we want in c and not list
-			}
-			dams <- unlist(dams)
-
-			#NOT SURE HOW TO RECONCILE THIS SPECIFIC TO EACH INDIVIDuaL DAM
-			#for alternatives in tables/graphs, this generates a blank vector with labels
-			#alternatives <- vector("list", length(available_alternatives))
-			#for (row_id in 1:length(available_alternatives)){
-			#  # for each criterion in alternatives
-			#  r <- vector("list", length(available_alternatives))
-
-			#  for (id in criteria_inputs){
-			#    input_name <- paste(id, toString(row_id), sep='')
-			#    value <- input[[input_name]]
-			#    r[[id]] <- value
-
-			#    if (is.null(value)){
-			#      # debug nulls, doesn't modify data
-			#      message('input ', input_name, " isNull ")
-			#    }
-			#    alternatives[[row_id]] <- unlist(r)
-			#  }
-			#  alternatives <- unlist(alternatives)
-			#}
-
-			# -------------------------------------------------------------#
-			# assign values in new matrix
-			RawCriteriaMatrix <- data.frame(
-				matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs))
-			)
-			# assign table row, column names
+			# raw preference scores
+			RawCriteriaMatrix <- data.frame(matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs)))
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
 
@@ -1033,6 +983,30 @@ server <- function(input, output, session) {
 			output[[paste0("Dam", 6, "GenTable3")]] <- renderTable(WSMMatrix[,,6], rownames=TRUE)
 			output[[paste0("Dam", 7, "GenTable3")]] <- renderTable(WSMMatrix[,,7], rownames=TRUE)
 			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMMatrix[,,8], rownames=TRUE)
+
+			# (d) has two graphs for each dam
+			output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlotD(
+				WSMMatrix[,,1],
+				"D 1", # title
+				criteria_names, # x_labels
+				alternative_names, # y_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				c(0, max_slider_value) # y value limit (100 in this case)
+			)
+			output[[paste0("Dam", 1, "GenPlot2")]] <- renderPlotD(
+				t(WSMMatrix[,,1]),
+				"D 2", # title
+				alternative_names, # x_labels
+				criteria_names, # y_labels
+				"Score", # x axis label
+				"Criteria", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				c(0, max_slider_value) # y value limit (100 in this case)
+			)
 
 			#----------------------------------------
 			# Combined Dam Final Outputs

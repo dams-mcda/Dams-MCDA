@@ -655,9 +655,8 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam6Progress"),
 
@@ -757,9 +756,8 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam7Progress"),
 
@@ -859,9 +857,8 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.. <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( 
+			helpText(
 			  HTML('<a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>')
-			  
 			),
 			htmlOutput("Dam8Progress"),
 
@@ -988,6 +985,10 @@ ui <- shinyUI(fluidPage(
 				tableOutput("Dam6GenTable2"),
 				tableOutput("Dam7GenTable2"),
 				tableOutput("Dam8GenTable2"),
+				h2("Individual Graph1 (d 1)"),
+				plotOutput("Dam1GenPlot1"),
+				h2("Individual Graph2 (d 2)"),
+				plotOutput("Dam1GenPlot2"),
 				h2("Individual Table3 (d)"),
 				tableOutput("Dam1GenTable3"),
 				tableOutput("Dam2GenTable3"),
