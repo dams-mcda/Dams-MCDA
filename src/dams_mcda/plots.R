@@ -12,17 +12,17 @@ library(stringr)
 # xpd == False disables bars being drawn outsize graph canvas
 renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
 	# debug data
-	message('------------------')
-	message(
-		'BarPlot title: ', title,
-		'\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		#"\nnames:", x_names,
-		"\n#(x names): ", length(x_names)
-	)
-	message('------------------')
+	#message('------------------')
+	#message(
+	#	'BarPlot title: ', title,
+	#	'\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	#"\nnames:", x_names,
+	#	"\n#(x names): ", length(x_names)
+	#)
+	#message('------------------')
 
 	# new graph (ggplot2) requires a data frame not vectors
 	if (is.vector(df)){
