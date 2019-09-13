@@ -210,6 +210,9 @@ renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, colors, x
 	Score <- unlist(as.data.frame(df))
 	df <- data.frame(X=X, Y=Y, Score=Score)
 
+	# ordering by order of appearance
+	df$X <- factor(df$X, levels=unique(df$X))
+
 	result <- renderPlot(
 		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score))
 		# inclue empty values
