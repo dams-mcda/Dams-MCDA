@@ -969,30 +969,32 @@ server <- function(input, output, session) {
 			# assign table row, column names
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
-			#message("generateOutput RawCriteriaMatrix: ", RawCriteriaMatrix)
-
-			# origial scores in table form
-			# for debugging table size
-			# invert matrix to better fit on screen for mobile users
-			#output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
 
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
-
-			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
-			# putting into data frame alters shape of 3d array to 2d
-			WSMTableOutput <- data.frame(WSMMatrix)
 			#message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
-
-			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
 			#message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
 
-			map_name <- WSMResults[4]
-			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
-			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
-			#message("WSM map name: ", map_name, " type ", class(map_name))
-			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
+			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
+			rownames(WSMMatrix) <- alternative_names
+			colnames(WSMMatrix) <- criteria_names
 
+			# putting into data frame alters shape of 3d array to 2d
+			WSMTableOutput <- data.frame(WSMMatrix)
 			#message("WSMTableOutput length(dam_names): ", length(dam_names))
+
+			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
+
+			map_name <- WSMResults[4]
+			#message("WSM map name: ", map_name, " type ", class(map_name))
+
+			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			rownames(all_data_matrix) <- alternative_names
+			colnames(all_data_matrix) <- criteria_names
+
+			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			rownames(ind_normalized_matrix) <- alternative_names
+			colnames(ind_normalized_matrix) <- criteria_names
+			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1001,36 +1003,36 @@ server <- function(input, output, session) {
 
 			# (a)
 			# Ind_DamsDataMatrix for each dam
-			output[[paste0("Dam", 1, "GenTable1")]] <- renderTable({all_data_matrix[,,1]})
-			output[[paste0("Dam", 2, "GenTable1")]] <- renderTable({all_data_matrix[,,2]})
-			output[[paste0("Dam", 3, "GenTable1")]] <- renderTable({all_data_matrix[,,3]})
-			output[[paste0("Dam", 4, "GenTable1")]] <- renderTable({all_data_matrix[,,4]})
-			output[[paste0("Dam", 5, "GenTable1")]] <- renderTable({all_data_matrix[,,5]})
-			output[[paste0("Dam", 6, "GenTable1")]] <- renderTable({all_data_matrix[,,6]})
-			output[[paste0("Dam", 7, "GenTable1")]] <- renderTable({all_data_matrix[,,7]})
-			output[[paste0("Dam", 8, "GenTable1")]] <- renderTable({all_data_matrix[,,8]})
+			output[[paste0("Dam", 1, "GenTable1")]] <- renderTable(all_data_matrix[,,1], rownames=TRUE)
+			output[[paste0("Dam", 2, "GenTable1")]] <- renderTable(all_data_matrix[,,2], rownames=TRUE)
+			output[[paste0("Dam", 3, "GenTable1")]] <- renderTable(all_data_matrix[,,3], rownames=TRUE)
+			output[[paste0("Dam", 4, "GenTable1")]] <- renderTable(all_data_matrix[,,4], rownames=TRUE)
+			output[[paste0("Dam", 5, "GenTable1")]] <- renderTable(all_data_matrix[,,5], rownames=TRUE)
+			output[[paste0("Dam", 6, "GenTable1")]] <- renderTable(all_data_matrix[,,6], rownames=TRUE)
+			output[[paste0("Dam", 7, "GenTable1")]] <- renderTable(all_data_matrix[,,7], rownames=TRUE)
+			output[[paste0("Dam", 8, "GenTable1")]] <- renderTable(all_data_matrix[,,8], rownames=TRUE)
 
 			# (c)
 			# normalized value
-			output[[paste0("Dam", 1, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,1])
-			output[[paste0("Dam", 2, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,2])
-			output[[paste0("Dam", 3, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,3])
-			output[[paste0("Dam", 4, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,4])
-			output[[paste0("Dam", 5, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,5])
-			output[[paste0("Dam", 6, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,6])
-			output[[paste0("Dam", 7, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,7])
-			output[[paste0("Dam", 8, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,8])
+			output[[paste0("Dam", 1, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,1], rownames=TRUE)
+			output[[paste0("Dam", 2, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,2], rownames=TRUE)
+			output[[paste0("Dam", 3, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,3], rownames=TRUE)
+			output[[paste0("Dam", 4, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,4], rownames=TRUE)
+			output[[paste0("Dam", 5, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,5], rownames=TRUE)
+			output[[paste0("Dam", 6, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,6], rownames=TRUE)
+			output[[paste0("Dam", 7, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,7], rownames=TRUE)
+			output[[paste0("Dam", 8, "GenTable2")]] <- renderTable(ind_normalized_matrix[,,8], rownames=TRUE)
 
 			# (d)
 			# weighted value
-			output[[paste0("Dam", 1, "GenTable3")]] <- renderTable(WSMMatrix[,,1])
-			output[[paste0("Dam", 2, "GenTable3")]] <- renderTable(WSMMatrix[,,2])
-			output[[paste0("Dam", 3, "GenTable3")]] <- renderTable(WSMMatrix[,,3])
-			output[[paste0("Dam", 4, "GenTable3")]] <- renderTable(WSMMatrix[,,4])
-			output[[paste0("Dam", 5, "GenTable3")]] <- renderTable(WSMMatrix[,,5])
-			output[[paste0("Dam", 6, "GenTable3")]] <- renderTable(WSMMatrix[,,6])
-			output[[paste0("Dam", 7, "GenTable3")]] <- renderTable(WSMMatrix[,,7])
-			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMMatrix[,,8])
+			output[[paste0("Dam", 1, "GenTable3")]] <- renderTable(WSMMatrix[,,1], rownames=TRUE)
+			output[[paste0("Dam", 2, "GenTable3")]] <- renderTable(WSMMatrix[,,2], rownames=TRUE)
+			output[[paste0("Dam", 3, "GenTable3")]] <- renderTable(WSMMatrix[,,3], rownames=TRUE)
+			output[[paste0("Dam", 4, "GenTable3")]] <- renderTable(WSMMatrix[,,4], rownames=TRUE)
+			output[[paste0("Dam", 5, "GenTable3")]] <- renderTable(WSMMatrix[,,5], rownames=TRUE)
+			output[[paste0("Dam", 6, "GenTable3")]] <- renderTable(WSMMatrix[,,6], rownames=TRUE)
+			output[[paste0("Dam", 7, "GenTable3")]] <- renderTable(WSMMatrix[,,7], rownames=TRUE)
+			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMMatrix[,,8], rownames=TRUE)
 
 			#----------------------------------------
 			# Combined Dam Final Outputs
