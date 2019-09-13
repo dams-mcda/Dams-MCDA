@@ -961,6 +961,11 @@ ui <- shinyUI(fluidPage(
 
       #raw preference graph
 			div(id="dam-1-output",
+			    h3("Table 1. Raw preference scores for West Enfield Dam"),
+			    DT::dataTableOutput("RawPrefsDam1"),
+			    HTML(
+			      "This table of preference data is depicted below."
+			    ),
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
 
 			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
@@ -968,18 +973,16 @@ ui <- shinyUI(fluidPage(
 			      "<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
+
 				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
 				actionButton("generateMatrix", "Generate") 
-
+        
 			),
-      #TODO: add  preference table/Matrix
-			HTML(
-			  "Table 1. Preference inputs for West Enfield Dam (table of preference data depicted in Fig.1)."
-			),
-			
+      
 			# TODO: add raw data table/Matrix
 			HTML(
-			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent. Note: fish survival values shown here are discrete,\
+         but in reality, the values are network-dependent and would be impacted by upstream or downstream changes.<br>"
 			),
 			# TODO: add normalized data table/Matrix
 			HTML(
@@ -1033,13 +1036,17 @@ ui <- shinyUI(fluidPage(
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-2-output",
+		             h3("Table 4. Raw preference scores for Medway Dam"),
+		             DT::dataTableOutput("RawPrefsDam2"),
+		             HTML(
+		               "This table of preference data is depicted below."
+		             ),
+		             h3("Figure 4. Raw Preference Scores for Medway"),
+		             plotOutput("SummPlot2", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             h3("Figure 4. Raw Preference Scores for Medway"),
-		             plotOutput("SummPlot2", height=graph_height, width=graph_width),
-
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix2", "Generate")
 		         ),
@@ -1103,13 +1110,17 @@ ui <- shinyUI(fluidPage(
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-3-output",
+		             h3("Table 4. Raw preference scores for Medway Dam"),
+		             DT::dataTableOutput("RawPrefsDam3"),
+		             HTML(
+		               "This table of preference data is depicted below."
+		             ),
+		             h3("Figure 7. Raw Preference Scores for Millinocket"),
+		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             h3("Figure 7. Raw Preference Scores for Millinocket"),
-		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
-		             
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix3", "Generate")
@@ -1171,16 +1182,19 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-4-output",
+		             h3("Table 8. Raw preference scores for East Millinocket Dam"),
+		             DT::dataTableOutput("RawPrefsDam4"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		               "This table of preference data is depicted below."
 		             ),
+
 		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
-					 plotOutput("SummPlot4", height=graph_height, width=graph_width),
-					 
+					       plotOutput("SummPlot4", height=graph_height, width=graph_width),
+					       HTML(
+					         "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
+		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+					       ),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 # generate event

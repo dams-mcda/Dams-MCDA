@@ -282,8 +282,11 @@ server <- function(input, output, session) {
 
 				HTML(
 					"<h4>Instructions for Uploading</h4>\
-					Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-					for you or the average preference values for your group. <br>"
+					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+          and your data should be organized in 8 rows (dams) with 14 columns (decision criteria). Cells should be\
+          populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+          select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+					average preference values for the group. <br>"
 				)
 			)
 		)
@@ -592,6 +595,11 @@ server <- function(input, output, session) {
 		Dam1_Table <- as.matrix(data.frame(Dam1))
 		row.names(Dam1_Table) <- criteria_names
 		names(Dam1_Table) <- "Raw Score"
+		
+		output$RawPrefsDam1 = DT::renderDataTable({
+		  Dam1_Table
+		})
+		
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam1)
@@ -624,7 +632,7 @@ server <- function(input, output, session) {
 		names(Dam2_Table) <- "Raw Score"
 
 		# update dam specific graphs
-		updateDamGraph(2, Dam2)
+		updateDamGraph(damId, Dam2)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-2-output")
 
