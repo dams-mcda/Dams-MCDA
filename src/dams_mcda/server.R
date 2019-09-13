@@ -992,6 +992,7 @@ server <- function(input, output, session) {
 				alternative_names, # y_labels
 				"Criteria", # x axis label
 				"Score", # y axis label
+				"Alternative", # legend label
 				colors, # colors
 				NULL, # x value limit
 				c(0, max_slider_value) # y value limit (100 in this case)
@@ -1001,8 +1002,9 @@ server <- function(input, output, session) {
 				"D 2", # title
 				alternative_names, # x_labels
 				criteria_names, # y_labels
-				"Score", # x axis label
-				"Criteria", # y axis label
+				"Alternative", # x axis label
+				"Score", # y axis label
+				"Criteria", # legend label
 				colors, # colors
 				NULL, # x value limit
 				c(0, max_slider_value) # y value limit (100 in this case)

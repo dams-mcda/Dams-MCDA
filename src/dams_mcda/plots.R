@@ -191,7 +191,7 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 # when no value is needed pass NULL for a field
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
-renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, colors, x_limit, y_limit) {
+renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
 	message(
 		'------------------\n',
 		'PlotD1 title: ', title,
@@ -214,7 +214,7 @@ renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, colors, x
 	df$X <- factor(df$X, levels=unique(df$X))
 
 	result <- renderPlot(
-		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score))
+		ggplot(data=df, mapping = aes(x=str_wrap(df$X, 24), y=df$Score, fill=str_wrap(df$Y, 24), label=df$Score))
 		# inclue empty values
 		+ geom_bar(stat="identity")
 		# ignore empty values (uncomment)
@@ -228,6 +228,7 @@ renderPlotD <- function(df, title, x_names, y_names, x_label, y_label, colors, x
 			axis.text.y = element_text(angle = 0, hjust = 1),
 			axis.text.x = element_text(angle = 45, hjust = 1)
 		)
+		+ guides(fill=guide_legend(title=legend_label))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
