@@ -98,7 +98,7 @@ dam_names <- c(
     "Medway Dam",
     "Millinocket/Quakish",
     "East Millinocket",
-    "North Twin",
+	"North Twin",
     "Dolby",
     "Millinocket Lake",
     "Ripogenus"
@@ -216,9 +216,9 @@ loadData <- function() {
 # remove and refill progress of a status
 # action is status to apply "remove" or "add"
 updateDamStatus <- function(completed, action, id){
-	message('------------------')
-	message('updateDamStatus vector')
-	message('------------------')
+	#message('------------------')
+	#message('updateDamStatus vector')
+	#message('------------------')
 
 	if (id %in% completed & action == "remove"){
 		completed <- completed[which(x==id)]
@@ -255,6 +255,16 @@ damsCompleted <- function(completed){
 # SERVER
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
+	#------------------------------------------------------------
+	# Preference Storage Container
+	# needed because updates to inputs only happen when inputs are visible
+	# when user clicks updat on each "Enter Preferences" tab this matrix is updated
+	# size is 8x14
+	#------------------------------------------------------------
+	message("session$userData$selectedPreferences init")
+	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
+
+
 	#------------------------------------------------------------
 	# JS data passing test
 	#------------------------------------------------------------
@@ -422,20 +432,11 @@ server <- function(input, output, session) {
 			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
 			message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
 			criteria_input_names <- c(
-				"FishBiomass",
-				"RiverRec",
-				"Reservoir",
-				"ProjectCost",
-				"Safety",
-				"NumProperties",
-				"ElectricityGeneration",
-				"AvoidEmissions",
-				"IndigenousLifeways",
-				"IndustrialHistory",
-				"CommunityIdentity",
-				"Aesthetics",
-				"Health",
-				"Justice"
+				"FishBiomass", "RiverRec", "Reservoir",
+				"ProjectCost", "Safety", "NumProperties",
+				"ElectricityGeneration", "AvoidEmissions", "IndigenousLifeways",
+				"IndustrialHistory", "CommunityIdentity", "Aesthetics",
+				"Health", "Justice"
 			)
 
 			scores_valid <- TRUE # valid unless proven otherwise
@@ -454,6 +455,7 @@ server <- function(input, output, session) {
 					total <- (total + val)
 
 					updateSliderInput(session, slider_id, value=val)
+					setDamPreference(damIndex, critIndex-1, val)
 				}
 
 				# validate inputs for each dam total
@@ -463,21 +465,21 @@ server <- function(input, output, session) {
 			}
 
 			if (scores_valid == TRUE){
-				#message("file upload success")
+				#message("file upload success -> generateGraphs")
 				removeModal()
 				upload_modal_visible <<- FALSE
 
 				# make preferences and generate
-				updateDam1()
-				updateDam2()
-				updateDam3()
-				updateDam4()
-				updateDam5()
-				updateDam6()
-				updateDam7()
-				updateDam8()
-				# generate
-				generateOutput()
+				#updateDam1()
+				#updateDam2()
+				#updateDam3()
+				#updateDam4()
+				#updateDam5()
+				#updateDam6()
+				#updateDam7()
+				#updateDam8()
+				## generate
+				#generateOutput()
 
 			}else{
 				# warn the user that the file is not acceptable (not valid scores)
@@ -599,25 +601,7 @@ server <- function(input, output, session) {
 	# helper method for generating RawCriteriaMatrix from input fields
 	#------------------------------------------------------------
 	getRawScores <- function(){
-		dams <- vector("list")
-		for (row_id in 1:length(available_dams)){
-			q <- vector("list")
-
-			for (id in criteria_inputs){
-				input_name <- paste(id, toString(row_id), sep='')
-				value <- input[[input_name]]
-				q[[id]] <- value
-
-				if (is.null(value)){
-					# debug nulls, doesn't modify data
-					message('input ', input_name, " isNull ")
-				}
-			}
-
-			dams[[row_id]] <- unlist(q) # we want in c and not list
-		}
-		dams <- unlist(dams)
-		return(dams)
+		return(session$userData$selectedPreferences)
 	}
 
 
@@ -642,7 +626,26 @@ server <- function(input, output, session) {
 			input[[paste0("Health", damIndex)]],
 			input[[paste0("Justice", damIndex)]]
 		)
+		message("dam ", damIndex, " preferences ", damPrefs)
 		return(damPrefs)
+	}
+
+
+	#------------------------------------------------------------
+	# setDamPreferences
+	# assign a list of values for each criteria in a dam
+	#------------------------------------------------------------
+	setDamPreferences <- function(damIndex, preferences){
+		session$userData$selectedPreferences[,damIndex] <- preferences
+	}
+
+
+	#------------------------------------------------------------
+	# setDamPreference
+	# assign a cell of session$userData$selectedPreferences
+	#------------------------------------------------------------
+	setDamPreference <- function(damIndex, critIndex, value){
+		session$userData$selectedPreferences[critIndex, damIndex] <- value
 	}
 
 
@@ -660,6 +663,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam1 <- as.vector(getDamPreferences(damId))
+		setDamPreferences(damId, Dam1)
 
 		# create table matrix
 		Dam1_Table <- as.matrix(data.frame(Dam1))
@@ -690,6 +694,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam2 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam2)
 
 		# create table matrix
 		Dam2_Table <- as.matrix(data.frame(Dam2))
@@ -720,6 +725,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam3 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam3)
 
 		# create table matrix
 		Dam3_Table <- as.matrix(data.frame(Dam3))
@@ -750,6 +756,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam4 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam4)
 
 		# create table matrix
 		Dam4_Table <- as.matrix(data.frame(Dam4))
@@ -780,6 +787,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam5 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam5)
 
 		# create table matrix
 		Dam5_Table <- as.matrix(data.frame(Dam5))
@@ -811,6 +819,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam6 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam6)
 
 		# create table matrix
 		Dam6_Table <- as.matrix(data.frame(Dam6))
@@ -842,6 +851,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam7 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam7)
 
 		# create table matrix
 		Dam7_Table <- as.matrix(data.frame(Dam7))
@@ -873,6 +883,7 @@ server <- function(input, output, session) {
 
 		# get decision inputs
 		Dam8 <- getDamPreferences(damId)
+		setDamPreferences(damId, Dam8)
 
 		# create table matrix
 		Dam8_Table <- as.matrix(data.frame(Dam8))
