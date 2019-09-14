@@ -24,20 +24,36 @@ map_width <- "100%"
 map_height <- 500
 
 # multiple used labels
-fishSurvivalLabel <- "Fish survival area is measured in hundreds of square meters. It is a proxy criteria estimated as possible upstream sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) functional habitat (Roy et al., 2018). "
-riverRecLabel <- "River recreation is measured in square kilometers. It is the estimated downstream area of river that may increase or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
-resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based on its volume (Roy et al., 2018)."
-annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
-numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes in viewshed or property value (Roy et al., 2018). "
-breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
-annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate capacity from FERC licenses for each hydropower project."
-GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production; based on decreasing generation from the State's electricity generation mix; does not include life cycle emissions impacts."
-indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving or restoring the cultural traditions and lifeways of indigenous people."
-communityIdentityLabel <- "Community identity is a unitless rating to convey the importance of preserving the existing identity of the community residents living along or on islands within the river."
-industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring the industrial history of the site. "
-aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance, scenic value, smell, sound)."
-healthLabel <- "Public health is a unitless rating to convey the importance of public health connected to air, water, and land pollution."
-justiceLabel <- "Socio-environmental justice is a unitless rating to convey the importance of socio-environmental justice issues (e.g. negative environmental effects that target disadvantaged groups - people of lower socio-economic status or with less political or economic power)."
+fishSurvivalLabel <- "Sea-run fish habitat area is measured in hundreds of square meters. It is a proxy criteria estimated as possible upstream \
+sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) functional habitat (Roy et al., 2018). "
+riverRecLabel <- "River recreation is measured in square kilometers. It is the estimated downstream area of river that may increase \
+or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
+resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\ 
+on its volume (Roy et al., 2018)."
+annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
+and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
+numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes \
+in viewshed or property value (Roy et al., 2018). "
+breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the \
+potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
+annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate \
+capacity from FERC licenses for each hydropower project."
+GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an estimate \
+estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production (reservoir or diversion-design \
+dams); based on decreasing generation from the State's electricity generation mix; includes life cycle emissions impacts."
+indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving\
+or restoring the cultural traditions and lifeways of indigenous people."
+communityIdentityLabel <- "Community identity is a unitless rating to convey the importance of preserving the existing identity of \
+the community residents living along or on islands within the river."
+industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
+he industrial history of the site. "
+aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
+scenic value, smell, sound)."
+healthLabel <- "Public health is a unitless rating to convey the importance of public health connected to air, water, and land\
+pollution."
+justiceLabel <- "Socio-environmental justice is a unitless rating to convey the importance of socio-environmental justice issues\
+(e.g. negative environmental effects that target disadvantaged groups - people of lower socio-economic status or with less political \
+or economic power)."
 
 
 
@@ -79,11 +95,11 @@ ui <- shinyUI(fluidPage(
 			img(src = 'River1.jpg', width="50%", align = "right", style="margin:0.2em;"),
 
 			HTML(
-				"<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support getting involved in decision making about hydropower dams licensed through the\
-				 Federal Energy Regulatory Commission (FERC), but could potentially be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for hydropower dams in Maine's Penobscot River, based on user preferences, \
-				 to support your interaction in the FERC licensing process. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria (e.g., annuitized \
-				 cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with upcoming FERC license expiration dates. The tool gathers user inputs and calculates a ranked set of decision alternatives (e.g. keep and maintain dam, \
-				 improve hydropower generation, improve fish passage) for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
+				"<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support your consideration of possible decision alternatives (e.g. keep and maintain dam, \
+				 improve hydropower generation, improve fish passage) for hydropower dams, and could potentially be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for Federal Energy Regulatory Commission \
+         (FERC) licensed hydropower dams in Maine's Penobscot River, based on your preferences. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria \
+         (e.g., annuitized cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with FERC license expiration dates in the next 10 years. The tool gathers user inputs and calculates a ranked set of decision \
+         alternatives for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
 				 is to encourage you to consider dams on the river as a system, in addition to one at a time.\ <br>
 				 <br>The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br>"
 			),
@@ -94,7 +110,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
 				"<h4>More Information:</h4>\
 
-				The Penobscot River is home to many dams and valuable ecosystem services, including pristine natural lakes, clean water sources, and significant biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, \
+				The Penobscot River is home to many dams and supports valuable ecosystem services. The watershed inclues pristine natural lakes, clean water sources, and significant biodiversity, including several sea-run fish species (e.g. Atlantic salmon, American eel, \
 				Blueback herring, and Alewife). Dams also provide important services: reservoirs for drinking water and recreation, flood protection, and generation of reliable, on-demand renewable hydropower, critical to reducing fossil-fuel emissions that contribute \
 				to climate change and poor human health. However, all dams need regular maintenance and older dams may need more extensive repairs as they age. Dams may interrupt flows and prevent sea-run fish passage, contributing to large population declines. \
 				They may also contribute to poor water quality downstream, increased predation, and climate change (decaying plant matter in reservoirs release methane into the atmosphere). Dams have long threatened indigenous cultural traditions, while at the same \
@@ -125,7 +141,8 @@ ui <- shinyUI(fluidPage(
 			leafletOutput("dam_map", width=map_width, height=map_height),
 			HTML("Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
-			img(src = 'Penobscot_MO_14_443', width="50%", align = "center")
+			
+			img(src = 'Penobscot_MO_14_443', align = "center")
 			
 		),
 
@@ -953,8 +970,54 @@ ui <- shinyUI(fluidPage(
 		# --------------------------------------------------------------------------------
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
-
-		HTML("<li class='step-label'> Step 4: View Dam Specific Results </li>"),
+		HTML("<li> Step 4: Multi-Dam Results </li>"),
+		
+		tabPanel("Combined Results",
+		         h2("Multi-Dam Results"),
+		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		         
+		         #TODO: remove for production
+		         actionButton("autoGenerateMatrix", "Autofill: debug only"),
+		         #actionButton("testWSM", "test WSM: debug only"),
+		         #actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
+		         
+		         # generate event
+		         actionButton("generateCombinedMatrix", "Generate"),
+		         
+		         div(id="combined-output",
+		             #h2('All Preferences'),
+		             #tableOutput("FilledCriteriaTable"),
+		             
+		             #alternatives at each dam
+		             h2('Dam Decision Alternative Comparison'),
+		             plotOutput("AlternativesGraph_All", height="35em"),
+		             
+		             # by dam
+		             h2('All Preferences by Dam'),
+		             plotOutput("FilledCriteriaGraph2", height="35em"),
+		             
+		             # by criteria --> this one might not be necessary after all
+		            # h2('All Preferences by Alternative'),
+		            # plotOutput("FilledCriteriaGraph", height="35em"),
+		             
+		             h2('WSMTableOutput'),
+		             tableOutput("WSMTable"),
+		             
+		             h2('WSM1'),
+		             #TODO
+		             #plotOutput("WSMPlot1", height=graph_height, width=graph_width),
+		             
+		             h2('WSM2')
+		             #TODO
+		             #plotOutput("WSMPlot2", height=graph_height, width=graph_width)
+		         )
+		),
+		
+		tabPanel("Map Recommendation",
+		         h2("Optimized Result"),
+		         HTML('<div id="MapRecommendation"></div>')
+		),
+		HTML("<li class='step-label'> Step 5: View Dam Specific Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
@@ -974,27 +1037,32 @@ ui <- shinyUI(fluidPage(
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
 
-				HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-				actionButton("generateMatrix", "Generate") 
-        
-			),
-      
-			# TODO: add raw data table/Matrix
-			HTML(
-			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent. Note: fish survival values shown here are discrete,\
-         but in reality, the values are network-dependent and would be impacted by upstream or downstream changes.<br>"
-			),
-			# TODO: add normalized data table/Matrix
-			HTML(
-			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-         Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-			   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-         high costs are less desirable than low costs.<br>"
-			),
-			#TODO: add weighted score data table/Matrix
-			HTML(
-			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+      			#raw data table/Matrix
+    			h3("Table 2. Raw data values for West Enfield Dam"),
+    			DT::dataTableOutput("Dam1RawTable"),
+    			HTML(
+    			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent. Note: fish survival values shown here are discrete,\
+             but in reality, the values are network-dependent and would be impacted by upstream or downstream changes.<br>"
+    			),
+    			#normalized data table/Matrix
+			    h3("Table 3. Normalized data values for West Enfield Dam"),
+			    DT::dataTableOutput("Dam1NormTable"),    			
+			    HTML(
+    			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+             Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+    			   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+             high costs are less desirable than low costs.<br>"
+    			),
+    			#weighted score data table/Matrix
+			    h3("Table 4. Weighted scores for West Enfield Dam"),
+			    DT::dataTableOutput("Dam1ScoreTable"),    			
+			    HTML(
+    			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+    			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+    			),
+			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
+			actionButton("generateMatrix", "Generate") 
+			    
 			),
 			# output post generate
 			div(id="generated-output-1",
@@ -1183,7 +1251,7 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
 		         div(id="dam-4-output",
-		             h3("Table 8. Raw preference scores for East Millinocket Dam"),
+		             h3("Table 13. Raw preference scores for East Millinocket Dam"),
 		             DT::dataTableOutput("RawPrefsDam4"),
 		             HTML(
 		               "This table of preference data is depicted below."
@@ -1257,9 +1325,12 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-5-output",
+		             h3("Table 17. Raw preference scores for North Twin Dam"),
+		             DT::dataTableOutput("RawPrefsDam5"),
+		             HTML(
+		               "This table of preference data is depicted below."
+		             ),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1328,9 +1399,12 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 6: Dolby",
 		         h2("Results: Dolby Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-6-output",
+		             h3("Table 21. Raw preference scores for Dolby Dam"),
+		             DT::dataTableOutput("RawPrefsDam6"),
+		             HTML(
+		               "This table of preference data is depicted below."
+		             ),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1399,9 +1473,12 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-7-output",
+		             h3("Table 25. Raw preference scores for Millinocket Lake Dam"),
+		             DT::dataTableOutput("RawPrefsDam7"),
+		             HTML(
+		               "This table of preference data is depicted below."
+		             ),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 19: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1471,9 +1548,12 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-8-output",
+		             h3("Table 29. Raw preference scores for Ripogenus Dam"),
+		             DT::dataTableOutput("RawPrefsDam8"),
+		             HTML(
+		               "This table of preference data is depicted below."
+		             ),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1541,49 +1621,7 @@ ui <- shinyUI(fluidPage(
 				 )
 		),
 
-		HTML("<li> Step 5: Multi-Dam Results </li>"),
-
-		tabPanel("Combined Results",
-			h2("Multi-Dam Results"),
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-
-			#TODO: remove for production
-			actionButton("autoGenerateMatrix", "Autofill: debug only"),
-			#actionButton("testWSM", "test WSM: debug only"),
-			#actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
-
-			# generate event
-			actionButton("generateCombinedMatrix", "Generate"),
-
-			div(id="combined-output",
-				#h2('All Preferences'),
-				#tableOutput("FilledCriteriaTable"),
-
-				# by dam
-				h2('All Preferences by Dam'),
-				plotOutput("FilledCriteriaGraph2", height="35em"),
-
-				# by criteria
-				h2('All Preferences by Alternative'),
-				plotOutput("FilledCriteriaGraph", height="35em"),
-
-				h2('WSMTableOutput'),
-				tableOutput("WSMTable"),
-
-				h2('WSM1'),
-				#TODO
-				#plotOutput("WSMPlot1", height=graph_height, width=graph_width),
-
-				h2('WSM2')
-				#TODO
-				#plotOutput("WSMPlot2", height=graph_height, width=graph_width)
-			)
-		),
-
-		tabPanel("Map Recommendation",
-		    h2("Optimized Result"),
-			HTML('<div id="MapRecommendation"></div>')
-		),
+		
 
 		# Developer and aknowledgements secion
 		HTML("<li class='step-label'>About</li>"),

@@ -406,11 +406,11 @@ Dam1RawTable <- setDT(WestEnf_DataMatrix)
 row.names(Dam1RawTable) <- alternative_names
 colnames(Dam1RawTable) <- criteria_inputs
 
-Dam1NormTable <- setDT(data.frame(Ind_NormalizedMatrix[,,1]))
+Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 3)*100))
 row.names(Dam1NormTable) <- alternative_names
 colnames(Dam1NormTable) <- criteria_inputs
 
-Dam1ScoreTable <- setDT(Dam1Results)
+Dam1ScoreTable <- setDT(round(Dam1Results, 3)*100)
 row.names(Dam1ScoreTable) <- alternative_names
 colnames(Dam1ScoreTable) <- criteria_inputs
 

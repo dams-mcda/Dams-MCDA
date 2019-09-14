@@ -600,7 +600,29 @@ server <- function(input, output, session) {
 		  Dam1_Table
 		})
 		
-
+		Dam1RawTable <- setDT(WestEnf_DataMatrix)
+		row.names(Dam1RawTable) <- alternative_names
+		colnames(Dam1RawTable) <- criteria_inputs
+		
+		output$Dam1RawTable = DT::renderDataTable({
+		  Dam1RawTable
+		})
+		
+		Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 3)*100))
+		row.names(Dam1NormTable) <- alternative_names
+		colnames(Dam1NormTable) <- criteria_inputs
+		
+		output$Dam1NormTable = DT::renderDataTable({
+		  Dam1NormTable
+		})		
+		
+		Dam1ScoreTable <- setDT(round(Dam1Results, 3)*100)
+		row.names(Dam1ScoreTable) <- alternative_names
+		colnames(Dam1ScoreTable) <- criteria_inputs
+		
+		output$Dam1ScoreTable = DT::renderDataTable({
+		  Dam1ScoreTable
+		})
 		# update dam specific graphs
 		updateDamGraph(damId, Dam1)
 		# make the container of those graphs visible
@@ -630,6 +652,34 @@ server <- function(input, output, session) {
 		Dam2_Table <- as.matrix(data.frame(Dam2))
 		row.names(Dam2_Table) <- criteria_names
 		names(Dam2_Table) <- "Raw Score"
+		
+		output$RawPrefsDam2 = DT::renderDataTable({
+		  Dam2_Table
+		})
+		
+		Dam2RawTable <- setDT(Med_DataMatrix)
+		row.names(Dam2RawTable) <- alternative_names
+		colnames(Dam2RawTable) <- criteria_inputs
+		
+		output$Dam2RawTable = DT::renderDataTable({
+		  Dam2RawTable
+		})
+		
+		Dam2NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,2], 3)*100))
+		row.names(Dam2NormTable) <- alternative_names
+		colnames(Dam2NormTable) <- criteria_inputs
+		
+		output$Dam2NormTable = DT::renderDataTable({
+		  Dam2NormTable
+		})		
+		
+		Dam2ScoreTable <- setDT(round(Dam2Results, 3)*100)
+		row.names(Dam2ScoreTable) <- alternative_names
+		colnames(Dam2ScoreTable) <- criteria_inputs
+		
+		output$Dam2ScoreTable = DT::renderDataTable({
+		  Dam2ScoreTable
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam2)
@@ -660,6 +710,34 @@ server <- function(input, output, session) {
 		Dam3_Table <- as.matrix(data.frame(Dam3))
 		row.names(Dam3_Table) <- criteria_names
 		names(Dam3_Table) <- "Raw Score"
+		
+		output$RawPrefsDam3 = DT::renderDataTable({
+		  Dam3_Table
+		})
+		
+		Dam3RawTable <- setDT(Mill_DataMatrix)
+		row.names(Dam3RawTable) <- alternative_names
+		colnames(Dam3RawTable) <- criteria_inputs
+		
+		output$Dam3RawTable = DT::renderDataTable({
+		  Dam3RawTable
+		})
+		
+		Dam3NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,3], 3)*100))
+		row.names(Dam3NormTable) <- alternative_names
+		colnames(Dam3NormTable) <- criteria_inputs
+		
+		output$Dam3NormTable = DT::renderDataTable({
+		  Dam3NormTable
+		})		
+		
+		Dam3ScoreTable <- setDT(round(Dam3Results, 3)*100)
+		row.names(Dam3ScoreTable) <- alternative_names
+		colnames(Dam3ScoreTable) <- criteria_inputs
+		
+		output$Dam3ScoreTable = DT::renderDataTable({
+		  Dam3ScoreTable
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam3)
@@ -690,6 +768,34 @@ server <- function(input, output, session) {
 		Dam4_Table <- as.matrix(data.frame(Dam4))
 		row.names(Dam4_Table) <- criteria_names
 		names(Dam4_Table) <- "Raw Score"
+		
+		output$RawPrefsDam4 = DT::renderDataTable({
+		  Dam4_Table
+		})
+		
+		Dam4RawTable <- setDT(Dolby_DataMatrix)
+		row.names(Dam4RawTable) <- alternative_names
+		colnames(Dam4RawTable) <- criteria_inputs
+		
+		output$Dam4RawTable = DT::renderDataTable({
+		  Dam4RawTable
+		})
+		
+		Dam4NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,4], 3)*100))
+		row.names(Dam4NormTable) <- alternative_names
+		colnames(Dam4NormTable) <- criteria_inputs
+		
+		output$Dam4NormTable = DT::renderDataTable({
+		  Dam4NormTable
+		})		
+		
+		Dam4ScoreTable <- setDT(round(Dam4Results, 3)*100)
+		row.names(Dam4ScoreTable) <- alternative_names
+		colnames(Dam4ScoreTable) <- criteria_inputs
+		
+		output$Dam4ScoreTable = DT::renderDataTable({
+		  Dam4ScoreTable
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam4)
@@ -720,6 +826,34 @@ server <- function(input, output, session) {
 		Dam5_Table <- as.matrix(data.frame(Dam5))
 		row.names(Dam5_Table) <- criteria_names
 		names(Dam5_Table) <- "Raw Score"
+		
+		output$RawPrefsDam5 = DT::renderDataTable({
+		  Dam5_Table
+		})
+		
+		Dam5RawTable <- setDT(NorthTw_DataMatrix)
+		row.names(Dam5RawTable) <- alternative_names
+		colnames(Dam5RawTable) <- criteria_inputs
+		
+		output$Dam5RawTable = DT::renderDataTable({
+		  Dam5RawTable
+		})
+		
+		Dam5NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,5], 3)*100))
+		row.names(Dam5NormTable) <- alternative_names
+		colnames(Dam5NormTable) <- criteria_inputs
+		
+		output$Dam1NormTable = DT::renderDataTable({
+		  Dam5NormTable
+		})		
+		
+		Dam5ScoreTable <- setDT(round(Dam5Results, 3)*100)
+		row.names(Dam5ScoreTable) <- alternative_names
+		colnames(Dam5ScoreTable) <- criteria_inputs
+		
+		output$Dam5ScoreTable = DT::renderDataTable({
+		  Dam5ScoreTable
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam5)
@@ -751,6 +885,34 @@ server <- function(input, output, session) {
 		Dam6_Table <- as.matrix(data.frame(Dam6))
 		row.names(Dam6_Table) <- criteria_names
 		names(Dam6_Table) <- "Raw Score"
+		
+		output$RawPrefsDam6 = DT::renderDataTable({
+		  Dam6_Table
+		})
+		
+		Dam6RawTable <- setDT(Dolby_DataMatrix)
+		row.names(Dam6RawTable) <- alternative_names
+		colnames(Dam6RawTable) <- criteria_inputs
+		
+		output$Dam6RawTable = DT::renderDataTable({
+		  Dam6RawTable
+		})
+		
+		Dam6NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,6], 3)*100))
+		row.names(Dam6NormTable) <- alternative_names
+		colnames(Dam6NormTable) <- criteria_inputs
+		
+		output$Dam6NormTable = DT::renderDataTable({
+		  Dam6NormTable
+		})		
+		
+		Dam6ScoreTable <- setDT(round(Dam6Results, 3)*100)
+		row.names(Dam6ScoreTable) <- alternative_names
+		colnames(Dam6ScoreTable) <- criteria_inputs
+		
+		output$Dam6ScoreTable = DT::renderDataTable({
+		  Dam6ScoreTable
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam6)
@@ -782,6 +944,34 @@ server <- function(input, output, session) {
 		Dam7_Table <- as.matrix(data.frame(Dam7))
 		row.names(Dam7_Table) <- criteria_names
 		names(Dam7_Table) <- "Raw Score"
+		
+		output$RawPrefsDam7 = DT::renderDataTable({
+		  Dam7_Table
+		})
+		
+		Dam7RawTable <- setDT(MillLake_DataMatrix)
+		row.names(Dam7RawTable) <- alternative_names
+		colnames(Dam7RawTable) <- criteria_inputs
+		
+		output$Dam7RawTable = DT::renderDataTable({
+		  Dam7RawTable
+		})
+		
+		Dam7NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,7], 3)*100))
+		row.names(Dam7NormTable) <- alternative_names
+		colnames(Dam7NormTable) <- criteria_inputs
+		
+		output$Dam7NormTable = DT::renderDataTable({
+		  Dam7NormTable
+		})		
+		
+		Dam7ScoreTable <- setDT(round(Dam7Results, 3)*100)
+		row.names(Dam7ScoreTable) <- alternative_names
+		colnames(Dam7ScoreTable) <- criteria_inputs
+		
+		output$Dam7ScoreTable = DT::renderDataTable({
+		  Dam7ScoreTable
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam7)
@@ -813,7 +1003,35 @@ server <- function(input, output, session) {
 		Dam8_Table <- as.matrix(data.frame(Dam8))
 		row.names(Dam8_Table) <- criteria_names
 		names(Dam8_Table) <- "Raw Score"
-
+		
+		output$RawPrefsDam8 = DT::renderDataTable({
+		  Dam8_Table
+		})
+		
+		Dam8RawTable <- setDT(Ripogenus_DataMatrix)
+		row.names(Dam8RawTable) <- alternative_names
+		colnames(Dam8RawTable) <- criteria_inputs
+		
+		output$Dam8RawTable = DT::renderDataTable({
+		  Dam8RawTable
+		})
+		
+		Dam8NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,8], 3)*100))
+		row.names(Dam8NormTable) <- alternative_names
+		colnames(Dam8NormTable) <- criteria_inputs
+		
+		output$Dam8NormTable = DT::renderDataTable({
+		  Dam8NormTable
+		})		
+		
+		Dam8ScoreTable <- setDT(round(Dam8Results, 3)*100)
+		row.names(Dam8ScoreTable) <- alternative_names
+		colnames(Dam8ScoreTable) <- criteria_inputs
+		
+		output$Dam8ScoreTable = DT::renderDataTable({
+		  Dam8ScoreTable
+		})
+		
 		# update dam specific graphs
 		updateDamGraph(8, Dam8)
 		# make the container of those graphs visible
@@ -920,7 +1138,17 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# Final Outputs
 			#----------------------------------------
-
+			## TODO: ALL Dam MCDA scores for decision alternatives, may need legend with alternatives
+			output$AlternativesGraph_All <- renderBarPlot(
+			  Score_compare, #data
+			  "Dam Decision Alternative Comparison", #title
+			  dam_names, #x labels
+			  "Dams", #x axis label
+			  "MCDA Score", #y axis label
+			  colors
+			)#this graph doesn't quite work yet
+      
+			
 			# Preference scores for all dams
 			output$FilledCriteriaGraph <- renderCombinedBarPlot(
 				RawCriteriaMatrix, # data
@@ -934,16 +1162,16 @@ server <- function(input, output, session) {
 			)
 
 			# Preference scores by criteria
-			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
-				RawCriteriaMatrix, # data
-				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Criteria", # x axis label
-				"Score", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				NULL # y value limit (Unknown in this case)
-			)
+			#output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
+		#		RawCriteriaMatrix, # data
+		#		"Preferences for all dams", # title
+		#		criteria_names, # x_labels
+		#		"Criteria", # x axis label
+		#		"Score", # y axis label
+		#		colors, # colors
+		#		NULL, # x value limit
+		#		NULL # y value limit (Unknown in this case)
+		#	)
 
 			# weighted scores
 			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
