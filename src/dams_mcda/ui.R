@@ -1074,7 +1074,7 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 2. West Enfield Decision Alternative Scores by Decision Criteria'),
 
-				plotOutput("WSMPlot1", height=600, width="100%"),
+				plotOutput("WSMPlot1a", height=600, width="100%"),
 
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 3: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1084,7 +1084,7 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 3. Total Decision Criteria Scores by Decision Alternative for West Enfield'),
 
-				plotOutput("WSMPlot2", height=1000, width="100%"),
+				plotOutput("WSMPlot1b", height=1000, width="100%"),
 
 				HTML(
 					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1153,7 +1153,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 5. Medway Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot3", height=600, width="100%"),
+		             plotOutput("WSMPlot2a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 6: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1162,7 +1162,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot4", height=1000, width="100%"),
+		             plotOutput("WSMPlot2b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
@@ -1235,7 +1235,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 8. Millinocket Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot5", height=600, width="100%"),
+		             plotOutput("WSMPlot3a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 9: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1244,7 +1244,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot6", height=1000, width="100%"),
+		             plotOutput("WSMPlot3b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
@@ -1317,7 +1317,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 11. East Millinocket Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot7", height=600, width="100%"),
+		             plotOutput("WSMPlot4a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 12: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1326,7 +1326,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot8", height=1000, width="100%"),
+		             plotOutput("WSMPlot4b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 					       #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
@@ -1396,7 +1396,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 14. North Twin Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot9", height=600, width="100%"),
+		             plotOutput("WSMPlot5a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 15: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1405,7 +1405,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot10", height=1000, width="100%"),
+		             plotOutput("WSMPlot5b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
@@ -1475,7 +1475,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 17. Dolby Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot11", height=600, width="100%"),
+		             plotOutput("WSMPlot6a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 18: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1484,7 +1484,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot12", height=1000, width="100%"),
+		             plotOutput("WSMPlot6b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
@@ -1555,7 +1555,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 20. Millinocket Lake Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot13", height=600, width="100%"),
+		             plotOutput("WSMPlot7a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 21: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1564,7 +1564,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot14", height=1000, width="100%"),
+		             plotOutput("WSMPlot7b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
@@ -1635,7 +1635,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 23. Ripogenus Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot15", height=600, width="100%"),
+		             plotOutput("WSMPlot8a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 24: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1644,7 +1644,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 24. Total Decision Criteria Scores by Decision Alternative for Ripogenus'),
 		             #tableOutput("WSMTable2"), # for debugging plot2
-		             plotOutput("WSMPlot16", height=1000, width="100%"),
+		             plotOutput("WSMPlot8b", height=1000, width="100%"),
 		             # plotly exampl for plot 2
 		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
