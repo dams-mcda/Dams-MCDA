@@ -1037,7 +1037,7 @@ ui <- shinyUI(fluidPage(
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
 
-      			#raw data table/Matrix
+      		#raw data table/Matrix
     			h3("Table 2. Raw data values for West Enfield Dam"),
     			DT::dataTableOutput("Dam1RawTable"),
     			HTML(
@@ -1104,7 +1104,7 @@ ui <- shinyUI(fluidPage(
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-2-output",
-		             h3("Table 4. Raw preference scores for Medway Dam"),
+		             h3("Table 5. Raw preference scores for Medway Dam"),
 		             DT::dataTableOutput("RawPrefsDam2"),
 		             HTML(
 		               "This table of preference data is depicted below."
@@ -1115,26 +1115,34 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
+		             
+		             #raw data table/Matrix
+		             h3("Table 6. Raw data values for Medway Dam"),
+		             DT::dataTableOutput("Dam2RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 6. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		             ),
+		             # normalized data table/Matrix
+		             h3("Table 7. Normalized data values for Medway Dam"),
+		             DT::dataTableOutput("Dam2NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 7. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               high costs are less desirable than low costs.<br>"
+		             ),
+		             #weighted score data table/Matrix
+		             h3("Table 8. Weighted scores for Medway Dam"),
+		             DT::dataTableOutput("Dam2ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+		             ),
+		             
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix2", "Generate")
 		         ),
 					 
-					 # TODO: add raw data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 6. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-					 ),
-					 # TODO: add normalized data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 7. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					   high costs are less desirable than low costs.<br>"
-					 ),
-					 #TODO: add weighted score data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					 ),
 		         # output post generate
 		         div(id="generated-output-2",
 		             HTML(
@@ -1178,7 +1186,7 @@ ui <- shinyUI(fluidPage(
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-3-output",
-		             h3("Table 4. Raw preference scores for Medway Dam"),
+		             h3("Table 9. Raw preference scores for Medway Dam"),
 		             DT::dataTableOutput("RawPrefsDam3"),
 		             HTML(
 		               "This table of preference data is depicted below."
@@ -1189,28 +1197,35 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
+		             
+		             #raw data table/Matrix
+		             h3("Table 10. Raw data values for Millinocket Dam"),
+		             DT::dataTableOutput("Dam3RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 10. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		             ),
+		             # normalized data table/Matrix
+		             h3("Table 11. Normalized data values for Millinocket Dam"),
+		             DT::dataTableOutput("Dam3NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               high costs are less desirable than low costs.<br>"
+		             ),
+		             #weighted score data table/Matrix
+		             h3("Table 12. Weighted scores for Millinocket Dam"),
+		             DT::dataTableOutput("Dam3ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+		             ),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix3", "Generate")
-		         ),
+		       ),
 
-					 # TODO: add raw data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 10. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-					 ),
-					 # TODO: add normalized data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					   high costs are less desirable than low costs.<br>"
-					 ),
-					 #TODO: add weighted score data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					 ),  
-					 # output post generate
+					  # output post generate
 		         div(id="generated-output-3",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1263,29 +1278,36 @@ ui <- shinyUI(fluidPage(
 					         "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 					       ),
+					       
+					       #raw data table/Matrix
+					       h3("Table 14 Raw data values for East Millinocket Dam"),
+					       DT::dataTableOutput("Dam4RawTable"),
+					       HTML(
+					         "<br><b>Results Interpretation</b> for Table 14. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+					       ),
+					       # normalized data table/Matrix
+					       h3("Table 15. Normalized data values for East Millinocket Dam"),
+					       DT::dataTableOutput("Dam4NormTable"),
+					       HTML(
+					         "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+					         Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+					         (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					         high costs are less desirable than low costs.<br>"
+					       ),
+					       #weighted score data table/Matrix
+					       h3("Table 16. Weighted scores for East Millinocket Dam"),
+					       DT::dataTableOutput("Dam4ScoreTable"),
+					       HTML(
+					         "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+					         The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+					       ),
 
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 # generate event
-					 actionButton("generateMatrix4", "Generate")
-				 ),
+  					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+  					 # generate event
+  					 actionButton("generateMatrix4", "Generate")
+  				   ),
 
-				 # TODO: add raw data table/Matrix
-				 HTML(
-				   "<br><b>Results Interpretation</b> for Table 14. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-				 ),
-				 # TODO: add normalized data table/Matrix
-				 HTML(
-				   "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-				   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-				   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-				   high costs are less desirable than low costs.<br>"
-				 ),
-				 #TODO: add weighted score data table/Matrix
-				 HTML(
-				   "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-				   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-				 ),
-		         # output post generate
+				     # output post generate
 		         div(id="generated-output-4",
 		             HTML(
 		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1306,7 +1328,7 @@ ui <- shinyUI(fluidPage(
 		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot8", height=1000, width="100%"),
 		             # plotly exampl for plot 2
-					 #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       #plotlyOutput("WSMPlotly2", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1338,27 +1360,32 @@ ui <- shinyUI(fluidPage(
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
 		             plotOutput("SummPlot5", height=graph_height, width=graph_width),
 		             
-
+		             #raw data table/Matrix
+		             h3("Table 18. Raw data values for North Twin Dam"),
+		             DT::dataTableOutput("Dam5RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 18. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		             ),
+		             # normalized data table/Matrix
+		             h3("Table 19. Normalized data values for North Twin Dam"),
+		             DT::dataTableOutput("Dam5NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 19. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               high costs are less desirable than low costs.<br>"
+		             ),
+		             #weighted score data table/Matrix
+		             h3("Table 20. Weighted scores for North Twin Dam"),
+		             DT::dataTableOutput("Dam5ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+		             ),
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix5", "Generate")
 		         ),
 
-					 # TODO: add raw data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 18. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-					 ),
-					 # TODO: add normalized data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 19. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					   high costs are less desirable than low costs.<br>"
-					 ),
-					 #TODO: add weighted score data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					 ),
 		         # output post generate
 		         div(id="generated-output-5",
 		             HTML(
@@ -1405,35 +1432,40 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
+		             h3("Figure 16. Raw Preference Scores for Dolby"),
+		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             h3("Figure 16. Raw Preference Scores for Dolby"),
-		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
-		             
+		             #raw data table/Matrix
+		             h3("Table 22. Raw data values for Dolby Dam"),
+		             DT::dataTableOutput("Dam6RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 22. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		             ),
+		             # normalized data table/Matrix
+		             h3("Table 23. Normalized data values for Dolby Dam"),
+		             DT::dataTableOutput("Dam6NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               high costs are less desirable than low costs.<br>"
+		             ),
+		             #weighted score data table/Matrix
+		             h3("Table 24. Weighted scores for Dolby Dam"),
+		             DT::dataTableOutput("Dam6ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+		             ),
 
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix6", "Generate")
 		         ),
 
-					 # TODO: add raw data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 22. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-					 ),
-					 # TODO: add normalized data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					   high costs are less desirable than low costs.<br>"
-					 ),
-					 #TODO: add weighted score data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					 ),
-		         # output post generate
+					  # output post generate
 		         div(id="generated-output-6",
 		             HTML(
 		               "<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1477,36 +1509,41 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 25. Raw preference scores for Millinocket Lake Dam"),
 		             DT::dataTableOutput("RawPrefsDam7"),
 		             HTML(
-		               "This table of preference data is depicted below."
+		               "The table of preference data is depicted below."
 		             ),
+		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
+		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 19: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
-		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
-		             
+		             #raw data table/Matrix
+		             h3("Table 26. Raw data values for Millinocket Lake Dam"),
+		             DT::dataTableOutput("Dam7RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 26. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		             ),
+		             # normalized data table/Matrix
+		             h3("Table 27. Normalized data values for Millinocket Lake Dam"),
+		             DT::dataTableOutput("Dam7NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 27. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               high costs are less desirable than low costs.<br>"
+		             ),
+		             #weighted score data table/Matrix
+		             h3("Table 28. Weighted scores for Milinocket Lake Dam"),
+		             DT::dataTableOutput("Dam7ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 28. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+		             ),
 
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 actionButton("generateMatrix7", "Generate")
-		         ),
+  					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+  					 actionButton("generateMatrix7", "Generate")
+  		         ),
 
-					 # TODO: add raw data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 26. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-					 ),
-					 # TODO: add normalized data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 27. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					   high costs are less desirable than low costs.<br>"
-					 ),
-					 #TODO: add weighted score data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 28. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					 ),
 		         # output post generate
 		         div(id="generated-output-7",
 
@@ -1554,35 +1591,40 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
+
+		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
+		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
-		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
-
-
+		             
+		             #raw data table/Matrix
+		             h3("Table 30. Raw data values for Ripogenus Dam"),
+		             DT::dataTableOutput("Dam8RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 30. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		             ),
+		             # normalized data table/Matrix
+		             h3("Table 31. Normalized data values for Ripogenus Dam"),
+		             DT::dataTableOutput("Dam8NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 31. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
+		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               high costs are less desirable than low costs.<br>"
+		             ),
+		             #weighted score data table/Matrix
+		             h3("Table 32. Weighted scores for Ripogenus Dam"),
+		             DT::dataTableOutput("Dam8ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 32. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
+		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
+		             ),
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix8", "Generate")
 		         ),
 
-					 
-					 # TODO: add raw data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 29. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent.<br>"
-					 ),
-					 # TODO: add normalized data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 30. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					   Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					   high costs are less desirable than low costs.<br>"
-					 ),
-					 #TODO: add weighted score data table/Matrix
-					 HTML(
-					   "<br><b>Results Interpretation</b> for Table 31. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					   The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					 ),
 		         # output post generate
 		         div(id="generated-output-8",
 		             HTML(
