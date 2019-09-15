@@ -490,20 +490,47 @@ server <- function(input, output, session) {
 		Criteria <- c(rep(criteria_names, times=length(1)))
 
 		# two columns, score and criteria of score
-		Data <- data.frame(score=scoreVector, criteria=Criteria)
+		Data1 <- data.frame(score=scoreVector, criteria=Criteria)
 
-		# Figure 1 raw pref plot
+		# raw pref plot
 		output[[paste0("SummPlot", damId)]] <- renderBarPlot(
-			Data, # data
+			Data1, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
-			"Topic", # x axis label
+			"Criteria", # x axis label
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range # y value limit (0-1 value range)
+			score_range # y value limit (0-100 value range)
 		)
-
+    
+		Data2 <- data.frame(score=scoreVector, criteria=Criteria)
+		
+		# WSM score plot - alternatives
+		output[[paste0("WSMPlot", damId, a)]] <- renderBarPlot(
+		  Data2, # data
+		  paste("Weighted sum MCDA scores,", dam_names[damId], sep=" "), # title
+		  alternative_names, # x_labels
+		  "Decision_Alternative", # x axis label
+		  "MCDA_Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
+		
+		Data3 <- data.frame(score=scoreVector, criteria=Criteria)
+		
+		# WSM score plot b - alternatives with criteria values
+		output[[paste0("WSMPlot", damId, b)]] <- renderBarPlot(
+		  Data3, # data
+		  paste("Weighted sum MCDA scores by criteria,", dam_names[damId], sep=" "), # title
+		  alternative_names, # x_labels
+		  "Decision Alternative", # x axis label
+		  "MCDA Score", # y axis label
+		  colors, # colors
+		  NULL, # x value limit
+		  score_range # y value limit (0-100 value range)
+		)
 		# Graph2
 
 		#NOTE: ggplot2 Error Bar Example
