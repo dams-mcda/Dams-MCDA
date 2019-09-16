@@ -993,28 +993,14 @@ server <- function(input, output, session) {
 			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMMatrix[,,8], rownames=TRUE)
 
 			# (d) has two graphs for each dam
-			#output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlot1D(
-			#	WSMIndScoreSum[1,],
-			#	"D 1", # title
-			#	alternative_names, # x_labels
-			#	"Criteria", # x axis label
-			#	"Score", # y axis label
-			#	"Alternative", # legend label
-			#	colors, # colors
-			#	NULL, # x value limit
-			#	c(0, max_slider_value) # y value limit (100 in this case)
-			#)
-
-			# (d) has two graphs for each dam
 			# d1
-			output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlot2D(
-				t(WSMMatrix[,,1]),
-				"D 2", # title
+			output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlot1D(
+				WSMIndScoreSum[1,],
+				"D 1", # title
 				alternative_names, # x_labels
-				criteria_names, # y_labels
-				"Alternative", # x axis label
+				"Criteria", # x axis label
 				"Score", # y axis label
-				"Criteria", # legend label
+				"Alternative", # legend label
 				colors, # colors
 				NULL, # x value limit
 				c(0, max_slider_value) # y value limit (100 in this case)
@@ -1022,7 +1008,7 @@ server <- function(input, output, session) {
 			# d2
 			output[[paste0("Dam", 1, "GenPlot2")]] <- renderPlot2D(
 				WSMMatrix[,,1],
-				"D 1", # title
+				"D 2", # title
 				criteria_names, # x_labels
 				alternative_names, # y_labels
 				"Criteria", # x axis label
