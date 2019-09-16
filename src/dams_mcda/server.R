@@ -401,8 +401,8 @@ server <- function(input, output, session) {
              quote = '"')
 
 		# debug contents of file
-		message("file header: ", head(df, n=1))
-		message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
+		#message("file header: ", head(df, n=1))
+		#message("file columns: ", length(head(df,n=1)), " rows: ", length(head(t(df), n=1)))
 
 		# ------------------------------
 		# verify contents of file
@@ -430,7 +430,7 @@ server <- function(input, output, session) {
 		if (upload_modal_visible && file_valid){
 			#TODO: process file here
 			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
-			message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
+			#message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
 			criteria_input_names <- c(
 				"FishBiomass", "RiverRec", "Reservoir",
 				"ProjectCost", "Safety", "NumProperties",
@@ -465,35 +465,36 @@ server <- function(input, output, session) {
 			}
 
 			if (scores_valid == TRUE){
+				# valid
 				#message("file upload success -> generateGraphs")
 				removeModal()
 				upload_modal_visible <<- FALSE
 
 				# make preferences and generate
-				#updateDam1()
-				#updateDam2()
-				#updateDam3()
-				#updateDam4()
-				#updateDam5()
-				#updateDam6()
-				#updateDam7()
-				#updateDam8()
+				updateDam1()
+				updateDam2()
+				updateDam3()
+				updateDam4()
+				updateDam5()
+				updateDam6()
+				updateDam7()
+				updateDam8()
 				## generate
 				#generateOutput()
 
 			}else{
+				# invalid score
 				# warn the user that the file is not acceptable (not valid scores)
 				fail_reason <- "Scores do not total correctly, Invalid File."
 				#message("file upload fail", fail_reason)
 				session$sendCustomMessage("invalidFileSelected", fail_reason)
 			}
-
 		}else{
+			# invalid file
 			# warn the user that the file is not acceptable
 			#message("file upload fail", fail_reason)
 			session$sendCustomMessage("invalidFileSelected", fail_reason)
 		}
-
 	}
 
 	# select mode / file upload event listeners
@@ -915,14 +916,18 @@ server <- function(input, output, session) {
 			))
 		}else{
 
+			#----------------------------------------
+			# Retreive Inputs
+			#----------------------------------------
 			# raw preference scores
 			RawCriteriaMatrix <- data.frame(matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs)))
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
 
+			#----------------------------------------
+			# run WSM and get data ready for graphs
+			#----------------------------------------
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
-			#message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
-			#message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
 			rownames(WSMMatrix) <- alternative_names
@@ -930,9 +935,12 @@ server <- function(input, output, session) {
 
 			# putting into data frame alters shape of 3d array to 2d
 			WSMTableOutput <- data.frame(WSMMatrix)
-			#message("WSMTableOutput length(dam_names): ", length(dam_names))
 
-			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
+			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
+			message("IndScoreSum", WSMIndScoreSum)
+
+			# renamed from WSMSummedScore
+			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
 
 			map_name <- WSMResults[4]
 			#message("WSM map name: ", map_name, " type ", class(map_name))
@@ -985,19 +993,21 @@ server <- function(input, output, session) {
 			output[[paste0("Dam", 8, "GenTable3")]] <- renderTable(WSMMatrix[,,8], rownames=TRUE)
 
 			# (d) has two graphs for each dam
-			output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlotD(
-				WSMMatrix[,,1],
-				"D 1", # title
-				criteria_names, # x_labels
-				alternative_names, # y_labels
-				"Criteria", # x axis label
-				"Score", # y axis label
-				"Alternative", # legend label
-				colors, # colors
-				NULL, # x value limit
-				c(0, max_slider_value) # y value limit (100 in this case)
-			)
-			output[[paste0("Dam", 1, "GenPlot2")]] <- renderPlotD(
+			#output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlot1D(
+			#	WSMIndScoreSum[1,],
+			#	"D 1", # title
+			#	alternative_names, # x_labels
+			#	"Criteria", # x axis label
+			#	"Score", # y axis label
+			#	"Alternative", # legend label
+			#	colors, # colors
+			#	NULL, # x value limit
+			#	c(0, max_slider_value) # y value limit (100 in this case)
+			#)
+
+			# (d) has two graphs for each dam
+			# d1
+			output[[paste0("Dam", 1, "GenPlot1")]] <- renderPlot2D(
 				t(WSMMatrix[,,1]),
 				"D 2", # title
 				alternative_names, # x_labels
@@ -1005,6 +1015,19 @@ server <- function(input, output, session) {
 				"Alternative", # x axis label
 				"Score", # y axis label
 				"Criteria", # legend label
+				colors, # colors
+				NULL, # x value limit
+				c(0, max_slider_value) # y value limit (100 in this case)
+			)
+			# d2
+			output[[paste0("Dam", 1, "GenPlot2")]] <- renderPlot2D(
+				WSMMatrix[,,1],
+				"D 1", # title
+				criteria_names, # x_labels
+				alternative_names, # y_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				"Alternative", # legend label
 				colors, # colors
 				NULL, # x value limit
 				c(0, max_slider_value) # y value limit (100 in this case)
@@ -1040,12 +1063,6 @@ server <- function(input, output, session) {
 
 			#message('save selected preferences to file after successfull generation of results')
 			savePreferences(RawCriteriaMatrix)
-
-			## stacked bars data table
-			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
-			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
-			#Score <- alternatives
-			#Data <- data.frame(Alternative, Criteria, Score)
 
 			# show output html elements (as of now generateOutput does all individual dams + combined)
 			shinyjs::show(id="generated-output-1")
