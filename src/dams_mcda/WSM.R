@@ -189,6 +189,9 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
 	AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 	AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
+	for (damId in 1:length(available_dams)){
+		message("AllDataMatrix Dam", damId, "> ", AllDataMatrix[,,damId], " Dim ", dim(AllDataMatrix[,,damId]))
+	}
 
 	#--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 
@@ -266,7 +269,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	# SINGLE DAM WEIGHTING PROCEDURE
 	#----------------------------------------
 	Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
-	message("Dam1 weighted results", Dam1Results, " dims ", dim(Dam1Results))
 	Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
@@ -276,8 +278,19 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
 
 	# Ind WeightedScoreMatrix, this binds each dam to 5 rows, one for each alternative
-	Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
-	colnames(Ind_WeightedScoreMatrix) <- criteria_inputs
+	# old method
+	#Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
+	#colnames(Ind_WeightedScoreMatrix) <- criteria_inputs
+	# new method
+	Ind_WeightedScoreMatrix <- array(data=NA, dim=c(5,14,8))
+	Ind_WeightedScoreMatrix[,,1] <- simplify2array(Dam1Results)
+	Ind_WeightedScoreMatrix[,,2] <- simplify2array(Dam2Results)
+	Ind_WeightedScoreMatrix[,,3] <- simplify2array(Dam3Results)
+	Ind_WeightedScoreMatrix[,,4] <- simplify2array(Dam4Results)
+	Ind_WeightedScoreMatrix[,,5] <- simplify2array(Dam5Results)
+	Ind_WeightedScoreMatrix[,,6] <- simplify2array(Dam6Results)
+	Ind_WeightedScoreMatrix[,,7] <- simplify2array(Dam7Results)
+	Ind_WeightedScoreMatrix[,,8] <- simplify2array(Dam8Results)
 
 	# store all results in one data structure
 	WeightedResults <- array( data=NA, dim=c(matrix_levs_ind, matrix_cols, matrix_rows))
@@ -366,6 +379,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
-	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
+	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix)
 
 } # end of WSM

@@ -37,6 +37,7 @@ max_file_size <- 5 # size in MB
 options(shiny.maxRequestSize=max_file_size*1024^2)
 # user download file (has to be global)
 response_data <<- ("no data")
+preference_selection <<- ("no data")
 
 #-----------------------------------------
 # App Specific
@@ -97,7 +98,7 @@ dam_names <- c(
     "Medway Dam",
     "Millinocket/Quakish",
     "East Millinocket",
-    "North Twin",
+	"North Twin",
     "Dolby",
     "Millinocket Lake",
     "Ripogenus"
@@ -181,6 +182,14 @@ saveResponse <- function(table_data) {
 	response_data <<- table_data
 }
 
+# savePreferences
+#----------------------------------------
+# save preference input selection
+savePreferences <- function(pref_data) {
+	preference_selection <<- pref_data
+}
+
+
 
 # saveData
 #----------------------------------------
@@ -207,9 +216,9 @@ loadData <- function() {
 # remove and refill progress of a status
 # action is status to apply "remove" or "add"
 updateDamStatus <- function(completed, action, id){
-	message('------------------')
-	message('updateDamStatus vector')
-	message('------------------')
+	#message('------------------')
+	#message('updateDamStatus vector')
+	#message('------------------')
 
 	if (id %in% completed & action == "remove"){
 		completed <- completed[which(x==id)]
@@ -246,6 +255,16 @@ damsCompleted <- function(completed){
 # SERVER
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
+	#------------------------------------------------------------
+	# Preference Storage Container
+	# needed because updates to inputs only happen when inputs are visible
+	# when user clicks updat on each "Enter Preferences" tab this matrix is updated
+	# size is 8x14
+	#------------------------------------------------------------
+	message("session$userData$selectedPreferences init")
+	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
+
+
 	#------------------------------------------------------------
 	# JS data passing test
 	#------------------------------------------------------------
@@ -395,8 +414,8 @@ server <- function(input, output, session) {
 		row_count <- length(head(t(df),n=1))
 		column_count <- length(head(df,n=1))
 		# TODO: set required_* variables to size of valid input
-		required_rows <- 5
-		required_cols <- 3
+		required_rows <- 8
+		required_cols <- 15
 
 		# valid unless proven otherwise
 		file_valid <- TRUE
@@ -412,16 +431,72 @@ server <- function(input, output, session) {
 
 		# if valid remove modal and process the file
 		if (upload_modal_visible && file_valid){
-			#message("file upload success")
-			removeModal()
-			upload_modal_visible <<- FALSE
 			#TODO: process file here
+			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
+			#message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
+			criteria_input_names <- c(
+				"FishBiomass", "RiverRec", "Reservoir",
+				"ProjectCost", "Safety", "NumProperties",
+				"ElectricityGeneration", "AvoidEmissions", "IndigenousLifeways",
+				"IndustrialHistory", "CommunityIdentity", "Aesthetics",
+				"Health", "Justice"
+			)
+
+			scores_valid <- TRUE # valid unless proven otherwise
+
+			# assume order of dams is constant
+			for (damIndex in 1:dim(upload_file_data)[1]){
+				# track total
+				total <- 0
+
+				# first column is the damn name
+				for (critIndex in 2:dim(upload_file_data)[2]){
+					# target
+					slider_id <- paste0(criteria_input_names[critIndex-1], damIndex)
+					# value
+					val <- upload_file_data[damIndex, critIndex]
+					total <- (total + val)
+
+					updateSliderInput(session, slider_id, value=val)
+					setDamPreference(damIndex, critIndex-1, val)
+				}
+
+				# validate inputs for each dam total
+				if (total > upper_bound || total < lower_bound){
+					scores_valid <- FALSE
+				}
+			}
+
+			if (scores_valid == TRUE){
+				# valid
+				removeModal()
+				upload_modal_visible <<- FALSE
+
+				# make preferences and generate
+				updateDam1(FALSE)
+				updateDam2(FALSE)
+				updateDam3(FALSE)
+				updateDam4(FALSE)
+				updateDam5(FALSE)
+				updateDam6(FALSE)
+				updateDam7(FALSE)
+				updateDam8(FALSE)
+				## generate
+				#generateOutput()
+
+			}else{
+				# invalid score
+				# warn the user that the file is not acceptable (not valid scores)
+				fail_reason <- "Scores do not total correctly, Invalid File."
+				#message("file upload fail", fail_reason)
+				session$sendCustomMessage("invalidFileSelected", fail_reason)
+			}
 		}else{
+			# invalid file
 			# warn the user that the file is not acceptable
 			#message("file upload fail", fail_reason)
 			session$sendCustomMessage("invalidFileSelected", fail_reason)
 		}
-
 	}
 
 	# select mode / file upload event listeners
@@ -503,36 +578,6 @@ server <- function(input, output, session) {
 			NULL, # x value limit
 			score_range # y value limit (0-100 value range)
 		)
-    
-		Data2 <- data.frame(score=scoreVector, criteria=Criteria)
-		
-		# WSM score plot - alternatives
-		output[[paste0("WSMPlot", damId, "a")]] <- renderBarPlot(
-		  Data2, # data
-		  paste("Weighted sum MCDA scores,", dam_names[damId], sep=" "), # title
-		  alternative_names, # x_labels
-		  "Decision_Alternative", # x axis label
-		  "MCDA_Score", # y axis label
-		  colors, # colors
-		  NULL, # x value limit
-		  score_range # y value limit (0-100 value range)
-		)
-		
-		Data3 <- data.frame(score=scoreVector, criteria=Criteria)
-		
-		# WSM score plot b - alternatives with criteria values
-		output[[paste0("WSMPlot", damId, "b")]] <- renderBarPlot(
-		  Data3, # data
-		  paste("Weighted sum MCDA scores by criteria,", dam_names[damId], sep=" "), # title
-		  alternative_names, # x_labels
-		  "Decision Alternative", # x axis label
-		  "MCDA Score", # y axis label
-		  colors, # colors
-		  NULL, # x value limit
-		  score_range # y value limit (0-100 value range)
-		)
-		# Graph2
-
 		#NOTE: ggplot2 Error Bar Example
 
 		#output[[paste0("ErrorPlot", damId)]] <- renderBarErrorPlot(
@@ -556,25 +601,7 @@ server <- function(input, output, session) {
 	# helper method for generating RawCriteriaMatrix from input fields
 	#------------------------------------------------------------
 	getRawScores <- function(){
-		dams <- vector("list")
-		for (row_id in 1:length(available_dams)){
-			q <- vector("list")
-
-			for (id in criteria_inputs){
-				input_name <- paste(id, toString(row_id), sep='')
-				value <- input[[input_name]]
-				q[[id]] <- value
-
-				if (is.null(value)){
-					# debug nulls, doesn't modify data
-					message('input ', input_name, " isNull ")
-				}
-			}
-
-			dams[[row_id]] <- unlist(q) # we want in c and not list
-		}
-		dams <- unlist(dams)
-		return(dams)
+		return(session$userData$selectedPreferences)
 	}
 
 
@@ -599,15 +626,44 @@ server <- function(input, output, session) {
 			input[[paste0("Health", damIndex)]],
 			input[[paste0("Justice", damIndex)]]
 		)
+		message("get dam ", damIndex, " preferences ", damPrefs)
 		return(damPrefs)
 	}
 
 
 	#------------------------------------------------------------
+	# setCachedDamPreferences
+	# assign a list of values for each criteria in a dam
+	#------------------------------------------------------------
+	getCachedDamPreferences <- function(damIndex){
+		return(session$userData$selectedPreferences[,damIndex])
+	}
+
+
+	#------------------------------------------------------------
+	# setDamPreferences
+	# assign a list of values for each criteria in a dam
+	#------------------------------------------------------------
+	setDamPreferences <- function(damIndex, preferences){
+		session$userData$selectedPreferences[,damIndex] <- preferences
+	}
+
+
+	#------------------------------------------------------------
+	# setDamPreference
+	# assign a cell of session$userData$selectedPreferences
+	#------------------------------------------------------------
+	setDamPreference <- function(damIndex, critIndex, value){
+		session$userData$selectedPreferences[critIndex, damIndex] <- value
+	}
+
+
+	#------------------------------------------------------------
 	# updateDam1
+	# updateScores boolean: if TRUE inputs values are stored in cached preferences
 	# updating scores for West Enfield Dam, renders raw preference plot
 	#------------------------------------------------------------
-	updateDam1 <- function (){
+	updateDam1 <- function (updateScores){
 		damId <- 1
 		# update the tab status
 		output[[paste0("Dam", damId)]] <- renderUI(list(
@@ -615,8 +671,14 @@ server <- function(input, output, session) {
 			tags$span('Complete', class="dam-complete")
 		))
 
+		Dam1 <- c()
 		# get decision inputs
-		Dam1 <- as.vector(getDamPreferences(damId))
+		if (updateScores){
+			Dam1 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam1)
+		}else{
+			Dam1 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam1_Table <- as.matrix(data.frame(Dam1))
@@ -638,54 +700,12 @@ server <- function(input, output, session) {
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 1)
 	}
 
-	#------------------------------------------------------------
-	# generateDam1
-	# renders WSM related tables/plots
-	#------------------------------------------------------------
-	generateDam1 <- function(){
-		# -------------------------------------------------------------#
-		# assign values in new matrix
-		RawCriteriaMatrix <- data.frame(
-			matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs))
-		)
-		row.names(RawCriteriaMatrix) <- dam_names
-		colnames(RawCriteriaMatrix) <- criteria_names
-		WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
-		# use results for generated output
-
-		Dam1RawTable <- setDT(WestEnf_DataMatrix)
-		row.names(Dam1RawTable) <- alternative_names
-		colnames(Dam1RawTable) <- criteria_inputs
-
-		output$Dam1RawTable = DT::renderDataTable({
-			Dam1RawTable
-		})
-
-		Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 3)*100))
-		row.names(Dam1NormTable) <- alternative_names
-		colnames(Dam1NormTable) <- criteria_inputs
-
-		output$Dam1NormTable = DT::renderDataTable({
-			Dam1NormTable
-		})
-
-		Dam1ScoreTable <- setDT(round(Dam1Results, 3)*100)
-		row.names(Dam1ScoreTable) <- alternative_names
-		colnames(Dam1ScoreTable) <- criteria_inputs
-
-		output$Dam1ScoreTable = DT::renderDataTable({
-			Dam1ScoreTable
-		})
-		# make the container of those graphs visible
-		shinyjs::show(id="generaed-output-1")
-	}
-
 
 	#------------------------------------------------------------
 	# updateDam2
 	# logic for updating Medway Dam
 	#------------------------------------------------------------
-	updateDam2 <- function() {
+	updateDam2 <- function(updateScores) {
 		damId <- 2
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 2: Medway Dam",
@@ -693,39 +713,21 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam2 <- getDamPreferences(damId)
+		Dam2 <- c()
+		if (updateScores){
+			Dam2 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam2)
+		}else{
+			Dam2 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam2_Table <- as.matrix(data.frame(Dam2))
 		row.names(Dam2_Table) <- criteria_names
 		names(Dam2_Table) <- "Raw Score"
-		
+
 		output$RawPrefsDam2 = DT::renderDataTable({
 		  Dam2_Table
-		})
-		
-		Dam2RawTable <- setDT(Med_DataMatrix)
-		row.names(Dam2RawTable) <- alternative_names
-		colnames(Dam2RawTable) <- criteria_inputs
-		
-		output$Dam2RawTable = DT::renderDataTable({
-		  Dam2RawTable
-		})
-		
-		Dam2NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,2], 3)*100))
-		row.names(Dam2NormTable) <- alternative_names
-		colnames(Dam2NormTable) <- criteria_inputs
-		
-		output$Dam2NormTable = DT::renderDataTable({
-		  Dam2NormTable
-		})		
-		
-		Dam2ScoreTable <- setDT(round(Dam2Results, 3)*100)
-		row.names(Dam2ScoreTable) <- alternative_names
-		colnames(Dam2ScoreTable) <- criteria_inputs
-		
-		output$Dam2ScoreTable = DT::renderDataTable({
-		  Dam2ScoreTable
 		})
 
 		# update dam specific graphs
@@ -743,7 +745,7 @@ server <- function(input, output, session) {
 	# updateDam3
 	# logic for updating Millinocket Dam
 	#------------------------------------------------------------
-	updateDam3 <- function() {
+	updateDam3 <- function(updateScores) {
 		damId <- 3
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 3: Millinocket Dam",
@@ -751,40 +753,18 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam3 <- getDamPreferences(damId)
+		Dam3 <- c()
+		if (updateScores){
+			Dam3 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam3)
+		}else{
+			Dam3 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam3_Table <- as.matrix(data.frame(Dam3))
 		row.names(Dam3_Table) <- criteria_names
 		names(Dam3_Table) <- "Raw Score"
-		
-		output$RawPrefsDam3 = DT::renderDataTable({
-		  Dam3_Table
-		})
-		
-		Dam3RawTable <- setDT(Mill_DataMatrix)
-		row.names(Dam3RawTable) <- alternative_names
-		colnames(Dam3RawTable) <- criteria_inputs
-		
-		output$Dam3RawTable = DT::renderDataTable({
-		  Dam3RawTable
-		})
-		
-		Dam3NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,3], 3)*100))
-		row.names(Dam3NormTable) <- alternative_names
-		colnames(Dam3NormTable) <- criteria_inputs
-		
-		output$Dam3NormTable = DT::renderDataTable({
-		  Dam3NormTable
-		})		
-		
-		Dam3ScoreTable <- setDT(round(Dam3Results, 3)*100)
-		row.names(Dam3ScoreTable) <- alternative_names
-		colnames(Dam3ScoreTable) <- criteria_inputs
-		
-		output$Dam3ScoreTable = DT::renderDataTable({
-		  Dam3ScoreTable
-		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam3)
@@ -801,7 +781,7 @@ server <- function(input, output, session) {
 	# updateDam4
 	# logic for updating East Millinocket Dam
 	#------------------------------------------------------------
-	updateDam4 <- function() {
+	updateDam4 <- function(updateScores) {
 		damId <- 4
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 4: East Millinocket Dam",
@@ -809,40 +789,18 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam4 <- getDamPreferences(damId)
+		Dam4 <- c()
+		if (updateScores){
+			Dam4 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam4)
+		}else{
+			Dam4 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam4_Table <- as.matrix(data.frame(Dam4))
 		row.names(Dam4_Table) <- criteria_names
 		names(Dam4_Table) <- "Raw Score"
-		
-		output$RawPrefsDam4 = DT::renderDataTable({
-		  Dam4_Table
-		})
-		
-		Dam4RawTable <- setDT(Dolby_DataMatrix)
-		row.names(Dam4RawTable) <- alternative_names
-		colnames(Dam4RawTable) <- criteria_inputs
-		
-		output$Dam4RawTable = DT::renderDataTable({
-		  Dam4RawTable
-		})
-		
-		Dam4NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,4], 3)*100))
-		row.names(Dam4NormTable) <- alternative_names
-		colnames(Dam4NormTable) <- criteria_inputs
-		
-		output$Dam4NormTable = DT::renderDataTable({
-		  Dam4NormTable
-		})		
-		
-		Dam4ScoreTable <- setDT(round(Dam4Results, 3)*100)
-		row.names(Dam4ScoreTable) <- alternative_names
-		colnames(Dam4ScoreTable) <- criteria_inputs
-		
-		output$Dam4ScoreTable = DT::renderDataTable({
-		  Dam4ScoreTable
-		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam4)
@@ -859,7 +817,7 @@ server <- function(input, output, session) {
 	# updateDam5
 	# logic for updating North Twin Dam
 	#------------------------------------------------------------
-	updateDam5 <- function() {
+	updateDam5 <- function(updateScores) {
 		damId <- 5
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 5: North Twin Dam",
@@ -867,40 +825,18 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam5 <- getDamPreferences(damId)
+		Dam5 <- c()
+		if (updateScores){
+			Dam5 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam5)
+		}else{
+			Dam5 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam5_Table <- as.matrix(data.frame(Dam5))
 		row.names(Dam5_Table) <- criteria_names
 		names(Dam5_Table) <- "Raw Score"
-		
-		output$RawPrefsDam5 = DT::renderDataTable({
-		  Dam5_Table
-		})
-		
-		Dam5RawTable <- setDT(NorthTw_DataMatrix)
-		row.names(Dam5RawTable) <- alternative_names
-		colnames(Dam5RawTable) <- criteria_inputs
-		
-		output$Dam5RawTable = DT::renderDataTable({
-		  Dam5RawTable
-		})
-		
-		Dam5NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,5], 3)*100))
-		row.names(Dam5NormTable) <- alternative_names
-		colnames(Dam5NormTable) <- criteria_inputs
-		
-		output$Dam1NormTable = DT::renderDataTable({
-		  Dam5NormTable
-		})		
-		
-		Dam5ScoreTable <- setDT(round(Dam5Results, 3)*100)
-		row.names(Dam5ScoreTable) <- alternative_names
-		colnames(Dam5ScoreTable) <- criteria_inputs
-		
-		output$Dam5ScoreTable = DT::renderDataTable({
-		  Dam5ScoreTable
-		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam5)
@@ -917,49 +853,27 @@ server <- function(input, output, session) {
 	# updateDam6
 	# logic for updating Dolby Dam
 	#------------------------------------------------------------
-	updateDam6 <- function() {
+	updateDam6 <- function(updateScores) {
 
 		damId <- 6
 		output[[paste0("Dam", damId)]] <- renderUI(list(
-			"Dam 6:Dolby Dam",
+			"Dam 6: Dolby Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
 		# get decision inputs
-		Dam6 <- getDamPreferences(damId)
+		Dam6 <- c()
+		if (updateScores){
+			Dam6 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam6)
+		}else{
+			Dam6 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam6_Table <- as.matrix(data.frame(Dam6))
 		row.names(Dam6_Table) <- criteria_names
 		names(Dam6_Table) <- "Raw Score"
-		
-		output$RawPrefsDam6 = DT::renderDataTable({
-		  Dam6_Table
-		})
-		
-		Dam6RawTable <- setDT(Dolby_DataMatrix)
-		row.names(Dam6RawTable) <- alternative_names
-		colnames(Dam6RawTable) <- criteria_inputs
-		
-		output$Dam6RawTable = DT::renderDataTable({
-		  Dam6RawTable
-		})
-		
-		Dam6NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,6], 3)*100))
-		row.names(Dam6NormTable) <- alternative_names
-		colnames(Dam6NormTable) <- criteria_inputs
-		
-		output$Dam6NormTable = DT::renderDataTable({
-		  Dam6NormTable
-		})		
-		
-		Dam6ScoreTable <- setDT(round(Dam6Results, 3)*100)
-		row.names(Dam6ScoreTable) <- alternative_names
-		colnames(Dam6ScoreTable) <- criteria_inputs
-		
-		output$Dam6ScoreTable = DT::renderDataTable({
-		  Dam6ScoreTable
-		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam6)
@@ -976,7 +890,7 @@ server <- function(input, output, session) {
 	# updateDam7
 	# logic for updating Millinocket Lake Dam
 	#------------------------------------------------------------
-	updateDam7 <- function() {
+	updateDam7 <- function(updateScores) {
 		damId <- 7
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 
@@ -985,39 +899,20 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam7 <- getDamPreferences(damId)
+		Dam7 <- c()
+		if (updateScores){
+			Dam7 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam7)
+		}else{
+			Dam7 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam7_Table <- as.matrix(data.frame(Dam7))
 		row.names(Dam7_Table) <- criteria_names
 		names(Dam7_Table) <- "Raw Score"
-		
 		output$RawPrefsDam7 = DT::renderDataTable({
 		  Dam7_Table
-		})
-		
-		Dam7RawTable <- setDT(MillLake_DataMatrix)
-		row.names(Dam7RawTable) <- alternative_names
-		colnames(Dam7RawTable) <- criteria_inputs
-		
-		output$Dam7RawTable = DT::renderDataTable({
-		  Dam7RawTable
-		})
-		
-		Dam7NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,7], 3)*100))
-		row.names(Dam7NormTable) <- alternative_names
-		colnames(Dam7NormTable) <- criteria_inputs
-		
-		output$Dam7NormTable = DT::renderDataTable({
-		  Dam7NormTable
-		})		
-		
-		Dam7ScoreTable <- setDT(round(Dam7Results, 3)*100)
-		row.names(Dam7ScoreTable) <- alternative_names
-		colnames(Dam7ScoreTable) <- criteria_inputs
-		
-		output$Dam7ScoreTable = DT::renderDataTable({
-		  Dam7ScoreTable
 		})
 
 		# update dam specific graphs
@@ -1035,7 +930,7 @@ server <- function(input, output, session) {
 	# updateDam8
 	# logic for updating Ripogenus Dam
 	#------------------------------------------------------------
-	updateDam8 <- function() {
+	updateDam8 <- function(updateScores) {
 		damId <- 8
 
 		output[[paste0("Dam", damId)]] <- renderUI(list(
@@ -1044,41 +939,23 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam8 <- getDamPreferences(damId)
+		Dam8 <- c()
+		if (updateScores){
+			Dam8 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam8)
+		}else{
+			Dam8 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam8_Table <- as.matrix(data.frame(Dam8))
 		row.names(Dam8_Table) <- criteria_names
 		names(Dam8_Table) <- "Raw Score"
-		
+
 		output$RawPrefsDam8 = DT::renderDataTable({
 		  Dam8_Table
 		})
-		
-		Dam8RawTable <- setDT(Rip_DataMatrix)
-		row.names(Dam8RawTable) <- alternative_names
-		colnames(Dam8RawTable) <- criteria_inputs
-		
-		output$Dam8RawTable = DT::renderDataTable({
-		  Dam8RawTable
-		})
-		
-		Dam8NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,8], 3)*100))
-		row.names(Dam8NormTable) <- alternative_names
-		colnames(Dam8NormTable) <- criteria_inputs
-		
-		output$Dam8NormTable = DT::renderDataTable({
-		  Dam8NormTable
-		})		
-		
-		Dam8ScoreTable <- setDT(round(Dam8Results, 3)*100)
-		row.names(Dam8ScoreTable) <- alternative_names
-		colnames(Dam8ScoreTable) <- criteria_inputs
-		
-		output$Dam8ScoreTable = DT::renderDataTable({
-		  Dam8ScoreTable
-		})
-		
+
 		# update dam specific graphs
 		updateDamGraph(damId, Dam8)
 		# make the container of those graphs visible
@@ -1103,99 +980,67 @@ server <- function(input, output, session) {
 				'Please complete all dams tabs before generating results'
 			))
 		}else{
-			#------------------------------------------------------------
-			# get 2d array of values based on length/values of criteria_inputs and available_dams
-			# criterion -> columns
-			# dams -> rows
-			# example 14 criterion 8 dams results in 14 column (criteria) by 8 row (dams) 2d data structure 
-			#------------------------------------------------------------
 
-			dams <- vector("list")
-			for (row_id in 1:length(available_dams)){
-				# for each criterion for dam
-				q <- vector("list")
-
-				for (id in criteria_inputs){
-					input_name <- paste(id, toString(row_id), sep='')
-					value <- input[[input_name]]
-					q[[id]] <- value
-
-					if (is.null(value)){
-						# debug nulls, doesn't modify data
-						message('input ', input_name, " isNull ")
-					}
-				}
-				dams[[row_id]] <- unlist(q) # we want in c and not list
-			}
-			dams <- unlist(dams)
-
-			#NOT SURE HOW TO RECONCILE THIS SPECIFIC TO EACH INDIVIDuaL DAM
-			#for alternatives in tables/graphs, this generates a blank vector with labels
-			#alternatives <- vector("list", length(available_alternatives))
-			#for (row_id in 1:length(available_alternatives)){
-			#  # for each criterion in alternatives
-			#  r <- vector("list", length(available_alternatives))
-
-			#  for (id in criteria_inputs){
-			#    input_name <- paste(id, toString(row_id), sep='')
-			#    value <- input[[input_name]]
-			#    r[[id]] <- value
-
-			#    if (is.null(value)){
-			#      # debug nulls, doesn't modify data
-			#      message('input ', input_name, " isNull ")
-			#    }
-			#    alternatives[[row_id]] <- unlist(r)
-			#  }
-			#  alternatives <- unlist(alternatives)
-			#}
-
-			# -------------------------------------------------------------#
-			# assign values in new matrix
-			RawCriteriaMatrix <- data.frame(
-				matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs))
-			)
-			# assign table row, column names
+			#----------------------------------------
+			# Retreive Inputs
+			#----------------------------------------
+			# raw preference scores
+			RawCriteriaMatrix <- data.frame(matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs)))
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
-			#message("generateOutput RawCriteriaMatrix: ", RawCriteriaMatrix)
 
-			# origial scores in table form
-			# for debugging table size
-			# invert matrix to better fit on screen for mobile users
-			#output$FilledCriteriaTable <- renderTable(t(RawCriteriaMatrix), rownames=enable_rownames)
-
-
+			#----------------------------------------
+			# run WSM and get data ready for graphs
+			#----------------------------------------
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
-			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(40,14))
-			WSMTableOutput <- data.frame(WSMMatrix)
-			#message("server got results from WSM ", WSMMatrix, " DIM: ", dim(WSMMatrix), " class ", class(WSMMatrix))
+			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
+			rownames(WSMMatrix) <- alternative_names
+			colnames(WSMMatrix) <- criteria_names
 
-			WSMSummedScore <- array(unlist(WSMResults[3]), dim=c(8,5))
-			#message("server got results from WSMSummedScore ", WSMSummedScore, " DIM: ", dim(WSMSummedScore), " class ", class(WSMSummedScore))
+			# putting into data frame alters shape of 3d array to 2d
+			WSMTableOutput <- data.frame(WSMMatrix)
+
+			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
+			message("IndScoreSum", WSMIndScoreSum)
+
+			# renamed from WSMSummedScore
+			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
 
 			map_name <- WSMResults[4]
 			#message("WSM map name: ", map_name, " type ", class(map_name))
+
+			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			rownames(all_data_matrix) <- alternative_names
+			colnames(all_data_matrix) <- criteria_names
+
+			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			rownames(ind_normalized_matrix) <- alternative_names
+			colnames(ind_normalized_matrix) <- criteria_names
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
-			#message("WSMTableOutput Matrix: ", dim(WSMMatrix), " summedScore: ", dim(WSMSummedScore))
-			#message("WSMTableOutput length(dam_names): ", length(dam_names))
+			#----------------------------------------
+			# Individual Dam Final Outputs
+			# for some reason these dont work in a for loop
+			#----------------------------------------
+			# generate each dams individual results tab (tables + plots)
+			for (damId in 1:length(available_dams)){
+				generateDam(damId, all_data_matrix, ind_normalized_matrix, WSMMatrix, WSMIndScoreSum)
+			}
 
 			#----------------------------------------
-			# Final Outputs
+			# Combined Dam Final Outputs
 			#----------------------------------------
 			## TODO: ALL Dam MCDA scores for decision alternatives, may need legend with alternatives
-			output$AlternativesGraph_All <- renderBarPlot(
-			  Score_compare, #data
-			  "Dam Decision Alternative Comparison", #title
-			  dam_names, #x labels
-			  "Dams", #x axis label
-			  "MCDA Score", #y axis label
-			  colors
-			)#this graph doesn't quite work yet
-      
-			
+			#output$AlternativesGraph_All <- renderBarPlot(
+			#  Score_compare, #data
+			#  "Dam Decision Alternative Comparison", #title
+			#  dam_names, #x labels
+			#  "Dams", #x axis label
+			#  "MCDA Score", #y axis label
+			#  colors
+			#) # this graph doesn't quite work yet
+
 			# Preference scores for all dams
 			output$FilledCriteriaGraph <- renderCombinedBarPlot(
 				RawCriteriaMatrix, # data
@@ -1205,33 +1050,23 @@ server <- function(input, output, session) {
 				"Score", # y axis label
 				colors, # colors
 				NULL, # x value limit
-				NULL # y value limit (Unknown in this case)
+				c(0, max_slider_value) # y value limit (100 in this case)
 			)
 
 			# Preference scores by criteria
-			#output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
-		#		RawCriteriaMatrix, # data
-		#		"Preferences for all dams", # title
-		#		criteria_names, # x_labels
-		#		"Criteria", # x axis label
-		#		"Score", # y axis label
-		#		colors, # colors
-		#		NULL, # x value limit
-		#		NULL # y value limit (Unknown in this case)
-		#	)
+			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
+				RawCriteriaMatrix, # data
+				"Preferences for all dams", # title
+				criteria_names, # x_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value
+			)
 
-			# weighted scores
-			output$WSMTable <- renderTable(WSMTableOutput, rownames=enable_rownames)
-			message("WSMTableOutput: ", WSMTableOutput)
-
-			message('saveResponse')
-			#saveResponse(WSMTableOutput)
-
-			## stacked bars data table
-			Alternative <- c(rep(alternative_names, each=length(criteria_names)))
-			Criteria <- c(rep(criteria_names, times=length(alternative_names)))
-			#Score <- alternatives
-			#Data <- data.frame(Alternative, Criteria, Score)
+			#message('save selected preferences to file after successfull generation of results')
+			savePreferences(RawCriteriaMatrix)
 
 			# show output html elements (as of now generateOutput does all individual dams + combined)
 			shinyjs::show(id="generated-output-1")
@@ -1245,6 +1080,85 @@ server <- function(input, output, session) {
 			shinyjs::show(id="combined-output")
 			message("generateOutput done")
 		}
+	}
+
+
+	#------------------------------------------------------------
+	# generateDam
+	# requires damId(integer), PrefMatrix, Ind_NormalizedMatrix, ResultsMatrix
+	#
+	# renders WSM related tables/plots
+	#------------------------------------------------------------
+	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum){
+		#message("generateDam: Output for Dam#: ", damId)
+
+		# preferences
+		RawTable <- setDT(data.frame(DataMatrix[,,damId]))
+		row.names(RawTable) <- alternative_names
+		colnames(RawTable) <- criteria_inputs
+
+		output[[paste0("Dam", damId, "RawTable")]] = DT::renderDataTable({
+			RawTable
+		})
+
+		# normals
+		Dam1NormTable <- setDT(data.frame(IndNrmlMatrix[,,damId]))
+		row.names(Dam1NormTable) <- alternative_names
+		colnames(Dam1NormTable) <- criteria_inputs
+
+		output[[paste0("Dam", damId, "NormTable")]] = DT::renderDataTable({
+			Dam1NormTable
+		})
+
+		# WSM score
+		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
+		row.names(Dam1ScoreTable) <- alternative_names
+		colnames(Dam1ScoreTable) <- criteria_inputs
+
+		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
+			Dam1ScoreTable
+		})
+
+		# (d) has three graphs for each dam
+		# d1
+		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
+			ResultsMatrix[,,damId],
+			"D 1", # title
+			criteria_names, # x_labels
+			alternative_names, # y_labels
+			"Criteria", # x axis label
+			"Score", # y axis label
+			"Alternative", # legend label
+			colors, # colors
+			NULL, # x value limit
+			c(0, max_slider_value) # y value limit (100 in this case)
+		)
+		# d2
+		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot1D(
+			IndScoreSum[damId,],
+			"D 2", # title
+			alternative_names, # x_labels
+			"Alternative", # x axis label
+			"Score", # y axis label
+			colors, # colors
+			NULL, # x value limit
+			c(0, max_slider_value) # y value limit (100 in this case)
+		)
+		# d3 (100% score for each alternative)
+		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot2DScaled100(
+			t(ResultsMatrix[,,damId]),
+			"D 3", # title
+			alternative_names, # x_labels
+			criteria_names, # x_labels
+			"Alternative", # x axis label
+			"Score", # y axis label
+			"Criteria", # legend label
+			colors, # colors
+			NULL, # x value limit
+		)
+
+		# make the container of those graphs visible
+		shinyjs::show(id=paste0("generated-output-", damId))
 	}
 
 
@@ -1568,7 +1482,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress1())
 			))
 		}else{
-			 updateDam1()
+			 updateDam1(TRUE)
 		}
 	})
 
@@ -1580,7 +1494,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress2())
 			))
 		}else{
-			updateDam2()
+			updateDam2(TRUE)
 		}
 	})
 
@@ -1592,7 +1506,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress3())
 			))
 		}else{
-			 updateDam3()
+			 updateDam3(TRUE)
 		}
 	})
 
@@ -1604,7 +1518,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress4())
 			))
 		}else{
-			updateDam4()
+			updateDam4(TRUE)
 		}
 	})
 
@@ -1616,7 +1530,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress5())
 			))
 		}else{
-			updateDam5()
+			updateDam5(TRUE)
 		}
 	})
 
@@ -1628,7 +1542,7 @@ server <- function(input, output, session) {
 	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress6())
 	    ))
 	  }else{
-	    updateDam6()
+	    updateDam6(TRUE)
 	  }
 	})
 
@@ -1640,7 +1554,7 @@ server <- function(input, output, session) {
 	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress7())
 	    ))
 	  }else{
-	    updateDam7()
+	    updateDam7(TRUE)
 	  }
 	})
 
@@ -1652,58 +1566,48 @@ server <- function(input, output, session) {
 	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress8())
 	    ))
 	  }else{
-	    updateDam8()
+	    updateDam8(TRUE)
 	  }
 	})
 
 
 	#--------------------------------------------------------------------------------
-	# MCDA Table Output
+	# Event Observers
 	#--------------------------------------------------------------------------------
-	# initial empty matrix.
-	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_dams), ncol=length(criteria_inputs) ))
-
 
 	# on 'Output > Generate' button event: fill matrix with user input values
-	observeEvent(input$generateMatrix1, {
+	observeEvent(input$generateOutput, {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
-
-	# on 'Output > Generate' button event: fill matrix with user input values
-	observeEvent(input$generateCombinedMatrix, {
-		generateOutput()
-	})   # end 'output' tab > on generate button event
 
 	observeEvent(input$testWSM, {
 		message("testWSM")
 		# source and pass data do wsm function
-
 		raw_scores <- getRawScores()
-
 		# assign values in new matrix
 		RawCriteriaMatrix <- data.frame(
 			matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
 		)
-
 		NormalizedMatrix <- as.array(f_nrge)
 		results <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 		message("server got results from WSM")
 		# end source and pass data do wsm function
 	})
 
+
 	#NOTE: this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
 		message('Auto Generate')
 		# update all alt
-		updateDam1()
-		updateDam2()
-		updateDam3()
-		updateDam4()
-		updateDam5()
-		updateDam6()
-		updateDam7()
-		updateDam8()
+		updateDam1(TRUE)
+		updateDam2(TRUE)
+		updateDam3(TRUE)
+		updateDam4(TRUE)
+		updateDam5(TRUE)
+		updateDam6(TRUE)
+		updateDam7(TRUE)
+		updateDam8(TRUE)
 		# generate
 		generateOutput()
 	})
@@ -1844,6 +1748,20 @@ server <- function(input, output, session) {
 	  content = function(file) {
 	    write.csv(
 	      response_data,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+
+	output$downloadPreferenceSelection <- downloadHandler(
+	  filename = function() {
+	    format(Sys.time(), "mcda_preferences_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      preference_selection,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE

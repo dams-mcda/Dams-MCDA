@@ -140,11 +140,10 @@ ui <- shinyUI(fluidPage(
 			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
 			),
 			leafletOutput("dam_map", width=map_width, height=map_height),
-			HTML("Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
+			HTML(
+        "Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
-			
 			img(src = 'Penobscot_MO_14_443',width = "75%", align = "center")
-			
 		),
 
 
@@ -168,10 +167,9 @@ ui <- shinyUI(fluidPage(
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-      helpText( 
-        HTML('<a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>')
-        
-        ),
+			helpText(
+				HTML('<a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>')
+			),
 			htmlOutput("Dam1Progress"),
 
 			#----------------------------------------
@@ -270,9 +268,8 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b> For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( 
+			helpText(
 			  HTML('<a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>')
-			  
 			),
 			htmlOutput("Dam2Progress"),
 
@@ -371,9 +368,8 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam3Progress"),
 
@@ -473,9 +469,8 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam4Progress"),
 
@@ -576,9 +571,8 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam5Progress"),
 
@@ -679,9 +673,8 @@ ui <- shinyUI(fluidPage(
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam6Progress"),
 
@@ -781,9 +774,8 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( 
+			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
-			  
 			),
 			htmlOutput("Dam7Progress"),
 
@@ -883,9 +875,8 @@ ui <- shinyUI(fluidPage(
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
-			helpText( 
+			helpText(
 			  HTML('<a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>')
-			  
 			),
 			htmlOutput("Dam8Progress"),
 
@@ -972,23 +963,23 @@ ui <- shinyUI(fluidPage(
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
 		HTML("<li> Step 4: Multi-Dam Results </li>"),
-		
+
 		tabPanel("Combined Results",
 		         h2("Multi-Dam Results"),
 		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-		         
-		         #TODO: remove for production
-		         actionButton("autoGenerateMatrix", "Autofill: debug only"),
+
+		         #TODO: remove/hide for production
+		         #actionButton("autoGenerateMatrix", "Autofill: debug only"),
 		         #actionButton("testWSM", "test WSM: debug only"),
 		         #actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
-		         
+
 		         # generate event
-		         actionButton("generateCombinedMatrix", "Generate"),
-		         
+		         actionButton("generateOutput", "Generate"),
+
 		         div(id="combined-output",
 		             #h2('All Preferences'),
 		             #tableOutput("FilledCriteriaTable"),
-		             
+
 		             #alternatives at each dam
 		             h2('Figure 1. Dam Decision Alternative Comparison'),
 		             #plotOutput("AlternativesGraph_All", height="35em"),
@@ -998,32 +989,19 @@ ui <- shinyUI(fluidPage(
 		             
 		             # by dam
 		             h2('Figure 2. Decision Criteria by Dam'),
-		             #plotOutput("FilledCriteriaGraph2", height="35em"),
+		             plotOutput("FilledCriteriaGraph2", height="35em"),
 		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
-		             
-		             
-		             # by criteria --> this one might not be necessary after all
-		             # h2('All Preferences by Alternative'),
-		             # plotOutput("FilledCriteriaGraph", height="35em"),
-		             
-		             h2('WSMTableOutput'),
-		             tableOutput("WSMTable"),
-		             
-		             h2('WSM1'),
-		             #TODO
-		             #plotOutput("WSMPlot1", height=graph_height, width=graph_width),
-		             
-		             h2('WSM2')
-		             #TODO
-		             #plotOutput("WSMPlot2", height=graph_height, width=graph_width)
-		             )
-		         ),
-		
+		             plotOutput("FilledCriteriaGraph", height="35em")
+		         )
+		),
+
+
 		tabPanel("Map Recommendation",
 		         h2("Optimized Result"),
 		         HTML('<div id="MapRecommendation"></div>')
 		),
-		
+
+
 		HTML("<li class='step-label'> Step 5: View Dam Specific Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
@@ -1074,6 +1052,7 @@ ui <- shinyUI(fluidPage(
 			),
 			# output post generate
 			div(id="generated-output-1",
+
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
@@ -1101,6 +1080,8 @@ ui <- shinyUI(fluidPage(
 					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
 					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 				),
+
+				plotOutput("WSMPlot1c", height=1000, width="100%"),
 
 				h3('Download West Enfield Results'),
 				downloadButton("downloadData1", "Download West Enfield")
@@ -1146,11 +1127,11 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
 		             ),
-		             
+
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix2", "Generate")
 		         ),
-					 
+
 		         # output post generate
 		         div(id="generated-output-2",
 		             HTML(
@@ -1169,10 +1150,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot2b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       plotOutput("WSMPlot2c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1229,6 +1208,7 @@ ui <- shinyUI(fluidPage(
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
 		             ),
 
+
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix3", "Generate")
 		       ),
@@ -1251,10 +1231,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot3b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       plotOutput("WSMPlot3c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1333,10 +1311,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot4b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-					       #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       plotOutput("WSMPlot4c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1390,6 +1366,7 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
 		             ),
+
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix5", "Generate")
 		         ),
@@ -1412,10 +1389,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot5b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       plotOutput("WSMPlot5c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1491,10 +1466,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot6b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       plotOutput("WSMPlot6c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1571,10 +1544,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot7b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					       plotOutput("WSMPlot7c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1629,6 +1600,7 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Table 32. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
 		             ),
+
 					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 					 actionButton("generateMatrix8", "Generate")
 		         ),
@@ -1651,10 +1623,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 24. Total Decision Criteria Scores by Decision Alternative for Ripogenus'),
-		             #tableOutput("WSMTable2"), # for debugging plot2
 		             plotOutput("WSMPlot8b", height=1000, width="100%"),
-		             # plotly exampl for plot 2
-		             #plotlyOutput("WSMPlotly2", height=600, width="100%"),
+					 plotOutput("WSMPlot8c", height=1000, width="100%"),
 
 		               HTML(
 		                 "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1671,7 +1641,7 @@ ui <- shinyUI(fluidPage(
 				 )
 		),
 
-		
+
 		# Developer and aknowledgements secion
 		HTML("<li class='step-label'>About</li>"),
 
