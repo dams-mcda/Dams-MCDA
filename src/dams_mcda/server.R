@@ -469,8 +469,6 @@ server <- function(input, output, session) {
 
 			if (scores_valid == TRUE){
 				# valid
-				message("file upload success -> generateGraphs")
-				message("file preferences: ", session$userData$selectedPreferences)
 				removeModal()
 				upload_modal_visible <<- FALSE
 
@@ -660,6 +658,7 @@ server <- function(input, output, session) {
 
 	#------------------------------------------------------------
 	# updateDam1
+	# updateScores boolean: if TRUE inputs values are stored in cached preferences
 	# updating scores for West Enfield Dam, renders raw preference plot
 	#------------------------------------------------------------
 	updateDam1 <- function (updateScores){
@@ -1557,20 +1556,11 @@ server <- function(input, output, session) {
 
 
 	#--------------------------------------------------------------------------------
-	# MCDA Table Output
+	# Event Observers
 	#--------------------------------------------------------------------------------
-	# initial empty matrix.
-	RawCriteriaMatrix  <- data.frame(matrix(data=NA, nrow=length(available_dams), ncol=length(criteria_inputs) ))
-
 
 	# on 'Output > Generate' button event: fill matrix with user input values
-	observeEvent(input$generateMatrix1, {
-		generateOutput()
-	})   # end 'output' tab > on generate button event
-
-
-	# on 'Output > Generate' button event: fill matrix with user input values
-	observeEvent(input$generateCombinedMatrix, {
+	observeEvent(input$generateOutput, {
 		generateOutput()
 	})   # end 'output' tab > on generate button event
 
@@ -1578,19 +1568,17 @@ server <- function(input, output, session) {
 	observeEvent(input$testWSM, {
 		message("testWSM")
 		# source and pass data do wsm function
-
 		raw_scores <- getRawScores()
-
 		# assign values in new matrix
 		RawCriteriaMatrix <- data.frame(
 			matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
 		)
-
 		NormalizedMatrix <- as.array(f_nrge)
 		results <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 		message("server got results from WSM")
 		# end source and pass data do wsm function
 	})
+
 
 	#NOTE: this is for fast debugging output results
 	observeEvent(input$autoGenerateMatrix, {
