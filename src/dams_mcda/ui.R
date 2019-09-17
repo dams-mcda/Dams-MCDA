@@ -1033,12 +1033,13 @@ ui <- shinyUI(fluidPage(
 			div(id="dam-1-output",
 			    h3("Table 1. Raw preference scores for West Enfield Dam"),
 			    DT::dataTableOutput("RawPrefsDam1"),
+
 			    HTML(
 			      "This table of preference data is depicted below."
 			    ),
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
 
-			    plotOutput("SummPlot1", height=graph_height, width=graph_width),
+			    plotOutput("PrefPlot1", height=graph_height, width=graph_width),
 			    HTML(
 			      "<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1053,7 +1054,7 @@ ui <- shinyUI(fluidPage(
     			),
     			#normalized data table/Matrix
 			    h3("Table 3. Normalized data values for West Enfield Dam"),
-			    DT::dataTableOutput("Dam1NormTable"),    			
+			    DT::dataTableOutput("Dam1NormTable"),
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
              Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
@@ -1062,14 +1063,14 @@ ui <- shinyUI(fluidPage(
     			),
     			#weighted score data table/Matrix
 			    h3("Table 4. Weighted scores for West Enfield Dam"),
-			    DT::dataTableOutput("Dam1ScoreTable"),    			
+			    DT::dataTableOutput("Dam1ScoreTable"),
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
     			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
     			),
 			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-			actionButton("generateMatrix", "Generate") 
-			    
+			actionButton("generateMatrix", "Generate")
+
 			),
 			# output post generate
 			div(id="generated-output-1",
@@ -1117,7 +1118,7 @@ ui <- shinyUI(fluidPage(
 		               "This table of preference data is depicted below."
 		             ),
 		             h3("Figure 4. Raw Preference Scores for Medway"),
-		             plotOutput("SummPlot2", height=graph_height, width=graph_width),
+		             plotOutput("PrefPlot2", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1199,7 +1200,7 @@ ui <- shinyUI(fluidPage(
 		               "This table of preference data is depicted below."
 		             ),
 		             h3("Figure 7. Raw Preference Scores for Millinocket"),
-		             plotOutput("SummPlot3", height=graph_height, width=graph_width),
+		             plotOutput("PrefPlot3", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1280,7 +1281,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
-					       plotOutput("SummPlot4", height=graph_height, width=graph_width),
+					       plotOutput("PrefPlot4", height=graph_height, width=graph_width),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1365,7 +1366,7 @@ ui <- shinyUI(fluidPage(
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
-		             plotOutput("SummPlot5", height=graph_height, width=graph_width),
+		             plotOutput("PrefPlot5", height=graph_height, width=graph_width),
 		             
 		             #raw data table/Matrix
 		             h3("Table 18. Raw data values for North Twin Dam"),
@@ -1440,7 +1441,7 @@ ui <- shinyUI(fluidPage(
 		               "This table of preference data is depicted below."
 		             ),
 		             h3("Figure 16. Raw Preference Scores for Dolby"),
-		             plotOutput("SummPlot6", height=graph_height, width=graph_width),
+		             plotOutput("PrefPlot6", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1519,7 +1520,7 @@ ui <- shinyUI(fluidPage(
 		               "The table of preference data is depicted below."
 		             ),
 		             h3("Figure 19. Raw Preference Scores for Millinocket Lake"),
-		             plotOutput("SummPlot7", height=graph_height, width=graph_width),
+		             plotOutput("PrefPlot7", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 19: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
@@ -1600,7 +1601,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3("Figure 22. Raw Preference Scores for Ripogenus"),
-		             plotOutput("SummPlot8", height=graph_height, width=graph_width),
+		             plotOutput("PrefPlot8", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
