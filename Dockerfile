@@ -24,6 +24,7 @@ RUN Rscript -e "install.packages('spatstat')"
 RUN Rscript -e "install.packages('rjson')"
 RUN Rscript -e "install.packages('leaflet')"
 RUN Rscript -e "install.packages('viridis')"
+RUN Rscript -e "install.packages('DT')"
 
 # root for folder permissions
 USER root
