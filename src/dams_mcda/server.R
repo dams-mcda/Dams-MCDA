@@ -1118,7 +1118,7 @@ server <- function(input, output, session) {
 		# d1
 		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
 			ResultsMatrix[,,damId],
-			"D 2", # title
+			"D 1", # title
 			criteria_names, # x_labels
 			alternative_names, # y_labels
 			"Criteria", # x axis label
@@ -1131,14 +1131,26 @@ server <- function(input, output, session) {
 		# d2
 		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot1D(
 			IndScoreSum[damId,],
-			"D 1", # title
+			"D 2", # title
 			alternative_names, # x_labels
-			"Criteria", # x axis label
+			"Alternative", # x axis label
 			"Score", # y axis label
-			"Alternative", # legend label
 			colors, # colors
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
+		)
+		# d3 (100% score for each alternative)
+		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot2DScaled100(
+			t(ResultsMatrix[,,damId]),
+			"D 3", # title
+			alternative_names, # x_labels
+			criteria_names, # x_labels
+			"Alternative", # x axis label
+			"Score", # y axis label
+			"Criteria", # legend label
+			colors, # colors
+			NULL, # x value limit
+			NULL # y value limit (100 in this case)
 		)
 
 		# make the container of those graphs visible

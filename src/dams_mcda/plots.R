@@ -246,7 +246,7 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 # when no value is needed pass NULL for a field
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
-renderPlot1D <- function(df, title, x_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
+renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
 	message(
 		'------------------\n',
 		'Plot1D title: ', title,
@@ -281,13 +281,71 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, legend_label, col
 			axis.text.y = element_text(angle = 0, hjust = 1),
 			axis.text.x = element_text(angle = 45, hjust = 1)
 		)
-		+ guides(fill=guide_legend(title=legend_label))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
 	)
 	return(result)
 }
+
+
+
+# renderPlot2DScaled100
+#----------------------------------------
+# for 2D data
+# wrapper for barplot with a debug message
+# when no value is needed pass NULL for a field
+# x_limit and y_limit are arrays when not NULL
+# xpd == False disables bars being drawn outsize graph canvas
+renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
+	message(
+		'------------------\n',
+		'Plot2DScaled100 title: ', title,
+		# '\ndata: ', df,
+		"\n#(values in data): ", length(df),
+		"\n#(dim of data): ", dim(df),
+		"\nclasstype: ", class(df),
+		"\ndatatype: ", typeof(df),
+		"\n#(x names): ", length(x_names),
+		"\n#(x names): ", length(y_names),
+		'\n------------------'
+	)
+
+	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
+	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))
+	Score <- unlist(as.data.frame(prop.table(df, 2)))
+	df <- data.frame(X=X, Y=Y, Score=Score)
+
+	# ordering by order of appearance
+	df$X <- factor(df$X, levels=unique(df$X))
+
+	result <- renderPlot(
+		ggplot(data=df,
+		   mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score)
+	    )
+		# inclue empty values
+		+ geom_bar(stat="identity")
+		# ignore empty values (uncomment)
+		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
+		#+ coord_flip() # sometimes helpful for better fitting graph on screen
+		#+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
+		+ theme_minimal()
+		+ theme(
+			text=element_text(size=16),
+			legend.position="bottom",
+			axis.text.y = element_text(angle = 0, hjust = 1),
+			axis.text.x = element_text(angle = 45, hjust = 1)
+		)
+		+ guides(fill=guide_legend(title=legend_label))
+		+ ylab(y_label)
+		+ xlab(x_label)
+		+ scale_fill_viridis(discrete=TRUE)
+		#+ scale_y_continuous(limits=c(0,1), labels = scales::percent_format())
+	)
+	return(result)
+}
+
+
 
 # renderBarErrorPlot
 #----------------------------------------
