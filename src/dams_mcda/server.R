@@ -630,6 +630,7 @@ server <- function(input, output, session) {
 		return(damPrefs)
 	}
 
+
 	#------------------------------------------------------------
 	# setCachedDamPreferences
 	# assign a list of values for each criteria in a dam
@@ -637,6 +638,7 @@ server <- function(input, output, session) {
 	getCachedDamPreferences <- function(damIndex){
 		return(session$userData$selectedPreferences[,damIndex])
 	}
+
 
 	#------------------------------------------------------------
 	# setDamPreferences
@@ -1088,8 +1090,9 @@ server <- function(input, output, session) {
 	# renders WSM related tables/plots
 	#------------------------------------------------------------
 	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum){
-		message("generateDam: Output for Dam#: ", damId)
+		#message("generateDam: Output for Dam#: ", damId)
 
+		# preferences
 		RawTable <- setDT(data.frame(DataMatrix[,,damId]))
 		row.names(RawTable) <- alternative_names
 		colnames(RawTable) <- criteria_inputs
@@ -1098,6 +1101,7 @@ server <- function(input, output, session) {
 			RawTable
 		})
 
+		# normals
 		Dam1NormTable <- setDT(data.frame(IndNrmlMatrix[,,damId]))
 		row.names(Dam1NormTable) <- alternative_names
 		colnames(Dam1NormTable) <- criteria_inputs
@@ -1106,6 +1110,7 @@ server <- function(input, output, session) {
 			Dam1NormTable
 		})
 
+		# WSM score
 		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
 		row.names(Dam1ScoreTable) <- alternative_names
 		colnames(Dam1ScoreTable) <- criteria_inputs
@@ -1114,7 +1119,7 @@ server <- function(input, output, session) {
 			Dam1ScoreTable
 		})
 
-		# (d) has two graphs for each dam
+		# (d) has three graphs for each dam
 		# d1
 		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
 			ResultsMatrix[,,damId],
@@ -1150,7 +1155,6 @@ server <- function(input, output, session) {
 			"Criteria", # legend label
 			colors, # colors
 			NULL, # x value limit
-			NULL # y value limit (100 in this case)
 		)
 
 		# make the container of those graphs visible

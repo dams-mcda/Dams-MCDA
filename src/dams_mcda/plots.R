@@ -297,7 +297,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 # when no value is needed pass NULL for a field
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
-renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
+renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit) {
 	message(
 		'------------------\n',
 		'Plot2DScaled100 title: ', title,
