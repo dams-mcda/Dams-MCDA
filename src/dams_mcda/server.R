@@ -1154,7 +1154,7 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			"Criteria", # legend label
 			colors, # colors
-			NULL, # x value limit
+			NULL # x value limit
 		)
 
 		# make the container of those graphs visible
