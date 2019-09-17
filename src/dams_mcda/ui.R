@@ -140,9 +140,10 @@ ui <- shinyUI(fluidPage(
 			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
 			),
 			leafletOutput("dam_map", width=map_width, height=map_height),
-			HTML("Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
+			HTML(
+        "Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
-			img(src = 'Penobscot_MO_14_443', align = "center")
+			img(src = 'Penobscot_MO_14_443',width = "75%", align = "center")
 		),
 
 
@@ -980,15 +981,16 @@ ui <- shinyUI(fluidPage(
 		             #tableOutput("FilledCriteriaTable"),
 
 		             #alternatives at each dam
-		             #h2('Dam Decision Alternative Comparison'),
+		             h2('Figure 1. Dam Decision Alternative Comparison'),
 		             #plotOutput("AlternativesGraph_All", height="35em"),
-
+		             HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been selected optimally based on your preference values and site-specific dam data values.\
+		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data. This outcome is a recommendation designed to support the consideration of multiple\
+		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
+		             
 		             # by dam
-		             h2('All Preferences by Dam'),
+		             h2('Figure 2. Decision Criteria by Dam'),
 		             plotOutput("FilledCriteriaGraph2", height="35em"),
-
-		             # by criteria --> this one might not be necessary after all
-		             h2('All Preferences by Alternative'),
+		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
 		             plotOutput("FilledCriteriaGraph", height="35em")
 		         )
 		),
@@ -1050,37 +1052,6 @@ ui <- shinyUI(fluidPage(
 			),
 			# output post generate
 			div(id="generated-output-1",
-				#h2("Individual Table1 (a)"),
-				#tableOutput("Dam1GenTable1"),
-				#tableOutput("Dam2GenTable1"),
-				#tableOutput("Dam3GenTable1"),
-				#tableOutput("Dam4GenTable1"),
-				#tableOutput("Dam5GenTable1"),
-				#tableOutput("Dam6GenTable1"),
-				#tableOutput("Dam7GenTable1"),
-				#tableOutput("Dam8GenTable1"),
-				#h2("Individual Table2 (c)"),
-				#tableOutput("Dam1GenTable2"),
-				#tableOutput("Dam2GenTable2"),
-				#tableOutput("Dam3GenTable2"),
-				#tableOutput("Dam4GenTable2"),
-				#tableOutput("Dam5GenTable2"),
-				#tableOutput("Dam6GenTable2"),
-				#tableOutput("Dam7GenTable2"),
-				#tableOutput("Dam8GenTable2"),
-				#h2("Individual Graph1 (d 1)"),
-				#plotOutput("Dam1GenPlot1"),
-				#h2("Individual Graph2 (d 2)"),
-				#plotOutput("Dam1GenPlot2"),
-				#h2("Individual Table3 (d)"),
-				#tableOutput("Dam1GenTable3"),
-				#tableOutput("Dam2GenTable3"),
-				#tableOutput("Dam3GenTable3"),
-				#tableOutput("Dam4GenTable3"),
-				#tableOutput("Dam5GenTable3"),
-				#tableOutput("Dam6GenTable3"),
-				#tableOutput("Dam7GenTable3"),
-				#tableOutput("Dam8GenTable3"),
 
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1180,7 +1151,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
 		             plotOutput("WSMPlot2b", height=1000, width="100%"),
-					 plotOutput("WSMPlot2c", height=1000, width="100%"),
+					       plotOutput("WSMPlot2c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1261,7 +1232,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
 		             plotOutput("WSMPlot3b", height=1000, width="100%"),
-					 plotOutput("WSMPlot3c", height=1000, width="100%"),
+					       plotOutput("WSMPlot3c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1341,7 +1312,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
 		             plotOutput("WSMPlot4b", height=1000, width="100%"),
-					 plotOutput("WSMPlot4c", height=1000, width="100%"),
+					       plotOutput("WSMPlot4c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1419,7 +1390,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
 		             plotOutput("WSMPlot5b", height=1000, width="100%"),
-					 plotOutput("WSMPlot5c", height=1000, width="100%"),
+					       plotOutput("WSMPlot5c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1496,7 +1467,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
 		             plotOutput("WSMPlot6b", height=1000, width="100%"),
-					 plotOutput("WSMPlot6c", height=1000, width="100%"),
+					       plotOutput("WSMPlot6c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1574,7 +1545,7 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
 		             plotOutput("WSMPlot7b", height=1000, width="100%"),
-					 plotOutput("WSMPlot7c", height=1000, width="100%"),
+					       plotOutput("WSMPlot7c", height=1000, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1669,7 +1640,6 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("downloadData8", "Download Ripogenus")
 				 )
 		),
-
 
 
 		# Developer and aknowledgements secion

@@ -13,8 +13,8 @@ source("WSM.R")
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-NormalizedMatrix <- as.array(source(file='f_nrge.RData')) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- array(NormalizedMatrix, dim = 3)
+source(file='f_nrge.RData')#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge, dim = 3)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
@@ -337,7 +337,6 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 # MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 
 #----------------------------------------
-
 WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 

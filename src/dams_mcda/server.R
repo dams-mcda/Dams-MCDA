@@ -67,7 +67,7 @@ criteria_inputs <- c(
 
 # criteria display names (for labeling tables and graphs)
 criteria_names <- c(
-	"Fish Survival",
+	"Sea-Run Fish Habitat Area",
 	"River Recreation Area",
 	"Reservoir Storage",
 	"Annuitized Project Costs",
