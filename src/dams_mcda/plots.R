@@ -340,7 +340,7 @@ renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label,
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
-		#+ scale_y_continuous(limits=c(0,1), labels = scales::percent_format())
+		+ scale_y_continuous(limits=c(0,1), labels = scales::percent_format())
 	)
 	return(result)
 }
