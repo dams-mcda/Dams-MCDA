@@ -469,19 +469,20 @@ server <- function(input, output, session) {
 
 			if (scores_valid == TRUE){
 				# valid
-				#message("file upload success -> generateGraphs")
+				message("file upload success -> generateGraphs")
+				message("file preferences: ", session$userData$selectedPreferences)
 				removeModal()
 				upload_modal_visible <<- FALSE
 
 				# make preferences and generate
-				updateDam1()
-				updateDam2()
-				updateDam3()
-				updateDam4()
-				updateDam5()
-				updateDam6()
-				updateDam7()
-				updateDam8()
+				updateDam1(FALSE)
+				updateDam2(FALSE)
+				updateDam3(FALSE)
+				updateDam4(FALSE)
+				updateDam5(FALSE)
+				updateDam6(FALSE)
+				updateDam7(FALSE)
+				updateDam8(FALSE)
 				## generate
 				#generateOutput()
 
@@ -627,10 +628,17 @@ server <- function(input, output, session) {
 			input[[paste0("Health", damIndex)]],
 			input[[paste0("Justice", damIndex)]]
 		)
-		message("dam ", damIndex, " preferences ", damPrefs)
+		message("get dam ", damIndex, " preferences ", damPrefs)
 		return(damPrefs)
 	}
 
+	#------------------------------------------------------------
+	# setCachedDamPreferences
+	# assign a list of values for each criteria in a dam
+	#------------------------------------------------------------
+	getCachedDamPreferences <- function(damIndex){
+		return(session$userData$selectedPreferences[,damIndex])
+	}
 
 	#------------------------------------------------------------
 	# setDamPreferences
@@ -654,7 +662,7 @@ server <- function(input, output, session) {
 	# updateDam1
 	# updating scores for West Enfield Dam, renders raw preference plot
 	#------------------------------------------------------------
-	updateDam1 <- function (){
+	updateDam1 <- function (updateScores){
 		damId <- 1
 		# update the tab status
 		output[[paste0("Dam", damId)]] <- renderUI(list(
@@ -662,9 +670,14 @@ server <- function(input, output, session) {
 			tags$span('Complete', class="dam-complete")
 		))
 
+		Dam1 <- c()
 		# get decision inputs
-		Dam1 <- as.vector(getDamPreferences(damId))
-		setDamPreferences(damId, Dam1)
+		if (updateScores){
+			Dam1 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam1)
+		}else{
+			Dam1 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam1_Table <- as.matrix(data.frame(Dam1))
@@ -691,7 +704,7 @@ server <- function(input, output, session) {
 	# updateDam2
 	# logic for updating Medway Dam
 	#------------------------------------------------------------
-	updateDam2 <- function() {
+	updateDam2 <- function(updateScores) {
 		damId <- 2
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 2: Medway Dam",
@@ -699,8 +712,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam2 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam2)
+		Dam2 <- c()
+		if (updateScores){
+			Dam2 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam2)
+		}else{
+			Dam2 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam2_Table <- as.matrix(data.frame(Dam2))
@@ -726,7 +744,7 @@ server <- function(input, output, session) {
 	# updateDam3
 	# logic for updating Millinocket Dam
 	#------------------------------------------------------------
-	updateDam3 <- function() {
+	updateDam3 <- function(updateScores) {
 		damId <- 3
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 3: Millinocket Dam",
@@ -734,8 +752,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam3 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam3)
+		Dam3 <- c()
+		if (updateScores){
+			Dam3 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam3)
+		}else{
+			Dam3 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam3_Table <- as.matrix(data.frame(Dam3))
@@ -757,7 +780,7 @@ server <- function(input, output, session) {
 	# updateDam4
 	# logic for updating East Millinocket Dam
 	#------------------------------------------------------------
-	updateDam4 <- function() {
+	updateDam4 <- function(updateScores) {
 		damId <- 4
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 4: East Millinocket Dam",
@@ -765,8 +788,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam4 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam4)
+		Dam4 <- c()
+		if (updateScores){
+			Dam4 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam4)
+		}else{
+			Dam4 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam4_Table <- as.matrix(data.frame(Dam4))
@@ -788,7 +816,7 @@ server <- function(input, output, session) {
 	# updateDam5
 	# logic for updating North Twin Dam
 	#------------------------------------------------------------
-	updateDam5 <- function() {
+	updateDam5 <- function(updateScores) {
 		damId <- 5
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 			"Dam 5: North Twin Dam",
@@ -796,8 +824,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam5 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam5)
+		Dam5 <- c()
+		if (updateScores){
+			Dam5 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam5)
+		}else{
+			Dam5 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam5_Table <- as.matrix(data.frame(Dam5))
@@ -819,7 +852,7 @@ server <- function(input, output, session) {
 	# updateDam6
 	# logic for updating Dolby Dam
 	#------------------------------------------------------------
-	updateDam6 <- function() {
+	updateDam6 <- function(updateScores) {
 
 		damId <- 6
 		output[[paste0("Dam", damId)]] <- renderUI(list(
@@ -828,8 +861,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam6 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam6)
+		Dam6 <- c()
+		if (updateScores){
+			Dam6 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam6)
+		}else{
+			Dam6 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam6_Table <- as.matrix(data.frame(Dam6))
@@ -851,7 +889,7 @@ server <- function(input, output, session) {
 	# updateDam7
 	# logic for updating Millinocket Lake Dam
 	#------------------------------------------------------------
-	updateDam7 <- function() {
+	updateDam7 <- function(updateScores) {
 		damId <- 7
 		output[[paste0("Dam", damId)]] <- renderUI(list(
 
@@ -860,8 +898,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam7 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam7)
+		Dam7 <- c()
+		if (updateScores){
+			Dam7 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam7)
+		}else{
+			Dam7 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam7_Table <- as.matrix(data.frame(Dam7))
@@ -886,7 +929,7 @@ server <- function(input, output, session) {
 	# updateDam8
 	# logic for updating Ripogenus Dam
 	#------------------------------------------------------------
-	updateDam8 <- function() {
+	updateDam8 <- function(updateScores) {
 		damId <- 8
 
 		output[[paste0("Dam", damId)]] <- renderUI(list(
@@ -895,8 +938,13 @@ server <- function(input, output, session) {
 		))
 
 		# get decision inputs
-		Dam8 <- getDamPreferences(damId)
-		setDamPreferences(damId, Dam8)
+		Dam8 <- c()
+		if (updateScores){
+			Dam8 <- as.vector(getDamPreferences(damId))
+			setDamPreferences(damId, Dam8)
+		}else{
+			Dam8 <- as.vector(getCachedDamPreferences(damId))
+		}
 
 		# create table matrix
 		Dam8_Table <- as.matrix(data.frame(Dam8))
@@ -1419,7 +1467,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress1())
 			))
 		}else{
-			 updateDam1()
+			 updateDam1(TRUE)
 		}
 	})
 
@@ -1431,7 +1479,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress2())
 			))
 		}else{
-			updateDam2()
+			updateDam2(TRUE)
 		}
 	})
 
@@ -1443,7 +1491,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress3())
 			))
 		}else{
-			 updateDam3()
+			 updateDam3(TRUE)
 		}
 	})
 
@@ -1455,7 +1503,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress4())
 			))
 		}else{
-			updateDam4()
+			updateDam4(TRUE)
 		}
 	})
 
@@ -1467,7 +1515,7 @@ server <- function(input, output, session) {
 				paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress5())
 			))
 		}else{
-			updateDam5()
+			updateDam5(TRUE)
 		}
 	})
 
@@ -1479,7 +1527,7 @@ server <- function(input, output, session) {
 	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress6())
 	    ))
 	  }else{
-	    updateDam6()
+	    updateDam6(TRUE)
 	  }
 	})
 
@@ -1491,7 +1539,7 @@ server <- function(input, output, session) {
 	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress7())
 	    ))
 	  }else{
-	    updateDam7()
+	    updateDam7(TRUE)
 	  }
 	})
 
@@ -1503,7 +1551,7 @@ server <- function(input, output, session) {
 	      paste0('The sum of all sliders must be equal to 100! Currently the sum is: ', progress8())
 	    ))
 	  }else{
-	    updateDam8()
+	    updateDam8(TRUE)
 	  }
 	})
 
@@ -1548,14 +1596,14 @@ server <- function(input, output, session) {
 	observeEvent(input$autoGenerateMatrix, {
 		message('Auto Generate')
 		# update all alt
-		updateDam1()
-		updateDam2()
-		updateDam3()
-		updateDam4()
-		updateDam5()
-		updateDam6()
-		updateDam7()
-		updateDam8()
+		updateDam1(TRUE)
+		updateDam2(TRUE)
+		updateDam3(TRUE)
+		updateDam4(TRUE)
+		updateDam5(TRUE)
+		updateDam6(TRUE)
+		updateDam7(TRUE)
+		updateDam8(TRUE)
 		# generate
 		generateOutput()
 	})
