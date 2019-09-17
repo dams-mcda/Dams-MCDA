@@ -987,16 +987,16 @@ ui <- shinyUI(fluidPage(
 		             #tableOutput("FilledCriteriaTable"),
 		             
 		             #alternatives at each dam
-		             h2('Dam Decision Alternative Comparison'),
-		             plotOutput("AlternativesGraph_All", height="35em"),
+		             #h2('Dam Decision Alternative Comparison'),
+		             #plotOutput("AlternativesGraph_All", height="35em"),
 		             
 		             # by dam
 		             h2('All Preferences by Dam'),
 		             plotOutput("FilledCriteriaGraph2", height="35em"),
 		             
 		             # by criteria --> this one might not be necessary after all
-		            # h2('All Preferences by Alternative'),
-		            # plotOutput("FilledCriteriaGraph", height="35em"),
+		             h2('All Preferences by Alternative'),
+		             plotOutput("FilledCriteriaGraph", height="35em"),
 		             
 		             h2('WSMTableOutput'),
 		             tableOutput("WSMTable"),
