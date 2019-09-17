@@ -66,7 +66,7 @@ criteria_inputs <- c(
 
 # criteria display names (for labeling tables and graphs)
 criteria_names <- c(
-	"Fish Survival",
+	"Sea-Run Fish Habitat Area",
 	"River Recreation Area",
 	"Reservoir Storage",
 	"Annuitized Project Costs",
@@ -507,7 +507,7 @@ server <- function(input, output, session) {
 		Data2 <- data.frame(score=scoreVector, criteria=Criteria)
 		
 		# WSM score plot - alternatives
-		output[[paste0("WSMPlot", damId, a)]] <- renderBarPlot(
+		output[[paste0("WSMPlot", damId, "a")]] <- renderBarPlot(
 		  Data2, # data
 		  paste("Weighted sum MCDA scores,", dam_names[damId], sep=" "), # title
 		  alternative_names, # x_labels
@@ -521,7 +521,7 @@ server <- function(input, output, session) {
 		Data3 <- data.frame(score=scoreVector, criteria=Criteria)
 		
 		# WSM score plot b - alternatives with criteria values
-		output[[paste0("WSMPlot", damId, b)]] <- renderBarPlot(
+		output[[paste0("WSMPlot", damId, "b")]] <- renderBarPlot(
 		  Data3, # data
 		  paste("Weighted sum MCDA scores by criteria,", dam_names[damId], sep=" "), # title
 		  alternative_names, # x_labels
@@ -1035,7 +1035,7 @@ server <- function(input, output, session) {
 		  Dam8_Table
 		})
 		
-		Dam8RawTable <- setDT(Ripogenus_DataMatrix)
+		Dam8RawTable <- setDT(Rip_DataMatrix)
 		row.names(Dam8RawTable) <- alternative_names
 		colnames(Dam8RawTable) <- criteria_inputs
 		

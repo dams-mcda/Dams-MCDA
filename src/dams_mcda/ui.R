@@ -10,6 +10,7 @@ library(spatstat)
 library(rgdal)
 library(abind)
 library(leaflet)
+library(DT)
 
 options(shiny.usecairo=TRUE)
 
@@ -142,7 +143,7 @@ ui <- shinyUI(fluidPage(
 			HTML("Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
 			
-			img(src = 'Penobscot_MO_14_443', align = "center")
+			img(src = 'Penobscot_MO_14_443',width = "75%", align = "center")
 			
 		),
 
@@ -989,16 +990,21 @@ ui <- shinyUI(fluidPage(
 		             #tableOutput("FilledCriteriaTable"),
 		             
 		             #alternatives at each dam
-		             h2('Dam Decision Alternative Comparison'),
-		             plotOutput("AlternativesGraph_All", height="35em"),
+		             h2('Figure 1. Dam Decision Alternative Comparison'),
+		             #plotOutput("AlternativesGraph_All", height="35em"),
+		             HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been selected optimally based on your preference values and site-specific dam data values.\
+		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data. This outcome is a recommendation designed to support the consideration of multiple\
+		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
 		             
 		             # by dam
-		             h2('All Preferences by Dam'),
-		             plotOutput("FilledCriteriaGraph2", height="35em"),
+		             h2('Figure 2. Decision Criteria by Dam'),
+		             #plotOutput("FilledCriteriaGraph2", height="35em"),
+		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
+		             
 		             
 		             # by criteria --> this one might not be necessary after all
-		            # h2('All Preferences by Alternative'),
-		            # plotOutput("FilledCriteriaGraph", height="35em"),
+		             # h2('All Preferences by Alternative'),
+		             # plotOutput("FilledCriteriaGraph", height="35em"),
 		             
 		             h2('WSMTableOutput'),
 		             tableOutput("WSMTable"),
@@ -1010,13 +1016,14 @@ ui <- shinyUI(fluidPage(
 		             h2('WSM2')
 		             #TODO
 		             #plotOutput("WSMPlot2", height=graph_height, width=graph_width)
-		         )
-		),
+		             )
+		         ),
 		
 		tabPanel("Map Recommendation",
 		         h2("Optimized Result"),
 		         HTML('<div id="MapRecommendation"></div>')
 		),
+		
 		HTML("<li class='step-label'> Step 5: View Dam Specific Results </li>"),
 
 		tabPanel("Dam 1: West Enfield",
@@ -1664,7 +1671,6 @@ ui <- shinyUI(fluidPage(
 		),
 
 		
-
 		# Developer and aknowledgements secion
 		HTML("<li class='step-label'>About</li>"),
 
