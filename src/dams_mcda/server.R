@@ -493,7 +493,7 @@ server <- function(input, output, session) {
 		Data1 <- data.frame(score=scoreVector, criteria=Criteria)
 
 		# raw pref plot
-		output[[paste0("SummPlot", damId)]] <- renderBarPlot(
+		output[[paste0("PrefPlot", damId)]] <- renderBarPlot(
 			Data1, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
@@ -507,7 +507,7 @@ server <- function(input, output, session) {
 		Data2 <- data.frame(score=scoreVector, criteria=Criteria)
 		
 		# WSM score plot - alternatives
-		output[[paste0("WSMPlot", damId, a)]] <- renderBarPlot(
+		output[[paste0("WSMPlot", damId, "a")]] <- renderBarPlot(
 		  Data2, # data
 		  paste("Weighted sum MCDA scores,", dam_names[damId], sep=" "), # title
 		  alternative_names, # x_labels
@@ -521,7 +521,7 @@ server <- function(input, output, session) {
 		Data3 <- data.frame(score=scoreVector, criteria=Criteria)
 		
 		# WSM score plot b - alternatives with criteria values
-		output[[paste0("WSMPlot", damId, b)]] <- renderBarPlot(
+		output[[paste0("WSMPlot", damId, "b")]] <- renderBarPlot(
 		  Data3, # data
 		  paste("Weighted sum MCDA scores by criteria,", dam_names[damId], sep=" "), # title
 		  alternative_names, # x_labels
@@ -605,7 +605,7 @@ server <- function(input, output, session) {
 
 	#------------------------------------------------------------
 	# updateDam1
-	# logic for updating West Enfield Dam
+	# updating scores for West Enfield Dam, renders raw preference plot
 	#------------------------------------------------------------
 	updateDam1 <- function (){
 		damId <- 1
@@ -622,34 +622,12 @@ server <- function(input, output, session) {
 		Dam1_Table <- as.matrix(data.frame(Dam1))
 		row.names(Dam1_Table) <- criteria_names
 		names(Dam1_Table) <- "Raw Score"
-		
+
+		#output$RawPrefsDam1 = renderTable({
 		output$RawPrefsDam1 = DT::renderDataTable({
 		  Dam1_Table
 		})
-		
-		Dam1RawTable <- setDT(WestEnf_DataMatrix)
-		row.names(Dam1RawTable) <- alternative_names
-		colnames(Dam1RawTable) <- criteria_inputs
-		
-		output$Dam1RawTable = DT::renderDataTable({
-		  Dam1RawTable
-		})
-		
-		Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 3)*100))
-		row.names(Dam1NormTable) <- alternative_names
-		colnames(Dam1NormTable) <- criteria_inputs
-		
-		output$Dam1NormTable = DT::renderDataTable({
-		  Dam1NormTable
-		})		
-		
-		Dam1ScoreTable <- setDT(round(Dam1Results, 3)*100)
-		row.names(Dam1ScoreTable) <- alternative_names
-		colnames(Dam1ScoreTable) <- criteria_inputs
-		
-		output$Dam1ScoreTable = DT::renderDataTable({
-		  Dam1ScoreTable
-		})
+
 		# update dam specific graphs
 		updateDamGraph(damId, Dam1)
 		# make the container of those graphs visible
@@ -658,6 +636,48 @@ server <- function(input, output, session) {
 		# mark the alternative as complete when update
 		# or apply logic here to make other contstraints for "complete"
 		session$userData[['dams_completed']] <- updateDamStatus(session$userData[['dams_completed']], "add", 1)
+	}
+
+	#------------------------------------------------------------
+	# generateDam1
+	# renders WSM related tables/plots
+	#------------------------------------------------------------
+	generateDam1 <- function(){
+		# -------------------------------------------------------------#
+		# assign values in new matrix
+		RawCriteriaMatrix <- data.frame(
+			matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs))
+		)
+		row.names(RawCriteriaMatrix) <- dam_names
+		colnames(RawCriteriaMatrix) <- criteria_names
+		WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
+		# use results for generated output
+
+		Dam1RawTable <- setDT(WestEnf_DataMatrix)
+		row.names(Dam1RawTable) <- alternative_names
+		colnames(Dam1RawTable) <- criteria_inputs
+
+		output$Dam1RawTable = DT::renderDataTable({
+			Dam1RawTable
+		})
+
+		Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 3)*100))
+		row.names(Dam1NormTable) <- alternative_names
+		colnames(Dam1NormTable) <- criteria_inputs
+
+		output$Dam1NormTable = DT::renderDataTable({
+			Dam1NormTable
+		})
+
+		Dam1ScoreTable <- setDT(round(Dam1Results, 3)*100)
+		row.names(Dam1ScoreTable) <- alternative_names
+		colnames(Dam1ScoreTable) <- criteria_inputs
+
+		output$Dam1ScoreTable = DT::renderDataTable({
+			Dam1ScoreTable
+		})
+		# make the container of those graphs visible
+		shinyjs::show(id="generaed-output-1")
 	}
 
 
@@ -1060,7 +1080,7 @@ server <- function(input, output, session) {
 		})
 		
 		# update dam specific graphs
-		updateDamGraph(8, Dam8)
+		updateDamGraph(damId, Dam8)
 		# make the container of those graphs visible
 		shinyjs::show(id="dam-8-output")
 
