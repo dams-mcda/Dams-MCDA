@@ -962,13 +962,13 @@ ui <- shinyUI(fluidPage(
 		# RESULTS TABS
 		# --------------------------------------------------------------------------------
 		HTML("<li> Step 4: Multi-Dam Results </li>"),
-		
+
 		tabPanel("Combined Results",
 		         h2("Multi-Dam Results"),
 		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-		         
-		         #TODO: remove for production
-		         actionButton("autoGenerateMatrix", "Autofill: debug only"),
+
+		         #TODO: remove/hide for production
+		         #actionButton("autoGenerateMatrix", "Autofill: debug only"),
 		         #actionButton("testWSM", "test WSM: debug only"),
 		         #actionButton("saveResultsToDjango", "Save Results To Django: debug only"),
 
