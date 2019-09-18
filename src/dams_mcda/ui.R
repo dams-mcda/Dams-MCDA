@@ -979,7 +979,7 @@ ui <- shinyUI(fluidPage(
 		         div(id="combined-output",
 		             #h2('All Preferences'),
 		             #tableOutput("FilledCriteriaTable"),
-		             HTML("Based on your preference values from Step 3 and the data values from the dams, we have generated a recommendation for the entire set of dams. Keep in mind that values for sea-run fish habitat area and river recreation\
+		             HTML("Based on your preference values from Step 3 and the data values from the dams, we have generated a coordinated recommendation for the entire set of dams. Keep in mind that values for sea-run fish habitat area and river recreation\
                       are network-dependent. Step 5 (results for individual dams) values will differ due to the site-specific nature of those criteria estimates.This outcome is a recommendation designed to support the consideration of multiple\
 		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
 		             
@@ -1008,7 +1008,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-
+      HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+            values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+            results.<br>"),
+			
       #raw preference graph
 			div(id="dam-1-output",
 			    h3("Table 1. Raw preference scores for West Enfield Dam"),
@@ -1055,9 +1059,8 @@ ui <- shinyUI(fluidPage(
 			# output post generate
 			div(id="generated-output-1",
 			  
-			    h3('Figure 3. Decision Criteria Comparison'),
+			  h3('Figure 3. Decision Criteria Comparison'),
 			    
-			    #plotOutput("WSMPlot1a", height=600, width="100%"),
 			  plotOutput("WSMPlot1c", height=600, width="100%"),
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 3: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1073,6 +1076,8 @@ ui <- shinyUI(fluidPage(
 					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 					<br>"
 				),
+				plotOutput("WSMPlot1a", height=600, width="100%"),
+				
 
 				HTML(
 					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1089,6 +1094,10 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 2: Medway Dam",
 		         h2("Results: Medway Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),		         
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-2-output",
@@ -1135,7 +1144,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-2",
 		             h3('Figure 6. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot2a", height=600, width="100%"),
 		             plotOutput("WSMPlot2c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 6: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1151,6 +1159,7 @@ ui <- shinyUI(fluidPage(
 		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 		               <br>"
 		             ),
+		             plotOutput("WSMPlot2a", height=600, width="100%"),
 		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1169,6 +1178,10 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-3-output",
@@ -1216,7 +1229,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-3",
 		             h3('Figure 8. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot3a", height=600, width="100%"),
 		             plotOutput("WSMPlot3c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1232,6 +1244,7 @@ ui <- shinyUI(fluidPage(
 		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 		               <br>"
 		             ),
+		             plotOutput("WSMPlot3a", height=600, width="100%"),
 		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1250,6 +1263,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-4-output",
 		             h3("Table 13. Raw preference scores for East Millinocket Dam"),
 		             DT::dataTableOutput("RawPrefsDam4"),
@@ -1296,7 +1314,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-4",
 		             h3('Figure 11. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot4a", height=600, width="100%"),
 		             plotOutput("WSMPlot4c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1312,6 +1329,7 @@ ui <- shinyUI(fluidPage(
 		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 		               <br>"
 		             ),
+		             plotOutput("WSMPlot4a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1330,6 +1348,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-5-output",
 		             h3("Table 17. Raw preference scores for North Twin Dam"),
 		             DT::dataTableOutput("RawPrefsDam5"),
@@ -1374,7 +1397,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-5",
 		             h3('Figure 14. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot5a", height=600, width="100%"),
 		             plotOutput("WSMPlot5c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1390,6 +1412,8 @@ ui <- shinyUI(fluidPage(
 		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 		               <br>"
 		             ),
+		             plotOutput("WSMPlot5a", height=600, width="100%"),
+		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
 		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
@@ -1407,6 +1431,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 6: Dolby",
 		         h2("Results: Dolby Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-6-output",
 		             h3("Table 21. Raw preference scores for Dolby Dam"),
 		             DT::dataTableOutput("RawPrefsDam6"),
@@ -1450,7 +1479,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-6",
 		             h3('Figure 17. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot1a", height=600, width="100%"),
 		             plotOutput("WSMPlot6c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1466,6 +1494,7 @@ ui <- shinyUI(fluidPage(
 					          the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 					          <br>"
 		             ),
+		             plotOutput("WSMPlot6a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1484,6 +1513,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-7-output",
 		             h3("Table 25. Raw preference scores for Millinocket Lake Dam"),
 		             DT::dataTableOutput("RawPrefsDam7"),
@@ -1527,7 +1561,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-7",
 		             h3('Figure 20. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot7a", height=600, width="100%"),
 		             plotOutput("WSMPlot7c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1543,6 +1576,7 @@ ui <- shinyUI(fluidPage(
 		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 		               <br>"
 		             ),
+		             plotOutput("WSMPlot7a", height=600, width="100%"),
 		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1561,6 +1595,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-8-output",
 		             h3("Table 29. Raw preference scores for Ripogenus Dam"),
 		             DT::dataTableOutput("RawPrefsDam8"),
@@ -1606,7 +1645,6 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-8",
 		             h3('Figure 23. Decision Criteria Comparison'),
 		             
-		             #plotOutput("WSMPlot8a", height=600, width="100%"),
 		             plotOutput("WSMPlot8c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1622,6 +1660,7 @@ ui <- shinyUI(fluidPage(
 		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 		               <br>"
 		             ),
+		             plotOutput("WSMPlot8a", height=600, width="100%"),
 
 		               HTML(
 		                 "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
