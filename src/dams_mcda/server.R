@@ -302,9 +302,9 @@ server <- function(input, output, session) {
 				HTML(
 					"<h4>Instructions for Uploading</h4>\
 					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-          and your data should be organized in 8 rows (dams) with 14 columns (decision criteria). Cells should be\
-          populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-          select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+					and your data should be organized in 8 rows (dams) with 14 columns (decision criteria). Cells should be\
+					populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+					select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 					average preference values for the group. <br>"
 				)
 			)
@@ -1014,6 +1014,7 @@ server <- function(input, output, session) {
 			#message("WSM map name: ", map_name, " type ", class(map_name))
 
 			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			all_data_matrix <- round(all_data_matrix, 3)
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
@@ -1029,7 +1030,7 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# generate each dams individual results tab (tables + plots)
 			for (damId in 1:length(available_dams)){
-				generateDam(damId, all_data_matrix, ind_normalized_matrix, WSMMatrix, WSMIndScoreSum)
+				generateDam(damId, all_data_matrix, ind_normalized_matrix, WSMMatrix, WSMIndScoreSum, WSMTotalScoreSum)
 			}
 
 			#----------------------------------------
@@ -1095,7 +1096,7 @@ server <- function(input, output, session) {
 	#
 	# renders WSM related tables/plots
 	#------------------------------------------------------------
-	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum){
+	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum, WSMScoreSum){
 		#message("generateDam: Output for Dam#: ", damId)
 
 		# preferences
@@ -1124,6 +1125,19 @@ server <- function(input, output, session) {
 		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
 			Dam1ScoreTable
 		})
+
+		# WSM Download button
+		output[[paste0("DownloadDam", damId, "ScoreTable")]] <- downloadHandler(
+			filename = function() {
+				# format date & time in filename, format( year, month, day, hour, minute, second, UTC offset )
+				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+			},
+			content = function(file) {
+				ScoreTablePlusSum <- Dam1ScoreTable
+				ScoreTablePlusSum$Total = IndScoreSum[damId,]
+				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
+			}
+		)
 
 		# (d) has three graphs for each dam
 		# d1

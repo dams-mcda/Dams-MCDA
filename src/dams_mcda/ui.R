@@ -1009,46 +1009,44 @@ ui <- shinyUI(fluidPage(
 
       #raw preference graph
 			div(id="dam-1-output",
+
 			    h3("Table 1. Raw preference scores for West Enfield Dam"),
 			    DT::dataTableOutput("RawPrefsDam1"),
+			    HTML( "This table of preference data is depicted below."),
 
-			    HTML(
-			      "This table of preference data is depicted below."
-			    ),
 			    h3("Figure 1. Raw Preference Scores for West Enfield"),
-
 			    plotOutput("PrefPlot1", height=graph_height, width=graph_width),
 			    HTML(
 			      "<br><b>Results Interpretation</b> for Figure 1: The bars visually represent your preference scores for each decision criterion.\
 					The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 			    ),
 
-      		#raw data table/Matrix
+				#raw data table/Matrix
     			h3("Table 2. Raw data values for West Enfield Dam"),
     			DT::dataTableOutput("Dam1RawTable"),
     			HTML(
     			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent. Note: fish survival values shown here are discrete,\
-             but in reality, the values are network-dependent and would be impacted by upstream or downstream changes.<br>"
+				  but in reality, the values are network-dependent and would be impacted by upstream or downstream changes.<br>"
     			),
+
     			#normalized data table/Matrix
 			    h3("Table 3. Normalized data values for West Enfield Dam"),
 			    DT::dataTableOutput("Dam1NormTable"),
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-             Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-    			   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-             high costs are less desirable than low costs.<br>"
+				  Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
+				  (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+				  high costs are less desirable than low costs.<br>"
     			),
+
     			#weighted score data table/Matrix
 			    h3("Table 4. Weighted scores for West Enfield Dam"),
 			    DT::dataTableOutput("Dam1ScoreTable"),
+				downloadButton("DownloadDam1ScoreTable", "Download West Enfield"),
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
     			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-    			),
-			HTML("<br>Click <b>Generate</b> to get MCDA results graphs.<br><br>"),
-			actionButton("generateMatrix", "Generate")
-
+				)
 			),
 			# output post generate
 			div(id="generated-output-1",
@@ -1123,13 +1121,11 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 8. Weighted scores for Medway Dam"),
 		             DT::dataTableOutput("Dam2ScoreTable"),
+					downloadButton("DownloadDam2ScoreTable", "Download West Enfield"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             ),
-
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 actionButton("generateMatrix2", "Generate")
+		             )
 		         ),
 
 		         # output post generate
@@ -1203,14 +1199,11 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 12. Weighted scores for Millinocket Dam"),
 		             DT::dataTableOutput("Dam3ScoreTable"),
+					 downloadButton("DownloadDam3ScoreTable", "Download West Enfield"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             ),
-
-
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 actionButton("generateMatrix3", "Generate")
+		             )
 		       ),
 
 					  # output post generate
@@ -1283,14 +1276,11 @@ ui <- shinyUI(fluidPage(
 					       #weighted score data table/Matrix
 					       h3("Table 16. Weighted scores for East Millinocket Dam"),
 					       DT::dataTableOutput("Dam4ScoreTable"),
+						   downloadButton("DownloadDam4ScoreTable", "Download West Enfield"),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 					         The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					       ),
-
-  					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-  					 # generate event
-  					 actionButton("generateMatrix4", "Generate")
+					       )
   				   ),
 
 				     # output post generate
@@ -1362,13 +1352,12 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 20. Weighted scores for North Twin Dam"),
 		             DT::dataTableOutput("Dam5ScoreTable"),
+					 downloadButton("DownloadDam5ScoreTable", "Download West Enfield"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             ),
+		             )
 
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 actionButton("generateMatrix5", "Generate")
 		         ),
 
 		         # output post generate
@@ -1439,13 +1428,11 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 24. Weighted scores for Dolby Dam"),
 		             DT::dataTableOutput("Dam6ScoreTable"),
+					 downloadButton("DownloadDam6ScoreTable", "Download West Enfield"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             ),
-
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 actionButton("generateMatrix6", "Generate")
+		             )
 		         ),
 
 					  # output post generate
@@ -1516,13 +1503,11 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 28. Weighted scores for Milinocket Lake Dam"),
 		             DT::dataTableOutput("Dam7ScoreTable"),
+					 downloadButton("DownloadDam7ScoreTable", "Download West Enfield"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 28. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             ),
-
-  					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-  					 actionButton("generateMatrix7", "Generate")
+		             )
   		         ),
 
 		         # output post generate
@@ -1596,13 +1581,11 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 32. Weighted scores for Ripogenus Dam"),
 		             DT::dataTableOutput("Dam8ScoreTable"),
+					 downloadButton("DownloadDam8ScoreTable", "Download West Enfield"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 32. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             ),
-
-					 HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-					 actionButton("generateMatrix8", "Generate")
+		             )
 		         ),
 
 		         # output post generate
