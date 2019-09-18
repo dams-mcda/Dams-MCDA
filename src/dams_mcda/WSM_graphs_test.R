@@ -337,6 +337,9 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 # MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 
 #----------------------------------------
+
+NormalizedMatrix[4,6,] <- 1 #This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
+
 WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
