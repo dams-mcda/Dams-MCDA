@@ -994,7 +994,10 @@ ui <- shinyUI(fluidPage(
 
 		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
 		             plotOutput("CombinedPlot2", height="35em"),
-					 downloadButton("DownloadDam1CombinedPlot2", "Download Graph")
+					 downloadButton("DownloadDam1CombinedPlot2", "Download Graph"),
+					 
+					 # download preferences (for UPLOAD DATA)
+					 downloadButton("downloadPreferenceSelection", "Download Preferences (Step 3)")
 		         )
 		),
 

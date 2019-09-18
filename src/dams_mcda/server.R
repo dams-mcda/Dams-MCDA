@@ -413,7 +413,6 @@ server <- function(input, output, session) {
 		# check it has correct amount of columns and rows
 		row_count <- length(head(t(df),n=1))
 		column_count <- length(head(df,n=1))
-		# TODO: set required_* variables to size of valid input
 		required_rows <- 8
 		required_cols <- 15
 
