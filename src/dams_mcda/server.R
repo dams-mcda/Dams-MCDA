@@ -995,6 +995,7 @@ server <- function(input, output, session) {
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
+			WSMMatrix <- round(WSMMatrix, 3)
 			rownames(WSMMatrix) <- alternative_names
 			colnames(WSMMatrix) <- criteria_names
 
@@ -1002,10 +1003,12 @@ server <- function(input, output, session) {
 			WSMTableOutput <- data.frame(WSMMatrix)
 
 			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
+			WSMIndScoreSum <- round(WSMIndScoreSum, 3)
 			message("IndScoreSum", WSMIndScoreSum)
 
 			# renamed from WSMSummedScore
 			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
+			WSMTotalScoreSum <- round(WSMTotalScoreSum, 3)
 
 			map_name <- WSMResults[4]
 			#message("WSM map name: ", map_name, " type ", class(map_name))
@@ -1014,7 +1017,8 @@ server <- function(input, output, session) {
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
-			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[6],3), dim=c(5,14,8))
+			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
@@ -1054,12 +1058,14 @@ server <- function(input, output, session) {
 			)
 
 			# Preference scores by criteria
-			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
-				RawCriteriaMatrix, # data
+			output$FilledCriteriaGraph2 <- renderPlot2D(
+				t(RawCriteriaMatrix), # data
 				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Criteria", # x axis label
+				dam_names, # x_labels
+				criteria_names, # y_labels
+				"Dam", # x axis label
 				"Score", # y axis label
+				"Criteria", # legend label
 				colors, # colors
 				NULL, # x value limit
 				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value

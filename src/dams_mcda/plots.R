@@ -203,26 +203,27 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 		"\nclasstype: ", class(df),
 		"\ndatatype: ", typeof(df),
 		"\n#(x names): ", length(x_names),
-		"\n#(x names): ", length(y_names),
+		"\n#(y names): ", length(y_names),
 		'\n------------------'
 	)
 
 	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
 	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))
 	Score <- unlist(as.data.frame(df))
+	Score[Score==0] <- NA # dont show zero values on plot
 	df <- data.frame(X=X, Y=Y, Score=Score)
 
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
+	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
 
 	result <- renderPlot(
 		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score))
-		# inclue empty values
-		+ geom_bar(stat="identity")
-		# ignore empty values (uncomment)
+		# ingnore empty values
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
+		+ geom_bar(stat="identity") # ignore empty values
+		+ geom_text(size=4, position = position_stack(vjust = 0.5))
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
-		#+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
 		+ theme_minimal()
 		+ theme(
 			text=element_text(size=16),
