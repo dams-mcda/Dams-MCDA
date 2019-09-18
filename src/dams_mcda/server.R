@@ -1046,20 +1046,8 @@ server <- function(input, output, session) {
 			#  colors
 			#) # this graph doesn't quite work yet
 
-			# Preference scores for all dams
-			output$FilledCriteriaGraph <- renderCombinedBarPlot(
-				RawCriteriaMatrix, # data
-				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Criteria", # x axis label
-				"Score", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				c(0, max_slider_value) # y value limit (100 in this case)
-			)
-
 			# Preference scores by criteria
-			output$FilledCriteriaGraph2 <- renderPlot2D(
+			combinedPlot1 <- renderPlot2D(
 				t(RawCriteriaMatrix), # data
 				"Preferences for all dams", # title
 				dam_names, # x_labels
@@ -1069,7 +1057,43 @@ server <- function(input, output, session) {
 				"Criteria", # legend label
 				colors, # colors
 				NULL, # x value limit
-				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value
+				c(0, max_slider_value) # y value range
+			)
+			output$CombinedPlot1 <- renderPlot(combinedPlot1)
+
+			# download button for plot1
+			output[[paste0("DownloadDam", damId, "CombinedPlot1")]] <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot1_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot1, device = "png", width=18, height=14)
+				}
+			)
+
+			# Preference scores for all dams
+			combinedPlot2 <- renderPlot2D(
+				RawCriteriaMatrix, # data
+				"Preferences for all dams", # title
+				criteria_names, # x_labels
+				dam_names, # y_labels
+				"Criteria", # x axis label
+				"Score", # y axis label
+				"Dam", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (100 in this case)
+			)
+			output$CombinedPlot2 <- renderPlot(combinedPlot2)
+
+			# download button for plot2
+			output[[paste0("DownloadDam", damId, "CombinedPlot2")]] <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot2_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot2, device = "png", width=18, height=14)
+				}
 			)
 
 			#message('save selected preferences to file after successfull generation of results')
@@ -1141,7 +1165,7 @@ server <- function(input, output, session) {
 
 		# (d) has three graphs for each dam
 		# d1
-		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
+		plotA <- renderPlot2D(
 			ResultsMatrix[,,damId],
 			"D 1", # title
 			criteria_names, # x_labels
@@ -1153,8 +1177,20 @@ server <- function(input, output, session) {
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
 		)
+		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot(plotA)
+
+		# download button for d1 plot as png
+		output[[paste0("DownloadDam", damId, "Plota")]] <- downloadHandler(
+			filename = function() {
+				format(Sys.time(), "WestEnfield_plota_results_%Y-%m-%d_%H-%M-%S_%z.png")
+			},
+			content = function(file) {
+				ggsave(file, plot=plotA, device = "png", width=18, height=14)
+			}
+		)
+
 		# d2
-		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot1D(
+		plotB <- renderPlot1D(
 			IndScoreSum[damId,],
 			"D 2", # title
 			alternative_names, # x_labels
@@ -1164,8 +1200,20 @@ server <- function(input, output, session) {
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
 		)
+		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot(plotB)
+
+		# download button for d2 plot as png
+		output[[paste0("DownloadDam", damId, "Plotb")]] <- downloadHandler(
+			filename = function() {
+				format(Sys.time(), "WestEnfield_plotb_results_%Y-%m-%d_%H-%M-%S_%z.png")
+			},
+			content = function(file) {
+				ggsave(file, plot=plotB, device = "png", width=18, height=14)
+			}
+		)
+
 		# d3 (100% score for each alternative)
-		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot2DScaled100(
+		plotC <- renderPlot2DScaled100(
 			t(ResultsMatrix[,,damId]),
 			"D 3", # title
 			alternative_names, # x_labels
@@ -1175,6 +1223,17 @@ server <- function(input, output, session) {
 			"Criteria", # legend label
 			colors, # colors
 			NULL # x value limit
+		)
+		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot(plotC)
+
+		# download button for d2 plot as png
+		output[[paste0("DownloadDam", damId, "Plotc")]] <- downloadHandler(
+			filename = function() {
+				format(Sys.time(), "WestEnfield_plotc_results_%Y-%m-%d_%H-%M-%S_%z.png")
+			},
+			content = function(file) {
+				ggsave(file, plot=plotC, device = "png", width=18, height=14)
+			}
 		)
 
 		# make the container of those graphs visible

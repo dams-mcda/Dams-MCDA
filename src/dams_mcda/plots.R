@@ -193,6 +193,7 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 # when no value is needed pass NULL for a field
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
+# NOTE: DOES NOT RENDER PLOT
 renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
 	message(
 		'------------------\n',
@@ -217,7 +218,7 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 	df$X <- factor(df$X, levels=unique(df$X))
 	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
 
-	result <- renderPlot(
+	result <- (
 		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score))
 		# ingnore empty values
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
@@ -267,7 +268,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
 
-	result <- renderPlot(
+	result <- (
 		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, label=df$Score))
 		# inclue empty values
 		+ geom_bar(stat="identity")
@@ -320,7 +321,7 @@ renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label,
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
 
-	result <- renderPlot(
+	result <- (
 		ggplot(data=df,
 		   mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score)
 	    )

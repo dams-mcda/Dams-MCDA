@@ -989,9 +989,12 @@ ui <- shinyUI(fluidPage(
 		             
 		             # by dam
 		             h2('Figure 2. Decision Criteria by Dam'),
-		             plotOutput("FilledCriteriaGraph2", height="35em"),
+		             plotOutput("CombinedPlot1", height="35em"),
+					 downloadButton("DownloadDam1CombinedPlot1", "Download Graph"),
+
 		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
-		             plotOutput("FilledCriteriaGraph", height="35em")
+		             plotOutput("CombinedPlot2", height="35em"),
+					 downloadButton("DownloadDam1CombinedPlot2", "Download Graph")
 		         )
 		),
 
@@ -1042,7 +1045,7 @@ ui <- shinyUI(fluidPage(
     			#weighted score data table/Matrix
 			    h3("Table 4. Weighted scores for West Enfield Dam"),
 			    DT::dataTableOutput("Dam1ScoreTable"),
-				downloadButton("DownloadDam1ScoreTable", "Download West Enfield"),
+				downloadButton("DownloadDam1ScoreTable", "Download Table"),
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
     			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1060,6 +1063,7 @@ ui <- shinyUI(fluidPage(
 				h3('Figure 2. West Enfield Decision Alternative Scores by Decision Criteria'),
 
 				plotOutput("WSMPlot1a", height=600, width="100%"),
+				downloadButton("DownloadDam1Plota", "Download Graph"),
 
 				HTML(
 					"<br><b>Results Interpretation</b> for Figure 3: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1070,6 +1074,8 @@ ui <- shinyUI(fluidPage(
 				h3('Figure 3. Total Decision Criteria Scores by Decision Alternative for West Enfield'),
 
 				plotOutput("WSMPlot1b", height=1000, width="100%"),
+				downloadButton("DownloadDam1Plotb", "Download Graph"),
+
 
 				HTML(
 					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1080,9 +1086,10 @@ ui <- shinyUI(fluidPage(
 				),
 
 				plotOutput("WSMPlot1c", height=1000, width="100%"),
+				downloadButton("DownloadDam1Plotc", "Download Graph"),
 
 				h3('Download West Enfield Results'),
-				downloadButton("downloadData1", "Download West Enfield")
+				downloadButton("downloadData1", "Download Table")
 			)
 		),
 
@@ -1102,7 +1109,7 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Medway Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             
+
 		             #raw data table/Matrix
 		             h3("Table 6. Raw data values for Medway Dam"),
 		             DT::dataTableOutput("Dam2RawTable"),
@@ -1121,7 +1128,7 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 8. Weighted scores for Medway Dam"),
 		             DT::dataTableOutput("Dam2ScoreTable"),
-					downloadButton("DownloadDam2ScoreTable", "Download West Enfield"),
+					downloadButton("DownloadDam2ScoreTable", "Download Table"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1139,6 +1146,7 @@ ui <- shinyUI(fluidPage(
 		             h3('Figure 5. Medway Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot2a", height=600, width="100%"),
+					downloadButton("DownloadDam2Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 6: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1147,7 +1155,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
 		             plotOutput("WSMPlot2b", height=1000, width="100%"),
-					       plotOutput("WSMPlot2c", height=1000, width="100%"),
+					 downloadButton("DownloadDam2Plotb", "Download Graph"),
+
+					 plotOutput("WSMPlot2c", height=1000, width="100%"),
+					 downloadButton("DownloadDam2Plotc", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1180,7 +1191,7 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             
+
 		             #raw data table/Matrix
 		             h3("Table 10. Raw data values for Millinocket Dam"),
 		             DT::dataTableOutput("Dam3RawTable"),
@@ -1199,14 +1210,14 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 12. Weighted scores for Millinocket Dam"),
 		             DT::dataTableOutput("Dam3ScoreTable"),
-					 downloadButton("DownloadDam3ScoreTable", "Download West Enfield"),
+					 downloadButton("DownloadDam3ScoreTable", "Download Table"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
 		             )
 		       ),
 
-					  # output post generate
+				 # output post generate
 		         div(id="generated-output-3",
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
@@ -1217,6 +1228,7 @@ ui <- shinyUI(fluidPage(
 		             h3('Figure 8. Millinocket Decision Alternative Scores by Decision Criteria'),
 		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot3a", height=600, width="100%"),
+					 downloadButton("DownloadDam3Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 9: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1225,7 +1237,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
 		             plotOutput("WSMPlot3b", height=1000, width="100%"),
-					       plotOutput("WSMPlot3c", height=1000, width="100%"),
+					 downloadButton("DownloadDam3Plotb", "Download Graph"),
+
+					 plotOutput("WSMPlot3c", height=1000, width="100%"),
+					 downloadButton("DownloadDam3Plotc", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1255,9 +1270,9 @@ ui <- shinyUI(fluidPage(
 					       plotOutput("PrefPlot4", height=graph_height, width=graph_width),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+							 The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 					       ),
-					       
+
 					       #raw data table/Matrix
 					       h3("Table 14 Raw data values for East Millinocket Dam"),
 					       DT::dataTableOutput("Dam4RawTable"),
@@ -1276,7 +1291,7 @@ ui <- shinyUI(fluidPage(
 					       #weighted score data table/Matrix
 					       h3("Table 16. Weighted scores for East Millinocket Dam"),
 					       DT::dataTableOutput("Dam4ScoreTable"),
-						   downloadButton("DownloadDam4ScoreTable", "Download West Enfield"),
+						   downloadButton("DownloadDam4ScoreTable", "Download Table"),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 					         The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1287,13 +1302,13 @@ ui <- shinyUI(fluidPage(
 		         div(id="generated-output-4",
 		             HTML(
 		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+					   alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
 
 		             h3('Figure 11. East Millinocket Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot4a", height=600, width="100%"),
+					 downloadButton("DownloadDam4Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 12: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1302,7 +1317,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
 		             plotOutput("WSMPlot4b", height=1000, width="100%"),
-					       plotOutput("WSMPlot4c", height=1000, width="100%"),
+					 downloadButton("DownloadDam4Plotb", "Download Graph"),
+
+					 plotOutput("WSMPlot4c", height=1000, width="100%"),
+					 downloadButton("DownloadDam4Plotc", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1333,7 +1351,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 		             h3("Figure 13. Raw Preference Scores for North Twin"),
 		             plotOutput("PrefPlot5", height=graph_height, width=graph_width),
-		             
+
 		             #raw data table/Matrix
 		             h3("Table 18. Raw data values for North Twin Dam"),
 		             DT::dataTableOutput("Dam5RawTable"),
@@ -1352,7 +1370,7 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 20. Weighted scores for North Twin Dam"),
 		             DT::dataTableOutput("Dam5ScoreTable"),
-					 downloadButton("DownloadDam5ScoreTable", "Download West Enfield"),
+					 downloadButton("DownloadDam5ScoreTable", "Download Table"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1369,8 +1387,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 14. North Twin Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot5a", height=600, width="100%"),
+					 downloadButton("DownloadDam5Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 15: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1379,7 +1397,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
 		             plotOutput("WSMPlot5b", height=1000, width="100%"),
-					       plotOutput("WSMPlot5c", height=1000, width="100%"),
+					 downloadButton("DownloadDam5Plotb", "Download Graph"),
+
+					 plotOutput("WSMPlot5c", height=1000, width="100%"),
+					 downloadButton("DownloadDam5Plotc", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1428,7 +1449,8 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 24. Weighted scores for Dolby Dam"),
 		             DT::dataTableOutput("Dam6ScoreTable"),
-					 downloadButton("DownloadDam6ScoreTable", "Download West Enfield"),
+					 downloadButton("DownloadDam6ScoreTable", "Download Table"),
+
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1444,8 +1466,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 17. Dolby Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot6a", height=600, width="100%"),
+					 downloadButton("DownloadDam6Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 18: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1454,7 +1476,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
 		             plotOutput("WSMPlot6b", height=1000, width="100%"),
-					       plotOutput("WSMPlot6c", height=1000, width="100%"),
+					 downloadButton("DownloadDam6Plotb", "Download Graph"),
+
+					 plotOutput("WSMPlot6c", height=1000, width="100%"),
+					 downloadButton("DownloadDam6Plotc", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1503,7 +1528,7 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 28. Weighted scores for Milinocket Lake Dam"),
 		             DT::dataTableOutput("Dam7ScoreTable"),
-					 downloadButton("DownloadDam7ScoreTable", "Download West Enfield"),
+					 downloadButton("DownloadDam7ScoreTable", "Download Table"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 28. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1520,8 +1545,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 20. Millinocket Lake Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot7a", height=600, width="100%"),
+					 downloadButton("DownloadDam7Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 21: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1530,7 +1555,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
 		             plotOutput("WSMPlot7b", height=1000, width="100%"),
-					       plotOutput("WSMPlot7c", height=1000, width="100%"),
+					 downloadButton("DownloadDam7Plotb", "Download Graph"),
+
+					 plotOutput("WSMPlot7c", height=1000, width="100%"),
+					 downloadButton("DownloadDam7Plotc", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1562,7 +1590,7 @@ ui <- shinyUI(fluidPage(
 		               "<br><b>Results Interpretation</b> for Figure 22: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
-		             
+
 		             #raw data table/Matrix
 		             h3("Table 30. Raw data values for Ripogenus Dam"),
 		             DT::dataTableOutput("Dam8RawTable"),
@@ -1581,7 +1609,7 @@ ui <- shinyUI(fluidPage(
 		             #weighted score data table/Matrix
 		             h3("Table 32. Weighted scores for Ripogenus Dam"),
 		             DT::dataTableOutput("Dam8ScoreTable"),
-					 downloadButton("DownloadDam8ScoreTable", "Download West Enfield"),
+					 downloadButton("DownloadDam8ScoreTable", "Download Table"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 32. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1597,8 +1625,8 @@ ui <- shinyUI(fluidPage(
 		             ),
 
 		             h3('Figure 23. Ripogenus Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
 		             plotOutput("WSMPlot8a", height=600, width="100%"),
+					 downloadButton("DownloadDam8Plota", "Download Graph"),
 
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 24: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
@@ -1607,7 +1635,10 @@ ui <- shinyUI(fluidPage(
 
 		             h3('Figure 24. Total Decision Criteria Scores by Decision Alternative for Ripogenus'),
 		             plotOutput("WSMPlot8b", height=1000, width="100%"),
+					 downloadButton("DownloadDam8Plotb", "Download Graph"),
+
 					 plotOutput("WSMPlot8c", height=1000, width="100%"),
+					 downloadButton("DownloadDam8Plotc", "Download Graph"),
 
 		               HTML(
 		                 "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
