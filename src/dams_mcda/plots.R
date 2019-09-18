@@ -230,7 +230,8 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 			text=element_text(size=16),
 			legend.position="bottom",
 			axis.text.y = element_text(angle = 0, hjust = 1),
-			axis.text.x = element_text(angle = 45, hjust = 1)
+			axis.text.x = element_text(angle = 45, hjust = 1),
+			plot.margin=unit(c(0,1,0,1.5), "cm")
 		)
 		+ guides(fill=guide_legend(title=legend_label))
 		+ ylab(y_label)
