@@ -177,8 +177,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-1",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat1", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-1",
@@ -198,7 +198,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-1",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety1", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage1", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-1",
@@ -212,7 +212,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-1",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -278,8 +278,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-2",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass2", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat2", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-2",
@@ -299,7 +299,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-2",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety2", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage2", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-2",
@@ -313,7 +313,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-2",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -378,8 +378,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-3",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass3", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat3", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-3",
@@ -399,7 +399,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-3",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety3", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage3", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-3",
@@ -413,7 +413,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-3",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -479,8 +479,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-4",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass4", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat4", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-4",
@@ -500,7 +500,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-4",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety4", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage4", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-4",
@@ -514,7 +514,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-4",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -581,8 +581,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-5",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass5", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat5", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-5",
@@ -602,7 +602,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-5",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety5", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage5", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-5",
@@ -616,7 +616,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-5",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -683,8 +683,8 @@ ui <- shinyUI(fluidPage(
 		  #----------------------------------------
 		  #Fish Survival
 		  div(id="fish-survival-6",
-		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass6", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+		      h3("Sea-Run Fish Habitat Area"),
+		      sliderInput(inputId = "FishHabitat6", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-6",
@@ -704,7 +704,7 @@ ui <- shinyUI(fluidPage(
 		  #Breach Damage Potential
 		  div(id="breach-damage-6",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety6", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+		      sliderInput(inputId = "BreachDamage6", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-6",
@@ -718,7 +718,7 @@ ui <- shinyUI(fluidPage(
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-6",
-		      h3("CO2 Emissions Reductions"),
+		      h3("Annual CO2 Emissions Reductions"),
 		      sliderInput(inputId = "AvoidEmissions6", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
@@ -784,8 +784,8 @@ ui <- shinyUI(fluidPage(
 		  #----------------------------------------
 		  #Fish Survival
 		  div(id="fish-survival-7",
-		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+		      h3("Sea-Run Fish Habitat Area"),
+		      sliderInput(inputId = "FishHabitat7", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-7",
@@ -805,7 +805,7 @@ ui <- shinyUI(fluidPage(
 		  #Breach Damage Potential
 		  div(id="breach-damage-7",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+		      sliderInput(inputId = "BreachDamage7", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-7",
@@ -819,7 +819,7 @@ ui <- shinyUI(fluidPage(
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-7",
-		      h3("CO2 Emissions Reductions"),
+		      h3("Annual CO2 Emissions Reductions"),
 		      sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
@@ -885,8 +885,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-8",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-8",
@@ -906,7 +906,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-8",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-8",
@@ -920,7 +920,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-8",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -1038,7 +1038,7 @@ ui <- shinyUI(fluidPage(
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
              Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-    			   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+    			   (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
              high costs are less desirable than low costs.<br>"
     			),
     			#weighted score data table/Matrix
@@ -1116,7 +1116,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 7. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1196,7 +1196,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1276,7 +1276,7 @@ ui <- shinyUI(fluidPage(
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 					         Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					         (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					         (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 					         high costs are less desirable than low costs.<br>"
 					       ),
 					       #weighted score data table/Matrix
@@ -1355,7 +1355,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 19. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1431,7 +1431,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1508,7 +1508,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 27. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1587,7 +1587,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 31. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix

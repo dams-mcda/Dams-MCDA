@@ -49,11 +49,11 @@ available_alternatives <- seq(1:5)
 
 # criteria input identifiers
 criteria_inputs <- c(
-	"FishBiomass",
+	"FishHabitat",
 	"RiverRec",
 	"Reservoir",
 	"ProjectCost",
-	"Safety",
+	"BreachDamage",
 	"NumProperties",
 	"ElectricityGeneration",
 	"AvoidEmissions",
@@ -435,8 +435,8 @@ server <- function(input, output, session) {
 			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
 			#message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
 			criteria_input_names <- c(
-				"FishBiomass", "RiverRec", "Reservoir",
-				"ProjectCost", "Safety", "NumProperties",
+				"FishHabitat", "RiverRec", "Reservoir",
+				"ProjectCost", "BreachDamage", "NumProperties",
 				"ElectricityGeneration", "AvoidEmissions", "IndigenousLifeways",
 				"IndustrialHistory", "CommunityIdentity", "Aesthetics",
 				"Health", "Justice"
@@ -611,11 +611,11 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	getDamPreferences <- function(damIndex){
 		damPrefs <- c(
-			input[[paste0("FishBiomass", damIndex)]],
+			input[[paste0("FishHabitat", damIndex)]],
 			input[[paste0("RiverRec", damIndex)]],
 			input[[paste0("Reservoir", damIndex)]],
 			input[[paste0("ProjectCost", damIndex)]],
-			input[[paste0("Safety", damIndex)]],
+			input[[paste0("BreachDamage", damIndex)]],
 			input[[paste0("NumProperties", damIndex)]],
 			input[[paste0("ElectricityGeneration", damIndex)]],
 			input[[paste0("AvoidEmissions", damIndex)]],
@@ -1120,20 +1120,20 @@ server <- function(input, output, session) {
 		})
 
 		# (d) has three graphs for each dam
-		# d1
-		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
-			ResultsMatrix[,,damId],
-			"D 1", # title
-			criteria_names, # x_labels
-			alternative_names, # y_labels
-			"Criteria", # x axis label
-			"Score", # y axis label
-			"Alternative", # legend label
-			colors, # colors
-			NULL, # x value limit
-			c(0, max_slider_value) # y value limit (100 in this case)
+		# d1 (100% score for each alternative)
+		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot2DScaled100(
+		  t(ResultsMatrix[,,damId]),
+		  "D 3", # title
+		  alternative_names, # x_labels
+		  criteria_names, # x_labels
+		  "Alternative", # x axis label
+		  "Score", # y axis label
+		  "Criteria", # legend label
+		  colors, # colors
+		  NULL # x value limit
 		)
-		# d2
+
+		# d2 Decision alternatives
 		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot1D(
 			IndScoreSum[damId,],
 			"D 2", # title
@@ -1144,17 +1144,18 @@ server <- function(input, output, session) {
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
 		)
-		# d3 (100% score for each alternative)
-		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot2DScaled100(
-			t(ResultsMatrix[,,damId]),
-			"D 3", # title
-			alternative_names, # x_labels
-			criteria_names, # x_labels
-			"Alternative", # x axis label
-			"Score", # y axis label
-			"Criteria", # legend label
-			colors, # colors
-			NULL # x value limit
+		# d3 Decision alternatives with stacked criteria scores
+		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
+		  ResultsMatrix[,,damId],
+		  "D 1", # title
+		  alternative_names, # x_labels
+		  criteria_names, # y_labels
+		  "Alternatives", # x axis label
+		  "Score", # y axis label
+		  "Criteria", # legend label
+		  colors, # colors
+		  NULL, # x value limit
+		  c(0, max_slider_value) # y value limit (100 in this case)
 		)
 
 		# make the container of those graphs visible
