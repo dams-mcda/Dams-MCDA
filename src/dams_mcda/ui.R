@@ -29,7 +29,7 @@ fishSurvivalLabel <- "Sea-run fish habitat area is measured in hundreds of squar
 sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) functional habitat (Roy et al., 2018). "
 riverRecLabel <- "River recreation is measured in square kilometers. It is the estimated downstream area of river that may increase \
 or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
-resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\ 
+resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\
 on its volume (Roy et al., 2018)."
 annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
 and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
@@ -977,12 +977,12 @@ ui <- shinyUI(fluidPage(
 		         actionButton("generateOutput", "Generate"),
 
 		         div(id="combined-output",
-		             #h2('All Preferences'),
-		             #tableOutput("FilledCriteriaTable"),
 
-		             #alternatives at each dam
+					 h2('Downloadable Supplementary Tables'),
+					 downloadButton("DownloadDecisions", "Download Decisions"),
+					 downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios"),
+
 		             h2('Figure 1. Dam Decision Alternative Comparison'),
-		             #plotOutput("AlternativesGraph_All", height="35em"),
 		             plotOutput("CombinedPlot1", height="35em"),
 		             HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been selected optimally based on your preference values and site-specific dam data values.\
 		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data. This outcome is a recommendation designed to support the consideration of multiple\

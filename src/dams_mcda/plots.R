@@ -66,17 +66,17 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 renderCombinedBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
 	# this method plots by criteria
 	# debug data
-	message(
-		'------------------\n',
-		'CombinedBarPlot title: ', title,
-		# '\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\n#(dim of data): ", dim(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names),
-		'\n------------------'
-	)
+	#message(
+	#	'------------------\n',
+	#	'CombinedBarPlot title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	'\n------------------'
+	#)
 
 	Dam <- c(rep(dam_names, times=length(x_names)))
 	Criteria <- c(rep(x_names, each=length(dam_names)))
@@ -195,18 +195,18 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 # xpd == False disables bars being drawn outsize graph canvas
 # NOTE: DOES NOT RENDER PLOT
 renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
-	message(
-		'------------------\n',
-		'Plot2D title: ', title,
-		# '\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\n#(dim of data): ", dim(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names),
-		"\n#(y names): ", length(y_names),
-		'\n------------------'
-	)
+	#message(
+	#	'------------------\n',
+	#	'Plot2D title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	"\n#(y names): ", length(y_names),
+	#	'\n------------------'
+	#)
 
 	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
 	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))
@@ -251,18 +251,18 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 # xpd == False disables bars being drawn outsize graph canvas
 # NOTE: DOES NOT RENDER PLOT
 renderPlot2DCluster <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
-	message(
-		'------------------\n',
-		'Plot2D title: ', title,
-		# '\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\n#(dim of data): ", dim(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names),
-		"\n#(y names): ", length(y_names),
-		'\n------------------'
-	)
+	#message(
+	#	'------------------\n',
+	#	'Plot2DCluster title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	"\n#(y names): ", length(y_names),
+	#	'\n------------------'
+	#)
 
 	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
 	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))
@@ -307,17 +307,17 @@ renderPlot2DCluster <- function(df, title, x_names, y_names, x_label, y_label, l
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
 renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, y_limit) {
-	message(
-		'------------------\n',
-		'Plot1D title: ', title,
-		# '\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\n#(dim of data): ", dim(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names),
-		'\n------------------'
-	)
+	#message(
+	#	'------------------\n',
+	#	'Plot1D title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	'\n------------------'
+	#)
 
 	X <- c(rep(str_wrap(x_names, 24), each=length(1)))
 	Score <- unlist(as.data.frame(df))
@@ -358,18 +358,18 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 # x_limit and y_limit are arrays when not NULL
 # xpd == False disables bars being drawn outsize graph canvas
 renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit) {
-	message(
-		'------------------\n',
-		'Plot2DScaled100 title: ', title,
-		# '\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\n#(dim of data): ", dim(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names),
-		"\n#(x names): ", length(y_names),
-		'\n------------------'
-	)
+	#message(
+	#	'------------------\n',
+	#	'Plot2DScaled100 title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	"\n#(x names): ", length(y_names),
+	#	'\n------------------'
+	#)
 
 	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
 	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))

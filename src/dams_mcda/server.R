@@ -1017,11 +1017,26 @@ server <- function(input, output, session) {
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
-			ind_normalized_matrix <- array(unlist(WSMResults[6],3), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
 			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
+
+			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+
+			# idxRank suggested scenaios in order
+			idxRank <- array(unlist(WSMResults[7]), dim=c(995,10))
+			colnames(idxRank) <- c("Score", "Dam1", "Dam2", "Dam3", "Dam4", "Dam5", "Dam6", "Dam7", "Dam8", "Map Scene Index")
+
+			#message("idxRank ", WSMResults[7], " dim ", dim(WSMResults[7]))
+			#message("idxRank NEW dim size ", dim(idxRank))
+			#message("idxRank1 ", idxRank[1,])
+			#message("idxRank2 ", idxRank[2,])
+			#message("idxRank3 ", idxRank[3,])
+			#message("idxRank4 ", idxRank[4,])
+			#message("idxRank5 ", idxRank[5,])
+			#message("idxRank head 1 ", head(idxRank)[1,])
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1046,6 +1061,7 @@ server <- function(input, output, session) {
 				contentType="image/png"
 			)
 
+
 			#----------------------------------------
 			# Combined Dam Final Outputs
 			#----------------------------------------
@@ -1058,6 +1074,26 @@ server <- function(input, output, session) {
 			#  "MCDA Score", #y axis label
 			#  colors
 			#) # this graph doesn't quite work yet
+
+			# Decisions Table (download only, not displayed on user interface)
+			output$DownloadDecisions <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "mcda_DecisionsTable_%Y-%m-%d_%H-%M-%S_%z.csv")
+				},
+				content = function(file) {
+					write.csv(Decisions, file, row.names = TRUE, quote=TRUE)
+				}
+			)
+
+			# Top Ranking Scenarios (download only, not displayed on user interface)
+			output$DownloadRankedScenarios <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "mcda_TopScenarios_Y-%m-%d_%H-%M-%S_%z.csv")
+				},
+				content = function(file) {
+					write.csv(head(idxRank, 10), file, row.names = TRUE, quote=TRUE)
+				}
+			)
 
 			# Preference scores by criteria
 			combinedPlot1 <- renderPlot2D(
