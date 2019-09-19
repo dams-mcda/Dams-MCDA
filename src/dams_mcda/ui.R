@@ -177,8 +177,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-1",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass1", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat1", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-1",
@@ -198,7 +198,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-1",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety1", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage1", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-1",
@@ -212,7 +212,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-1",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions1", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -278,8 +278,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-2",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass2", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat2", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-2",
@@ -299,7 +299,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-2",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety2", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage2", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-2",
@@ -313,7 +313,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-2",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions2", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -378,8 +378,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-3",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass3", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat3", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-3",
@@ -399,7 +399,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-3",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety3", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage3", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-3",
@@ -413,7 +413,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-3",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions3", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -479,8 +479,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-4",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass4", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat4", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-4",
@@ -500,7 +500,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-4",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety4", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage4", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-4",
@@ -514,7 +514,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-4",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions4", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -581,8 +581,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-5",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass5", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat5", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-5",
@@ -602,7 +602,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-5",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety5", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage5", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-5",
@@ -616,7 +616,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-5",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions5", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -683,8 +683,8 @@ ui <- shinyUI(fluidPage(
 		  #----------------------------------------
 		  #Fish Survival
 		  div(id="fish-survival-6",
-		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass6", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+		      h3("Sea-Run Fish Habitat Area"),
+		      sliderInput(inputId = "FishHabitat6", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-6",
@@ -704,7 +704,7 @@ ui <- shinyUI(fluidPage(
 		  #Breach Damage Potential
 		  div(id="breach-damage-6",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety6", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+		      sliderInput(inputId = "BreachDamage6", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-6",
@@ -718,7 +718,7 @@ ui <- shinyUI(fluidPage(
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-6",
-		      h3("CO2 Emissions Reductions"),
+		      h3("Annual CO2 Emissions Reductions"),
 		      sliderInput(inputId = "AvoidEmissions6", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
@@ -784,8 +784,8 @@ ui <- shinyUI(fluidPage(
 		  #----------------------------------------
 		  #Fish Survival
 		  div(id="fish-survival-7",
-		      h3("Fish Survival"),
-		      sliderInput(inputId = "FishBiomass7", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+		      h3("Sea-Run Fish Habitat Area"),
+		      sliderInput(inputId = "FishHabitat7", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #River Recreation
 		  div(id="river-rec-7",
@@ -805,7 +805,7 @@ ui <- shinyUI(fluidPage(
 		  #Breach Damage Potential
 		  div(id="breach-damage-7",
 		      h3("Breach Damage Potential"),
-		      sliderInput(inputId = "Safety7", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+		      sliderInput(inputId = "BreachDamage7", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Number of Properties
 		  div(id="num-prop-7",
@@ -819,7 +819,7 @@ ui <- shinyUI(fluidPage(
 		  ),
 		  #GHGEmissions
 		  div(id="ghg-emissions-7",
-		      h3("CO2 Emissions Reductions"),
+		      h3("Annual CO2 Emissions Reductions"),
 		      sliderInput(inputId = "AvoidEmissions7", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #IndigenousLifeways
@@ -885,8 +885,8 @@ ui <- shinyUI(fluidPage(
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-8",
-				h3("Fish Survival"),
-				sliderInput(inputId = "FishBiomass8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
+				h3("Sea-Run Fish Habitat Area"),
+				sliderInput(inputId = "FishHabitat8", label = fishSurvivalLabel, value=0, min=0, max=100, step = 5)
 			),
 			#River Recreation
 			div(id="river-rec-8",
@@ -906,7 +906,7 @@ ui <- shinyUI(fluidPage(
 			#Breach Damage Potential
 			div(id="breach-damage-8",
 				h3("Breach Damage Potential"),
-				sliderInput(inputId = "Safety8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
+				sliderInput(inputId = "BreachDamage8", label = breachDamageLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Number of Properties
 			div(id="num-prop-8",
@@ -920,7 +920,7 @@ ui <- shinyUI(fluidPage(
 			),
 			#GHGEmissions
 			div(id="ghg-emissions-8",
-				h3("CO2 Emissions Reductions"),
+				h3("Annual CO2 Emissions Reductions"),
 				sliderInput(inputId = "AvoidEmissions8", label = GHGEmissionsLabel, value=0, min=0, max=100, step = 5)
 			),
 			#IndigenousLifeways
@@ -979,19 +979,21 @@ ui <- shinyUI(fluidPage(
 		         div(id="combined-output",
 		             #h2('All Preferences'),
 		             #tableOutput("FilledCriteriaTable"),
-
+		             HTML("Based on your preference values from Step 3 and the data values from the dams, we have generated a coordinated recommendation for the entire set of dams. Keep in mind that values for sea-run fish habitat area and river recreation\
+                      are network-dependent. Step 5 (results for individual dams) values will differ due to the site-specific nature of those criteria estimates.This outcome is a recommendation designed to support the consideration of multiple\
+		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
+		             
 		             #alternatives at each dam
 		             h2('Figure 1. Dam Decision Alternative Comparison'),
 		             #plotOutput("AlternativesGraph_All", height="35em"),
-		             HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been selected optimally based on your preference values and site-specific dam data values.\
-		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data. This outcome is a recommendation designed to support the consideration of multiple\
-		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
+		             HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been optimally selected based on your preference values and site-specific dam data values.\
+		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data."),
 		             
 		             # by dam
 		             h2('Figure 2. Decision Criteria by Dam'),
 		             plotOutput("FilledCriteriaGraph2", height="35em"),
-		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
-		             plotOutput("FilledCriteriaGraph", height="35em")
+		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection.")
+		             #plotOutput("FilledCriteriaGraph", height="35em") # I don't think we want this one after all. 
 		         )
 		),
 
@@ -1006,7 +1008,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-
+      HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+            values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+            results.<br>"),
+			
       #raw preference graph
 			div(id="dam-1-output",
 			    h3("Table 1. Raw preference scores for West Enfield Dam"),
@@ -1036,7 +1042,7 @@ ui <- shinyUI(fluidPage(
 			    HTML(
     			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
              Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-    			   (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+    			   (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
              high costs are less desirable than low costs.<br>"
     			),
     			#weighted score data table/Matrix
@@ -1052,26 +1058,26 @@ ui <- shinyUI(fluidPage(
 			),
 			# output post generate
 			div(id="generated-output-1",
-
+			  
+			  h3('Figure 3. Decision Criteria Comparison'),
+			    
+			  plotOutput("WSMPlot1c", height=600, width="100%"),
 				HTML(
-					"<br><b>Results Interpretation</b> for Figure 2: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					"<br><b>Results Interpretation</b> for Figure 3: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
 					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 					It is up to you to decide what to do with this information. <br>"
 				),
-
-				h3('Figure 2. West Enfield Decision Alternative Scores by Decision Criteria'),
-
-				plotOutput("WSMPlot1a", height=600, width="100%"),
-
+				
+				h3('Figure 4. Total Decision Alternative Scores'),
+				
+				plotOutput("WSMPlot1b", height=600, width="100%"),
 				HTML(
-					"<br><b>Results Interpretation</b> for Figure 3: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+					"<br><b>Results Interpretation</b> for Figure 4: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
 					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
 					<br>"
 				),
-
-				h3('Figure 3. Total Decision Criteria Scores by Decision Alternative for West Enfield'),
-
-				plotOutput("WSMPlot1b", height=1000, width="100%"),
+				plotOutput("WSMPlot1a", height=600, width="100%"),
+				
 
 				HTML(
 					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1081,8 +1087,6 @@ ui <- shinyUI(fluidPage(
 					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 				),
 
-				plotOutput("WSMPlot1c", height=1000, width="100%"),
-
 				h3('Download West Enfield Results'),
 				downloadButton("downloadData1", "Download West Enfield")
 			)
@@ -1090,6 +1094,10 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 2: Medway Dam",
 		         h2("Results: Medway Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),		         
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-2-output",
@@ -1098,7 +1106,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
-		             h3("Figure 4. Raw Preference Scores for Medway"),
+		             h3("Figure 5. Raw Preference Scores for Medway"),
 		             plotOutput("PrefPlot2", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 4: The bars visually represent your preference scores for each decision criterion.\
@@ -1117,7 +1125,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 7. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1134,25 +1142,25 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output-2",
+		             h3('Figure 6. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot2c", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 5: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               "<br><b>Results Interpretation</b> for Figure 6: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 5. Medway Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot2a", height=600, width="100%"),
-
+		             
+		             h3('Figure 7. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot2b", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 6: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		               "<br><b>Results Interpretation</b> for Figure 7: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
+		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
 		             ),
-
-		             h3('Figure 6. Total Decision Criteria Scores by Decision Alternative for Medway'),
-		             plotOutput("WSMPlot2b", height=1000, width="100%"),
-					       plotOutput("WSMPlot2c", height=1000, width="100%"),
-
+		             plotOutput("WSMPlot2a", height=600, width="100%"),
+		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
 		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
@@ -1170,6 +1178,10 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-3-output",
@@ -1178,10 +1190,10 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
-		             h3("Figure 7. Raw Preference Scores for Millinocket"),
+		             h3("Figure 8. Raw Preference Scores for Millinocket"),
 		             plotOutput("PrefPlot3", height=graph_height, width=graph_width),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 7: The bars visually represent your preference scores for each decision criterion.\
+		               "<br><b>Results Interpretation</b> for Figure 8: The bars visually represent your preference scores for each decision criterion.\
 		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             
@@ -1197,7 +1209,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1215,25 +1227,25 @@ ui <- shinyUI(fluidPage(
 
 					  # output post generate
 		         div(id="generated-output-3",
+		             h3('Figure 8. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot3c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 8. Millinocket Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot3a", height=600, width="100%"),
-
+		             
+		             h3('Figure 9. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot3b", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 9: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
 		             ),
-
-		             h3('Figure 9. Total Decision Criteria Scores by Decision Alternative for Millinocket'),
-		             plotOutput("WSMPlot3b", height=1000, width="100%"),
-					       plotOutput("WSMPlot3c", height=1000, width="100%"),
-
+		             plotOutput("WSMPlot3a", height=600, width="100%"),
+		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
 		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
@@ -1251,6 +1263,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 4: East Millinocket Dam",
 		         h2("Results: East Millinocket Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-4-output",
 		             h3("Table 13. Raw preference scores for East Millinocket Dam"),
 		             DT::dataTableOutput("RawPrefsDam4"),
@@ -1277,7 +1294,7 @@ ui <- shinyUI(fluidPage(
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 					         Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					         (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+					         (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 					         high costs are less desirable than low costs.<br>"
 					       ),
 					       #weighted score data table/Matrix
@@ -1295,24 +1312,24 @@ ui <- shinyUI(fluidPage(
 
 				     # output post generate
 		         div(id="generated-output-4",
+		             h3('Figure 11. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot4c", height=600, width="100%"),
 		             HTML(
-		               "<br><b> Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               "<br><b>Results Interpretation</b> for Figure 11: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 11. East Millinocket Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot4a", height=600, width="100%"),
-
+		             
+		             h3('Figure 12. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot4b", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 12: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information. <br>"
+		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
 		             ),
-
-		             h3('Figure 12. Total Decision Criteria Scores by Decision Alternative for East Millinocket'),
-		             plotOutput("WSMPlot4b", height=1000, width="100%"),
-					       plotOutput("WSMPlot4c", height=1000, width="100%"),
+		             plotOutput("WSMPlot4a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1331,6 +1348,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-5-output",
 		             h3("Table 17. Raw preference scores for North Twin Dam"),
 		             DT::dataTableOutput("RawPrefsDam5"),
@@ -1356,7 +1378,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 19. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1373,25 +1395,25 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output-5",
+		             h3('Figure 14. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot5c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 14. North Twin Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot5a", height=600, width="100%"),
-
+		             
+		             h3('Figure 15. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot5b", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 15: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
 		             ),
-
-		             h3('Figure 15. Total Decision Criteria Scores by Decision Alternative for North Twin'),
-		             plotOutput("WSMPlot5b", height=1000, width="100%"),
-					       plotOutput("WSMPlot5c", height=1000, width="100%"),
-
+		             plotOutput("WSMPlot5a", height=600, width="100%"),
+		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
 		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
@@ -1409,6 +1431,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 6: Dolby",
 		         h2("Results: Dolby Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-6-output",
 		             h3("Table 21. Raw preference scores for Dolby Dam"),
 		             DT::dataTableOutput("RawPrefsDam6"),
@@ -1433,7 +1460,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1450,24 +1477,24 @@ ui <- shinyUI(fluidPage(
 
 					  # output post generate
 		         div(id="generated-output-6",
+		             h3('Figure 17. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot6c", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b>for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information.<br>"
+		               "<br><b>Results Interpretation</b> for Figure 17: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+					          alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+					          It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 17. Dolby Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot6a", height=600, width="100%"),
-
+		             
+		             h3('Figure 18. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot6b", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 18: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+					          the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+					          <br>"
 		             ),
-
-		             h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
-		             plotOutput("WSMPlot6b", height=1000, width="100%"),
-					       plotOutput("WSMPlot6c", height=1000, width="100%"),
+		             plotOutput("WSMPlot6a", height=600, width="100%"),
 
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
@@ -1486,6 +1513,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-7-output",
 		             h3("Table 25. Raw preference scores for Millinocket Lake Dam"),
 		             DT::dataTableOutput("RawPrefsDam7"),
@@ -1510,7 +1542,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 27. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1527,26 +1559,25 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output-7",
-
+		             h3('Figure 20. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot7c", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation </b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					         alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               "<br><b>Results Interpretation</b> for Figure 20: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
+		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 20. Millinocket Lake Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot7a", height=600, width="100%"),
-
+		             
+		             h3('Figure 21. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot7b", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 21: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				          the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
 		             ),
-
-		             h3('Figure 21. Total Decision Criteria Scores by Decision Alternative for Millinocket Lake'),
-		             plotOutput("WSMPlot7b", height=1000, width="100%"),
-					       plotOutput("WSMPlot7c", height=1000, width="100%"),
-
+		             plotOutput("WSMPlot7a", height=600, width="100%"),
+		             
 		             HTML(
 		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
 		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
@@ -1564,6 +1595,11 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
+		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
+		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
+		              results.<br>"),
+		         
 		         div(id="dam-8-output",
 		             h3("Table 29. Raw preference scores for Ripogenus Dam"),
 		             DT::dataTableOutput("RawPrefsDam8"),
@@ -1590,7 +1626,7 @@ ui <- shinyUI(fluidPage(
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 31. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
 		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach hazard potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
+		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
@@ -1607,24 +1643,24 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output-8",
+		             h3('Figure 23. Decision Criteria Comparison'),
+		             
+		             plotOutput("WSMPlot8c", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 23: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-				          	alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-                    It is up to you to decide what to do with this information. <br>"
+		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
+		               It is up to you to decide what to do with this information. <br>"
 		             ),
-
-		             h3('Figure 23. Ripogenus Decision Alternative Scores by Decision Criteria'),
-		             #tableOutput("WSMTable1"), # for debugging plot1
-		             plotOutput("WSMPlot8a", height=600, width="100%"),
-
+		             
+		             h3('Figure 24. Total Decision Alternative Scores'),
+		             
+		             plotOutput("WSMPlot8b", height=600, width="100%"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 24: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-				            the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>"
+		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               <br>"
 		             ),
-
-		             h3('Figure 24. Total Decision Criteria Scores by Decision Alternative for Ripogenus'),
-		             plotOutput("WSMPlot8b", height=1000, width="100%"),
-					 plotOutput("WSMPlot8c", height=1000, width="100%"),
+		             plotOutput("WSMPlot8a", height=600, width="100%"),
 
 		               HTML(
 		                 "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\

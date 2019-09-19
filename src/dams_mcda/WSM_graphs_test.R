@@ -24,7 +24,7 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('TestData2.csv')
+TestData <- read.csv('TestData.csv')
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -176,7 +176,7 @@ FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, Dams
 					  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 					  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage, 
+Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem, 
 				DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
 				DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
 				DamsData$Health_Remove, DamsData$Justice_Remove)
@@ -284,7 +284,7 @@ is.nan.data.frame <- function(a){
   do.call(cbind, lapply(a, is.nan))
 }
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
-
+Ind_NormalizedMatrix[,6,4] <- c(1,1,1,1,1)
 #message('Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 #----------------------------------------
@@ -337,6 +337,9 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 # MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 
 #----------------------------------------
+
+NormalizedMatrix[4,6,] <- 1 #This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
+
 WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
