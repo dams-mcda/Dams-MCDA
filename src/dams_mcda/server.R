@@ -462,6 +462,7 @@ server <- function(input, output, session) {
 
 				# validate inputs for each dam total
 				if (total > upper_bound || total < lower_bound){
+					message("INVALID SCORE for dam ", damIndex, " value ", total)
 					scores_valid <- FALSE
 				}
 			}
@@ -486,7 +487,7 @@ server <- function(input, output, session) {
 			}else{
 				# invalid score
 				# warn the user that the file is not acceptable (not valid scores)
-				fail_reason <- "Scores do not total correctly, Invalid File."
+				fail_reason <- "Scores do not total correctly (each dam must total to 100), Invalid File."
 				#message("file upload fail", fail_reason)
 				session$sendCustomMessage("invalidFileSelected", fail_reason)
 			}
@@ -1003,7 +1004,6 @@ server <- function(input, output, session) {
 
 			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
 			WSMIndScoreSum <- round(WSMIndScoreSum, 3)
-			message("IndScoreSum", WSMIndScoreSum)
 
 			# renamed from WSMSummedScore
 			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
@@ -1031,6 +1031,20 @@ server <- function(input, output, session) {
 			for (damId in 1:length(available_dams)){
 				generateDam(damId, all_data_matrix, ind_normalized_matrix, WSMMatrix, WSMIndScoreSum, WSMTotalScoreSum)
 			}
+
+			#----------------------------------------
+			# Map Recommendation Output
+			#----------------------------------------
+			output$downloadMapRecommendation <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "mcda_map_result_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(con) {
+					image <- png::readPNG(paste0('/srv/shiny-server/dams_mcda/www/', map_name))
+					png::writePNG(image, target=con)
+				},
+				contentType="image/png"
+			)
 
 			#----------------------------------------
 			# Combined Dam Final Outputs
@@ -1061,7 +1075,7 @@ server <- function(input, output, session) {
 			output$CombinedPlot1 <- renderPlot(combinedPlot1)
 
 			# download button for plot1
-			output[[paste0("DownloadDam", damId, "CombinedPlot1")]] <- downloadHandler(
+			output$DownloadCombinedPlot1 <- downloadHandler(
 				filename = function() {
 					format(Sys.time(), "Combined_plot1_results_%Y-%m-%d_%H-%M-%S_%z.png")
 				},
@@ -1086,12 +1100,37 @@ server <- function(input, output, session) {
 			output$CombinedPlot2 <- renderPlot(combinedPlot2)
 
 			# download button for plot2
-			output[[paste0("DownloadDam", damId, "CombinedPlot2")]] <- downloadHandler(
+			output$DownloadCombinedPlot2 <- downloadHandler(
 				filename = function() {
 					format(Sys.time(), "Combined_plot2_results_%Y-%m-%d_%H-%M-%S_%z.png")
 				},
 				content = function(file) {
 					ggsave(file, plot=combinedPlot2, device = "png", width=18, height=14)
+				}
+			)
+
+			# Preference scores for all dams
+			combinedPlot3 <- renderPlot2DCluster(
+				t(WSMIndScoreSum), # data
+				"Combined Plot3 IndScoreSum", # title
+				dam_names, # x_labels
+				alternative_names, # y_labels
+				"Dam", # x axis label
+				"Score", # y axis label
+				"Alternative", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (100 in this case)
+			)
+			output$CombinedPlot3 <- renderPlot(combinedPlot3)
+
+			# download button for plot2
+			output$DownloadCombinedPlot3 <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot3_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot3, device = "png", width=18, height=14)
 				}
 			)
 

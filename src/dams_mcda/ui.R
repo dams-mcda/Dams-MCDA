@@ -983,19 +983,22 @@ ui <- shinyUI(fluidPage(
 		             #alternatives at each dam
 		             h2('Figure 1. Dam Decision Alternative Comparison'),
 		             #plotOutput("AlternativesGraph_All", height="35em"),
+		             plotOutput("CombinedPlot1", height="35em"),
 		             HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been selected optimally based on your preference values and site-specific dam data values.\
 		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data. This outcome is a recommendation designed to support the consideration of multiple\
 		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
-		             
-		             # by dam
-		             h2('Figure 2. Decision Criteria by Dam'),
-		             plotOutput("CombinedPlot1", height="35em"),
-					 downloadButton("DownloadDam1CombinedPlot1", "Download Graph"),
+					 downloadButton("DownloadCombinedPlot1", "Download Graph"),
 
-		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
+		             h2('Figure 2. Decision Criteria by Dam'),
 		             plotOutput("CombinedPlot2", height="35em"),
-					 downloadButton("DownloadDam1CombinedPlot2", "Download Graph"),
-					 
+		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
+					 downloadButton("DownloadCombinedPlot2", "Download Graph"),
+
+		             h2('Figure 3. Graph3'),
+		             plotOutput("CombinedPlot3", height="35em"),
+		             HTML("<b>Results Interpretation</b> for Figure 3. "),
+					 downloadButton("DownloadCombinedPlot3", "Download Graph"),
+
 					 # download preferences (for UPLOAD DATA)
 					 downloadButton("downloadPreferenceSelection", "Download Preferences (Step 3)")
 		         )
@@ -1003,8 +1006,9 @@ ui <- shinyUI(fluidPage(
 
 
 		tabPanel("Map Recommendation",
-		         h2("Optimized Result"),
-		         HTML('<div id="MapRecommendation"></div>')
+			 h2("Optimized Result"),
+			 HTML('<div id="MapRecommendation"></div>'),
+			 downloadButton("downloadMapRecommendation", "Download Map")
 		),
 
 
@@ -1013,7 +1017,6 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
 
-      #raw preference graph
 			div(id="dam-1-output",
 
 			    h3("Table 1. Raw preference scores for West Enfield Dam"),
@@ -1098,8 +1101,6 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 2: Medway Dam",
 		         h2("Results: Medway Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-2-output",
 		             h3("Table 5. Raw preference scores for Medway Dam"),
 		             DT::dataTableOutput("RawPrefsDam2"),
@@ -1180,8 +1181,6 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 3: Millinocket Dam",
 		         h2("Results: Millinocket Dam"),
-		         # raw preference table/Matrix
-		         #raw preference graph
 		         div(id="dam-3-output",
 		             h3("Table 9. Raw preference scores for Medway Dam"),
 		             DT::dataTableOutput("RawPrefsDam3"),

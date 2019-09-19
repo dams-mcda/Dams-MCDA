@@ -25,6 +25,7 @@ RUN Rscript -e "install.packages('rjson')"
 RUN Rscript -e "install.packages('leaflet')"
 RUN Rscript -e "install.packages('viridis')"
 RUN Rscript -e "install.packages('DT')"
+RUN Rscript -e "install.packages('png')"
 
 # root for folder permissions
 USER root
