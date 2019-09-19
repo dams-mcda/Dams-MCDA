@@ -354,7 +354,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxScen <- c(1:995)
+	idxScen <- c(0:994)
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
 	#message("idxRank ", idxRank, " dim ", dim(idxRank))
