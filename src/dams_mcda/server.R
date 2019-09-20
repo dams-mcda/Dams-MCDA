@@ -1010,7 +1010,6 @@ server <- function(input, output, session) {
 			WSMTotalScoreSum <- round(WSMTotalScoreSum, 3)
 
 			map_name <- WSMResults[4]
-			#message("WSM map name: ", map_name, " type ", class(map_name))
 
 			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
 			all_data_matrix <- round(all_data_matrix, 3)
@@ -1027,16 +1026,7 @@ server <- function(input, output, session) {
 
 			# idxRank suggested scenaios in order
 			idxRank <- array(unlist(WSMResults[7]), dim=c(995,10))
-			colnames(idxRank) <- c("Score", "Dam1", "Dam2", "Dam3", "Dam4", "Dam5", "Dam6", "Dam7", "Dam8", "Map Scene Index")
-
-			#message("idxRank ", WSMResults[7], " dim ", dim(WSMResults[7]))
-			#message("idxRank NEW dim size ", dim(idxRank))
-			#message("idxRank1 ", idxRank[1,])
-			#message("idxRank2 ", idxRank[2,])
-			#message("idxRank3 ", idxRank[3,])
-			#message("idxRank4 ", idxRank[4,])
-			#message("idxRank5 ", idxRank[5,])
-			#message("idxRank head 1 ", head(idxRank)[1,])
+			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1095,6 +1085,7 @@ server <- function(input, output, session) {
 				}
 			)
 
+			# Graph1
 			# Preference scores by criteria
 			combinedPlot1 <- renderPlot2D(
 				t(RawCriteriaMatrix), # data
@@ -1120,15 +1111,36 @@ server <- function(input, output, session) {
 				}
 			)
 
+			# Graph 2 Data Preperation
+			# top alternative for each dam
+			dam_names_with_max_alt <- array(dam_names, dim=c(length(dam_names)))
+			dam_top_alt_index <- array(NA, dim=c(length(dam_names)))
+			dam_top_alt_matrix <- array(NA, dim=c(length(dam_names), length(criteria_names)))
+
+			for (damId in 1:length(dam_names)){
+				dam_names_with_max_alt[damId] <- paste0(
+					dam_names_with_max_alt[damId],
+					" (", alternative_names[which.max(WSMIndScoreSum[damId,])], ")"
+				)
+				dam_top_alt_index[damId] <- which.max(WSMIndScoreSum[damId,])
+
+				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(14))
+
+				for (critIndex in 1:length(dam_WSMMatrix)){
+					dam_top_alt_matrix[damId, critIndex] <- dam_WSMMatrix[critIndex]
+				}
+			}
+
+			# Graph2
 			# Preference scores for all dams
 			combinedPlot2 <- renderPlot2D(
-				RawCriteriaMatrix, # data
-				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				dam_names, # y_labels
-				"Criteria", # x axis label
+				t(dam_top_alt_matrix), # data
+				"Graph 2", # title
+				dam_names_with_max_alt, # x_labels
+				criteria_names, # y_labels
+				"Dam", # x axis label
 				"Score", # y axis label
-				"Dam", # y axis label
+				"Criteria", # legend label
 				colors, # colors
 				NULL, # x value limit
 				NULL # y value limit (100 in this case)
@@ -1145,6 +1157,7 @@ server <- function(input, output, session) {
 				}
 			)
 
+			# Graph3
 			# Preference scores for all dams
 			combinedPlot3 <- renderPlot2DCluster(
 				t(WSMIndScoreSum), # data
