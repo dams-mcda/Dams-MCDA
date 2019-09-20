@@ -33,7 +33,7 @@ criteria_inputs <- c(
 					 "RiverRec",
 					 "Reservoir",
 					 "ProjectCost",
-					 "Safety",
+					 "BreachDamage",
 					 "NumProperties",
 					 "ElectricityGeneration",
 					 "AvoidEmissions",
@@ -50,11 +50,11 @@ dam_names <- as.list(c('WestEnfield','Medway','Millinocket','E.Millinocket','Nor
 
 # alternative display names (for labeling tables and graphs)
 alternative_names <- as.list(c(
-  "Keep and Maintain Dam",
-  "Improve Hydro",
+  "Remove Dam",
   "Improve Fish Passage",
+  "Improve Hydro",
   "Hydro And Fish",
-  "Remove Dam"
+  "Keep and Maintain Dam"
 ))
 
 # list of dams
@@ -160,29 +160,31 @@ message("fill multi-dam Pref Matrix")
 #retrieve DamsData to manipulate into DamsDataMatrix
 Ind_DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
 
-KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
-					  DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
-					  DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
-					  DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+
+Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem, 
+                DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
+                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
+                DamsData$Health_Remove, DamsData$Justice_Remove)
+Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
+                      DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
+                      DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
+                      DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
 Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage, 
 					   DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					   DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro, 
 					   DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
-Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
-					  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
-					  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
-					  DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
 FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage, 
 					  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 					  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem, 
-				DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
-				DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
-				DamsData$Health_Remove, DamsData$Justice_Remove)
+KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
+                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
+                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
+                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+
 
 #This abind creates our 3D matrix
-Ind_DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
+Ind_DamsDataMatrix <- abind(Remove, Improve_Hydro, Improve_Fish, FishANDHydro, KeepMaintain, along = 3, force.array=TRUE)
 
 #------------------------SUBSET BY DAM (row)--------------------------
 WestEnf_DataMatrix <- subset(Ind_DamsDataMatrix[1,,])
@@ -284,11 +286,11 @@ is.nan.data.frame <- function(a){
   do.call(cbind, lapply(a, is.nan))
 }
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
-Ind_NormalizedMatrix[1,6,4] <- 1#This replaces properties NaN at East Millinocket
-Ind_NormalizedMatrix[5,1,2] <- 1 #This replaces fish habitat NaN at Medway
-Ind_NormalizedMatrix[1,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
-Ind_NormalizedMatrix[1,3,4] <- 1 #This replaces the reservoir storage NaN at East Millinocket
-Ind_NormalizedMatrix[5,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
+Ind_NormalizedMatrix[5,6,4] <- 1#This replaces properties NaN at East Millinocket
+Ind_NormalizedMatrix[1,1,2] <- 1 #This replaces fish habitat NaN at Medway
+Ind_NormalizedMatrix[5,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+Ind_NormalizedMatrix[5,3,4] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
 
 #message('Normalized column ', Ind_NormalizedMatrix[1,,1])
 

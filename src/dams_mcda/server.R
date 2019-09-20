@@ -85,11 +85,11 @@ criteria_names <- c(
 
 # alternative display names (for labeling tables and graphs)
 alternative_names <- c(
-  "Keep and Maintain Dam",
-  "Improve Hydro",
+  "Remove Dam",
   "Improve Fish Passage",
+  "Improve Hydro",
   "Improve Hydro AND Fish Passage",
-  "Remove Dam"
+  "Keep and Maintain Dam"
 )
 
 # dam display names (for labeling tables and graphs)
@@ -98,7 +98,7 @@ dam_names <- c(
     "Medway Dam",
     "Millinocket/Quakish",
     "East Millinocket",
-	"North Twin",
+	  "North Twin",
     "Dolby",
     "Millinocket Lake",
     "Ripogenus"

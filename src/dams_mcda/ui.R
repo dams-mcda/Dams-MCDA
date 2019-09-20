@@ -33,10 +33,10 @@ resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the
 on its volume (Roy et al., 2018)."
 annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
 and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
-numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes \
-in viewshed or property value (Roy et al., 2018). "
 breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the \
 potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
+numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes \
+in viewshed or property value (Roy et al., 2018). "
 annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate \
 capacity from FERC licenses for each hydropower project."
 GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an estimate \
