@@ -262,7 +262,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	  do.call(cbind, lapply(a, is.nan))
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
-	Ind_NormalizedMatrix[,6,4] <- c(1,1,1,1,1)
+
+	Ind_NormalizedMatrix[1,6,4] <- 1#This replaces properties NaN at East Millinocket
+	Ind_NormalizedMatrix[5,1,2] <- 1 #This replaces fish habitat NaN at Medway
+	Ind_NormalizedMatrix[1,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+	Ind_NormalizedMatrix[1,3,4] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+	Ind_NormalizedMatrix[5,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
 	
 	#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
 
@@ -323,7 +328,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 	#----------------------------------------
-	NormalizedMatrix[4,6,] <- 1 #This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
+	NormalizedMatrix[4,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
+	NormalizedMatrix[2,1,] <- 1 #This replaces fish habitat NaN at Medway
+	NormalizedMatrix[1:2,3, ] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+	NormalizedMatrix[4,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+	NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
+	#This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
 	
 	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3)

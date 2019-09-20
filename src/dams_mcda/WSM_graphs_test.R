@@ -13,8 +13,8 @@ source("WSM.R")
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-source(file='f_nrge.RData')#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge, dim = 3)
+source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
@@ -284,7 +284,12 @@ is.nan.data.frame <- function(a){
   do.call(cbind, lapply(a, is.nan))
 }
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
-Ind_NormalizedMatrix[,6,4] <- c(1,1,1,1,1)
+Ind_NormalizedMatrix[1,6,4] <- 1#This replaces properties NaN at East Millinocket
+Ind_NormalizedMatrix[5,1,2] <- 1 #This replaces fish habitat NaN at Medway
+Ind_NormalizedMatrix[1,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+Ind_NormalizedMatrix[1,3,4] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+Ind_NormalizedMatrix[5,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
+
 #message('Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 #----------------------------------------
@@ -338,7 +343,11 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
 #----------------------------------------
 
-NormalizedMatrix[4,6,] <- 1 #This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
+NormalizedMatrix[4,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
+NormalizedMatrix[2,1,] <- 1 #This replaces fish habitat NaN at Medway
+NormalizedMatrix[1:2,3, ] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+NormalizedMatrix[4,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
 
 WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
@@ -361,7 +370,7 @@ for (i in 1:dim(NormalizedMatrix)[3]){
 	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
 }
 
-colnames(Decisions) <- dam_names
+colnames(Decisions) <- dam_names #need to check with Sam about the order of dams here
 idxScen <- c(1:995)
 scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
 #-----------------------------------------
