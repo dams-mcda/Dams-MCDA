@@ -1118,7 +1118,7 @@ server <- function(input, output, session) {
 			dam_top_alt_matrix <- array(NA, dim=c(length(dam_names), length(criteria_names)))
 
 			for (damId in 1:length(dam_names)){
-				possible_alts <- which(WSMIndScoreSum[damId,]==max(WSMIndScoreSum[damId,])
+				possible_alts <- which(WSMIndScoreSum[damId,]==max(WSMIndScoreSum[damId,]))
 
 				# assigned is a boolean if the alternative has been chosen
 				assigned <- FALSE
