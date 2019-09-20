@@ -1118,11 +1118,75 @@ server <- function(input, output, session) {
 			dam_top_alt_matrix <- array(NA, dim=c(length(dam_names), length(criteria_names)))
 
 			for (damId in 1:length(dam_names)){
+				possible_alts <- which(WSMIndScoreSum[damId,]==max(WSMIndScoreSum[damId,])
+
+				# assigned is a boolean if the alternative has been chosen
+				assigned <- FALSE
+
+				# see issue #81
+				if (length(possible_alts) > 1){
+					# special alt selection when alt scores match
+					for (altId in 1:length(possible_alts)){
+
+						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
+						max_crit <- which.max(dam_WSMMatrix)
+
+						# dam (West enfield, Medway, East Millinocket) crit (Reservior Storage)
+						if (
+							damId == which(dam_names=="West Enfield Dam") ||
+							damId == which(dam_names=="Medway Dam") ||
+							damId == which(dam_names=="East Millinocket")
+						){
+							imp_crit <- which(criteria_names=="Reservoir Storage")
+
+							# if this criteria matches the criteria of our special case
+							if (max_crit == imp_crit){
+								# prefer "Keep and Maintain Dam",
+								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
+								assigned <- TRUE
+							}
+						}
+
+						# dam (Medway) crit (Fish Habitat)
+						if (
+							damId == which(dam_names=="Medway Dam")
+						){
+							imp_crit <- which(criteria_names=="Sea-Run Fish Habitat Area")
+
+							# if this criteria matches the criteria of our special case
+							if (max_crit == imp_crit){
+								# prioritize remove
+								dam_top_alt_index[damId] <- which(alternative_names == "Remove Dam")
+								assigned <- TRUE
+							}
+						}
+
+						# dam (East Millinocket) crit (Num Properties)
+						if (
+							damId == which(dam_names=="East Millinocket")
+						){
+							imp_crit <- which(criteria_names=="Number of Properties Impacted")
+							# any but "Remove Dam" prefer keep and maintain
+
+							# if this criteria matches the criteria of our special case
+							if (max_crit == imp_crit){
+								# prioritize remove
+								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
+								assigned <- TRUE
+							}
+						}
+					}
+				}
+
 				dam_names_with_max_alt[damId] <- paste0(
 					dam_names_with_max_alt[damId],
 					" (", alternative_names[which.max(WSMIndScoreSum[damId,])], ")"
 				)
-				dam_top_alt_index[damId] <- which.max(WSMIndScoreSum[damId,])
+
+				# normal method if not assigned already
+				if (assigned == FALSE){
+					dam_top_alt_index[damId] <- which.max(WSMIndScoreSum[damId,])
+				}
 
 				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(14))
 
