@@ -102,7 +102,7 @@ ui <- shinyUI(fluidPage(
          (e.g., annuitized cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with FERC license expiration dates in the next 10 years. The tool gathers user inputs and calculates a ranked set of decision \
          alternatives for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
 				 is to encourage you to consider dams on the river as a system, in addition to one at a time.\ <br>
-				 <br>The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br>"
+				 <br><b>NOTE:</b> The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br>"
 			),
 
 			helpText(a("Background on Dam Decision Support Tool", href = 'BackgroundDamDecisionSupportTool.pdf')),
@@ -354,16 +354,16 @@ ui <- shinyUI(fluidPage(
 
 
 		# ----------------------------------------
-		# Millinocket Dam
+		# East Millinocket Dam
 		# ----------------------------------------
 		tabPanel(
 			# tab button text
 			htmlOutput("Dam3"),
 
 			# tab content
-			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
+			h2("East Millinockt Dam (FERC No. P-2458)"),
 			HTML(
-				'Please consider the decision criteria listed below for Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -374,7 +374,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Dam3Progress"),
 
 			#----------------------------------------
-			# Criteria Inputs for Millinocket Dam
+			# Criteria Inputs for East Millinocket Dam
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-3",
@@ -454,16 +454,16 @@ ui <- shinyUI(fluidPage(
 
 
 		# ----------------------------------------
-		# East Millinocket Dam
+		# DOlby Dam
 		# ----------------------------------------
 		tabPanel(
 			# tab button text
 			htmlOutput("Dam4"),
 
 			# tab content
-			h2("East Millinocket Dam (FERC No. P-2458)"),
+			h2("DOlby Dam (FERC No. P-2458)"),
 			HTML(
-				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -475,7 +475,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Dam4Progress"),
 
 			#----------------------------------------
-			# Criteria Inputs for East Millinocket Dam
+			# Criteria Inputs for Dolby Dam
 			#----------------------------------------
 			#Fish Survival
 			div(id="fish-survival-4",
@@ -551,7 +551,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("UpdateDam4Progress"),
 			actionButton("updateBtn4", "Update")
 
-		), # End East Millinocket Dam Tab
+		), # End Dolby Dam Tab
 
 
 		# ----------------------------------------
@@ -657,17 +657,17 @@ ui <- shinyUI(fluidPage(
 
 
 		#----------------------------------------
-		# Dolby Dam
+		# Millinocket/Quakish Dam
 		#----------------------------------------
 		tabPanel(
 			# tab button text
 			htmlOutput("Dam6"),
 
 			# tab content
-			h2("Dolby Dam (FERC No. P-2458)"),
+			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 
 			HTML(
-				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
+				'Please consider the decision criteria listed below for Millinocket/Quakish Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
 				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -679,7 +679,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Dam6Progress"),
 
 		  #----------------------------------------
-		  # Criteria Inputs for Dolby Dam
+		  # Criteria Inputs for Millinocket/Quakish Dam
 		  #----------------------------------------
 		  #Fish Survival
 		  div(id="fish-survival-6",
@@ -1176,8 +1176,8 @@ ui <- shinyUI(fluidPage(
 				 )
 		),
 
-		tabPanel("Dam 3: Millinocket Dam",
-		         h2("Results: Millinocket Dam"),
+		tabPanel("Dam 3: East Millinocket Dam",
+		         h2("Results: East Millinocket Dam"),
 		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
                   Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
@@ -1185,26 +1185,26 @@ ui <- shinyUI(fluidPage(
 		         # raw preference table/Matrix
 		         #raw preference graph
 		         div(id="dam-3-output",
-		             h3("Table 9. Raw preference scores for Medway Dam"),
+		             h3("Table 9. Raw preference scores for East Millinocket Dam"),
 		             DT::dataTableOutput("RawPrefsDam3"),
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
-		             h3("Figure 8. Raw Preference Scores for Millinocket"),
+		             h3("Figure 8. Raw Preference Scores for East Millinocket"),
 		             plotOutput("PrefPlot3", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 8: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             
 		             #raw data table/Matrix
-		             h3("Table 10. Raw data values for Millinocket Dam"),
+		             h3("Table 10. Raw data values for East Millinocket Dam"),
 		             DT::dataTableOutput("Dam3RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 10. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
 		             ),
 		             # normalized data table/Matrix
-		             h3("Table 11. Normalized data values for Millinocket Dam"),
+		             h3("Table 11. Normalized data values for East Millinocket Dam"),
 		             DT::dataTableOutput("Dam3NormTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
@@ -1213,7 +1213,7 @@ ui <- shinyUI(fluidPage(
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
-		             h3("Table 12. Weighted scores for Millinocket Dam"),
+		             h3("Table 12. Weighted scores for East Millinocket Dam"),
 		             DT::dataTableOutput("Dam3ScoreTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
@@ -1247,49 +1247,49 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot3a", height=600, width="100%"),
 		             
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
+		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to the Output page and click GENERATE\
 		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
 
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
+		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for this dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
 		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
 
 		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
-		             h3('Download Millinocket Results'),
-		             downloadButton("downloadData3", "Download Millinocket")
+		             h3('Download East Millinocket Results'),
+		             downloadButton("downloadData3", "Download East Millinocket")
 				 )
 		),
 
-		tabPanel("Dam 4: East Millinocket Dam",
-		         h2("Results: East Millinocket Dam"),
+		tabPanel("Dam 4: Dolby Dam",
+		         h2("Results: Dolby Dam"),
 		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
                   Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
 		         div(id="dam-4-output",
-		             h3("Table 13. Raw preference scores for East Millinocket Dam"),
+		             h3("Table 13. Raw preference scores for Dolby Dam"),
 		             DT::dataTableOutput("RawPrefsDam4"),
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
 
-		             h3("Figure 10. Raw Preference Scores for East Millinocket"),
+		             h3("Figure 10. Raw Preference Scores for Dolby"),
 					       plotOutput("PrefPlot4", height=graph_height, width=graph_width),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Figure 10: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		               The scores are pulled directly from your slider bar settings under the Dolby Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 					       ),
 					       
 					       #raw data table/Matrix
-					       h3("Table 14 Raw data values for East Millinocket Dam"),
+					       h3("Table 14 Raw data values for Dolby Dam"),
 					       DT::dataTableOutput("Dam4RawTable"),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 14. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
 					       ),
 					       # normalized data table/Matrix
-					       h3("Table 15. Normalized data values for East Millinocket Dam"),
+					       h3("Table 15. Normalized data values for Dolb Dam"),
 					       DT::dataTableOutput("Dam4NormTable"),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
@@ -1298,7 +1298,7 @@ ui <- shinyUI(fluidPage(
 					         high costs are less desirable than low costs.<br>"
 					       ),
 					       #weighted score data table/Matrix
-					       h3("Table 16. Weighted scores for East Millinocket Dam"),
+					       h3("Table 16. Weighted scores for Dolby Dam"),
 					       DT::dataTableOutput("Dam4ScoreTable"),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
@@ -1341,8 +1341,8 @@ ui <- shinyUI(fluidPage(
 		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
-		             h3('Download East Millinocket Results'),
-		             downloadButton("downloadData4", "Download East Millinocket")
+		             h3('Download Dolby Results'),
+		             downloadButton("downloadData4", "Download Dolby")
 				 )
 		 ),
 
@@ -1429,33 +1429,33 @@ ui <- shinyUI(fluidPage(
 				 )
 		 ),
 
-		tabPanel("Dam 6: Dolby",
-		         h2("Results: Dolby Dam"),
+		tabPanel("Dam 6: Millinocket",
+		         h2("Results: Millinocket/Quakish Dam"),
 		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
                   Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
 		         div(id="dam-6-output",
-		             h3("Table 21. Raw preference scores for Dolby Dam"),
+		             h3("Table 21. Raw preference scores for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("RawPrefsDam6"),
 		             HTML(
 		               "This table of preference data is depicted below."
 		             ),
-		             h3("Figure 16. Raw Preference Scores for Dolby"),
+		             h3("Figure 16. Raw Preference Scores for Millinocket/Quakish"),
 		             plotOutput("PrefPlot6", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 16: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
+		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing.<br>"
 		             ),
 		             #raw data table/Matrix
-		             h3("Table 22. Raw data values for Dolby Dam"),
+		             h3("Table 22. Raw data values for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 22. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
 		             ),
 		             # normalized data table/Matrix
-		             h3("Table 23. Normalized data values for Dolby Dam"),
+		             h3("Table 23. Normalized data values for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6NormTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
@@ -1464,7 +1464,7 @@ ui <- shinyUI(fluidPage(
 		               high costs are less desirable than low costs.<br>"
 		             ),
 		             #weighted score data table/Matrix
-		             h3("Table 24. Weighted scores for Dolby Dam"),
+		             h3("Table 24. Weighted scores for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6ScoreTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
@@ -1506,8 +1506,8 @@ ui <- shinyUI(fluidPage(
 					   <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
-		             h3('Download Dolby Results'),
-		             downloadButton("downloadData6", "Download Dolby")
+		             h3('Download Millinocket Results'),
+		             downloadButton("downloadData6", "Download Millinocket")
 				 )
 		 ),
 
