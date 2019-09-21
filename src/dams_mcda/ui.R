@@ -994,13 +994,19 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("FilledCriteriaGraph2", height="35em"),
 		             HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection.")
 		             #plotOutput("FilledCriteriaGraph", height="35em") # I don't think we want this one after all. 
-		         )
+		         ),
+		            HTML("<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
+					           once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+		                 <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one criterion increases, the value for another \
+		                 criterion must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br>"
+		            )
 		),
-
-
+		
 		tabPanel("Map Recommendation",
 		         h2("Optimized Result"),
-		         HTML('<div id="MapRecommendation"></div>')
+		         HTML('<div id="MapRecommendation"></div>'),
+		         HTML("This mapped result accompanies the coordinted, multi-dam results in the previous tab. Keep in mind that a few of the decision criteria (e.g. sea-run fish habitat area, river recreation) are network-dependent, meaning that for any given decision alternative at any single dam, there is a range \
+                  of possible outcome values. This network-dependency (i.e., connection to dams both upstream and downstream) means that individual dam results may differ slightly.<br>")
 		),
 
 
@@ -1080,11 +1086,7 @@ ui <- shinyUI(fluidPage(
 				
 
 				HTML(
-					"<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-					once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-					<br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-					must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-					<br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+					"<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 				),
 
 				h3('Download West Enfield Results'),
@@ -1162,13 +1164,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot2a", height=600, width="100%"),
 		             
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
 		             h3('Download Medway Results'),
@@ -1247,13 +1243,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot3a", height=600, width="100%"),
 		             
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to the Output page and click GENERATE\
-		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for this dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
 		             h3('Download East Millinocket Results'),
@@ -1332,13 +1322,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot4a", height=600, width="100%"),
 
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
 		             h3('Download Dolby Results'),
@@ -1415,13 +1399,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot5a", height=600, width="100%"),
 		             
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
 		             h3('Download North Twin Results'),
@@ -1497,13 +1475,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot6a", height=600, width="100%"),
 
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-					   <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
 		             h3('Download Millinocket Results'),
@@ -1579,13 +1551,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot7a", height=600, width="100%"),
 		             
 		             HTML(
-		               "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-		               once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		               <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		               must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-		               <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		             ),
 
 		             h3('Download Millinocket Lake Results'),
@@ -1663,13 +1629,7 @@ ui <- shinyUI(fluidPage(
 		             plotOutput("WSMPlot8a", height=600, width="100%"),
 
 		               HTML(
-		                 "<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the decision alternative tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each Alternative tab. Then, return to the Output page and click GENERATE\
-		                 once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-
-		                 <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one increases, the value for another \
-		                 must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br> \
-
-		                 <br><b>Next Steps</b>: You may download and save your results for personal reference, before continuing to the next step. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
+		                 "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 		               ),
 
 		             h3('Download Ripogenus Results'),
