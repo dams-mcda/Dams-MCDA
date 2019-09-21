@@ -28,7 +28,7 @@ map_height <- 500
 fishSurvivalLabel <- "Sea-run fish habitat area is measured in hundreds of square meters. It is a proxy criteria estimated as possible upstream \
 sea-run fish (Atlantic salmon, Alewife, Blueback herring, American eel) functional habitat (Roy et al., 2018). "
 riverRecLabel <- "River recreation is measured in square kilometers. It is the estimated downstream area of river that may increase \
-or decrease with a dam decision alternative, combines functional area for whitewater and flatwater recreation defined by Roy et al. (2018)."
+or decrease with a dam decision alternative, represents functional area for whitewater recreation defined by Roy et al. (2018)."
 resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\ 
 on its volume (Roy et al., 2018)."
 annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
@@ -143,7 +143,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
         "Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
-			img(src = 'Penobscot_MO_14_443',width = "75%", align = "center")
+			img(src = 'Penobscot_MO_14_443.png',width = "75%", align = "center")
 		),
 
 
