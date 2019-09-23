@@ -118,8 +118,9 @@ ui <- shinyUI(fluidPage(
 				time helping to shape post-industrial town or city identities over the last two centuries.<br>"
 			 ),
 
-			helpText( 
-			  HTML('<a href = "http://www.pnas.org/content/early/2018/10/31/1807437115" target="_blank">Click HERE for more information about the tradeoffs involved in dam decision making</a>')
+			helpText(
+			  HTML(
+				  '<a href = "http://www.pnas.org/content/early/2018/10/31/1807437115" target="_blank">Click HERE for more information about the tradeoffs involved in dam decision making</a>')
 			  )
 		  ),
 
@@ -143,7 +144,7 @@ ui <- shinyUI(fluidPage(
 			HTML(
         "Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
-			img(src = 'Penobscot_MO_14_443',width = "75%", align = "center")
+			img(src = 'Penobscot_MO_14_443.png', width = "75%", align = "center")
 		),
 
 

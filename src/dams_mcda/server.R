@@ -1170,9 +1170,19 @@ server <- function(input, output, session) {
 
 							# if this criteria matches the criteria of our special case
 							if (max_crit == imp_crit){
-								# prioritize remove
-								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
-								assigned <- TRUE
+								keep_maintain <- which(alternative_names == "Keep and Maintain Dam")
+								remove_dam <- which(alternative_names == "Keep and Maintain Dam")
+
+								if (keep_maintain in possible_alts){
+									# preference
+									dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
+									assigned <- TRUE
+								}else if (remove_dam in possible_alts){
+									updated_possible_alts <- which(possible_alts!=remove_dam)
+									# any but remove random from list
+									dam_top_alt_index[damId] <- sample(updated_possible_alts, 1)
+									assigned <- TRUE
+								}
 							}
 						}
 					}
