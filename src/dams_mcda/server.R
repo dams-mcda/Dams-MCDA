@@ -1287,7 +1287,7 @@ server <- function(input, output, session) {
 				"Combined Plot4 idxRank", # title
 				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
 				dam_names, # y_labels
-				"Scenario", # x axis label
+				"Coordinated Multi-Dam Outcome", # x axis label
 				"Score", # y axis label
 				"Dam", # y axis label
 				colors, # colors
