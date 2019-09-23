@@ -85,14 +85,14 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	WestEnf_PrefMatrix <- data.frame(t(WestEnf_PrefMatrix))
 	Med_PrefMatrix <- subset(Ind_PrefMatrix[2,,])
 	Med_PrefMatrix <- data.frame(t(Med_PrefMatrix))
-	Mill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
-	Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))
-	EastMill_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
+	EastMill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
 	EastMill_PrefMatrix <- data.frame(t(EastMill_PrefMatrix))
+	Dolby_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
+	Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))	
 	NorthTw_PrefMatrix <- subset(Ind_PrefMatrix[5,,])
 	NorthTw_PrefMatrix <- data.frame(t(NorthTw_PrefMatrix))
-	Dolby_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
-	Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))
+	Mill_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
+	Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))	
 	MillLake_PrefMatrix <- subset(Ind_PrefMatrix[7,,])
 	MillLake_PrefMatrix <- data.frame(t(MillLake_PrefMatrix))
 	Rip_PrefMatrix <- subset(Ind_PrefMatrix[8,,])
@@ -164,14 +164,14 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	WestEnf_DataMatrix <- data.frame(t(WestEnf_DataMatrix))
 	Med_DataMatrix <- subset(Ind_DamsDataMatrix[2,,])
 	Med_DataMatrix <- data.frame(t(Med_DataMatrix))
-	Mill_DataMatrix <- subset(Ind_DamsDataMatrix[3,,])
-	Mill_DataMatrix <- data.frame(t(Mill_DataMatrix))
-	EastMill_DataMatrix <- subset(Ind_DamsDataMatrix[4,,])
-	EastMill_DataMatrix <- data.frame(t(EastMill_DataMatrix))
+	EastMill_DataMatrix <- subset(Ind_DamsDataMatrix[3,,])
+	EastMill_DataMatrix <- data.frame(t(EastMill_DataMatrix))	
+	Dolby_DataMatrix <- subset(Ind_DamsDataMatrix[4,,])
+	Dolby_DataMatrix <- data.frame(t(Dolby_DataMatrix))
 	NorthTw_DataMatrix <- subset(Ind_DamsDataMatrix[5,,])
 	NorthTw_DataMatrix <- data.frame(t(NorthTw_DataMatrix))
-	Dolby_DataMatrix <- subset(Ind_DamsDataMatrix[6,,])
-	Dolby_DataMatrix <- data.frame(t(Dolby_DataMatrix))
+	Mill_DataMatrix <- subset(Ind_DamsDataMatrix[6,,])
+	Mill_DataMatrix <- data.frame(t(Mill_DataMatrix))
 	MillLake_DataMatrix <- subset(Ind_DamsDataMatrix[7,,])
 	MillLake_DataMatrix <- data.frame(t(MillLake_DataMatrix))
 	Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
@@ -183,12 +183,13 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 	AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
 	AllDataMatrix[,,2] <- simplify2array(Med_DataMatrix)
-	AllDataMatrix[,,3] <- simplify2array(Mill_DataMatrix)
-	AllDataMatrix[,,4] <- simplify2array(EastMill_DataMatrix)
+	AllDataMatrix[,,3] <- simplify2array(EastMill_DataMatrix)
+	AllDataMatrix[,,4] <- simplify2array(Dolby_DataMatrix)
 	AllDataMatrix[,,5] <- simplify2array(NorthTw_DataMatrix)
-	AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
+	AllDataMatrix[,,6] <- simplify2array(Mill_DataMatrix)
 	AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 	AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
+	
 	for (damId in 1:length(available_dams)){
 		message("AllDataMatrix Dam", damId, "> ", AllDataMatrix[,,damId], " Dim ", dim(AllDataMatrix[,,damId]))
 	}
@@ -263,10 +264,10 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
-	Ind_NormalizedMatrix[5,6,4] <- 1#This replaces properties NaN at East Millinocket
+	Ind_NormalizedMatrix[5,6,3] <- 1#This replaces properties NaN at East Millinocket
 	Ind_NormalizedMatrix[1,1,2] <- 1 #This replaces fish habitat NaN at Medway
 	Ind_NormalizedMatrix[5,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
-	Ind_NormalizedMatrix[5,3,4] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+	Ind_NormalizedMatrix[5,3,3] <- 1 #This replaces the reservoir storage NaN at East Millinocket
 	Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
 	
 	#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
@@ -276,10 +277,10 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam5Results <- ((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
 
@@ -328,10 +329,10 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 	#----------------------------------------
-	NormalizedMatrix[4,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
+	NormalizedMatrix[3,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
 	NormalizedMatrix[2,1,] <- 1 #This replaces fish habitat NaN at Medway
 	NormalizedMatrix[1:2,3, ] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
-	NormalizedMatrix[4,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+	NormalizedMatrix[3,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
 	NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
 	#This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
 	
