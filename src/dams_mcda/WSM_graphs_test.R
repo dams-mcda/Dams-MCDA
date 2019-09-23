@@ -444,7 +444,7 @@ colnames(Dam2ScoreTable) <- criteria_inputs
 
 # Millinocket/Dam 3 output table(s)
 
-Dam3RawTable <- setDT(East/Mill_DataMatrix)
+Dam3RawTable <- setDT(EastMill_DataMatrix)
 rownames(Dam3RawTable) <- alternative_names
 colnames(Dam3RawTable) <- criteria_inputs
 

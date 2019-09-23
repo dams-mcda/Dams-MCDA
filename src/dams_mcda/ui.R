@@ -461,7 +461,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Dam4"),
 
 			# tab content
-			h2("DOlby Dam (FERC No. P-2458)"),
+			h2("Dolby Dam (FERC No. P-2458)"),
 			HTML(
 				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
 				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
@@ -755,7 +755,7 @@ ui <- shinyUI(fluidPage(
 		  htmlOutput("UpdateDam6Progress"),
 		  actionButton("updateBtn6", "Update")
 
-		), # End Dolby Dam Tab
+		), # End Millinocket/Quakish Dam Tab
 
 
 		# ----------------------------------------
@@ -1279,7 +1279,7 @@ ui <- shinyUI(fluidPage(
 					         "<br><b>Results Interpretation</b> for Table 14. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
 					       ),
 					       # normalized data table/Matrix
-					       h3("Table 15. Normalized data values for Dolb Dam"),
+					       h3("Table 15. Normalized data values for Dolby Dam"),
 					       DT::dataTableOutput("Dam4NormTable"),
 					       HTML(
 					         "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
