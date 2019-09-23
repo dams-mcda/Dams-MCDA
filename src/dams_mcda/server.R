@@ -49,11 +49,11 @@ available_alternatives <- seq(1:5)
 
 # criteria input identifiers
 criteria_inputs <- c(
-	"FishBiomass",
+	"FishHabitat",
 	"RiverRec",
 	"Reservoir",
 	"ProjectCost",
-	"Safety",
+	"BreachDamage",
 	"NumProperties",
 	"ElectricityGeneration",
 	"AvoidEmissions",
@@ -85,21 +85,21 @@ criteria_names <- c(
 
 # alternative display names (for labeling tables and graphs)
 alternative_names <- c(
-  "Keep and Maintain Dam",
-  "Improve Hydro",
+  "Remove Dam",
   "Improve Fish Passage",
+  "Improve Hydro",
   "Improve Hydro AND Fish Passage",
-  "Remove Dam"
+  "Keep and Maintain Dam"
 )
 
 # dam display names (for labeling tables and graphs)
 dam_names <- c(
     "West Enfield Dam",
     "Medway Dam",
-    "Millinocket/Quakish",
     "East Millinocket",
-	"North Twin",
     "Dolby",
+	  "North Twin",
+    "Millinocket/Quakish",
     "Millinocket Lake",
     "Ripogenus"
 )
@@ -302,9 +302,9 @@ server <- function(input, output, session) {
 				HTML(
 					"<h4>Instructions for Uploading</h4>\
 					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-					and your data should be organized in 8 rows (dams) with 14 columns (decision criteria). Cells should be\
-					populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-					select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+          and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+          populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+          select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 					average preference values for the group. <br>"
 				)
 			)
@@ -363,7 +363,7 @@ server <- function(input, output, session) {
 				div(
 					HTML(
 						"<h4>Instructions for Uploading</h4>\
-						Use this option only if you have done this activity before and have used the blank decision matrix HERE to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+						Use this option only if you have done this activity before and have used the blank decision matrix to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
 						for you or the average preference values for your group. <br><br>"
 					),
 
@@ -434,8 +434,8 @@ server <- function(input, output, session) {
 			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
 			#message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
 			criteria_input_names <- c(
-				"FishBiomass", "RiverRec", "Reservoir",
-				"ProjectCost", "Safety", "NumProperties",
+				"FishHabitat", "RiverRec", "Reservoir",
+				"ProjectCost", "BreachDamage", "NumProperties",
 				"ElectricityGeneration", "AvoidEmissions", "IndigenousLifeways",
 				"IndustrialHistory", "CommunityIdentity", "Aesthetics",
 				"Health", "Justice"
@@ -611,11 +611,11 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	getDamPreferences <- function(damIndex){
 		damPrefs <- c(
-			input[[paste0("FishBiomass", damIndex)]],
+			input[[paste0("FishHabitat", damIndex)]],
 			input[[paste0("RiverRec", damIndex)]],
 			input[[paste0("Reservoir", damIndex)]],
 			input[[paste0("ProjectCost", damIndex)]],
-			input[[paste0("Safety", damIndex)]],
+			input[[paste0("BreachDamage", damIndex)]],
 			input[[paste0("NumProperties", damIndex)]],
 			input[[paste0("ElectricityGeneration", damIndex)]],
 			input[[paste0("AvoidEmissions", damIndex)]],
@@ -743,12 +743,12 @@ server <- function(input, output, session) {
 
 	#------------------------------------------------------------
 	# updateDam3
-	# logic for updating Millinocket Dam
+	# logic for updating East Millinocket Dam
 	#------------------------------------------------------------
 	updateDam3 <- function(updateScores) {
 		damId <- 3
 		output[[paste0("Dam", damId)]] <- renderUI(list(
-			"Dam 3: Millinocket Dam",
+			"Dam 3: East Millinocket Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -779,12 +779,12 @@ server <- function(input, output, session) {
 
 	#------------------------------------------------------------
 	# updateDam4
-	# logic for updating East Millinocket Dam
+	# logic for updating DOlby Dam
 	#------------------------------------------------------------
 	updateDam4 <- function(updateScores) {
 		damId <- 4
 		output[[paste0("Dam", damId)]] <- renderUI(list(
-			"Dam 4: East Millinocket Dam",
+			"Dam 4: Dolby Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -851,13 +851,13 @@ server <- function(input, output, session) {
 
 	#------------------------------------------------------------
 	# updateDam6
-	# logic for updating Dolby Dam
+	# logic for updating Millinocket/Quakish Dam
 	#------------------------------------------------------------
 	updateDam6 <- function(updateScores) {
 
 		damId <- 6
 		output[[paste0("Dam", damId)]] <- renderUI(list(
-			"Dam 6: Dolby Dam",
+			"Dam 6: Millinocket/Quakish Dam",
 			tags$span('Complete', class="dam-complete")
 		))
 
@@ -1407,6 +1407,7 @@ server <- function(input, output, session) {
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
 		)
+
 		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot(plotB)
 
 		# download button for d2 plot as png
@@ -1489,11 +1490,11 @@ server <- function(input, output, session) {
 			tags$span('Requires User Input', class="dam-not-complete")
 		))
 		output$Dam3 <- renderUI(list(
-			"Dam 3: Millinocket Dam",
+			"Dam 3: East Millinocket Dam",
 			tags$span('Requires User Input', class="dam-not-complete")
 		))
 		output$Dam4 <- renderUI(list(
-			"Dam 4: East Millinocket Dam",
+			"Dam 4: Dolby Dam",
 			tags$span('Requires User Input', class="dam-not-complete")
 		))
 		output$Dam5 <- renderUI(list(
@@ -1501,7 +1502,7 @@ server <- function(input, output, session) {
 			tags$span('Requires User Input', class="dam-not-complete")
 		))
 		output$Dam6 <- renderUI(list(
-		  "Dam 6: Dolby Dam",
+		  "Dam 6: Millinocket/Quakish Dam",
 		  tags$span('Requires User Input', class="dam-not-complete")
 		))
 		output$Dam7 <- renderUI(list(
@@ -1959,7 +1960,7 @@ server <- function(input, output, session) {
 
 	output$downloadData3 <- downloadHandler(
 	  filename = function() {
-	    format(Sys.time(), "Millinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	    format(Sys.time(), "EastMillinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
 	    write.csv(
@@ -1973,7 +1974,7 @@ server <- function(input, output, session) {
 
 	output$downloadData4 <- downloadHandler(
 	  filename = function() {
-	    format(Sys.time(), "EastMillinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	    format(Sys.time(), "Dolby_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
 	    write.csv(
@@ -2001,7 +2002,7 @@ server <- function(input, output, session) {
 
 	output$downloadData6 <- downloadHandler(
 	  filename = function() {
-	    format(Sys.time(), "Dolby_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+	    format(Sys.time(), "Millinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
 	    write.csv(
