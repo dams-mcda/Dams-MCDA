@@ -195,18 +195,18 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 # xpd == False disables bars being drawn outsize graph canvas
 # NOTE: DOES NOT RENDER PLOT
 renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
-	message(
-		'------------------\n',
-		'Plot2D title: ', title,
-		# '\ndata: ', df,
-		"\n#(values in data): ", length(df),
-		"\n#(dim of data): ", dim(df),
-		"\nclasstype: ", class(df),
-		"\ndatatype: ", typeof(df),
-		"\n#(x names): ", length(x_names),
-		"\n#(y names): ", length(y_names),
-		'\n------------------'
-	)
+	#message(
+	#	'------------------\n',
+	#	'Plot2D title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	"\n#(y names): ", length(y_names),
+	#	'\n------------------'
+	#)
 
 	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
 	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))

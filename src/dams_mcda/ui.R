@@ -1000,6 +1000,11 @@ ui <- shinyUI(fluidPage(
 		             HTML("<b>Results Interpretation</b> for Figure 3. "),
 					 downloadButton("DownloadCombinedPlot3", "Download Graph"),
 
+		             h2('Figure 4. Graph4'),
+		             plotOutput("CombinedPlot4", height="35em"),
+		             HTML("<b>Results Interpretation</b> for Figure 4. "),
+					 downloadButton("DownloadCombinedPlot4", "Download Graph"),
+
 					 # download preferences (for UPLOAD DATA)
 					 downloadButton("downloadPreferenceSelection", "Download Preferences (Step 3)")
 		         )

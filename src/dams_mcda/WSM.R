@@ -188,9 +188,10 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
 	AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 	AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
-	for (damId in 1:length(available_dams)){
-		message("AllDataMatrix Dam", damId, "> ", AllDataMatrix[,,damId], " Dim ", dim(AllDataMatrix[,,damId]))
-	}
+	# debug
+	#for (damId in 1:length(available_dams)){
+	#	message("AllDataMatrix Dam", damId, "> ", AllDataMatrix[,,damId], " Dim ", dim(AllDataMatrix[,,damId]))
+	#}
 
 	#--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 
@@ -380,6 +381,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
-	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix, idxRank)
+	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix, idxRank, WeightedScoreMatrix)
 
 } # end of WSM
