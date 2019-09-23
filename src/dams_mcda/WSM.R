@@ -329,7 +329,24 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	NormalizedMatrix[3,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
 	NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
 	#This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
-	
+
+	# reorganize dams in NormalizedMatrix
+	# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
+	# target is WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
+	# Normalized is 4 7 6 5 8 3 2 1
+	# target is 1 2 3 4 5 6 7 8
+	TestMatrix <- NormalizedMatrix
+	TestMatrix[1,,] <- NormalizedMatrix[4,,]
+	TestMatrix[2,,] <- NormalizedMatrix[7,,]
+	TestMatrix[3,,] <- NormalizedMatrix[6,,]
+	TestMatrix[4,,] <- NormalizedMatrix[5,,]
+	TestMatrix[5,,] <- NormalizedMatrix[8,,]
+	TestMatrix[6,,] <- NormalizedMatrix[3,,]
+	TestMatrix[7,,] <- NormalizedMatrix[2,,]
+	TestMatrix[8,,] <- NormalizedMatrix[1,,]
+	NormalizedMatrix <- TestMatrix
+	message("size of NormalizedMatrix", dim(TestMatrix))
+
 	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 
