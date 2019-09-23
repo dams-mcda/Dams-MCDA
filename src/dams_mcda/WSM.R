@@ -1,6 +1,5 @@
 # WSM
-#----------------------------------------
-# generates the MDCA Output
+#---------------------------------------- generates the MDCA Output
 #
 # Returns list (in order)
 #     TableMatrix
@@ -177,7 +176,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
 	Rip_DataMatrix <- data.frame(t(Rip_DataMatrix))
 
-
 	AllDataMatrix <- array(data=NA, dim=c(5,14,8))
 	AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("alternative", "criterion", "dam"))
 
@@ -189,10 +187,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	AllDataMatrix[,,6] <- simplify2array(Mill_DataMatrix)
 	AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 	AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
-	
-	for (damId in 1:length(available_dams)){
-		message("AllDataMatrix Dam", damId, "> ", AllDataMatrix[,,damId], " Dim ", dim(AllDataMatrix[,,damId]))
-	}
 
 	#--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 
@@ -368,9 +362,11 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxScen <- c(1:995)
+	idxScen <- c(0:994)
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
+	#message("idxRank ", idxRank, " dim ", dim(idxRank))
+	message("idxRank dim size ", dim(idxRank))
 
 	Dam1Scen <- t(WeightedScoreMatrix[1,,])
 	Dam2Scen <- t(WeightedScoreMatrix[2,,])
@@ -385,13 +381,13 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 	# use scenario idxRank[1] to find corresponding map name
-	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[1,1]))
+	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[1,10]))
 
 	# debug
 	#message("Ind_WSM: ", Ind_WeightedScoreMatrix, " DIMS ", dim(Ind_WeightedScoreMatrix))
 	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
-	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix)
+	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix, idxRank, WeightedScoreMatrix)
 
 } # end of WSM

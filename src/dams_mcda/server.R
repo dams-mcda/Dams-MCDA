@@ -413,7 +413,6 @@ server <- function(input, output, session) {
 		# check it has correct amount of columns and rows
 		row_count <- length(head(t(df),n=1))
 		column_count <- length(head(df,n=1))
-		# TODO: set required_* variables to size of valid input
 		required_rows <- 8
 		required_cols <- 15
 
@@ -463,6 +462,7 @@ server <- function(input, output, session) {
 
 				# validate inputs for each dam total
 				if (total > upper_bound || total < lower_bound){
+					message("INVALID SCORE for dam ", damIndex, " value ", total)
 					scores_valid <- FALSE
 				}
 			}
@@ -487,7 +487,7 @@ server <- function(input, output, session) {
 			}else{
 				# invalid score
 				# warn the user that the file is not acceptable (not valid scores)
-				fail_reason <- "Scores do not total correctly, Invalid File."
+				fail_reason <- "Scores do not total correctly (each dam must total to 100), Invalid File."
 				#message("file upload fail", fail_reason)
 				session$sendCustomMessage("invalidFileSelected", fail_reason)
 			}
@@ -988,6 +988,7 @@ server <- function(input, output, session) {
 			RawCriteriaMatrix <- data.frame(matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs)))
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
+			savePreferences(RawCriteriaMatrix)
 
 			#----------------------------------------
 			# run WSM and get data ready for graphs
@@ -995,6 +996,7 @@ server <- function(input, output, session) {
 			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
+			WSMMatrix <- round(WSMMatrix, 3)
 			rownames(WSMMatrix) <- alternative_names
 			colnames(WSMMatrix) <- criteria_names
 
@@ -1002,22 +1004,37 @@ server <- function(input, output, session) {
 			WSMTableOutput <- data.frame(WSMMatrix)
 
 			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
-			message("IndScoreSum", WSMIndScoreSum)
+			WSMIndScoreSum <- round(WSMIndScoreSum, 3)
 
 			# renamed from WSMSummedScore
 			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
+			WSMTotalScoreSum <- round(WSMTotalScoreSum, 3)
 
 			map_name <- WSMResults[4]
-			#message("WSM map name: ", map_name, " type ", class(map_name))
 
 			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			all_data_matrix <- round(all_data_matrix, 3)
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
 			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
+
+			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+
+			# idxRank suggested scenaios in order
+			idxRank <- array(unlist(WSMResults[7]), dim=c(995,10))
+			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
+
+			# idxRank suggested scenaios in order
+			idxRank <- array(unlist(WSMResults[7]), dim=c(995,10))
+			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
+
+			# wsm for each scenario 8 x 14 x 995 (used for graph4)
+			multi_WSM <- array(unlist(WSMResults[8]), dim=c(8, 14, 995))
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1025,8 +1042,23 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# generate each dams individual results tab (tables + plots)
 			for (damId in 1:length(available_dams)){
-				generateDam(damId, all_data_matrix, ind_normalized_matrix, WSMMatrix, WSMIndScoreSum)
+				generateDam(damId, all_data_matrix, ind_normalized_matrix, WSMMatrix, WSMIndScoreSum, WSMTotalScoreSum)
 			}
+
+			#----------------------------------------
+			# Map Recommendation Output
+			#----------------------------------------
+			output$downloadMapRecommendation <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "mcda_map_result_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(con) {
+					image <- png::readPNG(paste0('/srv/shiny-server/dams_mcda/www/', map_name))
+					png::writePNG(image, target=con)
+				},
+				contentType="image/png"
+			)
+
 
 			#----------------------------------------
 			# Combined Dam Final Outputs
@@ -1041,32 +1073,238 @@ server <- function(input, output, session) {
 			#  colors
 			#) # this graph doesn't quite work yet
 
-			# Preference scores for all dams
-			output$FilledCriteriaGraph <- renderCombinedBarPlot(
-				RawCriteriaMatrix, # data
-				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Criteria", # x axis label
-				"Score", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				c(0, max_slider_value) # y value limit (100 in this case)
+			# Decisions Table (download only, not displayed on user interface)
+			output$DownloadDecisions <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "mcda_DecisionsTable_%Y-%m-%d_%H-%M-%S_%z.csv")
+				},
+				content = function(file) {
+					write.csv(Decisions, file, row.names = TRUE, quote=TRUE)
+				}
 			)
 
+			# Top Ranking Scenarios (download only, not displayed on user interface)
+			output$DownloadRankedScenarios <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "mcda_TopScenarios_Y-%m-%d_%H-%M-%S_%z.csv")
+				},
+				content = function(file) {
+					write.csv(head(idxRank, 10), file, row.names = TRUE, quote=TRUE)
+				}
+			)
+
+			# Graph1
 			# Preference scores by criteria
-			output$FilledCriteriaGraph2 <- renderCombinedBarPlot2(
-				RawCriteriaMatrix, # data
+			combinedPlot1 <- renderPlot2D(
+				t(RawCriteriaMatrix), # data
 				"Preferences for all dams", # title
-				criteria_names, # x_labels
-				"Criteria", # x axis label
+				dam_names, # x_labels
+				criteria_names, # y_labels
+				"Dam", # x axis label
 				"Score", # y axis label
+				"Criteria", # legend label
 				colors, # colors
 				NULL, # x value limit
-				NULL # y value limit (not needed in this case, max y is length(dams) * max_slider_value
+				c(0, max_slider_value) # y value range
+			)
+			output$CombinedPlot1 <- renderPlot(combinedPlot1)
+
+			# download button for plot1
+			output$DownloadCombinedPlot1 <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot1_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot1, device = "png", width=18, height=14)
+				}
 			)
 
-			#message('save selected preferences to file after successfull generation of results')
-			savePreferences(RawCriteriaMatrix)
+			# Graph 2 Data Preperation
+			# top alternative for each dam
+			dam_names_with_max_alt <- array(dam_names, dim=c(length(dam_names)))
+			dam_top_alt_index <- array(NA, dim=c(length(dam_names)))
+			dam_top_alt_matrix <- array(NA, dim=c(length(dam_names), length(criteria_names)))
+
+			for (damId in 1:length(dam_names)){
+				possible_alts <- which(WSMIndScoreSum[damId,]==max(WSMIndScoreSum[damId,]))
+
+				# assigned is a boolean if the alternative has been chosen
+				assigned <- FALSE
+
+				# see issue #81
+				if (length(possible_alts) > 1){
+					# special alt selection when alt scores match
+					for (altId in 1:length(possible_alts)){
+
+						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
+						max_crit <- which.max(dam_WSMMatrix)
+
+						# dam (West enfield, Medway, East Millinocket) crit (Reservior Storage)
+						if (
+							damId == which(dam_names=="West Enfield Dam") ||
+							damId == which(dam_names=="Medway Dam") ||
+							damId == which(dam_names=="East Millinocket")
+						){
+							imp_crit <- which(criteria_names=="Reservoir Storage")
+
+							# if this criteria matches the criteria of our special case
+							if (max_crit == imp_crit){
+								# prefer "Keep and Maintain Dam",
+								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
+								assigned <- TRUE
+							}
+						}
+
+						# dam (Medway) crit (Fish Habitat)
+						if (
+							damId == which(dam_names=="Medway Dam")
+						){
+							imp_crit <- which(criteria_names=="Sea-Run Fish Habitat Area")
+
+							# if this criteria matches the criteria of our special case
+							if (max_crit == imp_crit){
+								# prioritize remove
+								dam_top_alt_index[damId] <- which(alternative_names == "Remove Dam")
+								assigned <- TRUE
+							}
+						}
+
+						# dam (East Millinocket) crit (Num Properties)
+						if (
+							damId == which(dam_names=="East Millinocket")
+						){
+							imp_crit <- which(criteria_names=="Number of Properties Impacted")
+							# any but "Remove Dam" prefer keep and maintain
+
+							# if this criteria matches the criteria of our special case
+							if (max_crit == imp_crit){
+								keep_maintain <- which(alternative_names == "Keep and Maintain Dam")
+								remove_dam <- which(alternative_names == "Remove Dam")
+
+								if (keep_maintain %in% possible_alts){
+									# preference
+									dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
+									assigned <- TRUE
+								}else if (remove_dam %in% possible_alts){
+									updated_possible_alts <- which(possible_alts!=remove_dam)
+									# any but remove random from list
+									dam_top_alt_index[damId] <- sample(updated_possible_alts, 1)
+									assigned <- TRUE
+								}
+							}
+						}
+					}
+				}
+
+				dam_names_with_max_alt[damId] <- paste0(
+					dam_names_with_max_alt[damId],
+					" (", alternative_names[which.max(WSMIndScoreSum[damId,])], ")"
+				)
+
+				# normal method if not assigned already
+				if (assigned == FALSE){
+					dam_top_alt_index[damId] <- which.max(WSMIndScoreSum[damId,])
+				}
+
+				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(14))
+
+				for (critIndex in 1:length(dam_WSMMatrix)){
+					dam_top_alt_matrix[damId, critIndex] <- dam_WSMMatrix[critIndex]
+				}
+			}
+
+			# Graph2
+			# Preference scores for all dams
+			combinedPlot2 <- renderPlot2D(
+				t(dam_top_alt_matrix), # data
+				"Graph 2", # title
+				dam_names_with_max_alt, # x_labels
+				criteria_names, # y_labels
+				"Dam", # x axis label
+				"Score", # y axis label
+				"Criteria", # legend label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (100 in this case)
+			)
+			output$CombinedPlot2 <- renderPlot(combinedPlot2)
+
+			# download button for plot2
+			output$DownloadCombinedPlot2 <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot2_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot2, device = "png", width=18, height=14)
+				}
+			)
+
+			# Graph3
+			# Preference scores for all dams
+			combinedPlot3 <- renderPlot2DCluster(
+				t(WSMIndScoreSum), # data
+				"Combined Plot3 IndScoreSum", # title
+				dam_names, # x_labels
+				alternative_names, # y_labels
+				"Dam", # x axis label
+				"Score", # y axis label
+				"Alternative", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (100 in this case)
+			)
+			output$CombinedPlot3 <- renderPlot(combinedPlot3)
+
+			# download button for plot3
+			output$DownloadCombinedPlot3 <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot3_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot3, device = "png", width=18, height=14)
+				}
+			)
+
+			# process data for graph 4
+			# scores for each scenario/dam
+			multi_WSM_top5_scenario <- array(NA, dim=c(5,8))
+			top5_list <- head(idxRank[,10], 5)
+			# top 5
+			for (scenarioId in top5_list){
+				scenarioSumScore <- 0
+				for (damId in 1:length(dam_names)){
+					dam_score <- sum(multi_WSM[damId,,scenarioId+1])
+					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- dam_score
+					scenarioSumScore <- (scenarioSumScore + dam_score)
+				}
+				#message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
+			}
+
+			# Graph4
+			# Preference scores for all dams
+			combinedPlot4 <- renderPlot2D(
+				t(multi_WSM_top5_scenario), # data
+				"Combined Plot4 idxRank", # title
+				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
+				dam_names, # y_labels
+				"Coordinated Multi-Dam Outcome", # x axis label
+				"Score", # y axis label
+				"Dam", # y axis label
+				colors, # colors
+				NULL, # x value limit
+				NULL # y value limit (100 in this case)
+			)
+			output$CombinedPlot4 <- renderPlot(combinedPlot4)
+
+			# download button for plot2
+			output$DownloadCombinedPlot4 <- downloadHandler(
+				filename = function() {
+					format(Sys.time(), "Combined_plot3_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				},
+				content = function(file) {
+					ggsave(file, plot=combinedPlot4, device = "png", width=18, height=14)
+				}
+			)
 
 			# show output html elements (as of now generateOutput does all individual dams + combined)
 			shinyjs::show(id="generated-output-1")
@@ -1089,7 +1327,7 @@ server <- function(input, output, session) {
 	#
 	# renders WSM related tables/plots
 	#------------------------------------------------------------
-	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum){
+	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum, WSMScoreSum){
 		#message("generateDam: Output for Dam#: ", damId)
 
 		# preferences
@@ -1119,22 +1357,47 @@ server <- function(input, output, session) {
 			Dam1ScoreTable
 		})
 
-		# (d) has three graphs for each dam
-		# d1 (100% score for each alternative)
-		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot2DScaled100(
-		  t(ResultsMatrix[,,damId]),
-		  "D 3", # title
-		  alternative_names, # x_labels
-		  criteria_names, # x_labels
-		  "Alternative", # x axis label
-		  "Score", # y axis label
-		  "Criteria", # legend label
-		  colors, # colors
-		  NULL # x value limit
+		# WSM Download button
+		output[[paste0("DownloadDam", damId, "ScoreTable")]] <- downloadHandler(
+			filename = function() {
+				# format date & time in filename, format( year, month, day, hour, minute, second, UTC offset )
+				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+			},
+			content = function(file) {
+				ScoreTablePlusSum <- Dam1ScoreTable
+				ScoreTablePlusSum$Total = IndScoreSum[damId,]
+				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
+			}
 		)
 
-		# d2 Decision alternatives
-		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot1D(
+		# (d) has three graphs for each dam
+		# d1
+		plotA <- renderPlot2D(
+			ResultsMatrix[,,damId],
+			"D 1", # title
+			criteria_names, # x_labels
+			alternative_names, # y_labels
+			"Criteria", # x axis label
+			"Score", # y axis label
+			"Alternative", # legend label
+			colors, # colors
+			NULL, # x value limit
+			c(0, max_slider_value) # y value limit (100 in this case)
+		)
+		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot(plotA)
+
+		# download button for d1 plot as png
+		output[[paste0("DownloadDam", damId, "Plota")]] <- downloadHandler(
+			filename = function() {
+				format(Sys.time(), "WestEnfield_plota_results_%Y-%m-%d_%H-%M-%S_%z.png")
+			},
+			content = function(file) {
+				ggsave(file, plot=plotA, device = "png", width=18, height=14)
+			}
+		)
+
+		# d2
+		plotB <- renderPlot1D(
 			IndScoreSum[damId,],
 			"D 2", # title
 			alternative_names, # x_labels
@@ -1144,18 +1407,41 @@ server <- function(input, output, session) {
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
 		)
-		# d3 Decision alternatives with stacked criteria scores
-		output[[paste0("WSMPlot", damId, "a")]] <- renderPlot2D(
-		  ResultsMatrix[,,damId],
-		  "D 1", # title
-		  alternative_names, # x_labels
-		  criteria_names, # y_labels
-		  "Alternatives", # x axis label
-		  "Score", # y axis label
-		  "Criteria", # legend label
-		  colors, # colors
-		  NULL, # x value limit
-		  c(0, max_slider_value) # y value limit (100 in this case)
+
+		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot(plotB)
+
+		# download button for d2 plot as png
+		output[[paste0("DownloadDam", damId, "Plotb")]] <- downloadHandler(
+			filename = function() {
+				format(Sys.time(), "WestEnfield_plotb_results_%Y-%m-%d_%H-%M-%S_%z.png")
+			},
+			content = function(file) {
+				ggsave(file, plot=plotB, device = "png", width=18, height=14)
+			}
+		)
+
+		# d3 (100% score for each alternative)
+		plotC <- renderPlot2DScaled100(
+			t(ResultsMatrix[,,damId]),
+			"D 3", # title
+			alternative_names, # x_labels
+			criteria_names, # x_labels
+			"Alternative", # x axis label
+			"Score", # y axis label
+			"Criteria", # legend label
+			colors, # colors
+			NULL # x value limit
+		)
+		output[[paste0("WSMPlot", damId, "c")]] <- renderPlot(plotC)
+
+		# download button for d2 plot as png
+		output[[paste0("DownloadDam", damId, "Plotc")]] <- downloadHandler(
+			filename = function() {
+				format(Sys.time(), "WestEnfield_plotc_results_%Y-%m-%d_%H-%M-%S_%z.png")
+			},
+			content = function(file) {
+				ggsave(file, plot=plotC, device = "png", width=18, height=14)
+			}
 		)
 
 		# make the container of those graphs visible

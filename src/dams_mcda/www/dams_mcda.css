@@ -1,5 +1,5 @@
 body{
-	margin-bottom:1em;
+	margin-bottom:2em;
 }
 
 .dam-not-complete {
@@ -117,6 +117,7 @@ body{
 #generateMatrix6,
 #generateMatrix7,
 #generateMatrix8,
+#generateOutput,
 #generateCombinedMatrix
 {
 	width:80%; /* same width as form */
