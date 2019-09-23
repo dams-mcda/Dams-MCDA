@@ -968,61 +968,61 @@ ui <- shinyUI(fluidPage(
 		# --------------------------------------------------------------------------------
 		HTML("<li> Step 4: Multi-Dam Results </li>"),
 		tabPanel("Combined Results",
-		         h2("Multi-Dam Results"),
-		         HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-		         actionButton("generateOutput", "Generate"), # generate event
+		h2("Multi-Dam Results"),
+		HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
+		actionButton("generateOutput", "Generate"), # generate event
 
-		         div(id="combined-output",
-					      h2('Downloadable Supplementary Tables'),
-					      downloadButton("DownloadDecisions", "Download Decisions"),
-					      downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios"),
-             
-                HTML("Based on your preference values from Step 3 and the data values from the dams, we have generated a coordinated recommendation for the entire set of dams. Keep in mind that values for sea-run fish habitat area and river recreation\
-                      are network-dependent. Step 5 (results for individual dams) values will differ due to the site-specific nature of those criteria estimates.This outcome is a recommendation designed to support the consideration of multiple\
-		                  dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
+		div(id="combined-output",
+			h2('Downloadable Supplementary Tables'),
+			downloadButton("DownloadDecisions", "Download Decisions"),
+			downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios"),
 
-		            h2('Figure 1. Dam Decision Alternative Comparison'),
-		            plotOutput("CombinedPlot1", height="35em"),
-                HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been optimally selected based on your preference values and site-specific dam data values.\
-		                  The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data."),
-		           	downloadButton("DownloadCombinedPlot1", "Download Graph"),
+			HTML("Based on your preference values from Step 3 and the data values from the dams, we have generated a coordinated recommendation for the entire set of dams. Keep in mind that values for sea-run fish habitat area and river recreation\
+			are network-dependent. Step 5 (results for individual dams) values will differ due to the site-specific nature of those criteria estimates.This outcome is a recommendation designed to support the consideration of multiple\
+			dams. This recommendation is intended to support brainstorming about possibilities for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC."),
 
-		            h2('Figure 2. Decision Criteria by Dam'),
-		            plotOutput("CombinedPlot2", height="35em"),
-		            HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection.")
-					      downloadButton("DownloadCombinedPlot2", "Download Graph"),
+			h2('Figure 1. Dam Decision Alternative Comparison'),
+			plotOutput("CombinedPlot1", height="35em"),
+			HTML("<b>Results Interpretation</b> for Figure 1. This 'scenario', or group of decision alternatives for the set of dams, has been optimally selected based on your preference values and site-specific dam data values.\
+			The scenario represents the most efficient combination of dam decision alternatives given your preferences and the site-specific data."),
+			downloadButton("DownloadCombinedPlot1", "Download Graph"),
 
-		            h2('Figure 3. Graph3'),
-		            plotOutput("CombinedPlot3", height="35em"),
-		            HTML("<b>Results Interpretation</b> for Figure 3. "),
-					      downloadButton("DownloadCombinedPlot3", "Download Graph"),
+			h2('Figure 2. Decision Criteria by Dam'),
+			plotOutput("CombinedPlot2", height="35em"),
+			HTML("<b>Results Interpretation</b> for Figure 2. The scenario is broken down by decision criteria at each dam to give you an idea of how the criteria scores (data values*preference values) contributes to the overall scenario selection."),
+			downloadButton("DownloadCombinedPlot2", "Download Graph"),
 
-		            h2('Figure 4. Graph4'),
-		            plotOutput("CombinedPlot4", height="35em"),
-		            HTML("<b>Results Interpretation</b> for Figure 4. "),
-					      downloadButton("DownloadCombinedPlot4", "Download Graph"),
+			h2('Figure 3. Graph3'),
+			plotOutput("CombinedPlot3", height="35em"),
+			HTML("<b>Results Interpretation</b> for Figure 3. "),
+			downloadButton("DownloadCombinedPlot3", "Download Graph"),
 
-					      # download preferences (for UPLOAD DATA)
-					      downloadButton("downloadPreferenceSelection", "Download Preferences (Step 3)"),
-             
-                HTML("<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
-					           once more to see how your results change (note: you may want to download your results from this session, first).<br>\
-		                 <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one criterion increases, the value for another \
-		                 criterion must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br>"
-		            )
-		         )
+			h2('Figure 4. Graph4'),
+			plotOutput("CombinedPlot4", height="35em"),
+			HTML("<b>Results Interpretation</b> for Figure 4. "),
+			downloadButton("DownloadCombinedPlot4", "Download Graph"),
+
+			# download preferences (for UPLOAD DATA)
+			downloadButton("downloadPreferenceSelection", "Download Preferences (Step 3)"),
+
+			HTML("<br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
+				 once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+				 <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one criterion increases, the value for another \
+				 criterion must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br>"
+				)
+			 )
 		),
-		
-    
+
+
     # --------------------------------------------------------------------------------
 		# Map Recommentation Tab
 		# --------------------------------------------------------------------------------
 		tabPanel("Map Recommendation",
-			 h2("Optimized Result"),
-			 HTML('<div id="MapRecommendation"></div>'),
-       HTML("This mapped result accompanies the coordinted, multi-dam results in the previous tab. Keep in mind that a few of the decision criteria (e.g. sea-run fish habitat area, river recreation) are network-dependent, meaning that for any given decision alternative at any single dam, there is a range \
-            of possible outcome values. This network-dependency (i.e., connection to dams both upstream and downstream) means that individual dam results may differ slightly.<br>")
-			 downloadButton("downloadMapRecommendation", "Download Map")
+			h2("Optimized Result"),
+			HTML('<div id="MapRecommendation"></div>'),
+			HTML("This mapped result accompanies the coordinted, multi-dam results in the previous tab. Keep in mind that a few of the decision criteria (e.g. sea-run fish habitat area, river recreation) are network-dependent, meaning that for any given decision alternative at any single dam, there is a range \
+				of possible outcome values. This network-dependency (i.e., connection to dams both upstream and downstream) means that individual dam results may differ slightly.<br>"),
+			downloadButton("downloadMapRecommendation", "Download Map")
 		),
 
 
@@ -1033,11 +1033,10 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-      HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
+			HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
             Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
             values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
             results.<br>"),
-			
 
 			div(id="dam-1-output",
 
