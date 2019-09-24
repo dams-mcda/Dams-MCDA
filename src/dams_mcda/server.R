@@ -1375,11 +1375,11 @@ server <- function(input, output, session) {
 		plotA <- renderPlot2D(
 			ResultsMatrix[,,damId],
 			"D 1", # title
-			criteria_names, # x_labels
-			alternative_names, # y_labels
-			"Criteria", # x axis label
+			alternative_names, # x_labels
+			criteria_names, # y_labels
+			"Alternative", # x axis label
 			"Score", # y axis label
-			"Alternative", # legend label
+			"Criteria", # legend label
 			colors, # colors
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)

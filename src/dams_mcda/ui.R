@@ -1101,7 +1101,7 @@ ui <- shinyUI(fluidPage(
 				downloadButton("DownloadDam1Plota", "Download Graph"),
 
 				h3('Figure 5.'),
-				plotOutput("WSMPlot1b", height=1000, width="100%"),
+				plotOutput("WSMPlot1b", height=600, width="100%"),
         HTML(
 					"<br><b>Results Interpretation</b> for Figure 5"
 				),
@@ -1185,7 +1185,7 @@ ui <- shinyUI(fluidPage(
 					       downloadButton("DownloadDam2Plota", "Download Graph"),
                  
 		             h3('Figure 8. Total Decision Criteria Scores by Decision Alternative for Medway'),
-		             plotOutput("WSMPlot2b", height=1000, width="100%"),
+		             plotOutput("WSMPlot2b", height=600, width="100%"),
                  HTML(
 		               "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
 		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
@@ -1266,7 +1266,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 					       downloadButton("DownloadDam3Plota", "Download Graph"),
                  
-		             plotOutput("WSMPlot3b", height=1000, width="100%"),
+		             plotOutput("WSMPlot3b", height=600, width="100%"),
 					       downloadButton("DownloadDam3Plotb", "Download Graph"),
 
 		             h3('Download East Millinocket Results'),
@@ -1344,7 +1344,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 					       downloadButton("DownloadDam4Plota", "Download Graph"),
 
-		             plotOutput("WSMPlot4b", height=1000, width="100%"),
+		             plotOutput("WSMPlot4b", height=600, width="100%"),
 					       downloadButton("DownloadDam4Plotb", "Download Graph"),
 
 		             h3('Download Dolby Results'),
@@ -1422,7 +1422,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 					       downloadButton("DownloadDam5Plota", "Download Graph"),
 
-		             plotOutput("WSMPlot5b", height=1000, width="100%"),
+		             plotOutput("WSMPlot5b", height=600, width="100%"),
 					       downloadButton("DownloadDam5Plotb", "Download Graph"),
 
 		             h3('Download North Twin Results'),
@@ -1501,7 +1501,7 @@ ui <- shinyUI(fluidPage(
                  
 
 		            h3('Figure 18. Total Decision Criteria Scores by Decision Alternative for Dolby'),
-		            plotOutput("WSMPlot6b", height=1000, width="100%"),
+		            plotOutput("WSMPlot6b", height=600, width="100%"),
 					      downloadButton("DownloadDam6Plotb", "Download Graph"),
 
 		            h3('Download Millinocket Results'),
@@ -1577,7 +1577,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 					       downloadButton("DownloadDam7Plota", "Download Graph"),
                  
-		            plotOutput("WSMPlot7b", height=1000, width="100%"),
+		            plotOutput("WSMPlot7b", height=600, width="100%"),
 					      downloadButton("DownloadDam7Plotb", "Download Graph"),
 
 		             h3('Download Millinocket Lake Results'),
@@ -1655,7 +1655,7 @@ ui <- shinyUI(fluidPage(
 		             ),
 					       downloadButton("DownloadDam8Plota", "Download Graph"),
                  
-		             plotOutput("WSMPlot8b", height=1000, width="100%"),
+		             plotOutput("WSMPlot8b", height=600, width="100%"),
 					       downloadButton("DownloadDam8Plotb", "Download Graph"),
 
 		             h3('Download Ripogenus Results'),
