@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # django rest framework
     'rest_framework',
+    'django_filters',
     # core app contains modifications to user and addition of group
     'core',
 ]
@@ -146,3 +147,7 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # if you want to store emails
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
+# django rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}

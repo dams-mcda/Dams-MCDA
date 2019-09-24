@@ -972,6 +972,8 @@ ui <- shinyUI(fluidPage(
 		h2("Multi-Dam Results"),
 		HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 		actionButton("generateOutput", "Generate"), # generate event
+		actionButton("saveResultsToDjango", "Save Input Preferences"),
+		actionButton("loadScores", "Load Preferences"),
 
 		div(id="combined-output",
 			h2('Downloadable Supplementary Tables'),

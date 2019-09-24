@@ -15,11 +15,11 @@
 {% block content %}
 
 <!-- USER -->
-<div hidden id="dams-mcda-username" data-username="{{ request.user.username }}"></div>
+<div hidden id="dams-mcda-user" data-username="{{ request.user.username }}" data-user-id="{{request.user.id}}"></div>
 
 <!-- GROUP -->
 {% if request.user.group %}
-<div hidden id="dams-mcda-groupname" data-groupname="{{ request.user.group.name }}"></div>
+<div hidden id="dams-mcda-group" data-groupname="{{ request.user.group.name }}" data-group-id="{{ request.user.group.id }}"></div>
 {% endif %}
 
 <!-- SESSION -->

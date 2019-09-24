@@ -85,23 +85,23 @@ criteria_names <- c(
 
 # alternative display names (for labeling tables and graphs)
 alternative_names <- c(
-  "Remove Dam",
-  "Improve Fish Passage",
-  "Improve Hydro",
-  "Improve Hydro AND Fish Passage",
-  "Keep and Maintain Dam"
+	"Remove Dam",
+	"Improve Fish Passage",
+	"Improve Hydro",
+	"Improve Hydro AND Fish Passage",
+	"Keep and Maintain Dam"
 )
 
 # dam display names (for labeling tables and graphs)
 dam_names <- c(
-    "West Enfield Dam",
-    "Medway Dam",
-    "East Millinocket",
-    "Dolby",
-	  "North Twin",
-    "Millinocket/Quakish",
-    "Millinocket Lake",
-    "Ripogenus"
+	"West Enfield Dam",
+	"Medway Dam",
+	"East Millinocket",
+	"Dolby",
+	"North Twin",
+	"Millinocket/Quakish",
+	"Millinocket Lake",
+	"Ripogenus"
 )
 
 # append summed score to criteria_names array
@@ -294,6 +294,9 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	# debug/validate authentication
 	session$sendCustomMessage("validateSession", "any message")
+	# let js know of dam/crits so it can send values to sliders
+	session$sendCustomMessage("bindDamNames", dam_names)
+	session$sendCustomMessage("bindCritNames", criteria_inputs)
 
 
 	#------------------------------------------------------------
@@ -306,6 +309,7 @@ server <- function(input, output, session) {
 	#   could be expanded to include different modes depending on the application state requirements
 	#------------------------------------------------------------
 	session_mode <<- "individual" # default mode of session
+	session$sendCustomMessage("setAppMode", session_mode)
 
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
@@ -348,6 +352,13 @@ server <- function(input, output, session) {
 		}
 	})
 
+	# important
+	# for loading scores from js > input sliders
+	observeEvent(input$session_input_update, {
+		#message("session input update from js ", input$session_input_update, " length ", length(input$session_input_update))
+		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
+	})
+
 	# userHasGroup will query the users group relation
 	# will set the variable input$session_user_group on completion
 	checkUserHasGroup <- function(){
@@ -361,10 +372,13 @@ server <- function(input, output, session) {
 		if (newMode == "group"){
 			# check if user already picked a group
 			checkUserHasGroup()
+			session$sendCustomMessage("setAppMode", newMode)
+			removeModal()
 		}else if (intro_modal_visible){
 			removeModal()
 			intro_modal_visible <<- FALSE
 		}
+		session$sendCustomMessage("loadScores", session_mode)
 	}
 
 	# on mode file upload
@@ -517,6 +531,7 @@ server <- function(input, output, session) {
 			}
 		}else{
 			# invalid file
+			fail_reason <- paste0(fail_reason, " modal visible?: ", upload_modal_visible, " file valid ", file_valid)
 			# warn the user that the file is not acceptable
 			#message("file upload fail", fail_reason)
 			session$sendCustomMessage("invalidFileSelected", fail_reason)
@@ -1929,19 +1944,25 @@ server <- function(input, output, session) {
 
 		raw_scores <- getRawScores()
 
-		# assign values in new matrix
+		# assign values in new matrix, rotate so we can store keys by dam not criteria
 		RawCriteriaMatrix <- data.frame(
-			matrix(raw_scores, nrow=length(available_dams), byrow=length(criteria_inputs))
+			matrix(t(raw_scores), nrow=length(criteria_inputs), byrow=length(available_dams))
 		)
 
 		# assign table row, column names
-		row.names(RawCriteriaMatrix) <- dam_names
-		colnames(RawCriteriaMatrix) <- criteria_names
+		colnames(RawCriteriaMatrix) <- dam_names
+		rownames(RawCriteriaMatrix) <- criteria_names
 
 		MatrixJson <- toJSON(RawCriteriaMatrix)
 
 		# send the data through javascript
 		session$sendCustomMessage("saveResultsToDjango", toString(MatrixJson))
+	})
+
+	#NOTE: this is for testing django > js > shiny
+	observeEvent(input$loadScores, {
+		# send the data through javascript
+		session$sendCustomMessage("loadScores", session_mode)
 	})
 
 

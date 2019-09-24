@@ -1,5 +1,7 @@
 // load context from parent when setContext is called
 let cachedContext = {};
+let damNames = [];
+let critNames = [];
 
 
 /*
@@ -19,8 +21,8 @@ function init(){
  *
  * set session context
  */
-function setContext(user, group, csrf, sess){
-	console.log("frame: setContext", user, group, csrf, sess);
+function setContext(user, userId, group, groupId, csrf, sess){
+	console.log("frame: setContext", user, userId, group, groupId, csrf, sess);
 
 	$.ajaxSetup({
 		headers: {
@@ -29,7 +31,9 @@ function setContext(user, group, csrf, sess){
 	});
 
 	cachedContext['user'] = user;
+	cachedContext['userId'] = parseInt(userId);
 	cachedContext['group'] = group;
+	cachedContext['groupId'] = parseInt(groupId);
 	//cachedContext['csrf'] = csrf;
 	cachedContext['session'] = sess;
 }
@@ -63,6 +67,15 @@ function validateSession(message){
 
 
 /*
+ * for setting application mode ie: "group", "individual"
+ */
+function setAppMode(message){
+	console.log("APP MODE", message)
+	cachedContext['appMode'] = message;
+}
+
+
+/*
  * userHasGroup
  *
  * checks if user has group associated, if false we might have to redirect to group selection
@@ -88,28 +101,181 @@ function userHasGroup(message){
  *
  * given string of json send to django backend to save
  *
- * NOTE: as of now this just tests sending json string from shiny backend to shiny frontend
+ * NOTE: saved preferences are unique to user-group so
+ * the most the db ever saves is two per user
+ * one for group and one for individual
+ *
  */
 function saveRawJsonScores(message){
+	//console.log("saveRawJsonScores: ", message);
 
-	console.log("saveRawJsonScores: ", message);
-	// potential ajax setup below
+	// get params
+	// check if already saved preferences (see note above)
+	let getParams = {
+		'user': cachedContext["userId"],
+		'group': cachedContext["groupId"],
+	}
+
+	// params for update/create
+	let group = ""
+	if (cachedContext["appMode"] == "group"){
+		group = cachedContext["groupId"]
+	}
+	let params = {
+		'session-id': cachedContext["session"],
+		'user': cachedContext["userId"],
+		'group': group,
+		'scores': message
+	}
+
+	// check if save for this user/group exists
+	$.ajax({
+		url: "/core/api/preference/",
+		method: 'GET',
+		dataType:'json',
+		data: getParams
+	}).done(function(data){
+		if (data.length == 1){
+			// UPDATE already existing
+			$.ajax({
+				url: "/core/api/preference/"+ data[0].id +"/",
+				method: 'PATCH',
+				dataType:'json',
+				data: params
+			}).done(function(data){
+				console.log("PATCH Succesful!");
+			}).fail(function(response){
+				console.log("Failed PATCHING!", response);
+			});
+		}else{
+			// CREATE
+			$.ajax({
+				url: "/core/api/preference/",
+				method: 'POST',
+				dataType:'json',
+				data: params
+			}).done(function(data){
+				console.log("Succesfully CREATED!");
+			}).fail(function(response){
+				console.log("Failed CREATE!", response);
+			});
+		}
+	}).fail(function(response){
+		// CREATE
+		$.ajax({
+			url: "/core/api/preference/",
+			method: 'POST',
+			dataType:'json',
+			data: params
+		}).done(function(data){
+			console.log("Succesfully CREATED!");
+		}).fail(function(response){
+			console.log("Failed CREATE!", response);
+		});
+	});
+}
+
+
+/*
+ * bindDamNames
+ *
+ * message is array of string names (in order of appearance)
+ */
+function bindDamNames(message){
+	damNames = message;
+}
+
+
+/*
+ * bindCritNames
+ *
+ * message is array of string names (in order of appearance)
+ */
+function bindCritNames(message){
+	critNames = message;
+}
+
+
+/*
+ * loadScores
+ *
+ * get preferences from a saved session
+ *
+ */
+function loadScores(input_mode){
+	let group_mode = (cachedContext["appMode"] == "group");
+
+	let params;
+	if (group_mode){
+		params = {
+			'group': cachedContext["groupId"]
+		}
+	}else{
+		params = {
+			'user': cachedContext["userId"],
+			'group': 'null'
+		}
+	}
 
 	// ajax request user data
 	$.ajax({
-		url: "/api/saveScores/",
-		method: 'POST',
-		data: {
-			'session-id': cachedContext["session"],
-			'user': cachedContext["user"],
-			'group': cachedContext["group"],
-			'scores': JSON.parse(message)
-		}
+		url: "/core/api/preference/",
+		method: 'GET',
+		dataType:'json',
+		data: params
+
 	}).done(function(data){
-		console.log("Succesfully Saved!");
+		if (group_mode){
+			//console.log("loadScores group results: ", data);
+
+			// return average of each result
+			let num_records = data.length;
+
+			for (let damId in damNames){
+
+				let damIndex = parseInt(damId) + 1; // R index starts at 1
+				//console.log("data for dam ", damId, damData);
+				for (let critId in critNames){
+					let summed_score = 0;
+					for (let recordId=0;recordId<num_records;recordId++){
+						//console.log("record: ", recordId, " val: ", data[recordId]["scores"][damNames[damId]][critId])
+						summed_score += data[recordId]["scores"][damNames[damId]][critId]
+					}
+					summed_score = (summed_score/num_records)
+
+					//console.log("final summed_score: ", summed_score)
+					// fires event on server to update input slider
+					Shiny.setInputValue(
+						"session_input_update",
+						[(critNames[critId] + damIndex.toString()), summed_score],
+						{priority: "event"}
+					)
+				}
+			}
+			// combine results
+			return data;
+		}else{
+			//console.log("loadScores indiv results: ", data);
+			// return first result
+			let scores = data[0]["scores"]
+			for (let damId in damNames){
+				let damData = scores[damNames[damId]];
+				let damIndex = parseInt(damId) + 1; // R index starts at 1
+				//console.log("data for dam ", damId, damData);
+				for (let critId in critNames){
+					//console.log("InputId: ", critNames[critId] + damIndex.toString())
+					// fires event on server to update input slider
+					Shiny.setInputValue(
+						"session_input_update",
+						[(critNames[critId] + damIndex.toString()), damData[critId]],
+						{priority: "event"}
+					)
+				}
+			}
+		}
+
 	}).fail(function(response){
-		console.log("Failed Saving!", response);
-		alert('Not Implemented, just for testing');
+		console.log("loadScores failed: ", response);
 	});
 }
 
@@ -141,13 +307,17 @@ function invalidFileSelected(message){
  */
 Shiny.addCustomMessageHandler("validateSession", validateSession);
 Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
+Shiny.addCustomMessageHandler("loadScores", loadScores);
 Shiny.addCustomMessageHandler("noFileSelected", noFileSelected);
 Shiny.addCustomMessageHandler("invalidFileSelected", invalidFileSelected);
 Shiny.addCustomMessageHandler("checkUserHasGroup", userHasGroup);
+Shiny.addCustomMessageHandler("setAppMode", setAppMode);
+Shiny.addCustomMessageHandler("bindDamNames", bindDamNames);
+Shiny.addCustomMessageHandler("bindCritNames", bindCritNames);
 
 
 // initialize shiny js on ready
-$(document).ready(function(){
+$(document).on('shiny:sessioninitialized', function(event){
 	console.log("frame: ready");
 	init();
 });
