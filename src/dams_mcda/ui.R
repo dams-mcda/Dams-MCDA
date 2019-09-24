@@ -39,7 +39,7 @@ numPropertiesLabel <- "Number of properties is the estimated number of propertie
 in viewshed or property value (Roy et al., 2018). "
 annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate \
 capacity from FERC licenses for each hydropower project."
-GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an estimate \
+GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an  \
 estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production (reservoir or diversion-design \
 dams); based on decreasing generation from the State's electricity generation mix; includes life cycle emissions impacts."
 indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving\
@@ -47,7 +47,7 @@ or restoring the cultural traditions and lifeways of indigenous people."
 communityIdentityLabel <- "Community identity is a unitless rating to convey the importance of preserving the existing identity of \
 the community residents living along or on islands within the river."
 industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
-he industrial history of the site. "
+the industrial history of the site. "
 aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
 scenic value, smell, sound)."
 healthLabel <- "Public health is a unitless rating to convey the importance of public health connected to air, water, and land\
@@ -102,13 +102,17 @@ ui <- shinyUI(fluidPage(
 				 improve hydropower generation, improve fish passage) for hydropower dams, and could potentially be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for Federal Energy Regulatory Commission \
          (FERC) licensed hydropower dams in Maine's Penobscot River, based on your preferences. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria \
          (e.g., annuitized cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with FERC license expiration dates in the next 10 years. The tool gathers user inputs and calculates a ranked set of decision \
-         alternatives for each dam. Then, tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
+         alternatives for each dam. Then, the tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
 				 is to encourage you to consider dams on the river as a system, in addition to one at a time.\ <br>
 				 <br><b>NOTE:</b> The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br>"
 			),
 
-			helpText(a("Background on Dam Decision Support Tool", href = 'BackgroundDamDecisionSupportTool.pdf')),
-			helpText( a("Click HERE for more information about the FERC process", href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp")),
+			helpText(
+			  HTML('<a href = "BackgroundDamDecisionSupportTool.pdf" target="_blank">Click for background on the Dam Decision Support Tool</a>')
+			  ),
+			helpText(
+			  HTML('<a href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp" target="_blank">Click HERE for more information about the FERC Integrated Licensing Process</a>')
+			  ),
 
 			HTML(
 				"<h4>More Information:</h4>\
@@ -139,9 +143,13 @@ ui <- shinyUI(fluidPage(
 				Hover over the dams on the map for more information on each site.<br>"
 			),
 			helpText(
-				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click for more information about dam decision alternatives</a><br>'),
-				HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>'),
-				HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to download Decision Criteria Data Matrices</a>')
+				HTML('<a href="DecisionAlternativesDescriptions.pdf" target="_blank">Click for more information about dam decision alternatives</a><br>')
+			),
+			helpText(
+			  HTML('<a href="DecisionCritriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>')
+			),
+			helpText(
+			  HTML('<a href="DecisionMatrices.xlsx" target="_blank">Click to open Dam Decision Matrices</a>')
 			),
 			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
 			),
@@ -166,9 +174,11 @@ ui <- shinyUI(fluidPage(
 
 			 # tab content
 			h2("West Enfield Dam (FERC No. P-2600)"),
-			HTML('Please consider and rate the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a> <br>\
-				 <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
+			HTML('Please consider and rate your preference for the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+         bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+         <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText(
@@ -266,11 +276,12 @@ ui <- shinyUI(fluidPage(
 			# tab content
 			h2("Medway Dam (FERC No. P-2666)"),
 
-			HTML(
-				'Please consider and rate the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100.Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b> For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			HTML('Please consider and rate your preference for the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a> <br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText(
 			  HTML('<a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>')
@@ -365,12 +376,14 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("Dam3"),
 
 			# tab content
-			h2("East Millinockt Dam (FERC No. P-2458)"),
-			HTML(
-				'Please consider the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			h2("East Millinocket Dam (FERC No. P-2458)"),
+
+			HTML('Please consider and rate your preference for the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
@@ -454,7 +467,7 @@ ui <- shinyUI(fluidPage(
 			htmlOutput("UpdateDam3Progress"),
 			actionButton("updateBtn3", "Update")
 
-		), # End Millinocket Dam
+		), # End East Millinocket Dam
 
 
 		# ----------------------------------------
@@ -466,13 +479,14 @@ ui <- shinyUI(fluidPage(
 
 			# tab content
 			h2("Dolby Dam (FERC No. P-2458)"),
-			HTML(
-				'Please consider the decision criteria listed below for Dolby Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
-			),
 
+			HTML('Please consider and rate your preference for the decision criteria listed below for Dolby Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			),
 			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
 			),
@@ -568,12 +582,13 @@ ui <- shinyUI(fluidPage(
 			# tab content
 			h2("North Twin Dam (FERC No. P-2458)"),
 
-			HTML(
-				'Please consider the decision criteria listed below for North Twin Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
-			),
+			HTML('Please consider and rate your preference for the decision criteria listed below for North Twin Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			),			
 
 			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
@@ -670,11 +685,12 @@ ui <- shinyUI(fluidPage(
 			# tab content
 			h2("Millinocket/Quakish Dam (FERC No. P-2458)"),
 
-			HTML(
-				'Please consider the decision criteria listed below for Millinocket/Quakish Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			HTML('Please consider and rate your preference for the decision criteria listed below for Millinocket/Quakish Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 
 			helpText(
@@ -772,11 +788,12 @@ ui <- shinyUI(fluidPage(
 			# tab content
 			h2("Millinocket Lake Dam (FERC No. P-2458)"),
 
-			HTML(
-				'Please consider the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			HTML('Please consider and rate your preference for the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText(
 			  HTML('<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>')
@@ -873,11 +890,13 @@ ui <- shinyUI(fluidPage(
 
 			# tab content
 			h2("Ripogenus Dam (FERC No. P-2572)"),
-			HTML(
-				'Please consider the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a> <br>\
-				<br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator (in the box to the right of the first decision criterion) will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
-				increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100. Click UPDATE at the bottom of the page when you are done moving the slider bars to mark this tab "Complete". <br>\
-				<br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
+			
+			HTML('Please consider and rate your preference for the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
+				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
+			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
+			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
+			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
 			),
 			helpText(
 			  HTML('<a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>')
