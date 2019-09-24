@@ -85,12 +85,13 @@ ui <- shinyUI(fluidPage(
 
 
 	navlistPanel(
+		id="navListPanel",
 		# Define layout widths
 		widths = c(2,10),
 
-    # --------------------------------------------------------------------------------
-    # Define Instructions tab
-    # --------------------------------------------------------------------------------
+		# --------------------------------------------------------------------------------
+		# Define Instructions tab
+		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'>Step 1: Start Here</li>"),
 		tabPanel("Start Here",
 			h2("Welcome!"),
@@ -127,9 +128,9 @@ ui <- shinyUI(fluidPage(
 		  ),
 
 
-    # --------------------------------------------------------------------------------
-    # Interactive Dam Map Tab
-    # --------------------------------------------------------------------------------
+		# --------------------------------------------------------------------------------
+		# Interactive Dam Map Tab
+		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'> Step 2: View Dam Map </li>"),
 		tabPanel("View Dam Map",
 			htmlOutput("Map1"), # status and title
@@ -154,8 +155,8 @@ ui <- shinyUI(fluidPage(
 
 
 		# --------------------------------------------------------------------------------
-    # Preference Elicitation Tool
-    # --------------------------------------------------------------------------------
+		# Preference Elicitation Tool
+		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'> Step 3: Enter Preferences </li>"),
 		# ----------------------------------------
 		# West Enfield Dam
@@ -1699,7 +1700,10 @@ ui <- shinyUI(fluidPage(
 				 "
 			 )
 		)
-)))
+	), # end of navigation panel
+	actionButton("Prev_Tab", "<<"),
+	actionButton("Next_Tab", ">>")
+))
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)

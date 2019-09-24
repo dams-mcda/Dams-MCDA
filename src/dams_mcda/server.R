@@ -249,6 +249,28 @@ damsCompleted <- function(completed){
 	return(TRUE)
 }
 
+tabPanel_names <- c(
+	"Start Here",
+	"View Dam Map",
+	'<div id="Dam1" class="shiny-html-output"></div>',
+	'<div id="Dam2" class="shiny-html-output"></div>',
+	'<div id="Dam3" class="shiny-html-output"></div>',
+	'<div id="Dam4" class="shiny-html-output"></div>',
+	'<div id="Dam5" class="shiny-html-output"></div>',
+	'<div id="Dam6" class="shiny-html-output"></div>',
+	'<div id="Dam7" class="shiny-html-output"></div>',
+	'<div id="Dam8" class="shiny-html-output"></div>',
+	"Combined Results",
+	"Map Recommendation",
+	"Dam 1: West Enfield",
+	"Dam 2: Medway Dam",
+	"Dam 3: East Millinocket Dam",
+	"Dam 4: Dolby Dam",
+	"Dam 5: North Twin",
+	"Dam 6: Millinocket",
+	"Dam 7: Millinocket Lake",
+	"Dam 8: Ripogenus"
+)
 
 
 #--------------------------------------------------------------------------------
@@ -263,6 +285,8 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	message("session$userData$selectedPreferences init")
 	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
+	message("session$userData$currentTab init")
+	session$userData$currentTab <- 1
 
 
 	#------------------------------------------------------------
@@ -2056,5 +2080,33 @@ server <- function(input, output, session) {
 	  }
 	)
 
+	observeEvent(input$Prev_Tab, {
+		if (session$userData$currentTab > 1){
+			message("go to prev tab ", tabPanel_names[session$userData$currentTab-1])
+			updateTabsetPanel(session, "navListPanel",
+				selected = tabPanel_names[session$userData$currentTab-1]
+			)
+			session$userData$currentTab <- (session$userData$currentTab - 1)
+		}else{
+			message("FAILED go to prev tab ")
+			# TODO:
+			# alter user?
+			# do nothing?
+		}
+	})
+	observeEvent(input$Next_Tab, {
+		if (session$userData$currentTab < length(tabPanel_names)){
+			message("go to next tab ", tabPanel_names[session$userData$currentTab+1])
+			updateTabsetPanel(session, "navListPanel",
+				selected = tabPanel_names[session$userData$currentTab+1]
+			)
+			session$userData$currentTab <- (session$userData$currentTab + 1)
+		}else{
+			message("FAILED go to next tab ")
+			# TODO:
+			# alter user?
+			# do nothing?
+		}
+	})
 } # end server
 
