@@ -2102,8 +2102,12 @@ server <- function(input, output, session) {
 	)
 
 	observeEvent(input$Prev_Tab, {
+		# update current page index as user can click any tab any time
+		if (tabPanel_names[session$userData$currentTab] != input$navListPanel){
+			session$userData$currentTab = which(tabPanel_names==input$navListPanel)
+		}
+		# move
 		if (session$userData$currentTab > 1){
-			message("go to prev tab ", tabPanel_names[session$userData$currentTab-1])
 			updateTabsetPanel(session, "navListPanel",
 				selected = tabPanel_names[session$userData$currentTab-1]
 			)
@@ -2115,9 +2119,14 @@ server <- function(input, output, session) {
 			# do nothing?
 		}
 	})
+
 	observeEvent(input$Next_Tab, {
+		# update current page index as user can click any tab any time
+		if (tabPanel_names[session$userData$currentTab] != input$navListPanel){
+			session$userData$currentTab = which(tabPanel_names==input$navListPanel)
+		}
+		# move
 		if (session$userData$currentTab < length(tabPanel_names)){
-			message("go to next tab ", tabPanel_names[session$userData$currentTab+1])
 			updateTabsetPanel(session, "navListPanel",
 				selected = tabPanel_names[session$userData$currentTab+1]
 			)

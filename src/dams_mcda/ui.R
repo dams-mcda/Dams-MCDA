@@ -1703,8 +1703,8 @@ ui <- shinyUI(fluidPage(
 			 )
 		)
 	), # end of navigation panel
-	actionButton("Prev_Tab", "<<"),
-	actionButton("Next_Tab", ">>")
+	actionButton("Prev_Tab", "Previous", style="width:49%; margin-right:1%;"),
+	actionButton("Next_Tab", "Next", style="width:49%;")
 ))
 
 # create the application with ui in this file and imported server from server.R
