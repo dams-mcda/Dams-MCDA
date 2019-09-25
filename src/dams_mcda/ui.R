@@ -1105,12 +1105,12 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 5.'),
 				plotOutput("WSMPlot1b", height=1000, width="100%"),
-        HTML(
+				HTML(
 					"<br><b>Results Interpretation</b> for Figure 5"
 				),
 				downloadButton("DownloadDam1Plotb", "Download Graph"),
-          
-        h3('Download West Enfield Results'),
+
+				h3('Download West Enfield Results'),
 				HTML(
 					"<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 				),

@@ -1412,13 +1412,13 @@ server <- function(input, output, session) {
 		# (d) has three graphs for each dam
 		# d1
 		plotA <- renderPlot2D(
-			ResultsMatrix[,,damId],
+			t(ResultsMatrix[,,damId]),
 			"D 1", # title
-			criteria_names, # x_labels
 			alternative_names, # y_labels
-			"Criteria", # x axis label
+			criteria_names, # x_labels
+			"Alternative", # x axis label
 			"Score", # y axis label
-			"Alternative", # legend label
+			"Criteria", # legend label
 			colors, # colors
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
