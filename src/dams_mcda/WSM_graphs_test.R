@@ -24,7 +24,7 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('TestData.csv')
+TestData <- read.csv('EqualPrefs_forLiveSite.csv')
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
