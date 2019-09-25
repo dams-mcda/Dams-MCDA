@@ -2,8 +2,8 @@ source("plots.R")
 source("WSM.R")
 
 #pull from WSM script
-DamsData <- read.csv('DamsData.csv') #might delete later
-DamsData <- data.frame(DamsData) #might delete later
+DamsData <- read.csv('DamsData.csv') #individual dams criteria data, including social/cultural from pre-survey
+DamsData <- data.frame(DamsData) 
 source(file='f_raw.RData')
 source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
 NormalizedMatrix <- as.array(f_nrge)
@@ -1136,12 +1136,12 @@ server <- function(input, output, session) {
 			# Preference scores by criteria
 			combinedPlot1 <- renderPlot2D(
 				t(RawCriteriaMatrix), # data
-				"Preferences for all dams", # title
+				"Criteria preference values for all dams", # title
 				dam_names, # x_labels
 				criteria_names, # y_labels
 				"Dam", # x axis label
-				"Score", # y axis label
-				"Criteria", # legend label
+				"User-Defined Criteria Preference Score", # y axis label
+				"Decision Criteria", # legend label
 				colors, # colors
 				NULL, # x value limit
 				c(0, max_slider_value) # y value range
@@ -1260,8 +1260,8 @@ server <- function(input, output, session) {
 				dam_names_with_max_alt, # x_labels
 				criteria_names, # y_labels
 				"Dam", # x axis label
-				"Score", # y axis label
-				"Criteria", # legend label
+				"Final MCDA Scores", # y axis label
+				"Decision Criteria:", # legend label
 				colors, # colors
 				NULL, # x value limit
 				NULL # y value limit (100 in this case)
@@ -1286,8 +1286,8 @@ server <- function(input, output, session) {
 				dam_names, # x_labels
 				alternative_names, # y_labels
 				"Dam", # x axis label
-				"Score", # y axis label
-				"Alternative", # y axis label
+				"Final MCDA Scores", # y axis label
+				"Decision Alternative:", # legend label
 				colors, # colors
 				NULL, # x value limit
 				NULL # y value limit (100 in this case)
@@ -1327,7 +1327,7 @@ server <- function(input, output, session) {
 				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
 				dam_names, # y_labels
 				"Coordinated Multi-Dam Outcome", # x axis label
-				"Score", # y axis label
+				"Final MCDA Scores", # y axis label
 				"Dam", # y axis label
 				colors, # colors
 				NULL, # x value limit
@@ -1414,11 +1414,11 @@ server <- function(input, output, session) {
 		plotA <- renderPlot2D(
 			t(ResultsMatrix[,,damId]),
 			"D 1", # title
-			alternative_names, # y_labels
-			criteria_names, # x_labels
-			"Alternative", # x axis label
-			"Score", # y axis label
-			"Criteria", # legend label
+			alternative_names, # x_labels
+			criteria_names, # y_labels
+			"Decision Alternative", # x axis label
+			"Total MCDA Score", # y axis label
+			"Decision Criteria:", # legend label
 			colors, # colors
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
@@ -1440,8 +1440,8 @@ server <- function(input, output, session) {
 			IndScoreSum[damId,],
 			"D 2", # title
 			alternative_names, # x_labels
-			"Alternative", # x axis label
-			"Score", # y axis label
+			"Decision Alternative", # x axis label
+			"Total MCDA Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
@@ -1465,9 +1465,9 @@ server <- function(input, output, session) {
 			"D 3", # title
 			alternative_names, # x_labels
 			criteria_names, # x_labels
-			"Alternative", # x axis label
-			"Score", # y axis label
-			"Criteria", # legend label
+			"Decision Alternative", # x axis label
+			"Scaled Criteria Preference Score", # y axis label
+			"Decision Criteria:", # legend label
 			colors, # colors
 			NULL # x value limit
 		)
