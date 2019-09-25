@@ -13,8 +13,8 @@ source("WSM.R")
 
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-source(file='f_nrge.RData')#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge, dim = 3)
+source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_nrge)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
@@ -24,7 +24,7 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('TestData.csv')
+TestData <- read.csv('EqualPrefs_forLiveSite.csv')
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -33,7 +33,7 @@ criteria_inputs <- c(
 					 "RiverRec",
 					 "Reservoir",
 					 "ProjectCost",
-					 "Safety",
+					 "BreachDamage",
 					 "NumProperties",
 					 "ElectricityGeneration",
 					 "AvoidEmissions",
@@ -46,15 +46,15 @@ criteria_inputs <- c(
 					 )
 
 #dam display names
-dam_names <- as.list(c('WestEnfield','Medway','Millinocket','E.Millinocket','North Twin','Dolby','Millinocket Lake','Ripogenus'))
+dam_names <- as.list(c('WestEnfield','Medway','E.Millinocket', 'Dolby','North Twin','Millinocket','Millinocket Lake','Ripogenus'))
 
 # alternative display names (for labeling tables and graphs)
 alternative_names <- as.list(c(
-  "Keep and Maintain Dam",
-  "Improve Hydro",
+  "Remove Dam",
   "Improve Fish Passage",
+  "Improve Hydro",
   "Hydro And Fish",
-  "Remove Dam"
+  "Keep and Maintain Dam"
 ))
 
 # list of dams
@@ -100,21 +100,20 @@ Ind_PrefMatrix <- array(rep(Ind_PrefMatrix,5), dim=c(dim(Ind_PrefMatrix), 5))
 
 message("fill Ind Pref Matrix")
 
-#This subsets by dam (row) and transforms individual dam matrices
 
-#This subsets by dam (row)
+#This subsets by dam (row) and transforms individual dam matrices
 WestEnf_PrefMatrix <- subset(Ind_PrefMatrix[1,,])
 WestEnf_PrefMatrix <- data.frame(t(WestEnf_PrefMatrix))
 Med_PrefMatrix <- subset(Ind_PrefMatrix[2,,])
 Med_PrefMatrix <- data.frame(t(Med_PrefMatrix))
-Mill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
-Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))
-EastMill_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
+EastMill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
 EastMill_PrefMatrix <- data.frame(t(EastMill_PrefMatrix))
+Dolby_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
+Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))	
 NorthTw_PrefMatrix <- subset(Ind_PrefMatrix[5,,])
 NorthTw_PrefMatrix <- data.frame(t(NorthTw_PrefMatrix))
-Dolby_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
-Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))
+Mill_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
+Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))	
 MillLake_PrefMatrix <- subset(Ind_PrefMatrix[7,,])
 MillLake_PrefMatrix <- data.frame(t(MillLake_PrefMatrix))
 Rip_PrefMatrix <- subset(Ind_PrefMatrix[8,,])
@@ -160,43 +159,45 @@ message("fill multi-dam Pref Matrix")
 #retrieve DamsData to manipulate into DamsDataMatrix
 Ind_DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
 
-KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
-					  DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
-					  DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
-					  DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+
+Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem, 
+                DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
+                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
+                DamsData$Health_Remove, DamsData$Justice_Remove)
+Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
+                      DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
+                      DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
+                      DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
 Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage, 
 					   DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					   DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro, 
 					   DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
-Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage, 
-					  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,  
-					  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish, 
-					  DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
 FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage, 
 					  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add, 
 					  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 					  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem, 
-				DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,  
-				DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove, 
-				DamsData$Health_Remove, DamsData$Justice_Remove)
+KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage, 
+                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc, 
+                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain, 
+                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+
 
 #This abind creates our 3D matrix
-Ind_DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
+Ind_DamsDataMatrix <- abind(Remove, Improve_Hydro, Improve_Fish, FishANDHydro, KeepMaintain, along = 3, force.array=TRUE)
 
 #------------------------SUBSET BY DAM (row)--------------------------
 WestEnf_DataMatrix <- subset(Ind_DamsDataMatrix[1,,])
 WestEnf_DataMatrix <- data.frame(t(WestEnf_DataMatrix))
 Med_DataMatrix <- subset(Ind_DamsDataMatrix[2,,])
 Med_DataMatrix <- data.frame(t(Med_DataMatrix))
-Mill_DataMatrix <- subset(Ind_DamsDataMatrix[3,,])
-Mill_DataMatrix <- data.frame(t(Mill_DataMatrix))
-EastMill_DataMatrix <- subset(Ind_DamsDataMatrix[4,,])
-EastMill_DataMatrix <- data.frame(t(EastMill_DataMatrix))
+EastMill_DataMatrix <- subset(Ind_DamsDataMatrix[3,,])
+EastMill_DataMatrix <- data.frame(t(EastMill_DataMatrix))	
+Dolby_DataMatrix <- subset(Ind_DamsDataMatrix[4,,])
+Dolby_DataMatrix <- data.frame(t(Dolby_DataMatrix))
 NorthTw_DataMatrix <- subset(Ind_DamsDataMatrix[5,,])
 NorthTw_DataMatrix <- data.frame(t(NorthTw_DataMatrix))
-Dolby_DataMatrix <- subset(Ind_DamsDataMatrix[6,,])
-Dolby_DataMatrix <- data.frame(t(Dolby_DataMatrix))
+Mill_DataMatrix <- subset(Ind_DamsDataMatrix[6,,])
+Mill_DataMatrix <- data.frame(t(Mill_DataMatrix))
 MillLake_DataMatrix <- subset(Ind_DamsDataMatrix[7,,])
 MillLake_DataMatrix <- data.frame(t(MillLake_DataMatrix))
 Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
@@ -208,12 +209,13 @@ AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("alternative"
 
 AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
 AllDataMatrix[,,2] <- simplify2array(Med_DataMatrix)
-AllDataMatrix[,,3] <- simplify2array(Mill_DataMatrix)
-AllDataMatrix[,,4] <- simplify2array(EastMill_DataMatrix)
+AllDataMatrix[,,3] <- simplify2array(EastMill_DataMatrix)
+AllDataMatrix[,,4] <- simplify2array(Dolby_DataMatrix)
 AllDataMatrix[,,5] <- simplify2array(NorthTw_DataMatrix)
-AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
+AllDataMatrix[,,6] <- simplify2array(Mill_DataMatrix)
 AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
+
 
 #--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 
@@ -243,7 +245,7 @@ for (p in 1:matrix_rows){
 
 #Build Weighting Matrix for ind. dams
 # score will be min/max normalized values from 0-1
-# array of rows that use minimization (cost or damage-related)
+# array of rows that use minimization (cost, damage-related, properties impacted)
 min_crit_columns <- c(4, 5, 6)
 #----------------------------------------
 
@@ -284,20 +286,26 @@ is.nan.data.frame <- function(a){
   do.call(cbind, lapply(a, is.nan))
 }
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
-Ind_NormalizedMatrix[,6,4] <- c(1,1,1,1,1)
-#message('Normalized column ', Ind_NormalizedMatrix[1,,1])
+
+Ind_NormalizedMatrix[5,6,3] <- 1#This replaces properties NaN at East Millinocket
+Ind_NormalizedMatrix[1,1,2] <- 1 #This replaces fish habitat NaN at Medway
+Ind_NormalizedMatrix[5,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+Ind_NormalizedMatrix[5,3,3] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
+
+#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 #----------------------------------------
 # SINGLE DAM WEIGHTING PROCEDURE
 #----------------------------------------
-Dam1Results <- (Ind_NormalizedMatrix[,,1]*WestEnf_PrefMatrix)
-Dam2Results <- (Ind_NormalizedMatrix[,,2]*Med_PrefMatrix)
-Dam3Results <- (Ind_NormalizedMatrix[,,3]*Mill_PrefMatrix)
-Dam4Results <- (Ind_NormalizedMatrix[,,4]*EastMill_PrefMatrix)
-Dam5Results <- (Ind_NormalizedMatrix[,,5]*NorthTw_PrefMatrix)
-Dam6Results <- (Ind_NormalizedMatrix[,,6]*Dolby_PrefMatrix)
-Dam7Results <- (Ind_NormalizedMatrix[,,7]*MillLake_PrefMatrix)
-Dam8Results <- (Ind_NormalizedMatrix[,,8]*Rip_PrefMatrix)
+Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
+Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
+Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
+Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
+Dam5Results <- ((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value)
+Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
+Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
+Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
 
 # store all results in one data structure
 WeightedResults <- array( data=NA, dim=c(matrix_levs_ind,matrix_cols,matrix_rows))
@@ -337,8 +345,12 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 # MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 
 #----------------------------------------
-
-NormalizedMatrix[4,6,] <- 1 #This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
+NormalizedMatrix[3,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
+NormalizedMatrix[2,1,] <- 1 #This replaces fish habitat NaN at Medway
+NormalizedMatrix[1:2,3, ] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+NormalizedMatrix[3,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
+#This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
 
 WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
@@ -361,7 +373,7 @@ for (i in 1:dim(NormalizedMatrix)[3]){
 	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
 }
 
-colnames(Decisions) <- dam_names
+colnames(Decisions) <- dam_names #need to check with Sam about the order of dams here
 idxScen <- c(1:995)
 scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
 #-----------------------------------------
@@ -398,9 +410,9 @@ map_name <- results[4]
 #----------------------------------------
 
 #dam display names
-dam_names <- as.list(c('WestEnfield','Medway','Millinocket','E.Millinocket','North Twin','Dolby','Millinocket Lake','Ripogenus'))
+dam_names <- as.list(c('WestEnfield','Medway','E.Millinocket','Dolby','North Twin','Millinocket','Millinocket Lake','Ripogenus'))
 # alternative display names (for labeling tables and graphs)
-alternative_names <- as.list(c( "Keep and Maintain Dam", "Improve Hydro", "Improve Fish Passage", "Hydro And Fish", "Remove Dam"))
+alternative_names <- as.list(c("Remove Dam", "Improve Fish Passage", "Improve Hydro", "Improve Hydro AND Fish", "Keep and Maintain Dam"))
 
 # West Enfield/Dam 1 output table(s)
 
@@ -432,7 +444,7 @@ colnames(Dam2ScoreTable) <- criteria_inputs
 
 # Millinocket/Dam 3 output table(s)
 
-Dam3RawTable <- setDT(Mill_DataMatrix)
+Dam3RawTable <- setDT(EastMill_DataMatrix)
 rownames(Dam3RawTable) <- alternative_names
 colnames(Dam3RawTable) <- criteria_inputs
 
@@ -446,7 +458,7 @@ colnames(Dam3ScoreTable) <- criteria_inputs
 
 # East Millinocket/Dam 4 output table(s)
 
-Dam4RawTable <- setDT(EastMill_DataMatrix)
+Dam4RawTable <- setDT(Dolby_DataMatrix)
 rownames(Dam4RawTable) <- alternative_names
 colnames(Dam4RawTable) <- criteria_inputs
 
@@ -474,7 +486,7 @@ colnames(Dam5ScoreTable) <- criteria_inputs
 
 # Dolby/Dam 6 output table(s)
 
-Dam6RawTable <- setDT(Dolby_DataMatrix)
+Dam6RawTable <- setDT(Mill_DataMatrix)
 rownames(Dam6RawTable) <- alternative_names
 colnames(Dam6RawTable) <- criteria_inputs
 
@@ -527,7 +539,7 @@ WSMPlota <- barplot(t(Score_compare), ylim= c(0,1.0), main="Dam Decision Recomme
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #-----------------------------------------------
 # stacked bars for ALL dam MCDA scores (broken down by criteria)
@@ -556,7 +568,7 @@ WSMPlot1a <- barplot((Score1), ylim= c(0,1.0), main="West Enfield Dam Recommenda
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 
 #-------------------------------------------------------
@@ -583,7 +595,7 @@ WSMPlot2a <- barplot((Score2), ylim= c(0,1.0), main="Medway Dam Recommendation",
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for Medway dam
@@ -604,12 +616,12 @@ Score3 <- as.matrix(Ind_scoresum[3,])
 rownames(Score3) <- alternative_names
 
 # Graph alternative scores
-WSMPlot3a <- barplot((Score3), ylim= c(0,1.0), main="Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot3a <- barplot((Score3), ylim= c(0,1.0), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams
@@ -620,7 +632,7 @@ rownames(CritAlt3) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot3b <- barplot(t(CritAlt3), ylim= c(0,1.0), main="Millnocket Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot3b <- barplot(t(CritAlt3), ylim= c(0,1.0), main="East Millnocket Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -630,12 +642,12 @@ Score4 <- as.matrix(Ind_scoresum[4,])
 rownames(Score4) <- alternative_names
 
 # Graph alternative scores
-WSMPlot4a <- barplot((Score4), ylim= c(0,1.0), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot4a <- barplot((Score4), ylim= c(0,1.0), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams
@@ -646,7 +658,7 @@ rownames(CritAlt4) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot4b <- barplot(t(CritAlt4), ylim= c(0,1.0), main="East Millinocket Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot4b <- barplot(t(CritAlt4), ylim= c(0,1.0), main="Dolby Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -661,7 +673,7 @@ WSMPlot5a <- barplot((Score5), ylim= c(0,1.0), main="North Twin Dam Recommendati
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams
@@ -682,12 +694,12 @@ Score6 <- as.matrix(Ind_scoresum[6,])
 rownames(Score6) <- alternative_names
 
 # Graph alternative scores
-WSMPlot6a <- barplot((Score6), ylim= c(0,1.0), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot6a <- barplot((Score6), ylim= c(0,1.0), main="Millinocket/Quakish Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams
@@ -698,7 +710,7 @@ rownames(CritAlt6) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot6b <- barplot(t(CritAlt6), ylim= c(0,1.0), main="Dolby Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot6b <- barplot(t(CritAlt6), ylim= c(0,1.0), main="Millinocket/Quakish Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -713,7 +725,7 @@ WSMPlot7a <- barplot((Score7), ylim= c(0,1.0), main="Millinocket Lake Dam Recomm
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams
@@ -739,7 +751,7 @@ WSMPlot8a <- barplot((Score8), ylim= c(0,1.0), main="Ripogenus Dam Recommendatio
 
 # Place the legend at the top-left corner with no frame
 # using rainbow colors
-legend("topleft", c("KeepMaintain","ImproveHydro","ImproveFish","Improve FishANDHydro","Remove"), cex=0.6, 
+legend("topleft", c("RemoveDam", "ImproveFish","ImproveHydro","Improve FishANDHydro","KeepMaintain"), cex=0.6, 
 	   bty="n", fill=rainbow(5));
 #--------------------------------------------------------
 # Graph alternatives (broken down by criteria) for individual dams

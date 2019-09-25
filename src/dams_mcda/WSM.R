@@ -1,18 +1,27 @@
 # WSM
-#----------------------------------------
-# generates the MDCA Output
+#---------------------------------------- generates the MDCA Output
 #
 # Returns list (in order)
-#     TableMatrix
-#     Ind_MCDA_score
-#     MCDA_score
-#     map_name
+#     Ind_WeightedScoreMatrix #weighted scores for individual dams
+#     Ind_scoresum #weighted sum (MCDA scores) for individual dams
+#     scoresum_total #weighted sum (MCDA scores) for multi-dam
+#     fname #map name
+#     AllDataMatrix
+#     Ind_NormalizedMatrix # normalized data for individual dams
+#     idxRank #ranked scenarios (995)
+#     WeightedScoreMatrix #weighted scores for multi-dam
 #
 # Required Inputs:
-#     RawCriteriaMatrix: raw score matrix
-#     NormalizedMatrix:
-#     DamsData:
-#     Decisions:
+#     RawCriteriaMatrix: 2D raw score matrix
+#     NormalizedMatrix: 3D normalized multi-dam (995 scenario) data from MOGA
+#     DamsData: 2D criteria data (not normalized) for individual dams, including social/cultural pre-survey data
+#     Decisions: 2D dams and scenarios numbered by outcome code, see below
+#codes:
+#0 = remove dam
+#1 = keep as is
+#2 = improve hydropower
+#3 = improve fish passage
+#4 = improve both
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
@@ -85,14 +94,14 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	WestEnf_PrefMatrix <- data.frame(t(WestEnf_PrefMatrix))
 	Med_PrefMatrix <- subset(Ind_PrefMatrix[2,,])
 	Med_PrefMatrix <- data.frame(t(Med_PrefMatrix))
-	Mill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
-	Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))
-	EastMill_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
+	EastMill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
 	EastMill_PrefMatrix <- data.frame(t(EastMill_PrefMatrix))
+	Dolby_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
+	Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))	
 	NorthTw_PrefMatrix <- subset(Ind_PrefMatrix[5,,])
 	NorthTw_PrefMatrix <- data.frame(t(NorthTw_PrefMatrix))
-	Dolby_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
-	Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))
+	Mill_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
+	Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))	
 	MillLake_PrefMatrix <- subset(Ind_PrefMatrix[7,,])
 	MillLake_PrefMatrix <- data.frame(t(MillLake_PrefMatrix))
 	Rip_PrefMatrix <- subset(Ind_PrefMatrix[8,,])
@@ -135,63 +144,59 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#retrieve DamsData to manipulate into DamsDataMatrix
 	Ind_DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
 
-	KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage,
-						  DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
-						  DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain,
-						  DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
-	Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage,
-						   DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
-						   DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro,
-						   DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
+	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem,
+	                DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,
+	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove,
+	                DamsData$Health_Remove, DamsData$Justice_Remove)
 	Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage,
 						  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
 						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish,
 						  DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
+	Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage,
+	                       DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
+	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro,
+	                       DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
 	FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage,
 						  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
 						  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 						  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
-	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem,
-					DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,
-					DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove,
-					DamsData$Health_Remove, DamsData$Justice_Remove)
+	KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage,
+	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
+	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain,
+	                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
 
 	#This abind creates our 3D matrix
-	Ind_DamsDataMatrix <- abind(KeepMaintain, Improve_Hydro, Improve_Fish, FishANDHydro, Remove, along = 3, force.array=TRUE)
+	Ind_DamsDataMatrix <- abind(Remove, Improve_Fish, Improve_Hydro, FishANDHydro, KeepMaintain, along = 3, force.array=TRUE)
 
 	#------------------------SUBSET BY DAM (row)--------------------------
 	WestEnf_DataMatrix <- subset(Ind_DamsDataMatrix[1,,])
 	WestEnf_DataMatrix <- data.frame(t(WestEnf_DataMatrix))
 	Med_DataMatrix <- subset(Ind_DamsDataMatrix[2,,])
 	Med_DataMatrix <- data.frame(t(Med_DataMatrix))
-	Mill_DataMatrix <- subset(Ind_DamsDataMatrix[3,,])
-	Mill_DataMatrix <- data.frame(t(Mill_DataMatrix))
-	EastMill_DataMatrix <- subset(Ind_DamsDataMatrix[4,,])
-	EastMill_DataMatrix <- data.frame(t(EastMill_DataMatrix))
+	EastMill_DataMatrix <- subset(Ind_DamsDataMatrix[3,,])
+	EastMill_DataMatrix <- data.frame(t(EastMill_DataMatrix))	
+	Dolby_DataMatrix <- subset(Ind_DamsDataMatrix[4,,])
+	Dolby_DataMatrix <- data.frame(t(Dolby_DataMatrix))
 	NorthTw_DataMatrix <- subset(Ind_DamsDataMatrix[5,,])
 	NorthTw_DataMatrix <- data.frame(t(NorthTw_DataMatrix))
-	Dolby_DataMatrix <- subset(Ind_DamsDataMatrix[6,,])
-	Dolby_DataMatrix <- data.frame(t(Dolby_DataMatrix))
+	Mill_DataMatrix <- subset(Ind_DamsDataMatrix[6,,])
+	Mill_DataMatrix <- data.frame(t(Mill_DataMatrix))
 	MillLake_DataMatrix <- subset(Ind_DamsDataMatrix[7,,])
 	MillLake_DataMatrix <- data.frame(t(MillLake_DataMatrix))
 	Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
 	Rip_DataMatrix <- data.frame(t(Rip_DataMatrix))
-
 
 	AllDataMatrix <- array(data=NA, dim=c(5,14,8))
 	AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("alternative", "criterion", "dam"))
 
 	AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
 	AllDataMatrix[,,2] <- simplify2array(Med_DataMatrix)
-	AllDataMatrix[,,3] <- simplify2array(Mill_DataMatrix)
-	AllDataMatrix[,,4] <- simplify2array(EastMill_DataMatrix)
+	AllDataMatrix[,,3] <- simplify2array(EastMill_DataMatrix)
+	AllDataMatrix[,,4] <- simplify2array(Dolby_DataMatrix)
 	AllDataMatrix[,,5] <- simplify2array(NorthTw_DataMatrix)
-	AllDataMatrix[,,6] <- simplify2array(Dolby_DataMatrix)
+	AllDataMatrix[,,6] <- simplify2array(Mill_DataMatrix)
 	AllDataMatrix[,,7] <- simplify2array(MillLake_DataMatrix)
 	AllDataMatrix[,,8] <- simplify2array(Rip_DataMatrix)
-	for (damId in 1:length(available_dams)){
-		message("AllDataMatrix Dam", damId, "> ", AllDataMatrix[,,damId], " Dim ", dim(AllDataMatrix[,,damId]))
-	}
 
 	#--------NORMALIZATION FOR INDIVIDUAL DAMS RESULTS-------------------
 
@@ -262,7 +267,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	  do.call(cbind, lapply(a, is.nan))
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
-	Ind_NormalizedMatrix[,6,4] <- c(1,1,1,1,1)
+
+	Ind_NormalizedMatrix[5,6,3] <- 1#This replaces properties NaN at East Millinocket
+	Ind_NormalizedMatrix[1,1,2] <- 1 #This replaces fish habitat NaN at Medway
+	Ind_NormalizedMatrix[5,3,1:2] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+	Ind_NormalizedMatrix[5,3,3] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+	Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
 	
 	#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
 
@@ -271,10 +281,10 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam5Results <- ((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
 	Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
 
@@ -323,8 +333,30 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 	#----------------------------------------
-	NormalizedMatrix[4,6,] <- 1 #This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
-	
+	NormalizedMatrix[3,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
+	NormalizedMatrix[2,1,] <- 1 #This replaces fish habitat NaN at Medway
+	NormalizedMatrix[1:2,3, ] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway
+	NormalizedMatrix[3,3, ] <- 1 #This replaces the reservoir storage NaN at East Millinocket
+	NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
+	#This replaces the NaN <-- 0 with 0 <-- 1 for East Millinocket
+
+	# reorganize dams in NormalizedMatrix
+	# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
+	# target is WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
+	# Normalized is 4 7 6 5 8 3 2 1
+	# target is 1 2 3 4 5 6 7 8
+	TestMatrix <- NormalizedMatrix
+	TestMatrix[1,,] <- NormalizedMatrix[4,,]
+	TestMatrix[2,,] <- NormalizedMatrix[7,,]
+	TestMatrix[3,,] <- NormalizedMatrix[6,,]
+	TestMatrix[4,,] <- NormalizedMatrix[5,,]
+	TestMatrix[5,,] <- NormalizedMatrix[8,,]
+	TestMatrix[6,,] <- NormalizedMatrix[3,,]
+	TestMatrix[7,,] <- NormalizedMatrix[2,,]
+	TestMatrix[8,,] <- NormalizedMatrix[1,,]
+	NormalizedMatrix <- TestMatrix
+	message("size of NormalizedMatrix", dim(TestMatrix))
+
 	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 
@@ -357,9 +389,11 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxScen <- c(1:995)
+	idxScen <- c(0:994)
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
+	#message("idxRank ", idxRank, " dim ", dim(idxRank))
+	message("idxRank dim size ", dim(idxRank))
 
 	Dam1Scen <- t(WeightedScoreMatrix[1,,])
 	Dam2Scen <- t(WeightedScoreMatrix[2,,])
@@ -374,13 +408,13 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 	# use scenario idxRank[1] to find corresponding map name
-	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[1,1]))
+	fname <- sprintf('maps/Penobscot_MO_14_%d.png', as.integer(idxRank[1,10]))
 
 	# debug
 	#message("Ind_WSM: ", Ind_WeightedScoreMatrix, " DIMS ", dim(Ind_WeightedScoreMatrix))
 	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
-	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix)
+	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix, idxRank, WeightedScoreMatrix)
 
 } # end of WSM

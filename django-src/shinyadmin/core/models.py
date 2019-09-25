@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import JSONField
 
 
 class DamsMCDAGroup(models.Model):
@@ -33,3 +34,19 @@ class DamsMCDAUser(AbstractUser):
             return "{0} Group:{1}".format(self.username, self.group)
         else:
             return "{0}".format(self.username)
+
+
+class DamsMCDARunPreference(models.Model):
+    """
+        Saves input preferences from a run
+        can be used to load preferences
+        also can be retreived by group to average a groups input preferences
+    """
+    group = models.ForeignKey(DamsMCDAGroup, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(DamsMCDAUser, null=False, blank=False, on_delete=models.CASCADE)
+    scores = JSONField()
+
+    class Meta:
+        verbose_name = 'Run Preference'
+        verbose_name_plural = 'Run Preferences'
+        unique_together = ('group', 'user')
