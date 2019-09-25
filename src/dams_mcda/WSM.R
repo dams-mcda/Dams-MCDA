@@ -2,16 +2,26 @@
 #---------------------------------------- generates the MDCA Output
 #
 # Returns list (in order)
-#     TableMatrix
-#     Ind_MCDA_score
-#     MCDA_score
-#     map_name
+#     Ind_WeightedScoreMatrix #weighted scores for individual dams
+#     Ind_scoresum #weighted sum (MCDA scores) for individual dams
+#     scoresum_total #weighted sum (MCDA scores) for multi-dam
+#     fname #map name
+#     AllDataMatrix
+#     Ind_NormalizedMatrix # normalized data for individual dams
+#     idxRank #ranked scenarios (995)
+#     WeightedScoreMatrix #weighted scores for multi-dam
 #
 # Required Inputs:
-#     RawCriteriaMatrix: raw score matrix
-#     NormalizedMatrix:
-#     DamsData:
-#     Decisions:
+#     RawCriteriaMatrix: 2D raw score matrix
+#     NormalizedMatrix: 3D normalized multi-dam (995 scenario) data from MOGA
+#     DamsData: 2D criteria data (not normalized) for individual dams, including social/cultural pre-survey data
+#     Decisions: 2D dams and scenarios numbered by outcome code, see below
+#codes:
+#0 = remove dam
+#1 = keep as is
+#2 = improve hydropower
+#3 = improve fish passage
+#4 = improve both
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
