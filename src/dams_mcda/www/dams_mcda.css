@@ -78,13 +78,28 @@ body{
 	border-color: #204d74;
 }
 
+/* save preferences button*/
+#saveResultsToDjango {
+	width:80%; /* same width as form */
+	color:#fff;
+	background-color:#5cb85c;
+	border-color:#4cae4c;
+	margin-bottom:0.8em;
+}
+#saveResultsToDjango:hover {
+	background-color:#449d44;
+	border-color:#398439;
+}
+#saveResultsToDjango:active {
+	background-color:#449d44;
+	border-color:#398439;
+}
+
 /* next/prev buttons */
 #Prev_Tab, #Next_Tab{
-	width:80%; /* same width as form */
 	color:#fff;
 	background-color:#6c757d;
 	border-color:#6c757d;
-	margin-bottom:0.8em;
 }
 #Prev_Tab:hover, #Next_Tab:hover{
 	background-color: #5a6268;
@@ -127,24 +142,22 @@ body{
 	border-color:#3ebb37;
 }
 
-#generateMatrix,
-#generateMatrix1,
-#generateMatrix2,
-#generateMatrix3,
-#generateMatrix4,
-#generateMatrix5,
-#generateMatrix6,
-#generateMatrix7,
-#generateMatrix8,
-#generateOutput,
-#generateCombinedMatrix
-{
+#generateOutput {
 	width:80%; /* same width as form */
 	color:#fff;
 	background-color:#337ab7;
 	border-color:#2e6da4;
 	margin-bottom:0.8em;
 }
+#generateOutput:hover {
+	background-color: #286090;
+	border-color: #204d74;
+}
+#generateOutput:active {
+	background-color: #286090;
+	border-color: #204d74;
+}
+
 
 #downloadData {
 	width:80%; /* same width as form */
