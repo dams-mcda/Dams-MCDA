@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, include
 
 from django.views.generic import TemplateView
 
@@ -54,4 +54,7 @@ urlpatterns = [
     # given username and session info validates with django request credentials
     path('api/verify_user_session/', core_views.verify_user_session, name="verify_user_session"),
 
+    # api nested inside core for application models
+    # ie core/api/...
+    path('core/', include(core_urls), name="core-api"),
 ]

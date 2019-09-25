@@ -85,14 +85,16 @@ ui <- shinyUI(fluidPage(
 
 
 	navlistPanel(
+		id="navListPanel",
 		# Define layout widths
 		widths = c(2,10),
 
-    # --------------------------------------------------------------------------------
-    # Define Instructions tab
-    # --------------------------------------------------------------------------------
+		# --------------------------------------------------------------------------------
+		# Define Instructions tab
+		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'>Step 1: Start Here</li>"),
 		tabPanel("Start Here",
+			icon=icon("home"),
 			h2("Welcome!"),
 
 			img(src = 'River1.jpg', width="50%", align = "right", style="margin:0.2em;"),
@@ -131,9 +133,9 @@ ui <- shinyUI(fluidPage(
 		  ),
 
 
-    # --------------------------------------------------------------------------------
-    # Interactive Dam Map Tab
-    # --------------------------------------------------------------------------------
+		# --------------------------------------------------------------------------------
+		# Interactive Dam Map Tab
+		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'> Step 2: View Dam Map </li>"),
 		tabPanel("View Dam Map",
 			htmlOutput("Map1"), # status and title
@@ -162,8 +164,8 @@ ui <- shinyUI(fluidPage(
 
 
 		# --------------------------------------------------------------------------------
-    # Preference Elicitation Tool
-    # --------------------------------------------------------------------------------
+		# Preference Elicitation Tool
+		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'> Step 3: Enter Preferences </li>"),
 		# ----------------------------------------
 		# West Enfield Dam
@@ -964,7 +966,11 @@ ui <- shinyUI(fluidPage(
 		# --------------------------------------------------------------------------------
 		HTML("<li> Step 4: Multi-Dam Results </li>"),
 		tabPanel("Combined Results",
+
 		h2("Multi-Dam Results"),
+    HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode saving will add your preferences to the groups total. Saving again will overwrite the old save.<br>"),
+		actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save")),
+
 		HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
 		actionButton("generateOutput", "Generate"), # generate event
 
@@ -1125,8 +1131,8 @@ ui <- shinyUI(fluidPage(
 					"<br><b>Results Interpretation</b> for Figure 8: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
 				),
 				downloadButton("DownloadDam1Plotb", "Download Graph"),
-          
-        h3('Download West Enfield Results'),
+
+				h3('Download West Enfield Results'),
 				HTML(
 					"<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
 				),
@@ -1741,7 +1747,10 @@ ui <- shinyUI(fluidPage(
 				 "
 			 )
 		)
-)))
+	), # end of navigation panel
+	actionButton("Prev_Tab", "Previous", style="width:49%; margin-right:1%;"),
+	actionButton("Next_Tab", "Next", style="width:49%;")
+))
 
 # create the application with ui in this file and imported server from server.R
 shinyApp(ui, server)
