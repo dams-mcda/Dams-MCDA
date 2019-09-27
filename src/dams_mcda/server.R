@@ -5,8 +5,8 @@ source("WSM.R")
 DamsData <- read.csv('DamsData.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
 source(file='f_raw.RData')
-source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge)
+source(file = 'f_nrge.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_norm)
 #DamsData <- as.array(f)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
@@ -158,6 +158,43 @@ pdf(NULL)
 #--------------------------------------------------------------------------------
 # Methods
 #--------------------------------------------------------------------------------
+
+# print2d
+#----------------------------------------
+# debug print for 2d structures
+print2d <- function(table) {
+	message("print2d")
+	message("table size: ", dim(table))
+	#for (scen in 1:dim(table)[3]){
+		for (row in 1:dim(table)[2]){
+			row_string <- ""
+			for (col in 1:dim(table)[1]){
+				row_string <- paste(row_string, toString(table[col,row,1]), sep=", ")
+			}
+			message(row_string)
+		}
+	#}
+}
+#message("BEFORE")
+#print2d(NormalizedMatrix)
+# reorganize dams in NormalizedMatrix
+# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
+# target is     WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
+# Normalized is 4 7 6 5 8 3 2 1
+# target is     1 2 3 4 5 6 7 8
+TestMatrix <- NormalizedMatrix
+TestMatrix[1,,] <- NormalizedMatrix[8,,]
+TestMatrix[2,,] <- NormalizedMatrix[7,,]
+TestMatrix[3,,] <- NormalizedMatrix[6,,]
+TestMatrix[4,,] <- NormalizedMatrix[1,,]
+TestMatrix[5,,] <- NormalizedMatrix[4,,]
+TestMatrix[6,,] <- NormalizedMatrix[3,,]
+TestMatrix[7,,] <- NormalizedMatrix[2,,]
+TestMatrix[8,,] <- NormalizedMatrix[5,,]
+NormalizedMatrix <- TestMatrix
+#message("AFTER")
+#print2d(NormalizedMatrix)
+
 
 # epochTime
 #----------------------------------------

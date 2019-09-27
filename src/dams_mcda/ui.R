@@ -1011,6 +1011,7 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 3. Contribution of Decision Criteria to Final MCDA Score for Top-Ranked Dam Decision Alternatives'),
 				plotOutput("CombinedPlot2", height="35em"),
+				tableOutput("top5Scenario"),
 				HTML("<b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
 					 Use this graph to give you an idea of how decision criteria scores (normalized data values x user-defined preference values) contribute to the final decision alternative selection for each dam. Consider this graph kind of a \"zoom-in\" \
 					 on the tallest bar for each dam in Figure 2.<br>"),
