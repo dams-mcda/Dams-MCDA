@@ -278,14 +278,14 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 	# SINGLE DAM WEIGHTING PROCEDURE
 	#----------------------------------------
-	Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam5Results <- ((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
-	Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
+	Dam1Results <- round(((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value),1)
+	Dam2Results <- round(((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value), 1)
+	Dam3Results <- round(((Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value), 1)
+	Dam4Results <- round(((Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value), 1)
+	Dam5Results <- round(((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value), 1)
+	Dam6Results <- round(((Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix/max_slider_value))*max_slider_value), 1)
+	Dam7Results <- round(((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value), 1)
+	Dam8Results <- round(((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value), 1)
 
 	# Ind WeightedScoreMatrix, this binds each dam to 5 rows, one for each alternative
 	# old method
@@ -313,7 +313,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	WeightedResults[,,6] <- as.matrix(Dam6Results)
 	WeightedResults[,,7] <- as.matrix(Dam7Results)
 	WeightedResults[,,8] <- as.matrix(Dam8Results)
-	WeightedResults <- round(WeightedResults, 3)
+	WeightedResults <- round(WeightedResults, 1)
 
 	# sum scores
 	ScoreSums <- array(data=NA, dim=c(matrix_rows, matrix_levs_ind))
@@ -326,7 +326,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	}
 
 	# Ind ScoreSum
-	Ind_scoresum <- as.data.frame(ScoreSums, rownames=dam_names)
+	Ind_scoresum <- round(as.data.frame(ScoreSums, rownames=dam_names), 0)
 	colnames(Ind_scoresum)<- alternative_names
 
 	#----------------------------------------

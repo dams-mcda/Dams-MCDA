@@ -183,7 +183,7 @@ KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, Dams
 
 
 #This abind creates our 3D matrix
-Ind_DamsDataMatrix <- abind(Remove, Improve_Hydro, Improve_Fish, FishANDHydro, KeepMaintain, along = 3, force.array=TRUE)
+Ind_DamsDataMatrix <- abind(Remove, Improve_Fish, Improve_Hydro, FishANDHydro, KeepMaintain, along = 3, force.array=TRUE)
 
 #------------------------SUBSET BY DAM (row)--------------------------
 WestEnf_DataMatrix <- subset(Ind_DamsDataMatrix[1,,])
@@ -297,14 +297,14 @@ Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket
 #----------------------------------------
 # SINGLE DAM WEIGHTING PROCEDURE
 #----------------------------------------
-Dam1Results <- ((Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix/max_slider_value))*max_slider_value)
-Dam2Results <- ((Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix/max_slider_value))*max_slider_value)
-Dam3Results <- ((Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix/max_slider_value))*max_slider_value)
-Dam4Results <- ((Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix/max_slider_value))*max_slider_value)
-Dam5Results <- ((Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix/max_slider_value))*max_slider_value)
-Dam6Results <- ((Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix/max_slider_value))*max_slider_value)
-Dam7Results <- ((Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix/max_slider_value))*max_slider_value)
-Dam8Results <- ((Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix/max_slider_value))*max_slider_value)
+Dam1Results <- (Ind_NormalizedMatrix[,,1]*(WestEnf_PrefMatrix))
+Dam2Results <- (Ind_NormalizedMatrix[,,2]*(Med_PrefMatrix))
+Dam3Results <- (Ind_NormalizedMatrix[,,3]*(EastMill_PrefMatrix))
+Dam4Results <- (Ind_NormalizedMatrix[,,4]*(Dolby_PrefMatrix))
+Dam5Results <- (Ind_NormalizedMatrix[,,5]*(NorthTw_PrefMatrix))
+Dam6Results <- (Ind_NormalizedMatrix[,,6]*(Mill_PrefMatrix))
+Dam7Results <- (Ind_NormalizedMatrix[,,7]*(MillLake_PrefMatrix))
+Dam8Results <- (Ind_NormalizedMatrix[,,8]*(Rip_PrefMatrix))
 
 # store all results in one data structure
 WeightedResults <- array( data=NA, dim=c(matrix_levs_ind,matrix_cols,matrix_rows))
@@ -317,7 +317,7 @@ WeightedResults[,,6] <- as.matrix(Dam6Results)
 WeightedResults[,,6] <- as.matrix(Dam6Results)
 WeightedResults[,,7] <- as.matrix(Dam7Results)
 WeightedResults[,,8] <- as.matrix(Dam8Results)
-WeightedResults <- round(WeightedResults, 3)
+WeightedResults <- round(WeightedResults, 0)
 
 
 # sum scores
@@ -331,7 +331,7 @@ for (damid in 1:matrix_rows){
 }
 
 # Ind ScoreSum
-Ind_scoresum <- as.data.frame(ScoreSums, rownames = dam_names)
+Ind_scoresum <- round(as.data.frame(ScoreSums, rownames = dam_names),0)
 message("Ind_scoresum ", Ind_scoresum)
 rownames(Ind_scoresum) <- dam_names
 colnames(Ind_scoresum) <- alternative_names
@@ -417,11 +417,11 @@ Dam1RawTable <- setDT(WestEnf_DataMatrix)
 row.names(Dam1RawTable) <- alternative_names
 colnames(Dam1RawTable) <- criteria_inputs
 
-Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 3)*100))
+Dam1NormTable <- setDT(data.frame(round(Ind_NormalizedMatrix[,,1], 1)*100))
 row.names(Dam1NormTable) <- alternative_names
 colnames(Dam1NormTable) <- criteria_inputs
 
-Dam1ScoreTable <- setDT(round(Dam1Results, 3)*100)
+Dam1ScoreTable <- setDT(round(Dam1Results, 1)*100)
 row.names(Dam1ScoreTable) <- alternative_names
 colnames(Dam1ScoreTable) <- criteria_inputs
 
@@ -531,7 +531,7 @@ colnames(Score_compare) <- alternative_names
 rownames(Score_compare) <- dam_names
 
 # Graph ALL DAM alternative scores with adjacent bars grouped by dam
-WSMPlota <- barplot(t(Score_compare), ylim= c(0,1.0), main="Dam Decision Recommendation Comparison", ylab= "MCDA Score",
+WSMPlota <- barplot(t(Score_compare), ylim= c(0,100), main="Dam Decision Recommendation Comparison", ylab= "MCDA Score",
                     beside=TRUE, col=rainbow(5), cex.axis=0.8, names.arg= dam_names, cex=0.7)
 
 # Place the legend at the top-left corner with no frame
@@ -546,7 +546,7 @@ colnames(CritAlt) <- criteria_inputs
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlotb <- barplot(t(CritAlt), ylim= c(0,1.0), main="Dam Decision Alternative Comparison", ylab="MCDA Score", 
+WSMPlotb <- barplot(t(CritAlt), ylim= c(0,100), main="Dam Decision Alternative Comparison", ylab="MCDA Score", 
                     col=rainbow(14), cex.axis=0.8, las=1, names.arg= c(alternative_names, alternative_names, alternative_names, alternative_names,
                                                                        alternative_names, alternative_names, alternative_names, alternative_names), cex=0.7) 
 
@@ -560,7 +560,7 @@ Score1 <- as.matrix(Ind_scoresum[1,])
 rownames(Score1) <- alternative_names
 
 # Graph West Enfield alternative scores
-WSMPlot1a <- barplot((Score1), ylim= c(0,1.0), main="West Enfield Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot1a <- barplot((Score1), ylim= c(0,100), main="West Enfield Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -577,7 +577,7 @@ rownames(CritAlt1) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot1b <- barplot(t(CritAlt1), ylim= c(0,1.0), main="West Enfield Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot1b <- barplot(t(CritAlt1), ylim= c(0,100), main="West Enfield Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -587,7 +587,7 @@ Score2 <- as.matrix(Ind_scoresum[2,])
 rownames(Score2) <- alternative_names
 
 # Graph  alternative scores
-WSMPlot2a <- barplot((Score2), ylim= c(0,1.0), main="Medway Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot2a <- barplot((Score2), ylim= c(0,100), main="Medway Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -603,7 +603,7 @@ rownames(CritAlt2) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot2b <- barplot(t(CritAlt2), ylim= c(0,1.0), main="Medway Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot2b <- barplot(t(CritAlt2), ylim= c(0,100), main="Medway Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -613,7 +613,7 @@ Score3 <- as.matrix(Ind_scoresum[3,])
 rownames(Score3) <- alternative_names
 
 # Graph alternative scores
-WSMPlot3a <- barplot((Score3), ylim= c(0,1.0), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot3a <- barplot((Score3), ylim= c(0,100), main="East Millinocket Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -629,7 +629,7 @@ rownames(CritAlt3) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot3b <- barplot(t(CritAlt3), ylim= c(0,1.0), main="East Millnocket Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot3b <- barplot(t(CritAlt3), ylim= c(0,100), main="East Millnocket Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -639,7 +639,7 @@ Score4 <- as.matrix(Ind_scoresum[4,])
 rownames(Score4) <- alternative_names
 
 # Graph alternative scores
-WSMPlot4a <- barplot((Score4), ylim= c(0,1.0), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot4a <- barplot((Score4), ylim= c(0,100), main="Dolby Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -655,7 +655,7 @@ rownames(CritAlt4) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot4b <- barplot(t(CritAlt4), ylim= c(0,1.0), main="Dolby Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot4b <- barplot(t(CritAlt4), ylim= c(0,100), main="Dolby Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -665,7 +665,7 @@ Score5 <- as.matrix(Ind_scoresum[5,])
 rownames(Score5) <- alternative_names
 
 # Graph alternative scores
-WSMPlot5a <- barplot((Score5), ylim= c(0,1.0), main="North Twin Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot5a <- barplot((Score5), ylim= c(0,100), main="North Twin Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -681,7 +681,7 @@ rownames(CritAlt5) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot5b <- barplot(t(CritAlt5), ylim= c(0,1.0), main="North Twin Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot5b <- barplot(t(CritAlt5), ylim= c(0,100), main="North Twin Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -691,7 +691,7 @@ Score6 <- as.matrix(Ind_scoresum[6,])
 rownames(Score6) <- alternative_names
 
 # Graph alternative scores
-WSMPlot6a <- barplot((Score6), ylim= c(0,1.0), main="Millinocket/Quakish Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot6a <- barplot((Score6), ylim= c(0,100), main="Millinocket/Quakish Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -707,7 +707,7 @@ rownames(CritAlt6) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot6b <- barplot(t(CritAlt6), ylim= c(0,1.0), main="Millinocket/Quakish Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot6b <- barplot(t(CritAlt6), ylim= c(0,100), main="Millinocket/Quakish Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -717,7 +717,7 @@ Score7 <- as.matrix(Ind_scoresum[7,])
 rownames(Score7) <- alternative_names
 
 # Graph alternative scores
-WSMPlot7a <- barplot((Score7), ylim= c(0,1.0), main="Millinocket Lake Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot7a <- barplot((Score7), ylim= c(0,100), main="Millinocket Lake Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -733,7 +733,7 @@ rownames(CritAlt7) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot7b <- barplot(t(CritAlt7), ylim= c(0,1.0), main="Millinocket Lake Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot7b <- barplot(t(CritAlt7), ylim= c(0,100), main="Millinocket Lake Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14));
@@ -743,7 +743,7 @@ Score8 <- as.matrix(Ind_scoresum[8,])
 rownames(Score8) <- alternative_names
 
 # Graph alternative scores
-WSMPlot8a <- barplot((Score8), ylim= c(0,1.0), main="Ripogenus Dam Recommendation", ylab= "Decision Alternative Score",
+WSMPlot8a <- barplot((Score8), ylim= c(0,100), main="Ripogenus Dam Recommendation", ylab= "Decision Alternative Score",
 					 names.arg= alternative_names, beside=TRUE, col=rainbow(5))
 
 # Place the legend at the top-left corner with no frame
@@ -759,7 +759,7 @@ rownames(CritAlt8) <- alternative_names
 
 # put 10% of the space between each bar, and make labels
 # smaller with horizontal y-axis labels
-WSMPlot8b <- barplot(t(CritAlt8), ylim= c(0,1.0), main="Ripogenus Dam", ylab="MCDA Score", col=rainbow(14),
+WSMPlot8b <- barplot(t(CritAlt8), ylim= c(0,100), main="Ripogenus Dam", ylab="MCDA Score", col=rainbow(14),
 					 cex.axis=0.8, las=1, names.arg= alternative_names, cex=0.7)
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14))
@@ -788,7 +788,7 @@ rownames(DamsTopScenGraph) <- criteria_inputs
 
 # put 10% of the space between each bar, and make labels  
 # smaller with horizontal y-axis labels
-WSMPlot9 <- barplot((DamsTopScenGraph), ylim= c(0,1.0), main="Top Dam Scenario", ylab="MCDA Score", col=rainbow(14),
+WSMPlot9 <- barplot((DamsTopScenGraph), ylim= c(0,100), main="Top Dam Scenario", ylab="MCDA Score", col=rainbow(14),
                      cex.axis=0.8, las=1, names.arg= dam_names, cex=0.7) 
 
 legend("topleft", criteria_inputs, cex=0.6, bty="n", fill=rainbow(14))

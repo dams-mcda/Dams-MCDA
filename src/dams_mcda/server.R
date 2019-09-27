@@ -94,8 +94,8 @@ alternative_names <- c(
 
 # dam display names (for labeling tables and graphs)
 dam_names <- c(
-	"West Enfield Dam",
-	"Medway Dam",
+	"West Enfield",
+	"Medway",
 	"East Millinocket",
 	"Dolby",
 	"North Twin",
