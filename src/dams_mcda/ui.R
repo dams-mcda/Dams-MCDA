@@ -74,16 +74,18 @@ ui <- shinyUI(fluidPage(
 	# page banner/title + logout link
 	HTML('<div id="app-logout"><a href="/logout/">Logout</a></div>\
 		 <div id="page-title">Dam Decision Support Tool</div> \
-		 \
 	'),
-	div(
-		id="progress-tracker",
-		htmlOutput("TotalProgress")
+
+	# bottom of page total progress tracker
+	div(id="progress-tracker", htmlOutput("TotalProgress")),
+
+	# navigation buttons
+	div(id="nav-buttons",
+		actionButton("Prev_Tab", "Previous"),
+		actionButton("Next_Tab", "Next")
 	),
 
-	# intro popup-modal, forces user to decide input before proceeding
-
-
+	# tablist/tabcontent
 	navlistPanel(
 		id="navListPanel",
 		# Define layout widths
@@ -1749,9 +1751,7 @@ ui <- shinyUI(fluidPage(
 				 "
 			 )
 		)
-	), # end of navigation panel
-	actionButton("Prev_Tab", "Previous", style="width:49%; margin-right:1%;"),
-	actionButton("Next_Tab", "Next", style="width:49%;")
+	) # end of navigation panel
 ))
 
 # create the application with ui in this file and imported server from server.R

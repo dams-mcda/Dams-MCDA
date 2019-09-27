@@ -1206,11 +1206,14 @@ server <- function(input, output, session) {
 
 				# assigned is a boolean if the alternative has been chosen
 				assigned <- FALSE
+				message("possible_alts: ", possible_alts)
 
+				# multi alt decision needed
 				# see issue #81
 				if (length(possible_alts) > 1){
 					# special alt selection when alt scores match
 					for (altId in 1:length(possible_alts)){
+						message("alt: ", altId, " name: ", alternative_names[altId])
 
 						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
 						max_crit <- which.max(dam_WSMMatrix)
@@ -1228,6 +1231,8 @@ server <- function(input, output, session) {
 								# prefer "Keep and Maintain Dam",
 								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
 								assigned <- TRUE
+								#
+								message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 							}
 						}
 
@@ -1242,6 +1247,7 @@ server <- function(input, output, session) {
 								# prioritize remove
 								dam_top_alt_index[damId] <- which(alternative_names == "Remove Dam")
 								assigned <- TRUE
+								message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 							}
 						}
 
@@ -1261,27 +1267,46 @@ server <- function(input, output, session) {
 									# preference
 									dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
 									assigned <- TRUE
+									message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 								}else if (remove_dam %in% possible_alts){
 									updated_possible_alts <- which(possible_alts!=remove_dam)
 									# any but remove random from list
 									dam_top_alt_index[damId] <- sample(updated_possible_alts, 1)
 									assigned <- TRUE
+									message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 								}
 							}
 						}
 					}
 				}
 
-				dam_names_with_max_alt[damId] <- paste0(
-					dam_names_with_max_alt[damId],
-					" (", alternative_names[which.max(WSMIndScoreSum[damId,])], ")"
-				)
+				# assign top alt
 
 				# normal method if not assigned already
 				if (assigned == FALSE){
-					dam_top_alt_index[damId] <- which.max(WSMIndScoreSum[damId,])
+					alt_index <- which.max(WSMIndScoreSum[damId,])
+					message("Single> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1))
+					# display_name
+					dam_names_with_max_alt[damId] <- paste0(
+						dam_names_with_max_alt[damId],
+						" (", alternative_names[alt_index], ")"
+					)
+					# chosen alt
+					dam_top_alt_index[damId] <- alt_index
+
+				}else{
+					alt_index <- which.max(WSMIndScoreSum[damId,])
+					# chosen alt already assaigned
+					message("Multi> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1), " selected top alt ", dam_top_alt_index[damId])
+					# display_name
+					dam_names_with_max_alt[damId] <- paste0(
+						dam_names_with_max_alt[damId],
+						" (", alternative_names[dam_top_alt_index[damId]], ")"
+					)
+
 				}
 
+				# grab row for chosen alt
 				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(14))
 
 				for (critIndex in 1:length(dam_WSMMatrix)){
