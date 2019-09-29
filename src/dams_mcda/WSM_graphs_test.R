@@ -24,7 +24,7 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('EqualPrefs_forLiveSite.csv')
+TestData <- read.csv('EqualPrefs_forAppTesting.csv')
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -288,7 +288,8 @@ is.nan.data.frame <- function(a){
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
 Ind_NormalizedMatrix[2:5,6,3] <- c(1,1,1,1)#This replaces properties NaN at East Millinocket
-Ind_NormalizedMatrix[1,1,2] <- 1 #This replaces fish habitat NaN at Medway
+Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
+Ind_NormalizedMatrix[1,1,2] <- 1 #This  fish habitat NaN at Medway
 Ind_NormalizedMatrix[5,3,1:3] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Millinocket
 Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
 
@@ -371,7 +372,7 @@ for (i in 1:dim(NormalizedMatrix)[3]){
 }
 
 colnames(Decisions) <- dam_names #need to check with Sam about the order of dams here
-idxScen <- c(1:995)
+idxScen <- c(0:994)
 scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
 #-----------------------------------------
 # Rank:

@@ -113,6 +113,9 @@ ui <- shinyUI(fluidPage(
 			  HTML('<a href = "BackgroundDamDecisionSupportTool.pdf" target="_blank">Click for background on the Dam Decision Support Tool</a>')
 			  ),
 			helpText(
+			  HTML('<a href = "Tool_Instructions.pdf" target="_blank">Click for instructions on how to use the Dam Decision Support Tool</a>')
+			),
+			helpText(
 			  HTML('<a href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp" target="_blank">Click for more information about the FERC Integrated Licensing Process</a>')
 			  ),
 
