@@ -354,6 +354,7 @@ renderPlot2DDamAlts <- function(df, title, x_names, y_names, alt_names, x_label,
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
+		+ stat_summary(fun.y = sum, aes(label = ..y.., group = df$X), geom = "text", vjust=-.2) # dont know what ..y.. is but it works
 	)
 	return(result)
 }
