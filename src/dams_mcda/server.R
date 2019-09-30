@@ -17,6 +17,24 @@ library(R.matlab)
 library(rjson)
 
 #--------------------------------------------------------------------------------
+# reorganize dams in NormalizedMatrix
+#--------------------------------------------------------------------------------
+# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
+# target is     WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
+# Normalized is 4 7 6 5 8 3 2 1
+# target is     1 2 3 4 5 6 7 8
+TestMatrix <- NormalizedMatrix
+TestMatrix[1,,] <- NormalizedMatrix[8,,]
+TestMatrix[2,,] <- NormalizedMatrix[7,,]
+TestMatrix[3,,] <- NormalizedMatrix[6,,]
+TestMatrix[4,,] <- NormalizedMatrix[1,,]
+TestMatrix[5,,] <- NormalizedMatrix[4,,]
+TestMatrix[6,,] <- NormalizedMatrix[3,,]
+TestMatrix[7,,] <- NormalizedMatrix[2,,]
+TestMatrix[8,,] <- NormalizedMatrix[5,,]
+NormalizedMatrix <- TestMatrix
+
+#--------------------------------------------------------------------------------
 # Global Variables
 #--------------------------------------------------------------------------------
 
@@ -208,25 +226,6 @@ print2d <- function(table) {
 		}
 	#}
 }
-#message("BEFORE")
-#print2d(NormalizedMatrix)
-# reorganize dams in NormalizedMatrix
-# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
-# target is     WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
-# Normalized is 4 7 6 5 8 3 2 1
-# target is     1 2 3 4 5 6 7 8
-TestMatrix <- NormalizedMatrix
-TestMatrix[1,,] <- NormalizedMatrix[8,,]
-TestMatrix[2,,] <- NormalizedMatrix[7,,]
-TestMatrix[3,,] <- NormalizedMatrix[6,,]
-TestMatrix[4,,] <- NormalizedMatrix[1,,]
-TestMatrix[5,,] <- NormalizedMatrix[4,,]
-TestMatrix[6,,] <- NormalizedMatrix[3,,]
-TestMatrix[7,,] <- NormalizedMatrix[2,,]
-TestMatrix[8,,] <- NormalizedMatrix[5,,]
-NormalizedMatrix <- TestMatrix
-#message("AFTER")
-#print2d(NormalizedMatrix)
 
 
 # epochTime
