@@ -135,7 +135,7 @@ function saveRawJsonScores(message){
 		dataType:'json',
 		data: getParams
 	}).done(function(data){
-		if (data.length == 1){
+		if (data.length > 1){
 			// UPDATE already existing
 			$.ajax({
 				url: "/core/api/preference/"+ data[0].id +"/",
