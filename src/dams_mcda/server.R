@@ -92,6 +92,15 @@ alternative_names <- c(
 	"Keep and Maintain Dam"
 )
 
+# alternative display minimum length names (for graphs)
+alternative_names_min <- c(
+	"Remove",
+	"Fish",
+	"Hydro",
+	"Hydro & Fish",
+	"Keep & Maintain"
+)
+
 # dam display names (for labeling tables and graphs)
 dam_names <- c(
 	"West Enfield Dam",
@@ -108,6 +117,30 @@ dam_names <- c(
 criteria_names_and_sum <- as.list(criteria_names) # vector to list
 criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
 criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
+
+# for traversing tabs
+tabPanel_names <- c(
+	"Start Here",
+	"View Dam Map",
+	'<div id="Dam1" class="shiny-html-output"></div>',
+	'<div id="Dam2" class="shiny-html-output"></div>',
+	'<div id="Dam3" class="shiny-html-output"></div>',
+	'<div id="Dam4" class="shiny-html-output"></div>',
+	'<div id="Dam5" class="shiny-html-output"></div>',
+	'<div id="Dam6" class="shiny-html-output"></div>',
+	'<div id="Dam7" class="shiny-html-output"></div>',
+	'<div id="Dam8" class="shiny-html-output"></div>',
+	"Combined Results",
+	"Map Recommendation",
+	"Dam 1: West Enfield",
+	"Dam 2: Medway Dam",
+	"Dam 3: East Millinocket Dam",
+	"Dam 4: Dolby Dam",
+	"Dam 5: North Twin",
+	"Dam 6: Millinocket",
+	"Dam 7: Millinocket Lake",
+	"Dam 8: Ripogenus"
+)
 
 #--------------------------------------------------
 # User Interface Default Values
@@ -219,13 +252,13 @@ saveResponse <- function(table_data) {
 	response_data <<- table_data
 }
 
+
 # savePreferences
 #----------------------------------------
 # save preference input selection
 savePreferences <- function(pref_data) {
 	preference_selection <<- pref_data
 }
-
 
 
 # saveData
@@ -273,9 +306,9 @@ updateDamStatus <- function(completed, action, id){
 # check all available_Dams are in Dams_completed
 # returns boolean
 damsCompleted <- function(completed){
-	message('------------------')
-	message('bool damsCompleted(array_completed)')
-	message('------------------')
+	#message('------------------')
+	#message('bool damsCompleted(array_completed)')
+	#message('------------------')
 
 	# available_dams is array of dam sections ids
 	for (value in available_dams){
@@ -285,29 +318,6 @@ damsCompleted <- function(completed){
 	}
 	return(TRUE)
 }
-
-tabPanel_names <- c(
-	"Start Here",
-	"View Dam Map",
-	'<div id="Dam1" class="shiny-html-output"></div>',
-	'<div id="Dam2" class="shiny-html-output"></div>',
-	'<div id="Dam3" class="shiny-html-output"></div>',
-	'<div id="Dam4" class="shiny-html-output"></div>',
-	'<div id="Dam5" class="shiny-html-output"></div>',
-	'<div id="Dam6" class="shiny-html-output"></div>',
-	'<div id="Dam7" class="shiny-html-output"></div>',
-	'<div id="Dam8" class="shiny-html-output"></div>',
-	"Combined Results",
-	"Map Recommendation",
-	"Dam 1: West Enfield",
-	"Dam 2: Medway Dam",
-	"Dam 3: East Millinocket Dam",
-	"Dam 4: Dolby Dam",
-	"Dam 5: North Twin",
-	"Dam 6: Millinocket",
-	"Dam 7: Millinocket Lake",
-	"Dam 8: Ripogenus"
-)
 
 
 #--------------------------------------------------------------------------------
@@ -320,9 +330,9 @@ server <- function(input, output, session) {
 	# when user clicks updat on each "Enter Preferences" tab this matrix is updated
 	# size is 8x14
 	#------------------------------------------------------------
-	message("session$userData$selectedPreferences init")
+	#message("session$userData$selectedPreferences init")
 	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
-	message("session$userData$currentTab init")
+	#message("session$userData$currentTab init")
 	session$userData$currentTab <- 1
 
 
@@ -367,9 +377,9 @@ server <- function(input, output, session) {
 				HTML(
 					"<h4>Instructions for Uploading</h4>\
 					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-          and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
-          populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-          select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+					and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+					populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+					select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 					average preference values for the group. <br>"
 				)
 			)
@@ -1369,6 +1379,7 @@ server <- function(input, output, session) {
 			# process data for graph 4
 			# scores for each scenario/dam
 			multi_WSM_top5_scenario <- array(NA, dim=c(5,8))
+			multi_WSM_top5_scenario_alts <- array(NA, dim=c(5,8))
 			top5_list <- head(idxRank[,10], 5)
 			# top 5
 			for (scenarioId in top5_list){
@@ -1376,18 +1387,21 @@ server <- function(input, output, session) {
 				for (damId in 1:length(dam_names)){
 					dam_score <- sum(multi_WSM[damId,,scenarioId+1])
 					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- dam_score
+					multi_WSM_top5_scenario_alts[which(top5_list==scenarioId),damId] <- alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]]
+					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
 					scenarioSumScore <- (scenarioSumScore + dam_score)
 				}
-				#message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
+				message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
 			}
 
 			# Graph4
 			# Preference scores for all dams
-			combinedPlot4 <- renderPlot2D(
+			combinedPlot4 <- renderPlot2DDamAlts(
 				t(multi_WSM_top5_scenario), # data
 				"Combined Plot4 idxRank", # title
 				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
 				dam_names, # y_labels
+				multi_WSM_top5_scenario_alts, # SPECIAL CASE LABELS
 				"Coordinated Multi-Dam Outcome", # x axis label
 				"Final MCDA Scores", # y axis label
 				"Dam", # y axis label
@@ -1453,9 +1467,11 @@ server <- function(input, output, session) {
 		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
 		row.names(Dam1ScoreTable) <- alternative_names
 		colnames(Dam1ScoreTable) <- criteria_inputs
+		ScoreTablePlusSum <- Dam1ScoreTable
+		ScoreTablePlusSum$Total = IndScoreSum[damId,]
 
 		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
-			Dam1ScoreTable
+			ScoreTablePlusSum
 		})
 
 		# WSM Download button
@@ -1465,8 +1481,6 @@ server <- function(input, output, session) {
 				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 			},
 			content = function(file) {
-				ScoreTablePlusSum <- Dam1ScoreTable
-				ScoreTablePlusSum$Total = IndScoreSum[damId,]
 				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
 			}
 		)

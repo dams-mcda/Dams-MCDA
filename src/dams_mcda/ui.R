@@ -1194,7 +1194,7 @@ ui <- shinyUI(fluidPage(
 
 		         # output post generate
 		         div(id="generated-output-2",
-                 
+
 		             h3('Figure 10. Scaled Decision Criteria Comparison'),
 		             plotOutput("WSMPlot2c", height=600, width="100%"),
 		             HTML(
@@ -1203,7 +1203,7 @@ ui <- shinyUI(fluidPage(
 		               It is up to you to decide what to do with this information. <br>"
 		             ),
 					      downloadButton("DownloadDam2Plotc", "Download Graph"),
-		             
+
 		             h3('Figure 11. Decision Alternative Scores by Criteria'),
 		             plotOutput("WSMPlot2a", height=600, width="100%"),
 		             HTML(
@@ -1212,7 +1212,7 @@ ui <- shinyUI(fluidPage(
 		               <br>"
 		             ),
 					       downloadButton("DownloadDam2Plota", "Download Graph"),
-                 
+
 		             h3('Figure 12. Decision Alternatives for Medway'),
 		             plotOutput("WSMPlot2b", height=600, width="100%"),
                  HTML(
