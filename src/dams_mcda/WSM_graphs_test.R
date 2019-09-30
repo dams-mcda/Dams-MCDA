@@ -24,7 +24,7 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('EqualPrefs_forAppTesting.csv')
+TestData <- read.csv('FishPrefs_forLiveSite.csv', row.names = "DAM")
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -345,12 +345,26 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 # MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 ##!!!!!!!!!!NOTE: this Normalized matrix hard-code for NaNs is no longer in WSM.R!!!!!!!!!!
 #----------------------------------------
-NormalizedMatrix[3,6,] <- 1 #This replaces the properties NaN <-- 0 with 0 <-- 1 for East Millinocket
-NormalizedMatrix[2,1,] <- 1 #This replaces fish habitat NaN at Medway
-NormalizedMatrix[1:3,3, ] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Mill
-NormalizedMatrix[7,2,] <- 1 #This replaces the river rec NaN at Millinocket Lake
+# reorganize dams in NormalizedMatrix
+# Normalized is Dolby Milli Quak NorthTwin Ripo EastMilli Medway WestEnf
+# target is WestEnf Medway EMill Dolby NorthTwin Quak Milli Ripo 
+# Normalized is 4 7 6 5 8 3 2 1
+# target is     1 2 3 4 5 6 7 8
+NormalizedMatrix <- as.array(f_nrge)
 
-WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
+TestMatrix <- NormalizedMatrix
+TestMatrix[1,,] <- NormalizedMatrix[8,,]
+TestMatrix[2,,] <- NormalizedMatrix[7,,]
+TestMatrix[3,,] <- NormalizedMatrix[6,,]
+TestMatrix[4,,] <- NormalizedMatrix[1,,]
+TestMatrix[5,,] <- NormalizedMatrix[4,,]
+TestMatrix[6,,] <- NormalizedMatrix[3,,]
+TestMatrix[7,,] <- NormalizedMatrix[2,,]
+TestMatrix[8,,] <- NormalizedMatrix[5,,]
+NormMatrix <- TestMatrix
+message("size of NormalizedMatrix", dim(TestMatrix))
+
+WeightedScoreMatrix <- (NormMatrix*PrefMatrix)
 WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
 
 #----------------------------------------
@@ -363,11 +377,11 @@ WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 #-----------------------------------------
 
 #declare a weighted sum variable
-scoresum_total <- rep(0,dim(NormalizedMatrix)[3])
+scoresum_total <- rep(0,dim(NormMatrix)[3])
 
 #multiply crit scores by user preferences
-for (i in 1:dim(NormalizedMatrix)[3]){
-	WSMMatrix <- NormalizedMatrix[,,i] * PrefMatrix[,,i]
+for (i in 1:dim(NormMatrix)[3]){
+	WSMMatrix <- NormMatrix[,,i] * PrefMatrix[,,i]
 	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
 }
 
@@ -391,7 +405,7 @@ fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[1,1])
 
 
 # call WSM
-results <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
+results <- WSM(RawCriteriaMatrix, NormMatrix, DamsData, Decisions)
 # results are list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
 #message("WSM Results", results)
 
