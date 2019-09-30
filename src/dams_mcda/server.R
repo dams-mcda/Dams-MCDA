@@ -160,6 +160,9 @@ tabPanel_names <- c(
 	"Dam 8: Ripogenus"
 )
 
+# MOGA Scenarios, how many are there?
+num_scenarios <- 995
+
 #--------------------------------------------------
 # User Interface Default Values
 #--------------------------------------------------
@@ -1111,15 +1114,15 @@ server <- function(input, output, session) {
 			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
 
 			# idxRank suggested scenaios in order
-			idxRank <- array(unlist(WSMResults[7]), dim=c(995,10))
+			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
 			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
 
 			# idxRank suggested scenaios in order
-			idxRank <- array(unlist(WSMResults[7]), dim=c(995,10))
+			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
 			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
 
 			# wsm for each scenario 8 x 14 x 995 (used for graph4)
-			multi_WSM <- array(unlist(WSMResults[8]), dim=c(8, 14, 995))
+			multi_WSM <- array(unlist(WSMResults[8]), dim=c(8, 14, num_scenarios))
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1385,10 +1388,10 @@ server <- function(input, output, session) {
 				scenarioSumScore <- 0
 				for (damId in 1:length(dam_names)){
 					dam_score <- sum(multi_WSM[damId,,scenarioId+1])
-					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- dam_score
+					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- round(dam_score, 0)
 					multi_WSM_top5_scenario_alts[which(top5_list==scenarioId),damId] <- alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]]
 					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
-					scenarioSumScore <- (scenarioSumScore + dam_score)
+					scenarioSumScore <- (scenarioSumScore + round(dam_score, 0))
 				}
 				message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
 			}

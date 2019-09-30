@@ -66,10 +66,12 @@ available_alternatives <- seq(1:5)
 matrix_cols <- length(criteria_inputs) # 14 default (output size)
 matrix_rows <- length(available_dams) # 8 default
 matrix_levs_ind <- length(available_alternatives)# 5 default
-matrix_levs <- length(1:995)
+
+# MOGA Scenarios, how many are there?
+num_scenarios <- 995
 
 
-message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", matrix_levs)
+message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", num_scenarios)
 
 #----------------------------------------
 # SINGLE DAM PROCEDURE FOR PREFERENCES
@@ -138,7 +140,7 @@ for (k in 1:matrix_cols){
 	} #End dams (rows) for loop.
 } #End criteria (columns) for loop.
 
-PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) 
+PrefMatrix <- array(data=rep(PrefMatrix, num_scenarios), dim=c(dim(PrefMatrix), num_scenarios)) 
 
 
 message("fill multi-dam Pref Matrix")
