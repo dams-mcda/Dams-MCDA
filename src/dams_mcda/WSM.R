@@ -52,14 +52,13 @@ available_dams <- seq(1:8)
 available_alternatives <- seq(1:5)
 
 # matrix setup
-matrix_cols <- length(criteria_inputs) # 14 default (output size)
-matrix_rows <- length(available_dams) # 8 default
-matrix_levs_ind <- length(available_alternatives)# 5 default
-matrix_levs <- length(1:995)
+matrix_cols <- length(criteria_inputs) # 14 default - criteria
+matrix_rows <- length(available_dams) # 8 default - dams
+matrix_levs_ind <- length(available_alternatives) # 5 default - alternatives
 
 
 WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
-	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", matrix_levs)
+	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", num_scenarios)
 
 	colnames(Decisions) <- dam_names
 
@@ -126,7 +125,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 		} #End dams (rows) for loop.
 	} #End criteria (columns) for loop.
 
-	PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) #will address this later
+	PrefMatrix <- array(data=rep(PrefMatrix, num_scenarios), dim=c(dim(PrefMatrix), num_scenarios)) #will address this later
 
 	#----------------------------------------
 	# SINGLE DAM DATA NORMALIATION PROCEDURE
@@ -366,7 +365,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxScen <- c(0:994)
+	idxScen <- c(0:num_scenarios-1)
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
 	#message("idxRank ", idxRank, " dim ", dim(idxRank))
@@ -381,7 +380,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	Dam7Scen <- t(WeightedScoreMatrix[7,,])
 	Dam8Scen <- t(WeightedScoreMatrix[8,,])
 
-	multiDamResult <- array(data = NA, dim = c(995, 8, 14))
+	multiDamResult <- array(data = NA, dim = c(num_scenarios, 8, 14))
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 	# use scenario idxRank[1] to find corresponding map name
