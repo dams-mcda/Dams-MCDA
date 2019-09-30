@@ -94,8 +94,8 @@ alternative_names <- c(
 
 # dam display names (for labeling tables and graphs)
 dam_names <- c(
-	"West Enfield Dam",
-	"Medway Dam",
+	"West Enfield",
+	"Medway",
 	"East Millinocket",
 	"Dolby",
 	"North Twin",
@@ -1416,7 +1416,6 @@ server <- function(input, output, session) {
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
-			"Decision Alternative", # x axis label
 			"Total MCDA Score", # y axis label
 			"Decision Criteria:", # legend label
 			colors, # colors
@@ -1440,7 +1439,6 @@ server <- function(input, output, session) {
 			IndScoreSum[damId,],
 			"D 2", # title
 			alternative_names, # x_labels
-			"Decision Alternative", # x axis label
 			"Total MCDA Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
@@ -1465,7 +1463,6 @@ server <- function(input, output, session) {
 			"D 3", # title
 			alternative_names, # x_labels
 			criteria_names, # x_labels
-			"Decision Alternative", # x axis label
 			"Scaled Criteria Preference Score", # y axis label
 			"Decision Criteria:", # legend label
 			colors, # colors

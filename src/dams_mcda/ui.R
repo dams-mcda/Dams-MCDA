@@ -113,6 +113,9 @@ ui <- shinyUI(fluidPage(
 			  HTML('<a href = "BackgroundDamDecisionSupportTool.pdf" target="_blank">Click for background on the Dam Decision Support Tool</a>')
 			  ),
 			helpText(
+			  HTML('<a href = "Tool_Instructions.pdf" target="_blank">Click for instructions on how to use the Dam Decision Support Tool</a>')
+			),
+			helpText(
 			  HTML('<a href = "https://www.ferc.gov/industries/hydropower/gen-info/licensing/ilp.asp" target="_blank">Click for more information about the FERC Integrated Licensing Process</a>')
 			  ),
 
@@ -178,7 +181,7 @@ ui <- shinyUI(fluidPage(
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate your preference for the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a>. \
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-         bottom of the page when you are done moving the slider bars to mark this tab "Complete". <a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>.<br>\
+         bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>.<br>\
          <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -277,7 +280,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a>.<br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete". <a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -376,7 +379,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete.<a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -475,7 +478,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Dolby Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete".<br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete.<br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -577,7 +580,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for North Twin Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete". <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a><br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a><br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -676,7 +679,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Millinocket/Quakish Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete". <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -775,7 +778,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete". <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -875,7 +878,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab "Complete". <a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -967,13 +970,9 @@ ui <- shinyUI(fluidPage(
 		HTML("<li> Step 4: Multi-Dam Results </li>"),
 
 		tabPanel("Combined Results",
-
-			h2("Multi-Dam Results"),
-			HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode saving will add your preferences to the groups total. Saving again will overwrite the old save.<br>"),
-			actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save")),
-
-			HTML("<br>Click GENERATE to get MCDA results graphs.<br><br>"),
-			actionButton("generateOutput", "Generate"), # generate event
+      h2('Multi-Dam Results'),
+      HTML("<br>Click GENERATE to get MCDA results graphs.<br>"),
+      actionButton("generateOutput", "Generate"), # generate event
 
 			div(id="combined-output",
 			  h2('Overview'),
@@ -985,24 +984,32 @@ ui <- shinyUI(fluidPage(
 				   criteria data estimates. The outcome presented here is a recommendation designed to support the coordinated consideration of multiple dams. This recommendation is intended to support brainstorming about possibilities for the river. \
 				   This recommendation is not representative of any federal agency prescription or license ruling from FERC.<br>\
 				   <br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
-				   once more to see how your results change (note: you may want to download your results from this session, first).<br>\
+				   once more to see how your results change (note: you may want to download your results from this session, first).\
 				   <br> Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one criterion increases, the value for another \
 				   criterion must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br>"
 			  ),
 
 			  h3('Figure 1. Comparison of Top 5 Decision Scenarios by Total MCDA Score and Dam'),
 			  plotOutput("CombinedPlot4", height="35em"),
-			  HTML("<b>Results Interpretation</b> for Figure 1. This graph shows the Total MCDA Score of the top 5 decision scenarios broken down by the contribution from each dam/decision alternative combination. In this context, the \"Decision Scenario\" \
+			  HTML("<br><b>Results Interpretation</b> for Figure 1. This graph shows the Total MCDA Score of the top 5 decision scenarios broken down by the contribution from each dam/decision alternative combination. In this context, the \"Decision Scenario\" \
 				   refers to the combination of dams and decision alternatives (e.g., the action that is recommended for each dam). The decision scenario with the highest score is presented in the mapped result, which you can access by clicking on Map Recommendation \
 				   to the left. The Final MCDA score for each Decision Scenario is calculated as the sum of the Final MCDA Score for highest-scoring decision alterative for each dam. Actual numbers in Scenario 1 may differ from top-ranked decision alternative results \
 				   for individual dams in Figure 2 because Figure 2 was calculated using static values for river recreation and sea-run fish habitat area, while Figure 1 shows the results of the multi-dam optimization that involves dynamic interactions between dam sites \
 				   for these two decision criteria. Use Figure 1 to see how close the final MCDA scores for top-ranked decisions are. This could give you some ideas, in the event that you do not agree with what is presented in the Map Recommendation (Scenario 1), about \
 				   what the next-best options may be for your decision.<br>"),
 			  downloadButton("DownloadCombinedPlot4", "Download Graph"),
-
+			  HTML("<br>The following downloadable supplementary tables can be used to see more detail relted to Figure 1. Note: there are 995 possile multi-dam 'scenarios' in this dataset, where each of 8 dams has 5 possible decision alternatives. <br>"
+			       
+			  ),
+			  downloadButton("DownloadDecisions", "Download Decisions"),
+			  downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios"),
+			  HTML(
+			    "<br>Information supporting a more precise interpretation of these supplementary tables is forthcoming.<br>"
+			  ),
+			  
 				h3('Figure 2. Comparison of Final MCDA Score for each Decision Alternative at each Dam'),
 				plotOutput("CombinedPlot3", height="35em"),
-				HTML("<b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the alternative is. Use this graph to quickly see which decision\
+				HTML("<br><b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the alternative is. Use this graph to quickly see which decision\
 					 alternative was selected by the tool as the most highly recommended for each dam and to see how close the \"next-best\" alternative was to the top-ranked alternative. Small differences between scores for decision alternatives may signal \
 					 a need to carefully consider multiple top-ranked alternatives for a specific dam for your final decision. Actual numbers for individual dams in Figure 2 may differ from Scenario 1 in Figure 1 because Figure 2 was calculated using static \
 			   values for river recreation and sea-run fish habitat area, while Figure 1 shows the results of the multi-dam optimization that involves dynamic interactions between dam sites for these two decision criteria. Use Figure 1 to see how close \
@@ -1011,29 +1018,29 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 3. Contribution of Decision Criteria to Final MCDA Score for Top-Ranked Dam Decision Alternatives'),
 				plotOutput("CombinedPlot2", height="35em"),
-				HTML("<b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
+				HTML("<br><b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
 					 Use this graph to give you an idea of how decision criteria scores (normalized data values x user-defined preference values) contribute to the final decision alternative selection for each dam. Consider this graph kind of a \"zoom-in\" \
 					 on the tallest bar for each dam in Figure 2.<br>"),
 				downloadButton("DownloadCombinedPlot2", "Download Graph"),
 
 				h3('Figure 4. Comparison of User-Defined Preferences for each Dam'),
 				plotOutput("CombinedPlot1", height="35em"),
-				HTML("<b>Results Interpretation</b> for Figure 4. This graph shows the results of the Step 3 Preference Elicitation. The numbers presented on the graph correspond to the position of the slider bars you moved in Step 3. \
+				HTML("<br><b>Results Interpretation</b> for Figure 4. This graph shows the results of the Step 3 Preference Elicitation. The numbers presented on the graph correspond to the position of the slider bars you moved in Step 3. \
 					 Use this graph to see how your preferences for each decision criterion vary across dam sites. For example, did you mark the same preference value for River Recreation for Ripogenus as for West Enfield? Are your fish \
 					 habitat preferences consistent across all dams? This graph is a good reality check to help you make sure you entered the right preferences in Step 3 for you. If you did not move the slider for a specific decision criterion \
 					 for any dam, it will not show up in this graph. For example, if you left the slider for River Recreation at zero for all dams, River Recreation will not appear in the graph or legend on this page. The numbers in this graph \
 					 do not include any researched data values for decision criteria (i.e., the data we compiled and/or calculated ahead of time and presented in the decision matrices for each dam). The graph only shows your own stated preference \
 					 values from Step 3.<br>"),
 				downloadButton("DownloadCombinedPlot1", "Download Graph"),
-
-				h3('Downloadable Supplementary Tables'),
-				HTML(
-				  "<br>Information supporting interpretation of these supplementary tables is forthcoming.<br>"
-				),
 				# download preferences (for UPLOAD DATA)
+				HTML(
+				  "<br>It is a good idea to download your preferences for your records if you plan to use the Dam Decision Support Tool again.<br>"
+				),
 				downloadButton("downloadPreferenceSelection", "Download Preference Inputs (Step 3)"),
-				downloadButton("DownloadDecisions", "Download Decisions"),
-				downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios")
+				
+				HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode, saving will add your preferences to the group average. Be aware: saving again will overwrite the old save.<br>"),
+				actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save"))
+				
 			)
 		),
 
@@ -1044,9 +1051,10 @@ ui <- shinyUI(fluidPage(
 		tabPanel("Map Recommendation",
 			h2("Optimized Result"),
 			HTML('<div id="MapRecommendation"></div>'),
-			HTML("This mapped result is a geographic representation of the coordinated, multi-dam results presented in Figures 1 and 2 of the Multi-Dam Results tab. It shows which decision alternatives were selected for which dams based on your \
-			     preferences, the decision criteria data we collected/generated, and the multi-objective optimization that includes network-dependent estimates of river recreation and fish habitat (i.e., changes at one dam affect other dams). This \
-			     network-dependency (i.e., connection to dams both upstream and downstream) means that individual dam results in Step 5, as well as Figure 3 of the Multi-Dam Results Tab may differ slightly from what this map recommends. <br>"),
+			HTML("This mapped result is a geographic representation of the coordinated, multi-dam results presented in Figures 1 of the Multi-Dam Results tab. It shows which decision alternatives were selected for which dams based on your \
+			     preferences, the decision criteria data we collected/generated, and the multi-objective optimization that includes network-dependent estimates of river recreation and fish habitat (i.e., changes at one dam affect other dams) within the\
+           set of possible decision alternatives at each of the 8 dams. This network-dependency (i.e., connection to dams both upstream and downstream) means that individual dam results in Step 5, as well as Figures 2 and 3 of the Multi-Dam Results \
+			     Tab may differ from what this map recommends. <br>"),
 			downloadButton("downloadMapRecommendation", "Download Map")
 		),
 
@@ -1062,77 +1070,86 @@ ui <- shinyUI(fluidPage(
             Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
             values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
             results.<br>"),
-
-			div(id="dam-1-output",
-
-			    h3("Table 1. User-Defined Preference Scores for West Enfield Dam"),
-			    DT::dataTableOutput("RawPrefsDam1"),
-			    HTML( "This table of preference data is depicted below."),
-
-			    h3("Figure 5. User-Defined Preference Scores for West Enfield"),
-			    plotOutput("PrefPlot1", height=graph_height, width=graph_width),
-			    HTML(
-			      "<br><b>Results Interpretation</b> for Figure 5: The bars visually represent your preference scores for each decision criterion.\
-					  The scores are pulled directly from your slider bar settings under the West Enfield Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-			    ),
-
-				  #raw data table/Matrix
-    			h3("Table 2. Data Values for West Enfield Dam"),
-    			DT::dataTableOutput("Dam1RawTable"),
-    			HTML(
-    			  "<br><b>Results Interpretation</b> for Table 2. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent. Note: fish survival values shown here are discrete,\
-				    but in reality, the values are network-dependent and would be impacted by upstream or downstream changes.<br>"
-    			),
-
-    			#normalized data table/Matrix
-			    h3("Table 3. Normalized Data Values for West Enfield Dam"),
-			    DT::dataTableOutput("Dam1NormTable"),
-			    HTML(
-    			  "<br><b>Results Interpretation</b> for Table 3. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-             Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-    			   (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-             high costs are less desirable than low costs.<br>"
-    			),
-
-    			#weighted score data table/Matrix
-			    h3("Table 4. Weighted Scores for West Enfield Dam"),
-			    DT::dataTableOutput("Dam1ScoreTable"),
-				  downloadButton("DownloadDam1ScoreTable", "Download Table"),
-			    HTML(
-    			  "<br><b>Results Interpretation</b> for Table 4. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-    			  The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-				)
-			),
-
+			
 			# output post generate
 			div(id="generated-output-1",
-
-			  h3('Figure 6. Scaled Decision Criteria Comparison'),
-			  plotOutput("WSMPlot1c", height=600, width="100%"),
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 6: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					It is up to you to decide what to do with this information. <br>"
-				),
-				downloadButton("DownloadDam1Plotc", "Download Graph"),
-
-				h3('Figure 7. Decision Alternative Scores by Criteria'),
+			  h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
+			  plotOutput("WSMPlot1b", height=600, width="100%"),
+			  HTML(
+			      "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+			      preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+			      preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
+            <br>"
+			  ),
+			  downloadButton("DownloadDam1Plotb", "Download Graph"),
+			    
+			  h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
 				plotOutput("WSMPlot1a", height=600, width="100%"),
 				HTML(
-					"<br><b>Results Interpretation</b> for Figure 7: The decision alternative with the largest bar shows where your overall priority lies,but the height of each decision criterion segment may vary\
-					based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+					"<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+          of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+          drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+          that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+          this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+          preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+          removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
 					<br>"
 				),
-				downloadButton("DownloadDam1Plota", "Download Graph"),
-
-				h3('Figure 8. Decision Alternatives for West Enfield'),
-				plotOutput("WSMPlot1b", height=600, width="100%"),
-				HTML(
-					"<br><b>Results Interpretation</b> for Figure 8: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
-				),
-				downloadButton("DownloadDam1Plotb", "Download Graph"),
-
+				downloadButton("DownloadDam1Plota", "Download Graph")
+			),
+				h2('Data Inputs to these Results'),
+		    HTML(
+		      "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		      component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		      (raw and normalized) that lead to the final calculation.<br>"
+		    ),
+	
+		  div(id="dam-1-output",
+				    
+				    h3("Figure 3. User-Defined Preference Scores for West Enfield Dam"),
+				    plotOutput("PrefPlot1", height=graph_height, width=graph_width),
+				    HTML(
+				      "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+				      under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+				    ),
+				    
+				    h3("Table 1. User-Defined Preference Scores for West Enfield Dam"),
+				    DT::dataTableOutput("RawPrefsDam1"),
+				    HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+				          above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+				    
+				    #raw data table/Matrix
+				    h3("Table 2. Data Values for West Enfield Dam"),
+				    DT::dataTableOutput("Dam1RawTable"),
+				    HTML(
+				      "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+				    ),
+				    
+				    #normalized data table/Matrix
+				    h3("Table 3. Normalized Data Values for West Enfield Dam"),
+				    DT::dataTableOutput("Dam1NormTable"),
+				    HTML(
+				      "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				    ),
+				    
+				    #weighted score data table/Matrix
+				    h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for West Enfield Dam"),
+				    DT::dataTableOutput("Dam1ScoreTable"),
+				    HTML(
+				      "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+				      If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+				    ),
+		        downloadButton("DownloadDam1ScoreTable", "Download Table"),
+		      
 				h3('Download West Enfield Results'),
 				HTML(
 					"<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
@@ -1141,7 +1158,7 @@ ui <- shinyUI(fluidPage(
 			)
 		),
 
-		tabPanel("Dam 2: Medway Dam",
+		tabPanel("Dam 2: Medway",
              
 		         h2("Results: Medway Dam"),
 		         HTML(
@@ -1151,71 +1168,84 @@ ui <- shinyUI(fluidPage(
 		           results.<br>"
              ),		         
 
-		         div(id="dam-2-output",
-		             h3("Table 5. User-Defined Preference Scores for Medway Dam"),
-		             DT::dataTableOutput("RawPrefsDam2"),
-		             HTML(
-		               "This table of preference data is depicted below."
-		             ),
-		             h3("Figure 9. User-Defined Preference Scores for Medway"),
-		             plotOutput("PrefPlot2", height=graph_height, width=graph_width),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 9: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the Medway Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-		             ),
-
-		             #raw data table/Matrix
-		             h3("Table 6. Data Values for Medway Dam"),
-		             DT::dataTableOutput("Dam2RawTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 6. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-		             ),
-		             # normalized data table/Matrix
-		             h3("Table 7. Normalized Data Values for Medway Dam"),
-		             DT::dataTableOutput("Dam2NormTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 7. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-		               high costs are less desirable than low costs.<br>"
-		             ),
-		             #weighted score data table/Matrix
-		             h3("Table 8. Weighted Scores for Medway Dam"),
-		             DT::dataTableOutput("Dam2ScoreTable"),
-					downloadButton("DownloadDam2ScoreTable", "Download Table"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 8. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             )
-		         ),
-
 		         # output post generate
 		         div(id="generated-output-2",
-                 
-		             h3('Figure 10. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot2c", height=600, width="100%"),
+		             h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
+		             plotOutput("WSMPlot2b", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 10: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information. <br>"
-		             ),
-					      downloadButton("DownloadDam2Plotc", "Download Graph"),
-		             
-		             h3('Figure 11. Decision Alternative Scores by Criteria'),
-		             plotOutput("WSMPlot2a", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 11: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
 		               <br>"
 		             ),
-					       downloadButton("DownloadDam2Plota", "Download Graph"),
-                 
-		             h3('Figure 12. Decision Alternatives for Medway'),
-		             plotOutput("WSMPlot2b", height=600, width="100%"),
-                 HTML(
-		               "<br><b>Results Interpretation</b> for Figure 12. The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam.<br>"
+		             downloadButton("DownloadDam1Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot2a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
 		             ),
-					       downloadButton("DownloadDam2Plotb", "Download Graph"),
+		             downloadButton("DownloadDam1Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-2-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for Medway Dam"),
+		             plotOutput("PrefPlot2", height=graph_height, width=graph_width),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for Medway Dam"),
+		             DT::dataTableOutput("RawPrefsDam2"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
+		             #raw data table/Matrix
+		             h3("Table 2. Data Values for Medway Dam"),
+		             DT::dataTableOutput("Dam2RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+    				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+    				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+    				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+    				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+    				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		             ),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for Medway Dam"),
+		             DT::dataTableOutput("Dam2NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		             ),
+		             
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for Medway Dam"),
+		             DT::dataTableOutput("Dam2ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+				      If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+		             ),
+		             downloadButton("DownloadDam2ScoreTable", "Download Table"),
 
 		             h3('Download Medway Results'),
                  HTML(
@@ -1225,79 +1255,91 @@ ui <- shinyUI(fluidPage(
 				 )
 		),
 
-		tabPanel("Dam 3: East Millinocket Dam",
+		tabPanel("Dam 3: East Millinocket",
 		         h2("Results: East Millinocket Dam"),
 		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
                   Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 
-		         div(id="dam-3-output",
-		             h3("Table 9. User-Defined Preference Scores for East Millinocket Dam"),
-		             DT::dataTableOutput("RawPrefsDam3"),
-		             HTML(
-		               "This table of preference data is depicted below."
-		             ),
-		             h3("Figure 13. User-Defined Preference Scores for East Millinocket"),
-		             plotOutput("PrefPlot3", height=graph_height, width=graph_width),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 13: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the East Millinocket Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-		             ),
-
-		             #raw data table/Matrix
-		             h3("Table 10. Data Values for East Millinocket Dam"),
-		             DT::dataTableOutput("Dam3RawTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 10. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-		             ),
-		             # normalized data table/Matrix
-		             h3("Table 11. Normalized Data Values for East Millinocket Dam"),
-		             DT::dataTableOutput("Dam3NormTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 11. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-		               high costs are less desirable than low costs.<br>"
-		             ),
-		             #weighted score data table/Matrix
-		             h3("Table 12. Weighted Scores for East Millinocket Dam"),
-		             DT::dataTableOutput("Dam3ScoreTable"),
-					       downloadButton("DownloadDam3ScoreTable", "Download Table"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 12. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             )
-		       ),
-
-				 # output post generate
+		         # output post generate
 		         div(id="generated-output-3",
-                 
-		             h3('Figure 14. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot3c", height=600, width="100%"),
+		             h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
+		             plotOutput("WSMPlot3b", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 14: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information. <br>"
-		             ),
-					       downloadButton("DownloadDam3Plotc", "Download Graph"),
-
-		             h3('Figure 15. Decision Alternative Scores by Criteria'),
-		             plotOutput("WSMPlot3a", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 15: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
 		               <br>"
 		             ),
-					       downloadButton("DownloadDam3Plota", "Download Graph"),
-                 
-					       h3('Figure 16. Decision Alternatives for East Millinocket'),
-		             plotOutput("WSMPlot3b", height=600, width="100%"),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Figure 16: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
-					       ),
-					       downloadButton("DownloadDam3Plotb", "Download Graph"),
-					       
+		             downloadButton("DownloadDam3Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot3a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
+		             ),
+		             downloadButton("DownloadDam3Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-3-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for East Millinocket Dam"),
+		             plotOutput("PrefPlot3", height=graph_height, width=graph_width),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for East Millinocket Dam"),
+		             DT::dataTableOutput("RawPrefsDam3"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
+		             #raw data table/Matrix
+		             h3("Table 2. Data Values for East Millinocket Dam"),
+		             DT::dataTableOutput("Dam3RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		             ),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for East Millinocket Dam"),
+		             DT::dataTableOutput("Dam3NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		             ),
+		             
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for East Millinocket Dam"),
+		             DT::dataTableOutput("Dam3ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+		               If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+		             ),
+		             downloadButton("DownloadDam3ScoreTable", "Download Table"),
 
 		             h3('Download East Millinocket Results'),
                  HTML(
@@ -1307,80 +1349,91 @@ ui <- shinyUI(fluidPage(
 				 )
 		),
 
-		tabPanel("Dam 4: Dolby Dam",
+		tabPanel("Dam 4: Dolby",
 		         h2("Results: Dolby Dam"),
 		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
                   Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
-		         div(id="dam-4-output",
-		             h3("Table 13. User-Defined Preference Scores for Dolby Dam"),
-		             DT::dataTableOutput("RawPrefsDam4"),
-		             HTML(
-		               "This table of preference data is depicted below."
-		             ),
-
-		             h3("Figure 17. User-Defined Preference Scores for Dolby"),
-					       plotOutput("PrefPlot4", height=graph_height, width=graph_width),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Figure 17: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the Dolby Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-					       ),
-
-					       #raw data table/Matrix
-					       h3("Table 14. Data Values for Dolby Dam"),
-					       DT::dataTableOutput("Dam4RawTable"),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Table 14. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-					       ),
-					       # normalized data table/Matrix
-					       h3("Table 15. Normalized Data Values for Dolby Dam"),
-					       DT::dataTableOutput("Dam4NormTable"),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Table 15. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-					         Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-					         (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-					         high costs are less desirable than low costs.<br>"
-					       ),
-					       #weighted score data table/Matrix
-					       h3("Table 16. Weighted Scores for Dolby Dam"),
-					       DT::dataTableOutput("Dam4ScoreTable"),
-						   downloadButton("DownloadDam4ScoreTable", "Download Table"),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Table 16. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-					         The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-					       )
-  				   ),
-
-				     # output post generate
+		         # output post generate
 		         div(id="generated-output-4",
-                 
-		             h3('Figure 18. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot4c", height=600, width="100%"),
-                 HTML(
-		               "<br><b>Results Interpretation</b> for Figure 18: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information. <br>"
-		             ),
-					       downloadButton("DownloadDam4Plotc", "Download Graph"),
-                 
-		             h3('Figure 19. Decision Alternatives by Criteria'),
-                 plotOutput("WSMPlot4a", height=600, width="100%"),
-                 HTML(
-		               "<br><b>Results Interpretation</b> for Figure 19: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		             h3('Figure 4. Comparison of Final MCDA Scores for Each Decision Alternative'),
+		             plotOutput("WSMPlot4b", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
 		               <br>"
 		             ),
-					       downloadButton("DownloadDam4Plota", "Download Graph"),
-                 
-					       h3('Figure 20. Decision Alternatives for Dolby'),
-					       plotOutput("WSMPlot4b", height=600, width="100%"),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Figure 20: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
-					       ),
-					       downloadButton("DownloadDam4Plotb", "Download Graph"),
-
+		             downloadButton("DownloadDam4Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot4a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
+		             ),
+		             downloadButton("DownloadDam4Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-4-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for Dolby Dam"),
+		             plotOutput("PrefPlot4", height=graph_height, width=graph_width),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for Dolby Dam"),
+		             DT::dataTableOutput("RawPrefsDam4"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
+		             #raw data table/Matrix
+		             h3("Table 2. Data Values for Dolby Dam"),
+		             DT::dataTableOutput("Dam4RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		             ),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for Dolby Dam"),
+		             DT::dataTableOutput("Dam4NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		             ),
+		             
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for Dolby Dam"),
+		             DT::dataTableOutput("Dam4ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+				      If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+		             ),
+		             downloadButton("DownloadDam4ScoreTable", "Download Table"),
 		             h3('Download Dolby Results'),
 		             HTML(
 		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
@@ -1396,73 +1449,84 @@ ui <- shinyUI(fluidPage(
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
-		         div(id="dam-5-output",
-		             h3("Table 17. User-Defined Preference Scores for North Twin Dam"),
-		             DT::dataTableOutput("RawPrefsDam5"),
-		             HTML(
-		               "This table of preference data is depicted below."
-		             ),
-
-		             h3("Figure 21. User-Defined Preference Scores for North Twin"),
-		             plotOutput("PrefPlot5", height=graph_height, width=graph_width),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 21: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the North Twin Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-		             ),
-		             #raw data table/Matrix
-		             h3("Table 18. Data Values for North Twin Dam"),
-		             DT::dataTableOutput("Dam5RawTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 18. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-		             ),
-		             # normalized data table/Matrix
-		             h3("Table 19. Normalized Data Values for North Twin Dam"),
-		             DT::dataTableOutput("Dam5NormTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 19. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-		               high costs are less desirable than low costs.<br>"
-		             ),
-		             #weighted score data table/Matrix
-		             h3("Table 20. Weighted Scores for North Twin Dam"),
-		             DT::dataTableOutput("Dam5ScoreTable"),
-					       downloadButton("DownloadDam5ScoreTable", "Download Table"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 20. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             )
-
-		         ),
-
 		         # output post generate
 		         div(id="generated-output-5",
-                 
-		             h3('Figure 22. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot5c", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 22: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information. <br>"
-		             ),
-					       downloadButton("DownloadDam5Plotc", "Download Graph"),
-
-		             h3('Figure 23. Decision Alternatives by Criteria'),
-		             plotOutput("WSMPlot5a", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 23: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
-		               <br>"
-		             ),
-					       downloadButton("DownloadDam5Plota", "Download Graph"),
-                
-					       h3('Figure 24. Decision Alternatives for North Twin'),
+		             h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
 		             plotOutput("WSMPlot5b", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 24: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
+		               <br>"
 		             ),
-					       downloadButton("DownloadDam5Plotb", "Download Graph"),
-
+		             downloadButton("DownloadDam5Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot5a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
+		             ),
+		             downloadButton("DownloadDam5Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-5-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for North Twin Dam"),
+		             plotOutput("PrefPlot5", height=graph_height, width=graph_width),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for North Twin Dam"),
+		             DT::dataTableOutput("RawPrefsDam5"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
+		             #raw data table/Matrix
+		             h3("Table 2. Data Values for North Twin Dam"),
+		             DT::dataTableOutput("Dam5RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		             ),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for North Twin Dam"),
+		             DT::dataTableOutput("Dam5NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		             ),
+		             
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for North Twin Dam"),
+		             DT::dataTableOutput("Dam5ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+		               If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+		             ),
+		             downloadButton("DownloadDam5ScoreTable", "Download Table"),
 		             h3('Download North Twin Results'),
 		             HTML(
 		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
@@ -1471,80 +1535,91 @@ ui <- shinyUI(fluidPage(
 				 )
 		 ),
 
-		tabPanel("Dam 6: Millinocket",
+		tabPanel("Dam 6: Millinocket/Quakish",
 		         h2("Results: Millinocket/Quakish Dam"),
 		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
                   Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
-		         div(id="dam-6-output",
-		             h3("Table 21. User-Defined Preference Scores for Millinocket/Quakish Dam"),
-		             DT::dataTableOutput("RawPrefsDam6"),
+		         # output post generate
+		         div(id="generated-output-6",
+		             h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
+		             plotOutput("WSMPlot6b", height=600, width="100%"),
 		             HTML(
-		               "This table of preference data is depicted below."
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
+		               <br>"
 		             ),
-		             h3("Figure 25. User-Defined Preference Scores for Millinocket/Quakish"),
+		             downloadButton("DownloadDam6Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot6a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
+		             ),
+		             downloadButton("DownloadDam6Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-6-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for Millinocket/Quakish Dam"),
 		             plotOutput("PrefPlot6", height=graph_height, width=graph_width),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 25: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the Millinocket Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for Millinocket/Quakish Dam"),
+		             DT::dataTableOutput("RawPrefsDam6"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
 		             #raw data table/Matrix
-		             h3("Table 22. Data Values for Millinocket/Quakish Dam"),
+		             h3("Table 2. Data Values for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6RawTable"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 22. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
 		             ),
-		             # normalized data table/Matrix
-		             h3("Table 23. Normalized Data Values for Millinocket/Quakish Dam"),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6NormTable"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 23. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-		               high costs are less desirable than low costs.<br>"
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
 		             ),
-		             #weighted score data table/Matrix
-		             h3("Table 24. Weighted Scores for Millinocket/Quakish Dam"),
-		             DT::dataTableOutput("Dam6ScoreTable"),
-					 downloadButton("DownloadDam6ScoreTable", "Download Table"),
-
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 24. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             )
-		         ),
-
-					  # output post generate
-		         div(id="generated-output-6",
-                 
-		             h3('Figure 26. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot6c", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 26: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-					          alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-					          It is up to you to decide what to do with this information. <br>"
-		             ),
-					      downloadButton("DownloadDam6Plotc", "Download Graph"),
 		             
-		            h3('Figure 27. Decision Alternatives by Criteria'),
-		            plotOutput("WSMPlot6a", height=600, width="100%"),
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for Millinocket/Quakish Dam"),
+		             DT::dataTableOutput("Dam6ScoreTable"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 27: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-					          the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
-					          <br>"
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+				      If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
 		             ),
-					      downloadButton("DownloadDam6Plota", "Download Graph"),
-                 
-
-		            h3('Figure 28. Decision Alternatives for Millinocket/Quakish'),
-		            plotOutput("WSMPlot6b", height=600, width="100%"),
-					      HTML(
-					        "<br><b>Results Interpretation</b> for Figure 28: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
-					      ),
-					      downloadButton("DownloadDam6Plotb", "Download Graph"),
-
+		             downloadButton("DownloadDam6ScoreTable", "Download Table"),
 		            h3('Download Millinocket Results'),
 		            HTML(
 		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
@@ -1560,71 +1635,84 @@ ui <- shinyUI(fluidPage(
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
-		         div(id="dam-7-output",
-		             h3("Table 25. User-Defined Preference Scores for Millinocket Lake Dam"),
-		             DT::dataTableOutput("RawPrefsDam7"),
-		             HTML(
-		               "The table of preference data is depicted below."
-		             ),
-		             h3("Figure 29. User-Defined Preference Scores for Millinocket Lake"),
-		             plotOutput("PrefPlot7", height=graph_height, width=graph_width),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 29: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the West Enfield Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-		             ),
-		             #raw data table/Matrix
-		             h3("Table 26. Data Values for Millinocket Lake Dam"),
-		             DT::dataTableOutput("Dam7RawTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 26. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-		             ),
-		             # normalized data table/Matrix
-		             h3("Table 27. Normalized Data Values for Millinocket Lake Dam"),
-		             DT::dataTableOutput("Dam7NormTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 27. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-		               high costs are less desirable than low costs.<br>"
-		             ),
-		             #weighted score data table/Matrix
-		             h3("Table 28. Weighted Scores for Milinocket Lake Dam"),
-		             DT::dataTableOutput("Dam7ScoreTable"),
-					       downloadButton("DownloadDam7ScoreTable", "Download Table"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 28. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             )
-  		         ),
-
 		         # output post generate
 		         div(id="generated-output-7",
-                 
-		             h3('Figure 30. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot7c", height=600, width="100%"),
+		             h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
+		             plotOutput("WSMPlot7b", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 30: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information. <br>"
-		             ),
-					       downloadButton("DownloadDam7Plotc", "Download Graph"),
-		             
-		             h3('Figure 31. Decision Alternatives by Criteria'),
-		             plotOutput("WSMPlot7a", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 21: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
 		               <br>"
 		             ),
-					       downloadButton("DownloadDam7Plota", "Download Graph"),
-                
-					      h3('Figure 32. Decision Alternatives for Millinocket Lake'),   
-		            plotOutput("WSMPlot7b", height=600, width="100%"),
-					      HTML(
-					        "<br><b>Results Interpretation</b> for Figure 32: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
-					      ),
-					      downloadButton("DownloadDam7Plotb", "Download Graph"),
-
+		             downloadButton("DownloadDam7Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot7a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
+		             ),
+		             downloadButton("DownloadDam7Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-7-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for Millinocket Lake Dam"),
+		             plotOutput("PrefPlot7", height=graph_height, width=graph_width),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for Millinocket Lake Dam"),
+		             DT::dataTableOutput("RawPrefsDam7"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
+		             #raw data table/Matrix
+		             h3("Table 2. Data Values for Millinocket Lake Dam"),
+		             DT::dataTableOutput("Dam7RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		             ),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for Millinocket Lake Dam"),
+		             DT::dataTableOutput("Dam7NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		             ),
+		             
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for Millinocket Lake Dam"),
+		             DT::dataTableOutput("Dam7ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+		               If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+		             ),
+		             downloadButton("DownloadDam7ScoreTable", "Download Table"),
 		             h3('Download Millinocket Lake Results'),
 		             HTML(
 		               "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
@@ -1640,73 +1728,84 @@ ui <- shinyUI(fluidPage(
 		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
 		              results.<br>"),
 		         
-		         div(id="dam-8-output",
-		             h3("Table 29. User-Defined Preference Scores for Ripogenus Dam"),
-		             DT::dataTableOutput("RawPrefsDam8"),
-		             HTML(
-		               "This table of preference data is depicted below."
-		             ),
-
-		             h3("Figure 33. User-Defined Preference Scores for Ripogenus"),
-		             plotOutput("PrefPlot8", height=graph_height, width=graph_width),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 33: The bars visually represent your preference scores for each decision criterion.\
-		               The scores are pulled directly from your slider bar settings under the Ripogenus Dam tab. If you wish to go back and change your settings, please do so before continuing.<br>"
-		             ),
-
-		             #raw data table/Matrix
-		             h3("Table 30. Data Values for Ripogenus Dam"),
-		             DT::dataTableOutput("Dam8RawTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 30. These are the raw data values for the dam development. We include the raw data values here to help make the MCDA calculation more transparent."
-		             ),
-		             # normalized data table/Matrix
-		             h3("Table 31. Normalized Data Values for Ripogenus Dam"),
-		             DT::dataTableOutput("Dam8NormTable"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 31. These are the normalized data values for the dam development. Raw data values have been normalized to a range between 0 and 1 to make them comparable across different units.\
-		               Normalization was performed using a min/max procedure, where the highest values for most decision criteria are set equal to 1, and the lowest values are set equal to 0. For decision criteria where lower values are better \
-		               (e.g. annuitized project cost, breach damage potential, number of properties impacted), the highest values are actually set equal to 0, and the lowest values are set equal to 1. This allows us to indicate that, for instance,\
-		               high costs are less desirable than low costs.<br>"
-		             ),
-		             #weighted score data table/Matrix
-		             h3("Table 32. Weighted Scores for Ripogenus Dam"),
-		             DT::dataTableOutput("Dam8ScoreTable"),
-					 downloadButton("DownloadDam8ScoreTable", "Download Table"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Table 32. These are the raw data for the dam development. Normalized data values have been multiplied by your preference scores to achieve a weighted score.\
-		               The weighted sum for each decision alternative is considered the MCDA score, where the value closest to 100 is considered the first best alternative.<br>"
-		             )
-		         ),
-
 		         # output post generate
 		         div(id="generated-output-8",
-                 
-		             h3('Figure 34. Scaled Decision Criteria Comparison'),
-		             plotOutput("WSMPlot8c", height=600, width="100%"),
+		             h3('Figure 1. Comparison of Final MCDA Scores for Each Decision Alternative'),
+		             plotOutput("WSMPlot8b", height=600, width="100%"),
 		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 34: Recall that the decision criteria ratings under every dam tab were required to sum to 1. Here, the colored segments within each bar show the contribution of each decision criterion toward each decision\
-		               alternative score for this dam. The decision alternative scores are calculated by weighting (multiplying) normalized dam-specific data for each criterion by your preference information for this dam. The largest segments show which criterion most drive the total score for each decision alternative. \
-		               It is up to you to decide what to do with this information. <br>"
-		             ),
-					       downloadButton("DownloadDam8Plotc", "Download Graph"),
-                 
-		             h3('Figure 35. Decision Alternatives by Criteria'),
-		             plotOutput("WSMPlot8a", height=600, width="100%"),
-		             HTML(
-		               "<br><b>Results Interpretation</b> for Figure 35: The decision criterion with the largest bar shows where your overall priority lies, based on your preference information and the data for each decision criterion. Since preferences for decision criteria change from one dam to another, you may see variation between\
-		               the prioritized decision alternatives. It is up to you as a decision maker to decide what to do with this information.<br>\
+		               "<br><b>Results Interpretation</b> for Figure 1: This graph shows the final MCDA score for each decision alternative for this specific dam, based on the MCDA calculation that includes the\
+		               preferences you entered in Step 3 and the decision criteria data we collected/generated through our research. The taller the bar, the more preferred the decision alternative us under the \
+		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
 		               <br>"
 		             ),
-					       downloadButton("DownloadDam8Plota", "Download Graph"),
-                 
-					       h3('Figure 36. Decision Alternatives for Ripogenus'),
-		             plotOutput("WSMPlot8b", height=600, width="100%"),
-					       HTML(
-					         "<br><b>Results Interpretation</b> for Figure 36: The decision alternative with the largest bar (MCDA score closest to 100) shows where your overall priority lies for this dam."
-					       ),
-					       downloadButton("DownloadDam8Plotb", "Download Graph"),
-
+		             downloadButton("DownloadDam8Plotb", "Download Graph"),
+		             
+		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
+		             plotOutput("WSMPlot8a", height=600, width="100%"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
+		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
+		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
+		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
+		               preference value to sea-run fish habitat area, you may be surprised to see a large segment for sea-run fish habitat in the Remove Dam decision alternative bar in this graph, but that could be because \
+		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
+		               <br>"
+		             ),
+		             downloadButton("DownloadDam8Plota", "Download Graph")
+		             ),
+		         h2('Data Inputs to these Results'),
+		         HTML(
+		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
+		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
+		           (raw and normalized) that lead to the final calculation.<br>"
+		         ),
+		         
+		         div(id="dam-8-output",
+		             
+		             h3("Figure 3. User-Defined Preference Scores for Ripogenus Dam"),
+		             plotOutput("PrefPlot8", height=graph_height, width=graph_width),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
+		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		             ),
+		             
+		             h3("Table 1. User-Defined Preference Scores for Ripogenus Dam"),
+		             DT::dataTableOutput("RawPrefsDam8"),
+		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
+		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
+		             
+		             #raw data table/Matrix
+		             h3("Table 2. Data Values for Ripogenus Dam"),
+		             DT::dataTableOutput("Dam8RawTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
+		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
+		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
+		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		             ),
+		             
+		             #normalized data table/Matrix
+		             h3("Table 3. Normalized Data Values for Ripogenus Dam"),
+		             DT::dataTableOutput("Dam8NormTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 3. This table shows the data values from Table 2, normalized to be a score between 0 and 1 to make them comparable across different units. Normalization was performed \
+		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
+		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
+		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		             ),
+		             
+		             #weighted score data table/Matrix
+		             h3("Table 4. Weighted Scores for Individual Decision Criteria and Alternatives for Ripogenus Dam"),
+		             DT::dataTableOutput("Dam8ScoreTable"),
+		             HTML(
+		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
+		               If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+		             ),
+		             downloadButton("DownloadDam8ScoreTable", "Download Table"),
 		             h3('Download Ripogenus Results'),
 		             HTML(
 		                 "<br><b>Next Steps</b>: You may download and save your results for personal reference. If you are participating in the Dam Decision-Making Workshop, please save your results at this time."
