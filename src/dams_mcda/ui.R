@@ -74,16 +74,18 @@ ui <- shinyUI(fluidPage(
 	# page banner/title + logout link
 	HTML('<div id="app-logout"><a href="/logout/">Logout</a></div>\
 		 <div id="page-title">Dam Decision Support Tool</div> \
-		 \
 	'),
-	div(
-		id="progress-tracker",
-		htmlOutput("TotalProgress")
+
+	# bottom of page total progress tracker
+	div(id="progress-tracker", htmlOutput("TotalProgress")),
+
+	# navigation buttons
+	div(id="nav-buttons",
+		actionButton("Prev_Tab", "Previous"),
+		actionButton("Next_Tab", "Next")
 	),
 
-	# intro popup-modal, forces user to decide input before proceeding
-
-
+	# tablist/tabcontent
 	navlistPanel(
 		id="navListPanel",
 		# Define layout widths
@@ -970,9 +972,14 @@ ui <- shinyUI(fluidPage(
 		HTML("<li> Step 4: Multi-Dam Results </li>"),
 
 		tabPanel("Combined Results",
-      h2('Multi-Dam Results'),
-      HTML("<br>Click GENERATE to get MCDA results graphs.<br>"),
-      actionButton("generateOutput", "Generate"), # generate event
+
+		  h2('Multi-Dam Results'),
+
+		  HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode saving will add your preferences to the groups total. Saving again will overwrite the old save.<br>"),
+		  actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save")),
+
+		  HTML("<br>Click GENERATE to get MCDA results graphs.<br>"),
+		  actionButton("generateOutput", "Generate", icon=icon("chart-bar")), # generate event
 
 			div(id="combined-output",
 			  h2('Overview'),
@@ -1018,7 +1025,7 @@ ui <- shinyUI(fluidPage(
 
 				h3('Figure 3. Contribution of Decision Criteria to Final MCDA Score for Top-Ranked Dam Decision Alternatives'),
 				plotOutput("CombinedPlot2", height="35em"),
-				HTML("<br><b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
+				HTML("<b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
 					 Use this graph to give you an idea of how decision criteria scores (normalized data values x user-defined preference values) contribute to the final decision alternative selection for each dam. Consider this graph kind of a \"zoom-in\" \
 					 on the tallest bar for each dam in Figure 2.<br>"),
 				downloadButton("DownloadCombinedPlot2", "Download Graph"),
@@ -1059,7 +1066,7 @@ ui <- shinyUI(fluidPage(
 		),
 
 
-    # --------------------------------------------------------------------------------
+		# --------------------------------------------------------------------------------
 		# Individual Dam Result Tabs
 		# --------------------------------------------------------------------------------
 		HTML("<li class='step-label'> Step 5: View Dam Specific Results </li>"),
@@ -1178,7 +1185,7 @@ ui <- shinyUI(fluidPage(
 		               preferences you supplied. Use this graph for a quick comparison between decision alternatives for a single dam.<br>\
 		               <br>"
 		             ),
-		             downloadButton("DownloadDam1Plotb", "Download Graph"),
+		             downloadButton("DownloadDam2Plotb", "Download Graph"),
 		             
 		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
 		             plotOutput("WSMPlot2a", height=600, width="100%"),
@@ -1192,29 +1199,30 @@ ui <- shinyUI(fluidPage(
 		               removing the dam increases fish habitat the most out of all of the decision alternatives for this dam site.<br>\
 		               <br>"
 		             ),
-		             downloadButton("DownloadDam1Plota", "Download Graph")
-		             ),
+		             downloadButton("DownloadDam2Plota", "Download Graph")
+				 ),
+
 		         h2('Data Inputs to these Results'),
 		         HTML(
 		           "The results presented in Figures 1 and 2 were calculated by multiplying your preference inputs from Step 3 by the normalized researcher-defined decision criteria data. This section displays these \
 		           component data sets, reminding you in table and graph form of the preferences you entered in Step 3 for each decision criterion and showing you the researcher-defined decision criteria data sets \
 		           (raw and normalized) that lead to the final calculation.<br>"
 		         ),
-		         
+
 		         div(id="dam-2-output",
-		             
+
 		             h3("Figure 3. User-Defined Preference Scores for Medway Dam"),
 		             plotOutput("PrefPlot2", height=graph_height, width=graph_width),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
 		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
-		             
+
 		             h3("Table 1. User-Defined Preference Scores for Medway Dam"),
 		             DT::dataTableOutput("RawPrefsDam2"),
 		             HTML( "<br>This table just shows the same thing as Figure 3 but in table form. If you would like to see all decision criteria preferences values at once, please select Show 25 entries from the drop-down menu \
 		                   above the table. Use the search bar to filter the table to a specific decision alternative  (e.g. Keep and Maintain Dam).<br>"),
-		             
+
 		             #raw data table/Matrix
 		             h3("Table 2. Data Values for Medway Dam"),
 		             DT::dataTableOutput("Dam2RawTable"),
@@ -1243,7 +1251,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam2ScoreTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 4. This table shows the result of multiplying the preference scores from Table 1 (and Figure 3) by the normalized decision criteria data values displayed in Table 3. \
-				      If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
+				           If you add together all numbers in one row in this table you will get the final MCDA score for that decision alternative, the same results that are presented in Figures 1-2 above.<br>"
 		             ),
 		             downloadButton("DownloadDam2ScoreTable", "Download Table"),
 
@@ -1847,9 +1855,7 @@ ui <- shinyUI(fluidPage(
 				 "
 			 )
 		)
-	), # end of navigation panel
-	actionButton("Prev_Tab", "Previous", style="width:49%; margin-right:1%;"),
-	actionButton("Next_Tab", "Next", style="width:49%;")
+	) # end of navigation panel
 ))
 
 # create the application with ui in this file and imported server from server.R

@@ -5,8 +5,8 @@ source("WSM.R")
 DamsData <- read.csv('DamsData.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
 source(file='f_raw.RData')
-source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge)
+source(file = 'f_nrge.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(f_norm)
 #DamsData <- as.array(f)
 source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
@@ -15,6 +15,24 @@ library(abind)
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
+
+#--------------------------------------------------------------------------------
+# reorganize dams in NormalizedMatrix
+#--------------------------------------------------------------------------------
+# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
+# target is     WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
+# Normalized is 4 7 6 5 8 3 2 1
+# target is     1 2 3 4 5 6 7 8
+TestMatrix <- NormalizedMatrix
+TestMatrix[1,,] <- NormalizedMatrix[8,,]
+TestMatrix[2,,] <- NormalizedMatrix[7,,]
+TestMatrix[3,,] <- NormalizedMatrix[6,,]
+TestMatrix[4,,] <- NormalizedMatrix[1,,]
+TestMatrix[5,,] <- NormalizedMatrix[4,,]
+TestMatrix[6,,] <- NormalizedMatrix[3,,]
+TestMatrix[7,,] <- NormalizedMatrix[2,,]
+TestMatrix[8,,] <- NormalizedMatrix[5,,]
+NormalizedMatrix <- TestMatrix
 
 #--------------------------------------------------------------------------------
 # Global Variables
@@ -92,6 +110,15 @@ alternative_names <- c(
 	"Keep and Maintain Dam"
 )
 
+# alternative display minimum length names (for graphs)
+alternative_names_min <- c(
+	"Remove",
+	"Fish",
+	"Hydro",
+	"Hydro & Fish",
+	"Keep & Maintain"
+)
+
 # dam display names (for labeling tables and graphs)
 dam_names <- c(
 	"West Enfield",
@@ -108,6 +135,30 @@ dam_names <- c(
 criteria_names_and_sum <- as.list(criteria_names) # vector to list
 criteria_names_and_sum[[length(criteria_names_and_sum) + 1]] <- "Summed Score" # append summed score
 criteria_names_and_sum <- unlist(criteria_names_and_sum) # return to vector
+
+# for traversing tabs
+tabPanel_names <- c(
+	"Start Here",
+	"View Dam Map",
+	'<div id="Dam1" class="shiny-html-output"></div>',
+	'<div id="Dam2" class="shiny-html-output"></div>',
+	'<div id="Dam3" class="shiny-html-output"></div>',
+	'<div id="Dam4" class="shiny-html-output"></div>',
+	'<div id="Dam5" class="shiny-html-output"></div>',
+	'<div id="Dam6" class="shiny-html-output"></div>',
+	'<div id="Dam7" class="shiny-html-output"></div>',
+	'<div id="Dam8" class="shiny-html-output"></div>',
+	"Combined Results",
+	"Map Recommendation",
+	"Dam 1: West Enfield",
+	"Dam 2: Medway Dam",
+	"Dam 3: East Millinocket Dam",
+	"Dam 4: Dolby Dam",
+	"Dam 5: North Twin",
+	"Dam 6: Millinocket",
+	"Dam 7: Millinocket Lake",
+	"Dam 8: Ripogenus"
+)
 
 #--------------------------------------------------
 # User Interface Default Values
@@ -159,6 +210,24 @@ pdf(NULL)
 # Methods
 #--------------------------------------------------------------------------------
 
+# print2d
+#----------------------------------------
+# debug print for 2d structures
+print2d <- function(table) {
+	message("print2d")
+	message("table size: ", dim(table))
+	#for (scen in 1:dim(table)[3]){
+		for (row in 1:dim(table)[2]){
+			row_string <- ""
+			for (col in 1:dim(table)[1]){
+				row_string <- paste(row_string, toString(table[col,row,1]), sep=", ")
+			}
+			message(row_string)
+		}
+	#}
+}
+
+
 # epochTime
 #----------------------------------------
 # get current Epoch time
@@ -182,13 +251,13 @@ saveResponse <- function(table_data) {
 	response_data <<- table_data
 }
 
+
 # savePreferences
 #----------------------------------------
 # save preference input selection
 savePreferences <- function(pref_data) {
 	preference_selection <<- pref_data
 }
-
 
 
 # saveData
@@ -236,9 +305,9 @@ updateDamStatus <- function(completed, action, id){
 # check all available_Dams are in Dams_completed
 # returns boolean
 damsCompleted <- function(completed){
-	message('------------------')
-	message('bool damsCompleted(array_completed)')
-	message('------------------')
+	#message('------------------')
+	#message('bool damsCompleted(array_completed)')
+	#message('------------------')
 
 	# available_dams is array of dam sections ids
 	for (value in available_dams){
@@ -248,29 +317,6 @@ damsCompleted <- function(completed){
 	}
 	return(TRUE)
 }
-
-tabPanel_names <- c(
-	"Start Here",
-	"View Dam Map",
-	'<div id="Dam1" class="shiny-html-output"></div>',
-	'<div id="Dam2" class="shiny-html-output"></div>',
-	'<div id="Dam3" class="shiny-html-output"></div>',
-	'<div id="Dam4" class="shiny-html-output"></div>',
-	'<div id="Dam5" class="shiny-html-output"></div>',
-	'<div id="Dam6" class="shiny-html-output"></div>',
-	'<div id="Dam7" class="shiny-html-output"></div>',
-	'<div id="Dam8" class="shiny-html-output"></div>',
-	"Combined Results",
-	"Map Recommendation",
-	"Dam 1: West Enfield",
-	"Dam 2: Medway Dam",
-	"Dam 3: East Millinocket Dam",
-	"Dam 4: Dolby Dam",
-	"Dam 5: North Twin",
-	"Dam 6: Millinocket",
-	"Dam 7: Millinocket Lake",
-	"Dam 8: Ripogenus"
-)
 
 
 #--------------------------------------------------------------------------------
@@ -283,9 +329,9 @@ server <- function(input, output, session) {
 	# when user clicks updat on each "Enter Preferences" tab this matrix is updated
 	# size is 8x14
 	#------------------------------------------------------------
-	message("session$userData$selectedPreferences init")
+	#message("session$userData$selectedPreferences init")
 	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
-	message("session$userData$currentTab init")
+	#message("session$userData$currentTab init")
 	session$userData$currentTab <- 1
 
 
@@ -330,9 +376,9 @@ server <- function(input, output, session) {
 				HTML(
 					"<h4>Instructions for Uploading</h4>\
 					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-          and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
-          populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-          select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+					and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+					populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+					select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 					average preference values for the group. <br>"
 				)
 			)
@@ -1134,8 +1180,8 @@ server <- function(input, output, session) {
 
 			# Graph1
 			# Preference scores by criteria
-			combinedPlot1 <- renderPlot2D(
-				t(RawCriteriaMatrix), # data
+			combinedPlot1 <- renderPlot2DR(
+				t(round(RawCriteriaMatrix,1)), # data
 				"Criteria preference values for all dams", # title
 				dam_names, # x_labels
 				criteria_names, # y_labels
@@ -1169,11 +1215,14 @@ server <- function(input, output, session) {
 
 				# assigned is a boolean if the alternative has been chosen
 				assigned <- FALSE
+				message("possible_alts: ", possible_alts)
 
+				# multi alt decision needed
 				# see issue #81
 				if (length(possible_alts) > 1){
 					# special alt selection when alt scores match
 					for (altId in 1:length(possible_alts)){
+						message("alt: ", altId, " name: ", alternative_names[altId])
 
 						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
 						max_crit <- which.max(dam_WSMMatrix)
@@ -1191,6 +1240,8 @@ server <- function(input, output, session) {
 								# prefer "Keep and Maintain Dam",
 								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
 								assigned <- TRUE
+								#
+								message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 							}
 						}
 
@@ -1205,6 +1256,7 @@ server <- function(input, output, session) {
 								# prioritize remove
 								dam_top_alt_index[damId] <- which(alternative_names == "Remove Dam")
 								assigned <- TRUE
+								message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 							}
 						}
 
@@ -1224,27 +1276,46 @@ server <- function(input, output, session) {
 									# preference
 									dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
 									assigned <- TRUE
+									message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 								}else if (remove_dam %in% possible_alts){
 									updated_possible_alts <- which(possible_alts!=remove_dam)
 									# any but remove random from list
 									dam_top_alt_index[damId] <- sample(updated_possible_alts, 1)
 									assigned <- TRUE
+									message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 								}
 							}
 						}
 					}
 				}
 
-				dam_names_with_max_alt[damId] <- paste0(
-					dam_names_with_max_alt[damId],
-					" (", alternative_names[which.max(WSMIndScoreSum[damId,])], ")"
-				)
+				# assign top alt
 
 				# normal method if not assigned already
 				if (assigned == FALSE){
-					dam_top_alt_index[damId] <- which.max(WSMIndScoreSum[damId,])
+					alt_index <- which.max(WSMIndScoreSum[damId,])
+					message("Single> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1))
+					# display_name
+					dam_names_with_max_alt[damId] <- paste0(
+						dam_names_with_max_alt[damId],
+						" (", alternative_names[alt_index], ")"
+					)
+					# chosen alt
+					dam_top_alt_index[damId] <- alt_index
+
+				}else{
+					alt_index <- which.max(WSMIndScoreSum[damId,])
+					# chosen alt already assaigned
+					message("Multi> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1), " selected top alt ", dam_top_alt_index[damId])
+					# display_name
+					dam_names_with_max_alt[damId] <- paste0(
+						dam_names_with_max_alt[damId],
+						" (", alternative_names[dam_top_alt_index[damId]], ")"
+					)
+
 				}
 
+				# grab row for chosen alt
 				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(14))
 
 				for (critIndex in 1:length(dam_WSMMatrix)){
@@ -1307,6 +1378,7 @@ server <- function(input, output, session) {
 			# process data for graph 4
 			# scores for each scenario/dam
 			multi_WSM_top5_scenario <- array(NA, dim=c(5,8))
+			multi_WSM_top5_scenario_alts <- array(NA, dim=c(5,8))
 			top5_list <- head(idxRank[,10], 5)
 			# top 5
 			for (scenarioId in top5_list){
@@ -1314,18 +1386,21 @@ server <- function(input, output, session) {
 				for (damId in 1:length(dam_names)){
 					dam_score <- sum(multi_WSM[damId,,scenarioId+1])
 					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- dam_score
+					multi_WSM_top5_scenario_alts[which(top5_list==scenarioId),damId] <- alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]]
+					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
 					scenarioSumScore <- (scenarioSumScore + dam_score)
 				}
-				#message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
+				message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
 			}
 
 			# Graph4
 			# Preference scores for all dams
-			combinedPlot4 <- renderPlot2D(
+			combinedPlot4 <- renderPlot2DDamAlts(
 				t(multi_WSM_top5_scenario), # data
 				"Combined Plot4 idxRank", # title
 				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
 				dam_names, # y_labels
+				multi_WSM_top5_scenario_alts, # SPECIAL CASE LABELS
 				"Coordinated Multi-Dam Outcome", # x axis label
 				"Final MCDA Scores", # y axis label
 				"Dam", # y axis label
@@ -1391,9 +1466,11 @@ server <- function(input, output, session) {
 		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
 		row.names(Dam1ScoreTable) <- alternative_names
 		colnames(Dam1ScoreTable) <- criteria_inputs
+		ScoreTablePlusSum <- Dam1ScoreTable
+		ScoreTablePlusSum$Total = IndScoreSum[damId,]
 
 		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
-			Dam1ScoreTable
+			ScoreTablePlusSum
 		})
 
 		# WSM Download button
@@ -1403,8 +1480,6 @@ server <- function(input, output, session) {
 				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 			},
 			content = function(file) {
-				ScoreTablePlusSum <- Dam1ScoreTable
-				ScoreTablePlusSum$Total = IndScoreSum[damId,]
 				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
 			}
 		)
