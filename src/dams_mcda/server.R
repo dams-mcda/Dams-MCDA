@@ -1181,8 +1181,8 @@ server <- function(input, output, session) {
 
 			# Graph1
 			# Preference scores by criteria
-			combinedPlot1 <- renderPlot2D(
-				t(RawCriteriaMatrix), # data
+			combinedPlot1 <- renderPlot2DR(
+				t(round(RawCriteriaMatrix,1)), # data
 				"Criteria preference values for all dams", # title
 				dam_names, # x_labels
 				criteria_names, # y_labels

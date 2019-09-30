@@ -359,6 +359,63 @@ renderPlot2DDamAlts <- function(df, title, x_names, y_names, alt_names, x_label,
 	return(result)
 }
 
+
+# renderPlot2D
+#----------------------------------------
+# for 2D data (this method flips data x/y for display)
+# wrapper for barplot with a debug message
+# when no value is needed pass NULL for a field
+# x_limit and y_limit are arrays when not NULL
+# xpd == False disables bars being drawn outsize graph canvas
+# NOTE: DOES NOT RENDER PLOT
+renderPlot2DR <- function(df, title, x_names, y_names, x_label, y_label, legend_label, colors, x_limit, y_limit) {
+	#message(
+	#	'------------------\n',
+	#	'Plot2D title: ', title,
+	#	# '\ndata: ', df,
+	#	"\n#(values in data): ", length(df),
+	#	"\n#(dim of data): ", dim(df),
+	#	"\nclasstype: ", class(df),
+	#	"\ndatatype: ", typeof(df),
+	#	"\n#(x names): ", length(x_names),
+	#	"\n#(y names): ", length(y_names),
+	#	'\n------------------'
+	#)
+
+	Y <- c(rep(str_wrap(y_names, 24), times=length(x_names)))
+	X <- c(rep(str_wrap(x_names, 24), each=length(y_names)))
+	Score <- unlist(as.data.frame(df))
+	Score[Score==0] <- NA # dont show zero values on plot
+	df <- data.frame(X=X, Y=Y, Score=Score)
+
+	# ordering by order of appearance
+	df$X <- factor(df$X, levels=unique(df$X))
+	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
+
+	result <- (
+		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, fill=df$Y, label=df$Score))
+		# ingnore empty values
+		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
+		+ geom_bar(stat="identity") # ignore empty values
+		+ geom_text(size=4, position = position_stack(vjust = 0.5))
+		+ coord_flip() # sometimes helpful for better fitting graph on screen
+		+ theme_minimal()
+		+ theme(
+			text=element_text(size=16),
+			legend.position="bottom",
+			axis.text.y = element_text(angle = 0, hjust = 1),
+			#axis.text.x = element_text(angle = 45, hjust = 1),
+			plot.margin=unit(c(0,1,0,1.5), "cm")
+		)
+		+ guides(fill=guide_legend(title=legend_label))
+		+ ylab(y_label)
+		+ xlab(x_label)
+		+ scale_fill_viridis(discrete=TRUE)
+	)
+	return(result)
+}
+
+
 # renderPlot1D
 #----------------------------------------
 # for 1D data
