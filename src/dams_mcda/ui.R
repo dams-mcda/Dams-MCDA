@@ -76,13 +76,12 @@ ui <- shinyUI(fluidPage(
 		 <div id="page-title">Dam Decision Support Tool</div> \
 		 \
 	'),
-	div(
-		id="progress-tracker",
-		htmlOutput("TotalProgress")
-	),
 
-	# intro popup-modal, forces user to decide input before proceeding
+	# total progress tracker on bottom of screen
+	div( id="progress-tracker", htmlOutput("TotalProgress")),
 
+	# navigation buttons
+	div(id="nav-buttons", actionButton("Prev_Tab", "Previous"), actionButton("Next_Tab", "Next")),
 
 	navlistPanel(
 		id="navListPanel",
@@ -1862,9 +1861,7 @@ ui <- shinyUI(fluidPage(
 				 "
 			 )
 		)
-	), # end of navigation panel
-	actionButton("Prev_Tab", "Previous", style="width:49%; margin-right:1%;"),
-	actionButton("Next_Tab", "Next", style="width:49%;")
+	) # end of navigation panel
 ))
 
 # create the application with ui in this file and imported server from server.R
