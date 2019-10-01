@@ -975,9 +975,6 @@ ui <- shinyUI(fluidPage(
 
 		  h2('Multi-Dam Results'),
 
-		  HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode saving will add your preferences to the groups total. Saving again will overwrite the old save.<br>"),
-		  actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save")),
-
 		  HTML("<br>Click GENERATE to get MCDA results graphs.<br>"),
 		  actionButton("generateOutput", "Generate", icon=icon("chart-bar")), # generate event
 
@@ -1006,14 +1003,14 @@ ui <- shinyUI(fluidPage(
 				   what the next-best options may be for your decision.<br>"),
 			  downloadButton("DownloadCombinedPlot4", "Download Graph"),
 			  HTML("<br>The following downloadable supplementary tables can be used to see more detail relted to Figure 1. Note: there are 995 possile multi-dam 'scenarios' in this dataset, where each of 8 dams has 5 possible decision alternatives. <br>"
-			       
+
 			  ),
 			  downloadButton("DownloadDecisions", "Download Decisions"),
 			  downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios"),
 			  HTML(
 			    "<br>Information supporting a more precise interpretation of these supplementary tables is forthcoming.<br>"
 			  ),
-			  
+
 				h3('Figure 2. Comparison of Final MCDA Score for each Decision Alternative at each Dam'),
 				plotOutput("CombinedPlot3", height="35em"),
 				HTML("<br><b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the alternative is. Use this graph to quickly see which decision\
@@ -1039,15 +1036,15 @@ ui <- shinyUI(fluidPage(
 					 do not include any researched data values for decision criteria (i.e., the data we compiled and/or calculated ahead of time and presented in the decision matrices for each dam). The graph only shows your own stated preference \
 					 values from Step 3.<br>"),
 				downloadButton("DownloadCombinedPlot1", "Download Graph"),
+
 				# download preferences (for UPLOAD DATA)
 				HTML(
 				  "<br>It is a good idea to download your preferences for your records if you plan to use the Dam Decision Support Tool again.<br>"
 				),
 				downloadButton("downloadPreferenceSelection", "Download Preference Inputs (Step 3)"),
-				
+
 				HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode, saving will add your preferences to the group average. Be aware: saving again will overwrite the old save.<br>"),
 				actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save"))
-				
 			)
 		),
 
