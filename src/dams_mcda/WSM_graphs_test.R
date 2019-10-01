@@ -11,11 +11,11 @@ has_wd <- tryCatch({
 
 source("WSM.R")
 
-DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
+DamsData <- read.csv('DamsData_Workshop.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-source(file = 'f_nrge2.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge)
-source(file='Decisions.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
+NormalizedMatrix<- read.csv('f_nrge_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1885 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- as.array(NormalizedMatrix, dim=c(8,14,1885))
+Decisions <- read.csv('x.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1885 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
 #codes:
 #0 = remove dam
@@ -67,8 +67,9 @@ matrix_cols <- length(criteria_inputs) # 14 default (output size)
 matrix_rows <- length(available_dams) # 8 default
 matrix_levs_ind <- length(available_alternatives)# 5 default
 
+
 # MOGA Scenarios, how many are there?
-num_scenarios <- 995
+num_scenarios <- 1885
 
 
 message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", num_scenarios)
