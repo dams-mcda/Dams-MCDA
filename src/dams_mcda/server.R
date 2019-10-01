@@ -122,6 +122,15 @@ alternative_names <- c(
 	"Keep and Maintain Dam"
 )
 
+# alternative_names coded values as appear on map output
+alternative_names_coded <- c(
+	0,
+	3,
+	2,
+	4,
+	1
+)
+
 # alternative display minimum length names (for graphs)
 alternative_names_min <- c(
 	"Remove",
@@ -1163,10 +1172,6 @@ server <- function(input, output, session) {
 			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
 			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
 
-			# idxRank suggested scenaios in order
-			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
-			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
-
 			# wsm for each scenario 8 x 14 x 995 (used for graph4)
 			multi_WSM <- array(unlist(WSMResults[8]), dim=c(8, 14, num_scenarios))
 
@@ -1459,8 +1464,25 @@ server <- function(input, output, session) {
 			)
 			output$CombinedPlot4 <- renderPlot(combinedPlot4)
 
+			message("scenarios", dim(idxRank)[1])
+			message("dams", dim(idxRank)[2])
+
+			uncoded_idxRank <- array(NA, dim=c(5, (dim(idxRank)[2] - 2)))
+			for (scenId in 1:5){
+				for (critId in 2:(dim(idxRank)[2] - 1)){
+					val <- idxRank[scenId, critId]
+					altCodeIndex <- which(alternative_names_coded==val)
+					# 0 -> remove 4 -> improve both
+					result <- alternative_names[altCodeIndex]
+					uncoded_idxRank[scenId, critId-1] <- result
+				}
+			}
+			row.names(uncoded_idxRank) <- c("Top Scenario", "..", "..", "..", "Low-Top")
+			colnames(uncoded_idxRank) <- dam_names
+
 			# for debug
-			#output$CombinedTable4 <- renderTable(head(idxRank, 5))
+			output$CombinedTable4 <- renderTable({head(idxRank,5)})
+			output$CombinedTable4Un <- renderTable(uncoded_idxRank)
 
 			# download button for plot2
 			output$DownloadCombinedPlot4 <- downloadHandler(

@@ -71,11 +71,12 @@ ui <- shinyUI(fluidPage(
 		tags$link(rel = "stylesheet", type = "text/css", href = "dams_mcda.css")
 	),
 
-	# page banner/title + logout link
-	HTML('<div id="app-logout"><a href="/logout/"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a></div>\
-		 <div id="page-title">Dam Decision Support Tool</div> \
-		 \
-	'),
+	# font-awesome, page banner/title, logout link
+	HTML(
+		'<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-zrnmn8R8KkWl12rAZFt4yKjxplaDaT7/EUkKm7AovijfrQItFWR7O/JJn4DAa/gx" crossorigin="anonymous">\
+		<div id="app-logout"><a href="/logout/"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a></div>\
+		<div id="page-title">Dam Decision Support Tool</div>'
+	),
 
 	# total progress tracker on bottom of screen
 	div( id="progress-tracker", htmlOutput("TotalProgress")),
@@ -973,8 +974,7 @@ ui <- shinyUI(fluidPage(
 		  HTML("<br>Click GENERATE to get MCDA results graphs.<br>"),
 		  actionButton("generateOutput", "Generate", icon=icon("chart-bar")), # generate event
 
-
-			div(id="combined-output",
+		  div(id="combined-output",
 			  h2('Overview'),
 			  HTML(
 				   "<br>Based on the preference values you entered for each dam in Step 3 and the data we collected/generated previously about what will happen to each decision criterion if each of the five decision alternatives is adopted, we \
@@ -991,7 +991,8 @@ ui <- shinyUI(fluidPage(
 
 			  h3('Figure 1. Comparison of Top 5 Decision Scenarios by Total MCDA Score and Dam'),
 			  plotOutput("CombinedPlot4", height="35em"),
-			  #tableOutput("CombinedTable4"),
+			  tableOutput("CombinedTable4Un"),
+			  tableOutput("CombinedTable4"),
 			  downloadButton("DownloadCombinedPlot4", "Download Graph", style="width:100%"),
 			  HTML("<br><br><b>Results Interpretation</b> for Figure 1. This graph shows the Total MCDA Score of the top 5 decision scenarios broken down by the contribution from each dam/decision alternative combination. In this context, the \"Decision Scenario\" \
 				   refers to the combination of dams and decision alternatives (e.g., the action that is recommended for each dam). The decision scenario with the highest score is presented in the mapped result, which you can access by clicking on Map Recommendation \
