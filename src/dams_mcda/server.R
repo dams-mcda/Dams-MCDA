@@ -2081,9 +2081,9 @@ server <- function(input, output, session) {
 		},
 		content = function(file) {
 			write.csv(
-				response_data,
+				preference_selection[1,],
 				file,
-				row.names = TRUE,
+				row.names=TRUE,
 				quote=TRUE
 			)
 		}
@@ -2097,7 +2097,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[2,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2111,7 +2111,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[3,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2125,7 +2125,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[4,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2139,7 +2139,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[5,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2153,7 +2153,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[6,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2167,7 +2167,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[7,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2181,7 +2181,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[8,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
