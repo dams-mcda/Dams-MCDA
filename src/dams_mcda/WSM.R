@@ -52,14 +52,13 @@ available_dams <- seq(1:8)
 available_alternatives <- seq(1:5)
 
 # matrix setup
-matrix_cols <- length(criteria_inputs) # 14 default (output size)
-matrix_rows <- length(available_dams) # 8 default
-matrix_levs_ind <- length(available_alternatives)# 5 default
-matrix_levs <- length(1:995)
+matrix_cols <- length(criteria_inputs) # 14 default - criteria
+matrix_rows <- length(available_dams) # 8 default - dams
+matrix_levs_ind <- length(available_alternatives) # 5 default - alternatives
 
 
 WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
-	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", matrix_levs)
+	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", num_scenarios)
 
 	colnames(Decisions) <- dam_names
 
@@ -97,11 +96,11 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	EastMill_PrefMatrix <- subset(Ind_PrefMatrix[3,,])
 	EastMill_PrefMatrix <- data.frame(t(EastMill_PrefMatrix))
 	Dolby_PrefMatrix <- subset(Ind_PrefMatrix[4,,])
-	Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))	
+	Dolby_PrefMatrix <- data.frame(t(Dolby_PrefMatrix))
 	NorthTw_PrefMatrix <- subset(Ind_PrefMatrix[5,,])
 	NorthTw_PrefMatrix <- data.frame(t(NorthTw_PrefMatrix))
 	Mill_PrefMatrix <- subset(Ind_PrefMatrix[6,,])
-	Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))	
+	Mill_PrefMatrix <- data.frame(t(Mill_PrefMatrix))
 	MillLake_PrefMatrix <- subset(Ind_PrefMatrix[7,,])
 	MillLake_PrefMatrix <- data.frame(t(MillLake_PrefMatrix))
 	Rip_PrefMatrix <- subset(Ind_PrefMatrix[8,,])
@@ -126,7 +125,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 		} #End dams (rows) for loop.
 	} #End criteria (columns) for loop.
 
-	PrefMatrix <- array(data=rep(PrefMatrix,995), dim=c(dim(PrefMatrix), 995)) #will address this later
+	PrefMatrix <- array(data=rep(PrefMatrix, num_scenarios), dim=c(dim(PrefMatrix), num_scenarios)) #will address this later
 
 	#----------------------------------------
 	# SINGLE DAM DATA NORMALIATION PROCEDURE
@@ -268,12 +267,12 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
-	Ind_NormalizedMatrix[2:5,6,3] <- c(1,1,1,1)#This replaces properties NaN at East Millinocket
+	Ind_NormalizedMatrix[2:5,6,3] <- 1 #This replaces properties NaN at East Millinocket
 	Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
-	Ind_NormalizedMatrix[1,1,2] <- 1 #This  fish habitat NaN at Medway
+	Ind_NormalizedMatrix[1,1,2] <- 1 #This fish habitat NaN at Medway
 	Ind_NormalizedMatrix[5,3,1:3] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Millinocket
 	Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
-	
+
 	#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 	#----------------------------------------
@@ -334,23 +333,6 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
 	#----------------------------------------
 
-	# reorganize dams in NormalizedMatrix
-	# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
-	# target is WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
-	# Normalized is 4 7 6 5 8 3 2 1
-	# target is     1 2 3 4 5 6 7 8
-	TestMatrix <- NormalizedMatrix
-	TestMatrix[1,,] <- NormalizedMatrix[8,,]
-	TestMatrix[2,,] <- NormalizedMatrix[7,,]
-	TestMatrix[3,,] <- NormalizedMatrix[6,,]
-	TestMatrix[4,,] <- NormalizedMatrix[1,,]
-	TestMatrix[5,,] <- NormalizedMatrix[4,,]
-	TestMatrix[6,,] <- NormalizedMatrix[3,,]
-	TestMatrix[7,,] <- NormalizedMatrix[2,,]
-	TestMatrix[8,,] <- NormalizedMatrix[5,,]
-	NormalizedMatrix <- TestMatrix
-	message("size of NormalizedMatrix", dim(TestMatrix))
-
 	WeightedScoreMatrix <- (NormalizedMatrix*PrefMatrix)
 	WeightedScoreMatrix <- round(WeightedScoreMatrix,3)
 
@@ -383,7 +365,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxScen <- c(0:994)
+	idxScen <- c(0:num_scenarios-1)
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
 	#message("idxRank ", idxRank, " dim ", dim(idxRank))
@@ -398,7 +380,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	Dam7Scen <- t(WeightedScoreMatrix[7,,])
 	Dam8Scen <- t(WeightedScoreMatrix[8,,])
 
-	multiDamResult <- array(data = NA, dim = c(995, 8, 14))
+	multiDamResult <- array(data = NA, dim = c(num_scenarios, 8, 14))
 	multiDamResult <- array(abind(Dam1Scen, Dam2Scen, Dam3Scen, Dam4Scen, Dam5Scen, Dam6Scen, Dam7Scen, Dam8Scen))
 
 	# use scenario idxRank[1] to find corresponding map name

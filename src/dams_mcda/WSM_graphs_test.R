@@ -14,7 +14,7 @@ source("WSM.R")
 DamsData <- read.csv('DamsData.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
 source(file = 'f_nrge_workshop.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1885 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(f_nrge)
+NormalizedMatrix <- as.array(f_nrge_workshop)
 source(file='Decisions_workshop.RData') #this is 2 dimensions from f_nrge: rows = 1885 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions_workshop)# need this for graphing
 #codes:
@@ -66,10 +66,13 @@ available_alternatives <- seq(1:5)
 matrix_cols <- length(criteria_inputs) # 14 default (output size)
 matrix_rows <- length(available_dams) # 8 default
 matrix_levs_ind <- length(available_alternatives)# 5 default
-matrix_levs <- length(1:1885)
 
 
-message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", matrix_levs)
+# MOGA Scenarios, how many are there?
+num_scenarios <- 1885
+
+
+message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", num_scenarios)
 
 #----------------------------------------
 # SINGLE DAM PROCEDURE FOR PREFERENCES
@@ -138,7 +141,7 @@ for (k in 1:matrix_cols){
 	} #End dams (rows) for loop.
 } #End criteria (columns) for loop.
 
-PrefMatrix <- array(data=rep(PrefMatrix,1885), dim=c(dim(PrefMatrix), 1885)) 
+PrefMatrix <- array(data=rep(PrefMatrix, num_scenarios), dim=c(dim(PrefMatrix), num_scenarios)) 
 
 
 message("fill multi-dam Pref Matrix")

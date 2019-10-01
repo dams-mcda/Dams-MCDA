@@ -50,3 +50,4 @@ class DamsMCDARunPreference(models.Model):
         verbose_name = 'Run Preference'
         verbose_name_plural = 'Run Preferences'
         unique_together = ('group', 'user')
+        ordering = ('-pk',)

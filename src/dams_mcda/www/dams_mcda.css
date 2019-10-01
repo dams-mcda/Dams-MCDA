@@ -282,3 +282,19 @@ table.map-data tr td:nth-child(2){
 	margin:0 9%;
 }
 
+/* nav buttons */
+#nav-buttons {
+	position:fixed;
+	padding:4px;
+	width:14em;
+	right:1em;
+	padding-right:1px;
+	background-color:#FFFFFF55;
+	border-radius:4px;
+	z-index:9999 !important;
+}
+#nav-buttons button{
+	display:inline;
+	width:48%;
+	z-index:9999 !important;
+}
