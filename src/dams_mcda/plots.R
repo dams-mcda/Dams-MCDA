@@ -446,11 +446,11 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 	result <- (
 		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, label=df$Score))
 		# inclue empty values
-		+ geom_bar(stat="identity")
+		+ geom_bar(stat="identity", fill="steelblue")
 		# ignore empty values (uncomment)
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
-		#+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
+		+ geom_text(data=subset(df, df$Score != 0), color="white", size=4, position = position_stack(vjust = 0.5))
 		+ theme_minimal()
 		+ theme(
 			text=element_text(size=16),
@@ -460,7 +460,6 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 		)
 		+ ylab(y_label)
 		+ xlab(x_label)
-		+ scale_fill_viridis(discrete=TRUE)
 	)
 	return(result)
 }
