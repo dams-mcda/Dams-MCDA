@@ -4,7 +4,7 @@ source("WSM.R")
 #pull from WSM script
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
-NormalizedMatrix<- read.csv('f_nrge_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
 NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
 Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.matrix(Decisions) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
@@ -19,6 +19,7 @@ DecisionsFix[,6] <- Decisions[,3]
 DecisionsFix[,7] <- Decisions[,2]
 DecisionsFix[,8] <- Decisions[,5]
 Decisions <- DecisionsFix
+
 
 library(abind)
 library(data.table)
@@ -175,6 +176,7 @@ tabPanel_names <- c(
 
 # MOGA Scenarios, how many are there?
 num_scenarios <- 1412
+
 
 #--------------------------------------------------
 # User Interface Default Values
@@ -673,7 +675,7 @@ server <- function(input, output, session) {
 		Data1 <- data.frame(score=round(scoreVector, 0), criteria=Criteria)
 
 		# raw pref plot
-		output[[paste0("PrefPlot", damId)]] <- renderBarPlot(
+		prefPlot <- renderBarPlot(
 			Data1, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
@@ -682,6 +684,16 @@ server <- function(input, output, session) {
 			colors, # colors
 			NULL, # x value limit
 			score_range # y value limit (0-100 value range)
+		)
+		output[[paste0("PrefPlot", damId)]] <- renderPlot(prefPlot)
+
+		output[[paste0("DownloadPrefPlot", damId)]]<- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_pref_%Y-%m-%d_%H-%M-%S_%z.png"))
+		  },
+		  content = function(file) {
+				ggsave(file, plot=prefPlot, device = "png", width=18, height=14)
+		  }
 		)
 		#NOTE: ggplot2 Error Bar Example
 
@@ -1427,7 +1439,7 @@ server <- function(input, output, session) {
 					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
 					scenarioSumScore <- (scenarioSumScore + round(dam_score, 0))
 				}
-				message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
+				#message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
 			}
 
 			# Graph4
@@ -1440,12 +1452,15 @@ server <- function(input, output, session) {
 				multi_WSM_top5_scenario_alts, # SPECIAL CASE LABELS
 				"Coordinated Multi-Dam Outcome", # x axis label
 				"Final MCDA Scores", # y axis label
-				"Dam", # y axis label
+				"Dam", # legend axis label
 				colors, # colors
 				NULL, # x value limit
 				NULL # y value limit (100 in this case)
 			)
 			output$CombinedPlot4 <- renderPlot(combinedPlot4)
+
+			# for debug
+			#output$CombinedTable4 <- renderTable(head(idxRank, 5))
 
 			# download button for plot2
 			output$DownloadCombinedPlot4 <- downloadHandler(
@@ -1481,7 +1496,7 @@ server <- function(input, output, session) {
 	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum, WSMScoreSum){
 		#message("generateDam: Output for Dam#: ", damId)
 
-		# preferences
+		# raw values
 		RawTable <- setDT(data.frame(DataMatrix[,,damId]))
 		row.names(RawTable) <- alternative_names
 		colnames(RawTable) <- criteria_inputs
@@ -1489,6 +1504,16 @@ server <- function(input, output, session) {
 		output[[paste0("Dam", damId, "RawTable")]] = DT::renderDataTable({
 			round(RawTable, 0)
 		})
+
+		# download for raw values
+		output[[paste0("DownloadDam", damId, "RawTable")]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+		  },
+		  content = function(file) {
+			write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
+		  }
+		)
 
 		# normals
 		Dam1NormTable <- setDT(data.frame(IndNrmlMatrix[,,damId]))
@@ -1498,6 +1523,16 @@ server <- function(input, output, session) {
 		output[[paste0("Dam", damId, "NormTable")]] = DT::renderDataTable({
 			round(Dam1NormTable, 2)
 		})
+
+		# download for normals
+		output[[paste0("DownloadDam", damId, "NormTable")]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+		  },
+		  content = function(file) {
+			write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
+		  }
+		)
 
 		# WSM score
 		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
@@ -1517,7 +1552,7 @@ server <- function(input, output, session) {
 				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 			},
 			content = function(file) {
-				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
+				write.csv( round(ScoreTablePlusSum, 2), file, row.names = TRUE, quote=TRUE)
 			}
 		)
 
@@ -1528,8 +1563,8 @@ server <- function(input, output, session) {
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
-			"Total MCDA Score", # y axis label
-			"Decision Criteria", # legend label
+			"Total MCDA Score", # x axis label
+			"Decision Criteria", # y label
 			"", # no legend label
 			colors, # colors
 			NULL, # x value limit
@@ -2092,9 +2127,9 @@ server <- function(input, output, session) {
 		},
 		content = function(file) {
 			write.csv(
-				response_data,
+				preference_selection[1,],
 				file,
-				row.names = TRUE,
+				row.names=TRUE,
 				quote=TRUE
 			)
 		}
@@ -2108,7 +2143,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[2,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2122,7 +2157,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[3,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2136,7 +2171,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[4,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2150,7 +2185,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[5,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2164,7 +2199,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[6,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2178,7 +2213,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[7,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2192,7 +2227,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+		  preference_selection[8,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
