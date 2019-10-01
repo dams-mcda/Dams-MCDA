@@ -151,13 +151,15 @@ tabPanel_names <- c(
 	"Combined Results",
 	"Map Recommendation",
 	"Dam 1: West Enfield",
-	"Dam 2: Medway Dam",
-	"Dam 3: East Millinocket Dam",
-	"Dam 4: Dolby Dam",
+	"Dam 2: Medway",
+	"Dam 3: East Millinocket",
+	"Dam 4: Dolby",
 	"Dam 5: North Twin",
-	"Dam 6: Millinocket",
+	"Dam 6: Millinocket/Quakish",
 	"Dam 7: Millinocket Lake",
-	"Dam 8: Ripogenus"
+	"Dam 8: Ripogenus",
+	"Developers",
+	"Acknowledgements"
 )
 
 # MOGA Scenarios, how many are there?
@@ -326,6 +328,7 @@ damsCompleted <- function(completed){
 # SERVER
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
+
 	#------------------------------------------------------------
 	# Preference Storage Container
 	# needed because updates to inputs only happen when inputs are visible
@@ -427,6 +430,7 @@ server <- function(input, output, session) {
 			removeModal()
 			intro_modal_visible <<- FALSE
 		}
+		shinyjs::show(id="nav-buttons")
 		session$sendCustomMessage("loadScores", session_mode)
 	}
 
@@ -482,8 +486,6 @@ server <- function(input, output, session) {
 			return(NA) # break (stop execution of function)
 		}
 
-		#message("uploaded file temp path: ", input$file1$datapath)
-
 		# open the file locally
 		df <- read.csv(input$file1$datapath,
              header = TRUE,
@@ -517,7 +519,7 @@ server <- function(input, output, session) {
 
 		# if valid remove modal and process the file
 		if (upload_modal_visible && file_valid){
-			#TODO: process file here
+
 			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
 			#message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
 			criteria_input_names <- c(
@@ -559,7 +561,10 @@ server <- function(input, output, session) {
 				removeModal()
 				upload_modal_visible <<- FALSE
 
-				# make preferences and generate
+				# ready for nav buttons
+				shinyjs::show(id="nav-buttons")
+
+				# set raw preferences
 				updateDam1(FALSE)
 				updateDam2(FALSE)
 				updateDam3(FALSE)
@@ -568,7 +573,8 @@ server <- function(input, output, session) {
 				updateDam6(FALSE)
 				updateDam7(FALSE)
 				updateDam8(FALSE)
-				## generate
+
+				# auto generate on file upload?
 				#generateOutput()
 
 			}else{
@@ -1218,22 +1224,22 @@ server <- function(input, output, session) {
 
 				# assigned is a boolean if the alternative has been chosen
 				assigned <- FALSE
-				message("possible_alts: ", possible_alts)
+				#message("possible_alts: ", possible_alts)
 
 				# multi alt decision needed
 				# see issue #81
 				if (length(possible_alts) > 1){
 					# special alt selection when alt scores match
 					for (altId in 1:length(possible_alts)){
-						message("alt: ", altId, " name: ", alternative_names[altId])
+						#message("alt: ", altId, " name: ", alternative_names[altId])
 
 						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
 						max_crit <- which.max(dam_WSMMatrix)
 
 						# dam (West enfield, Medway, East Millinocket) crit (Reservior Storage)
 						if (
-							damId == which(dam_names=="West Enfield Dam") ||
-							damId == which(dam_names=="Medway Dam") ||
+							damId == which(dam_names=="West Enfield") ||
+							damId == which(dam_names=="Medway") ||
 							damId == which(dam_names=="East Millinocket")
 						){
 							imp_crit <- which(criteria_names=="Reservoir Storage")
@@ -1250,7 +1256,7 @@ server <- function(input, output, session) {
 
 						# dam (Medway) crit (Fish Habitat)
 						if (
-							damId == which(dam_names=="Medway Dam")
+							damId == which(dam_names=="Medway")
 						){
 							imp_crit <- which(criteria_names=="Sea-Run Fish Habitat Area")
 
@@ -1569,6 +1575,7 @@ server <- function(input, output, session) {
 	observe(autoDestroy=TRUE, {
 		# hide output html elements
 		shinyjs::hide(id="generated-output")
+		shinyjs::hide(id="nav-buttons")
 		shinyjs::hide(id="dam-1-output")
 		shinyjs::hide(id="dam-2-output")
 		shinyjs::hide(id="dam-3-output")
@@ -2187,6 +2194,8 @@ server <- function(input, output, session) {
 				selected = tabPanel_names[session$userData$currentTab-1]
 			)
 			session$userData$currentTab <- (session$userData$currentTab - 1)
+			# scroll to top
+			shinyjs::runjs("window.scrollTo(0, 0)")
 		}else{
 			message("FAILED go to prev tab ")
 			# TODO:
@@ -2206,6 +2215,8 @@ server <- function(input, output, session) {
 				selected = tabPanel_names[session$userData$currentTab+1]
 			)
 			session$userData$currentTab <- (session$userData$currentTab + 1)
+			# scroll to top
+			shinyjs::runjs("window.scrollTo(0, 0)")
 		}else{
 			message("FAILED go to next tab ")
 			# TODO:
