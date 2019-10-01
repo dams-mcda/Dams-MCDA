@@ -367,11 +367,11 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	#----------------------------------------
 
 	# order scenarios by rank: largest score first
-	idxScen <- c(0:num_scenarios-1)
+	idxScen <- c(0:(num_scenarios-1))
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
 	#message("idxRank ", idxRank, " dim ", dim(idxRank))
-	message("idxRank dim size ", dim(idxRank))
+	#message("idxRank dim size ", dim(idxRank))
 
 	Dam1Scen <- t(WeightedScoreMatrix[1,,])
 	Dam2Scen <- t(WeightedScoreMatrix[2,,])
@@ -390,7 +390,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 
 	# debug
 	#message("Ind_WSM: ", Ind_WeightedScoreMatrix, " DIMS ", dim(Ind_WeightedScoreMatrix))
-	message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
+	#message("Ind_scoresum: ", Ind_scoresum, " DIMS ", dim(Ind_scoresum))
 
 	# warning adding things to list has side effects!
 	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname, AllDataMatrix, Ind_NormalizedMatrix, idxRank, WeightedScoreMatrix)
