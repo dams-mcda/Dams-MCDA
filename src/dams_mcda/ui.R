@@ -72,7 +72,7 @@ ui <- shinyUI(fluidPage(
 	),
 
 	# page banner/title + logout link
-	HTML('<div id="app-logout"><a href="/logout/">Logout</a></div>\
+	HTML('<div id="app-logout"><a href="/logout/"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a></div>\
 		 <div id="page-title">Dam Decision Support Tool</div> \
 	'),
 
@@ -99,16 +99,16 @@ ui <- shinyUI(fluidPage(
 			icon=icon("home"),
 			h2("Welcome!"),
 
-			img(src = 'River1.jpg', width="50%", align = "right", style="margin:0.2em;"),
+			img(src = 'River1.jpg', width="50%", align = "right", style="margin:0.2em 0 0.2em 1em;"),
 
 			HTML(
-				"<br>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support your consideration of possible decision alternatives (e.g. keep and maintain dam, \
+				"<p>This <b>free and open source</b> tool was developed to aid people like you in considering tradeoffs associated with dams. It can help support your consideration of possible decision alternatives (e.g. keep and maintain dam, \
 				 improve hydropower generation, improve fish passage) for hydropower dams, and could potentially be tailored toward other types of dam decisions. The tool generates a data-driven recommendation for Federal Energy Regulatory Commission \
-         (FERC) licensed hydropower dams in Maine's Penobscot River, based on your preferences. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria \
-         (e.g., annuitized cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with FERC license expiration dates in the next 10 years. The tool gathers user inputs and calculates a ranked set of decision \
-         alternatives for each dam. Then, the tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
+				 (FERC) licensed hydropower dams in Maine's Penobscot River, based on your preferences. This tool is based on the Weighted Sum approach to Multi-Criteria Decision Analysis (MCDA) to compare decision-maker preferences for decision criteria \
+				 (e.g., annuitized cost, CO2 equivalent emissions reductions, sea-run fish habitat area, etc.) for hydropower dams with FERC license expiration dates in the next 10 years. The tool gathers user inputs and calculates a ranked set of decision \
+				 alternatives for each dam. Then, the tool optimizes across the set of dams coming up for relicensing to suggest a coordinated set of decision alternatives for multiple dams. The purpose of the coordinated multi-dam recommendation\
 				 is to encourage you to consider dams on the river as a system, in addition to one at a time.\ <br>
-				 <br><b>NOTE:</b> The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br>"
+				 <br><b>NOTE:</b> The results from this decision support tool are not official to any FERC licensing process and do not in any way represent the ruling of FERC.<br></p>"
 			),
 
 			helpText(
@@ -161,8 +161,9 @@ ui <- shinyUI(fluidPage(
 			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
 			),
 			leafletOutput("dam_map", width=map_width, height=map_height),
+			h2("Example Map Output"),
 			HTML(
-        "Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
+				"Below is an example of what the multi-dam map output will look like. For example, if no change is recommended based on site-specific data and user preference inputs, all dam sites will be marked KEEP AND MAINTAIN . <br>"
 			),
 			img(src = 'Penobscot_MO_14_443.png', width = "75%", align = "center")
 		),
@@ -995,54 +996,56 @@ ui <- shinyUI(fluidPage(
 
 			  h3('Figure 1. Comparison of Top 5 Decision Scenarios by Total MCDA Score and Dam'),
 			  plotOutput("CombinedPlot4", height="35em"),
-			  HTML("<br><b>Results Interpretation</b> for Figure 1. This graph shows the Total MCDA Score of the top 5 decision scenarios broken down by the contribution from each dam/decision alternative combination. In this context, the \"Decision Scenario\" \
+			  downloadButton("DownloadCombinedPlot4", "Download Graph", style="width:100%"),
+			  HTML("<br><br><b>Results Interpretation</b> for Figure 1. This graph shows the Total MCDA Score of the top 5 decision scenarios broken down by the contribution from each dam/decision alternative combination. In this context, the \"Decision Scenario\" \
 				   refers to the combination of dams and decision alternatives (e.g., the action that is recommended for each dam). The decision scenario with the highest score is presented in the mapped result, which you can access by clicking on Map Recommendation \
 				   to the left. The Final MCDA score for each Decision Scenario is calculated as the sum of the Final MCDA Score for highest-scoring decision alterative for each dam. Actual numbers in Scenario 1 may differ from top-ranked decision alternative results \
 				   for individual dams in Figure 2 because Figure 2 was calculated using static values for river recreation and sea-run fish habitat area, while Figure 1 shows the results of the multi-dam optimization that involves dynamic interactions between dam sites \
 				   for these two decision criteria. Use Figure 1 to see how close the final MCDA scores for top-ranked decisions are. This could give you some ideas, in the event that you do not agree with what is presented in the Map Recommendation (Scenario 1), about \
 				   what the next-best options may be for your decision.<br>"),
-			  downloadButton("DownloadCombinedPlot4", "Download Graph"),
-			  HTML("<br>The following downloadable supplementary tables can be used to see more detail relted to Figure 1. Note: there are 995 possile multi-dam 'scenarios' in this dataset, where each of 8 dams has 5 possible decision alternatives. <br>"
 
-			  ),
-			  downloadButton("DownloadDecisions", "Download Decisions"),
-			  downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios"),
+			  HTML("<br>The following downloadable supplementary tables can be used to see more detail relted to Figure 1. Note: there are 995 possile multi-dam 'scenarios' in this dataset, where each of 8 dams has 5 possible decision alternatives. <br>"),
+			  downloadButton("DownloadDecisions", "Download Decisions", style="width:49%; display:inline-block"),
+			  downloadButton("DownloadRankedScenarios", "Download Top Ranking Scenarios", style="width:49%; display:inline-block;"),
 			  HTML(
 			    "<br>Information supporting a more precise interpretation of these supplementary tables is forthcoming.<br>"
 			  ),
 
 				h3('Figure 2. Comparison of Final MCDA Score for each Decision Alternative at each Dam'),
 				plotOutput("CombinedPlot3", height="35em"),
-				HTML("<br><b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the alternative is. Use this graph to quickly see which decision\
+				downloadButton("DownloadCombinedPlot3", "Download Graph", style="width:100%"),
+				HTML("<br><br><b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the alternative is. Use this graph to quickly see which decision\
 					 alternative was selected by the tool as the most highly recommended for each dam and to see how close the \"next-best\" alternative was to the top-ranked alternative. Small differences between scores for decision alternatives may signal \
 					 a need to carefully consider multiple top-ranked alternatives for a specific dam for your final decision. Actual numbers for individual dams in Figure 2 may differ from Scenario 1 in Figure 1 because Figure 2 was calculated using static \
-			   values for river recreation and sea-run fish habitat area, while Figure 1 shows the results of the multi-dam optimization that involves dynamic interactions between dam sites for these two decision criteria. Use Figure 1 to see how close \
+					 values for river recreation and sea-run fish habitat area, while Figure 1 shows the results of the multi-dam optimization that involves dynamic interactions between dam sites for these two decision criteria. Use Figure 1 to see how close \
 					 the final MCDA scores for top-ranked decisions are.<br>"),
-			   downloadButton("DownloadCombinedPlot3", "Download Graph"),
 
 				h3('Figure 3. Contribution of Decision Criteria to Final MCDA Score for Top-Ranked Dam Decision Alternatives'),
 				plotOutput("CombinedPlot2", height="35em"),
-				HTML("<b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
+				downloadButton("DownloadCombinedPlot2", "Download Graph", style="width:100%;"),
+				HTML("<br><br><b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
 					 Use this graph to give you an idea of how decision criteria scores (normalized data values x user-defined preference values) contribute to the final decision alternative selection for each dam. Consider this graph kind of a \"zoom-in\" \
 					 on the tallest bar for each dam in Figure 2.<br>"),
-				downloadButton("DownloadCombinedPlot2", "Download Graph"),
 
 				h3('Figure 4. Comparison of User-Defined Preferences for each Dam'),
 				plotOutput("CombinedPlot1", height="35em"),
-				HTML("<br><b>Results Interpretation</b> for Figure 4. This graph shows the results of the Step 3 Preference Elicitation. The numbers presented on the graph correspond to the position of the slider bars you moved in Step 3. \
+				downloadButton("DownloadCombinedPlot1", "Download Graph", style="width:100%;"),
+				HTML("<br><br><b>Results Interpretation</b> for Figure 4. This graph shows the results of the Step 3 Preference Elicitation. The numbers presented on the graph correspond to the position of the slider bars you moved in Step 3. \
 					 Use this graph to see how your preferences for each decision criterion vary across dam sites. For example, did you mark the same preference value for River Recreation for Ripogenus as for West Enfield? Are your fish \
 					 habitat preferences consistent across all dams? This graph is a good reality check to help you make sure you entered the right preferences in Step 3 for you. If you did not move the slider for a specific decision criterion \
 					 for any dam, it will not show up in this graph. For example, if you left the slider for River Recreation at zero for all dams, River Recreation will not appear in the graph or legend on this page. The numbers in this graph \
 					 do not include any researched data values for decision criteria (i.e., the data we compiled and/or calculated ahead of time and presented in the decision matrices for each dam). The graph only shows your own stated preference \
 					 values from Step 3.<br>"),
-				downloadButton("DownloadCombinedPlot1", "Download Graph"),
 
 				# download preferences (for UPLOAD DATA)
+				h3("Download Preferences"),
 				HTML(
-				  "<br>It is a good idea to download your preferences for your records if you plan to use the Dam Decision Support Tool again.<br>"
+				  "It is a good idea to download your preferences for your records if you plan to use the Dam Decision Support Tool again.<br>"
 				),
-				downloadButton("downloadPreferenceSelection", "Download Preference Inputs (Step 3)"),
+				downloadButton("downloadPreferenceSelection", "Download Preference Inputs (Step 3)", style="width:100%;"),
 
+				# save preferences to server
+				h3("Save Preferences"),
 				HTML("Saving your preferences will load them automatically when you visit again. If you are using group mode, saving will add your preferences to the group average. Be aware: saving again will overwrite the old save.<br>"),
 				actionButton("saveResultsToDjango", "Save Preferences", icon=icon("save"))
 			)
