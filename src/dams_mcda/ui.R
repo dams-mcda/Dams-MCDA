@@ -6,8 +6,6 @@ library(shinyjs, warn.conflicts=FALSE)
 library(Cairo)
 library(ggplot2)
 library(RColorBrewer)
-library(spatstat)
-library(rgdal)
 library(abind)
 library(leaflet)
 library(DT)
@@ -153,7 +151,7 @@ ui <- shinyUI(fluidPage(
 			  HTML('<a href="DecisionCriteriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>')
 			),
 			helpText(
-			  HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Dam Decision Matrices</a><br>')
+			  HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Dam Data.</a><br>')
 			),
 			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
 			),

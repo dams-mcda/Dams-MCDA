@@ -4,7 +4,7 @@ source("WSM.R")
 #pull from WSM script
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
-NormalizedMatrix<- read.csv('f_nrge_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
 NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
 Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.matrix(Decisions) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
