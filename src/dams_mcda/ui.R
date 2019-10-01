@@ -991,6 +991,7 @@ ui <- shinyUI(fluidPage(
 
 			  h3('Figure 1. Comparison of Top 5 Decision Scenarios by Total MCDA Score and Dam'),
 			  plotOutput("CombinedPlot4", height="35em"),
+			  #tableOutput("CombinedTable4"),
 			  downloadButton("DownloadCombinedPlot4", "Download Graph", style="width:100%"),
 			  HTML("<br><br><b>Results Interpretation</b> for Figure 1. This graph shows the Total MCDA Score of the top 5 decision scenarios broken down by the contribution from each dam/decision alternative combination. In this context, the \"Decision Scenario\" \
 				   refers to the combination of dams and decision alternatives (e.g., the action that is recommended for each dam). The decision scenario with the highest score is presented in the mapped result, which you can access by clicking on Map Recommendation \
