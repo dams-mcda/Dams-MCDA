@@ -10,13 +10,16 @@ has_wd <- tryCatch({
 })
 
 source("WSM.R")
+library(abind)
+library(data.table)
+
 
 DamsData <- read.csv('DamsData_Workshop.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-NormalizedMatrix<- read.csv('f_nrge_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1885 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- as.array(NormalizedMatrix, dim=c(8,14,1885))
-Decisions <- read.csv('x.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1885 'scenarios' with their decision alternative code for each dam, cols = 8 dams
-Decisions <- as.array(Decisions)# need this for graphing
+NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
+Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
+Decisions <- as.matrix(Decisions)# need this for graphing
 #codes:
 #0 = remove dam
 #1 = keep as is
@@ -24,7 +27,18 @@ Decisions <- as.array(Decisions)# need this for graphing
 #3 = improve fish passage
 #4 = improve both
 
-TestData <- read.csv('FishPrefs_forLiveSite.csv', row.names = "DAM")
+DecisionsFix <- Decisions
+DecisionsFix[,1] <- Decisions[,8]
+DecisionsFix[,2] <- Decisions[,7]
+DecisionsFix[,3] <- Decisions[,6]
+DecisionsFix[,4] <- Decisions[,1]
+DecisionsFix[,5] <- Decisions[,4]
+DecisionsFix[,6] <- Decisions[,3]
+DecisionsFix[,7] <- Decisions[,2]
+DecisionsFix[,8] <- Decisions[,5]
+Decisions <- DecisionsFix
+
+TestData <- read.csv('EqualPrefs_forLiveSite.csv', row.names = "DAM")
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -69,7 +83,7 @@ matrix_levs_ind <- length(available_alternatives)# 5 default
 
 
 # MOGA Scenarios, how many are there?
-num_scenarios <- 1885
+num_scenarios <- 1412
 
 
 message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", num_scenarios)
@@ -353,7 +367,6 @@ colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 # target is WestEnf Medway EMill Dolby NorthTwin Quak Milli Ripo 
 # Normalized is 4 7 6 5 8 3 2 1
 # target is     1 2 3 4 5 6 7 8
-NormalizedMatrix <- as.array(f_nrge)
 
 TestMatrix <- NormalizedMatrix
 TestMatrix[1,,] <- NormalizedMatrix[8,,]
@@ -388,10 +401,9 @@ for (i in 1:dim(NormMatrix)[3]){
 	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
 }
 
-colnames(Decisions) <- dam_names #need to check with Sam about the order of dams here
-idxScen <- c(0:994)
-scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
-#-----------------------------------------
+colnames(Decisions) <- dam_names
+scoresum_total<-array(unlist(scoresum_total))
+#----------------------------------------
 # Rank:
 #  may need to reshape the array produced by the weighted sum procedure
 #  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
@@ -401,7 +413,10 @@ scoresum_index <- data.frame(cbind(idxScen, scoresum_total, Decisions))
 #----------------------------------------
 
 #order scenarios by rank: largest score first
-idxRank <- data.frame(setorder(scoresum_index,-scoresum_total))
+idxScen <- c(0:1411)
+scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
+idxRank <- setorder(scoresum_index, -scoresum_total)
+#message("idxRank ", idxRank, " dim ", dim(idxRank))
 
 #use scenario idxRank[1] to find corresponding map name
 fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[1,1])
