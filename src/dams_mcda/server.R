@@ -3,11 +3,11 @@ source("WSM.R")
 
 #pull from WSM script
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
-DamsData <- data.frame(DamsData) 
-source(file='f_raw_10-1-19.RData')
+DamsData <- data.frame(DamsData)
+#source(file='f_raw_10-1-19.RData')
 source(file = 'f_nrge_10-1-19.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
 
-NormalizedMatrix <- as.array(f_norm)
+NormalizedMatrix <- as.array(f_nrge)
 #DamsData <- as.array(f)
 source(file='Decisions_workshop.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
 Decisions <- as.array(Decisions)# need this for graphing
@@ -164,7 +164,7 @@ tabPanel_names <- c(
 )
 
 # MOGA Scenarios, how many are there?
-num_scenarios <- 995
+num_scenarios <- 1885
 
 #--------------------------------------------------
 # User Interface Default Values

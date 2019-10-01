@@ -58,7 +58,9 @@ matrix_levs_ind <- length(available_alternatives) # 5 default - alternatives
 
 
 WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
-	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind, " Scenarios ", num_scenarios)
+	message("Decision Criteria ", matrix_cols,
+			" Dams ", matrix_rows, " Decision Alternatives ",
+			matrix_levs_ind, " Scenarios ", num_scenarios)
 
 	colnames(Decisions) <- dam_names
 
