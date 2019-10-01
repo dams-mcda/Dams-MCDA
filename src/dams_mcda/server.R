@@ -1448,7 +1448,7 @@ server <- function(input, output, session) {
 			output$CombinedPlot4 <- renderPlot(combinedPlot4)
 
 			# for debug
-			#output$CombinedTable4 <- renderTable(head(idxRank, 5))
+			output$CombinedTable4 <- renderTable(head(idxRank, 5))
 
 			# download button for plot2
 			output$DownloadCombinedPlot4 <- downloadHandler(
