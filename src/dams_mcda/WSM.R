@@ -371,7 +371,7 @@ WSM <- function(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions){
 	scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
 	idxRank <- setorder(scoresum_index, -scoresum_total)
 	#message("idxRank ", idxRank, " dim ", dim(idxRank))
-	#message("idxRank dim size ", dim(idxRank))
+	message("idxRank dim size ", dim(idxRank))
 
 	Dam1Scen <- t(WeightedScoreMatrix[1,,])
 	Dam2Scen <- t(WeightedScoreMatrix[2,,])
