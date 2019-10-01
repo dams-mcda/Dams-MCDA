@@ -21,6 +21,8 @@ DecisionsFix[,8] <- Decisions[,5]
 Decisions <- DecisionsFix
 
 library(abind)
+library(data.table)
+library(dplyr)
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
