@@ -117,14 +117,10 @@ function saveRawJsonScores(message){
 	}
 
 	// params for update/create
-	let group = ""
-	if (cachedContext["appMode"] == "group"){
-		group = cachedContext["groupId"]
-	}
 	let params = {
 		'session-id': cachedContext["session"],
 		'user': cachedContext["userId"],
-		'group': group,
+		'group': cachedContext["groupId"],
 		'scores': message
 	}
 
@@ -213,7 +209,7 @@ function loadScores(input_mode){
 	}else{
 		params = {
 			'user': cachedContext["userId"],
-			'group': 'null'
+			'group': cachedContext["groupId"]
 		}
 	}
 

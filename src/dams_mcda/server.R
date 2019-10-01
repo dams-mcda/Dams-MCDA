@@ -6,6 +6,7 @@ DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, in
 DamsData <- data.frame(DamsData) 
 source(file='f_raw_10-1-19.RData')
 source(file = 'f_nrge_10-1-19.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+
 NormalizedMatrix <- as.array(f_norm)
 #DamsData <- as.array(f)
 source(file='Decisions_workshop.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
@@ -151,13 +152,15 @@ tabPanel_names <- c(
 	"Combined Results",
 	"Map Recommendation",
 	"Dam 1: West Enfield",
-	"Dam 2: Medway Dam",
-	"Dam 3: East Millinocket Dam",
-	"Dam 4: Dolby Dam",
+	"Dam 2: Medway",
+	"Dam 3: East Millinocket",
+	"Dam 4: Dolby",
 	"Dam 5: North Twin",
-	"Dam 6: Millinocket",
+	"Dam 6: Millinocket/Quakish",
 	"Dam 7: Millinocket Lake",
-	"Dam 8: Ripogenus"
+	"Dam 8: Ripogenus",
+	"Developers",
+	"Acknowledgements"
 )
 
 # MOGA Scenarios, how many are there?
@@ -326,6 +329,7 @@ damsCompleted <- function(completed){
 # SERVER
 #--------------------------------------------------------------------------------
 server <- function(input, output, session) {
+
 	#------------------------------------------------------------
 	# Preference Storage Container
 	# needed because updates to inputs only happen when inputs are visible
@@ -427,6 +431,7 @@ server <- function(input, output, session) {
 			removeModal()
 			intro_modal_visible <<- FALSE
 		}
+		shinyjs::show(id="nav-buttons")
 		session$sendCustomMessage("loadScores", session_mode)
 	}
 
@@ -482,8 +487,6 @@ server <- function(input, output, session) {
 			return(NA) # break (stop execution of function)
 		}
 
-		#message("uploaded file temp path: ", input$file1$datapath)
-
 		# open the file locally
 		df <- read.csv(input$file1$datapath,
              header = TRUE,
@@ -517,7 +520,7 @@ server <- function(input, output, session) {
 
 		# if valid remove modal and process the file
 		if (upload_modal_visible && file_valid){
-			#TODO: process file here
+
 			upload_file_data <- array(data=simplify2array(df), dim=c(required_rows, required_cols))
 			#message("upload file as array ", upload_file_data, " dims ", dim(upload_file_data)[1], " ", dim(upload_file_data)[2])
 			criteria_input_names <- c(
@@ -559,7 +562,10 @@ server <- function(input, output, session) {
 				removeModal()
 				upload_modal_visible <<- FALSE
 
-				# make preferences and generate
+				# ready for nav buttons
+				shinyjs::show(id="nav-buttons")
+
+				# set raw preferences
 				updateDam1(FALSE)
 				updateDam2(FALSE)
 				updateDam3(FALSE)
@@ -568,7 +574,8 @@ server <- function(input, output, session) {
 				updateDam6(FALSE)
 				updateDam7(FALSE)
 				updateDam8(FALSE)
-				## generate
+
+				# auto generate on file upload?
 				#generateOutput()
 
 			}else{
@@ -653,7 +660,7 @@ server <- function(input, output, session) {
 		Criteria <- c(rep(criteria_names, times=length(1)))
 
 		# two columns, score and criteria of score
-		Data1 <- data.frame(score=scoreVector, criteria=Criteria)
+		Data1 <- data.frame(score=round(scoreVector, 0), criteria=Criteria)
 
 		# raw pref plot
 		output[[paste0("PrefPlot", damId)]] <- renderBarPlot(
@@ -775,7 +782,7 @@ server <- function(input, output, session) {
 
 		#output$RawPrefsDam1 = renderTable({
 		output$RawPrefsDam1 = DT::renderDataTable({
-		  Dam1_Table
+		  round(Dam1_Table, 0)
 		})
 
 		# update dam specific graphs
@@ -815,7 +822,7 @@ server <- function(input, output, session) {
 		names(Dam2_Table) <- "Raw Score"
 
 		output$RawPrefsDam2 = DT::renderDataTable({
-		  Dam2_Table
+		  round(Dam2_Table, 0)
 		})
 
 		# update dam specific graphs
@@ -854,6 +861,10 @@ server <- function(input, output, session) {
 		row.names(Dam3_Table) <- criteria_names
 		names(Dam3_Table) <- "Raw Score"
 
+		output$RawPrefsDam3 = DT::renderDataTable({
+		  round(Dam3_Table, 0)
+		})
+
 		# update dam specific graphs
 		updateDamGraph(damId, Dam3)
 		# make the container of those graphs visible
@@ -890,6 +901,10 @@ server <- function(input, output, session) {
 		row.names(Dam4_Table) <- criteria_names
 		names(Dam4_Table) <- "Raw Score"
 
+		output$RawPrefsDam4 = DT::renderDataTable({
+		  round(Dam4_Table, 0)
+		})
+
 		# update dam specific graphs
 		updateDamGraph(damId, Dam4)
 		# make the container of those graphs visible
@@ -925,6 +940,10 @@ server <- function(input, output, session) {
 		Dam5_Table <- as.matrix(data.frame(Dam5))
 		row.names(Dam5_Table) <- criteria_names
 		names(Dam5_Table) <- "Raw Score"
+
+		output$RawPrefsDam5 = DT::renderDataTable({
+		  round(Dam5_Table, 0)
+		})
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam5)
@@ -963,6 +982,10 @@ server <- function(input, output, session) {
 		row.names(Dam6_Table) <- criteria_names
 		names(Dam6_Table) <- "Raw Score"
 
+		output$RawPrefsDam6 = DT::renderDataTable({
+		  round(Dam6_Table, 0)
+		})
+
 		# update dam specific graphs
 		updateDamGraph(damId, Dam6)
 		# make the container of those graphs visible
@@ -999,8 +1022,9 @@ server <- function(input, output, session) {
 		Dam7_Table <- as.matrix(data.frame(Dam7))
 		row.names(Dam7_Table) <- criteria_names
 		names(Dam7_Table) <- "Raw Score"
+
 		output$RawPrefsDam7 = DT::renderDataTable({
-		  Dam7_Table
+		  round(Dam7_Table, 0)
 		})
 
 		# update dam specific graphs
@@ -1041,7 +1065,7 @@ server <- function(input, output, session) {
 		names(Dam8_Table) <- "Raw Score"
 
 		output$RawPrefsDam8 = DT::renderDataTable({
-		  Dam8_Table
+		  round(Dam8_Table, 0)
 		})
 
 		# update dam specific graphs
@@ -1184,7 +1208,7 @@ server <- function(input, output, session) {
 			# Graph1
 			# Preference scores by criteria
 			combinedPlot1 <- renderPlot2DR(
-				t(round(RawCriteriaMatrix,1)), # data
+				t(round(RawCriteriaMatrix,0)), # data
 				"Criteria preference values for all dams", # title
 				dam_names, # x_labels
 				criteria_names, # y_labels
@@ -1218,22 +1242,22 @@ server <- function(input, output, session) {
 
 				# assigned is a boolean if the alternative has been chosen
 				assigned <- FALSE
-				message("possible_alts: ", possible_alts)
+				#message("possible_alts: ", possible_alts)
 
 				# multi alt decision needed
 				# see issue #81
 				if (length(possible_alts) > 1){
 					# special alt selection when alt scores match
 					for (altId in 1:length(possible_alts)){
-						message("alt: ", altId, " name: ", alternative_names[altId])
+						#message("alt: ", altId, " name: ", alternative_names[altId])
 
 						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
 						max_crit <- which.max(dam_WSMMatrix)
 
 						# dam (West enfield, Medway, East Millinocket) crit (Reservior Storage)
 						if (
-							damId == which(dam_names=="West Enfield Dam") ||
-							damId == which(dam_names=="Medway Dam") ||
+							damId == which(dam_names=="West Enfield") ||
+							damId == which(dam_names=="Medway") ||
 							damId == which(dam_names=="East Millinocket")
 						){
 							imp_crit <- which(criteria_names=="Reservoir Storage")
@@ -1250,7 +1274,7 @@ server <- function(input, output, session) {
 
 						# dam (Medway) crit (Fish Habitat)
 						if (
-							damId == which(dam_names=="Medway Dam")
+							damId == which(dam_names=="Medway")
 						){
 							imp_crit <- which(criteria_names=="Sea-Run Fish Habitat Area")
 
@@ -1329,7 +1353,7 @@ server <- function(input, output, session) {
 			# Graph2
 			# Preference scores for all dams
 			combinedPlot2 <- renderPlot2D(
-				t(dam_top_alt_matrix), # data
+				t(round(dam_top_alt_matrix,0)), # data
 				"Graph 2", # title
 				dam_names_with_max_alt, # x_labels
 				criteria_names, # y_labels
@@ -1453,7 +1477,7 @@ server <- function(input, output, session) {
 		colnames(RawTable) <- criteria_inputs
 
 		output[[paste0("Dam", damId, "RawTable")]] = DT::renderDataTable({
-			RawTable
+			round(RawTable, 0)
 		})
 
 		# normals
@@ -1462,7 +1486,7 @@ server <- function(input, output, session) {
 		colnames(Dam1NormTable) <- criteria_inputs
 
 		output[[paste0("Dam", damId, "NormTable")]] = DT::renderDataTable({
-			Dam1NormTable
+			round(Dam1NormTable, 2)
 		})
 
 		# WSM score
@@ -1473,7 +1497,7 @@ server <- function(input, output, session) {
 		ScoreTablePlusSum$Total = IndScoreSum[damId,]
 
 		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
-			ScoreTablePlusSum
+			round(ScoreTablePlusSum, 2)
 		})
 
 		# WSM Download button
@@ -1490,12 +1514,13 @@ server <- function(input, output, session) {
 		# (d) has three graphs for each dam
 		# d1
 		plotA <- renderPlot2D(
-			t(ResultsMatrix[,,damId]),
+			t(round(ResultsMatrix[,,damId],0)),
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
 			"Total MCDA Score", # y axis label
-			"Decision Criteria:", # legend label
+			"Decision Criteria", # legend label
+			"", # no legend label
 			colors, # colors
 			NULL, # x value limit
 			c(0, max_slider_value) # y value limit (100 in this case)
@@ -1517,6 +1542,7 @@ server <- function(input, output, session) {
 			IndScoreSum[damId,],
 			"D 2", # title
 			alternative_names, # x_labels
+			"Decision Alternative", # x label
 			"Total MCDA Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
@@ -1542,7 +1568,8 @@ server <- function(input, output, session) {
 			alternative_names, # x_labels
 			criteria_names, # x_labels
 			"Scaled Criteria Preference Score", # y axis label
-			"Decision Criteria:", # legend label
+			"Decision Criteria", # legend label
+			"", # no legend label
 			colors, # colors
 			NULL # x value limit
 		)
@@ -1569,6 +1596,7 @@ server <- function(input, output, session) {
 	observe(autoDestroy=TRUE, {
 		# hide output html elements
 		shinyjs::hide(id="generated-output")
+		shinyjs::hide(id="nav-buttons")
 		shinyjs::hide(id="dam-1-output")
 		shinyjs::hide(id="dam-2-output")
 		shinyjs::hide(id="dam-3-output")
@@ -2187,6 +2215,8 @@ server <- function(input, output, session) {
 				selected = tabPanel_names[session$userData$currentTab-1]
 			)
 			session$userData$currentTab <- (session$userData$currentTab - 1)
+			# scroll to top
+			shinyjs::runjs("window.scrollTo(0, 0)")
 		}else{
 			message("FAILED go to prev tab ")
 			# TODO:
@@ -2206,6 +2236,8 @@ server <- function(input, output, session) {
 				selected = tabPanel_names[session$userData$currentTab+1]
 			)
 			session$userData$currentTab <- (session$userData$currentTab + 1)
+			# scroll to top
+			shinyjs::runjs("window.scrollTo(0, 0)")
 		}else{
 			message("FAILED go to next tab ")
 			# TODO:
