@@ -996,7 +996,7 @@ ui <- shinyUI(fluidPage(
 				   for these two decision criteria. Use Figure 1 to see how close the final MCDA scores for top-ranked decisions are. This could give you some ideas, in the event that you do not agree with what is presented in the Map Recommendation (Scenario 1), about \
 				   what the next-best options may be for your decision.<br>"),
 			  downloadButton("DownloadCombinedPlot4", "Download Graph"),
-			  HTML("<br>The following downloadable supplementary tables can be used to see more detail relted to Figure 1. Note: there are 995 possile multi-dam 'scenarios' in this dataset, where each of 8 dams has 5 possible decision alternatives. <br>"
+			  HTML("<br>The following downloadable supplementary tables can be used to see more detail relted to Figure 1. Note: there are nearly 2000 possile multi-dam 'scenarios' in this dataset, where each of 8 dams has 5 possible decision alternatives. <br>"
 			       
 			  ),
 			  downloadButton("DownloadDecisions", "Download Decisions"),
