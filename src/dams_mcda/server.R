@@ -3,16 +3,27 @@ source("WSM.R")
 
 #pull from WSM script
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
-DamsData <- data.frame(DamsData)
-#source(file='f_raw_10-1-19.RData')
-source(file = 'f_nrge_10-1-19.RData') #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 995 'scenarios' of 8 dams, 5 decision alts/dam
+DamsData <- data.frame(DamsData) 
+NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
+NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
+Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
+Decisions <- as.matrix(Decisions) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
 
-NormalizedMatrix <- as.array(f_nrge)
-#DamsData <- as.array(f)
-source(file='Decisions_workshop.RData') #this is 2 dimensions from f_nrge: rows = 995 'scenarios' with their decision alternative code for each dam, cols = 8 dams
-Decisions <- as.array(Decisions)# need this for graphing
+DecisionsFix <- Decisions
+DecisionsFix[,1] <- Decisions[,8]
+DecisionsFix[,2] <- Decisions[,7]
+DecisionsFix[,3] <- Decisions[,6]
+DecisionsFix[,4] <- Decisions[,1]
+DecisionsFix[,5] <- Decisions[,4]
+DecisionsFix[,6] <- Decisions[,3]
+DecisionsFix[,7] <- Decisions[,2]
+DecisionsFix[,8] <- Decisions[,5]
+Decisions <- DecisionsFix
+
 
 library(abind)
+library(data.table)
+library(dplyr)
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
@@ -164,7 +175,8 @@ tabPanel_names <- c(
 )
 
 # MOGA Scenarios, how many are there?
-num_scenarios <- 1885
+num_scenarios <- 1412
+
 
 #--------------------------------------------------
 # User Interface Default Values
