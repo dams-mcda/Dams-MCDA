@@ -1416,7 +1416,7 @@ server <- function(input, output, session) {
 					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
 					scenarioSumScore <- (scenarioSumScore + round(dam_score, 0))
 				}
-				message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
+				#message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
 			}
 
 			# Graph4
@@ -1429,7 +1429,7 @@ server <- function(input, output, session) {
 				multi_WSM_top5_scenario_alts, # SPECIAL CASE LABELS
 				"Coordinated Multi-Dam Outcome", # x axis label
 				"Final MCDA Scores", # y axis label
-				"Dam", # y axis label
+				"Dam", # legend axis label
 				colors, # colors
 				NULL, # x value limit
 				NULL # y value limit (100 in this case)
@@ -1517,8 +1517,8 @@ server <- function(input, output, session) {
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
-			"Total MCDA Score", # y axis label
-			"Decision Criteria", # legend label
+			"Total MCDA Score", # x axis label
+			"Decision Criteria", # y label
 			"", # no legend label
 			colors, # colors
 			NULL, # x value limit
