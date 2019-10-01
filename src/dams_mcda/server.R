@@ -662,7 +662,7 @@ server <- function(input, output, session) {
 		Data1 <- data.frame(score=round(scoreVector, 0), criteria=Criteria)
 
 		# raw pref plot
-		output[[paste0("PrefPlot", damId)]] <- renderBarPlot(
+		prefPlot <- renderBarPlot(
 			Data1, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
@@ -671,6 +671,16 @@ server <- function(input, output, session) {
 			colors, # colors
 			NULL, # x value limit
 			score_range # y value limit (0-100 value range)
+		)
+		output[[paste0("PrefPlot", damId)]] <- renderPlot(prefPlot)
+
+		output[[paste0("DownloadPrefPlot", damId)]]<- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_pref_%Y-%m-%d_%H-%M-%S_%z.png"))
+		  },
+		  content = function(file) {
+				ggsave(file, plot=prefPlot, device = "png", width=18, height=14)
+		  }
 		)
 		#NOTE: ggplot2 Error Bar Example
 
@@ -1470,7 +1480,7 @@ server <- function(input, output, session) {
 	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum, WSMScoreSum){
 		#message("generateDam: Output for Dam#: ", damId)
 
-		# preferences
+		# raw values
 		RawTable <- setDT(data.frame(DataMatrix[,,damId]))
 		row.names(RawTable) <- alternative_names
 		colnames(RawTable) <- criteria_inputs
@@ -1478,6 +1488,16 @@ server <- function(input, output, session) {
 		output[[paste0("Dam", damId, "RawTable")]] = DT::renderDataTable({
 			round(RawTable, 0)
 		})
+
+		# download for raw values
+		output[[paste0("DownloadDam", damId, "RawTable")]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+		  },
+		  content = function(file) {
+			write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
+		  }
+		)
 
 		# normals
 		Dam1NormTable <- setDT(data.frame(IndNrmlMatrix[,,damId]))
@@ -1487,6 +1507,16 @@ server <- function(input, output, session) {
 		output[[paste0("Dam", damId, "NormTable")]] = DT::renderDataTable({
 			round(Dam1NormTable, 2)
 		})
+
+		# download for normals
+		output[[paste0("DownloadDam", damId, "NormTable")]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+		  },
+		  content = function(file) {
+			write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
+		  }
+		)
 
 		# WSM score
 		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
@@ -1506,7 +1536,7 @@ server <- function(input, output, session) {
 				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 			},
 			content = function(file) {
-				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
+				write.csv( round(ScoreTablePlusSum, 2), file, row.names = TRUE, quote=TRUE)
 			}
 		)
 

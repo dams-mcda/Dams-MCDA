@@ -41,7 +41,7 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		#environment = environment(),
 	)
 
-	result <-  renderPlot(
+	result <- (
 		plot
 		+ geom_bar(stat="identity")
 		+ geom_text(data=subset(df, score != 0), aes(label=score), position = position_stack(vjust=0.5), size=6)
