@@ -23,9 +23,29 @@ services:
       - ./src:/srv/shiny-server:rw
       - ./logs:/var/log/shiny-server
       - ./matlab-license:/media/matlab-license
-      - ./SamMATLAB:/media/SamMATLAB
+      #- ./SamMATLAB:/media/SamMATLAB
       # MATLAB installation ISO mounted on host
       - /media/mathworks:/media/mathworks
+    # restart always can be problematic when not launching a production server
+    #restart: always
+    entrypoint:
+      - bash
+      - /srv/shiny-server/install-matlab.sh
+
+  shiny_server2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3737:3838"
+    volumes:
+      - ./src:/srv/shiny-server:rw
+      #- ./src2:/srv/shiny-server:rw
+      #- ./logs:/var/log/shiny-server
+      #- ./matlab-license:/media/matlab-license
+      #- ./SamMATLAB:/media/SamMATLAB
+      # MATLAB installation ISO mounted on host
+      #- /media/mathworks:/media/mathworks
     # restart always can be problematic when not launching a production server
     #restart: always
     entrypoint:
