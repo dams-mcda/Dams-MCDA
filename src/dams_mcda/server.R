@@ -1081,9 +1081,7 @@ server <- function(input, output, session) {
 			# run WSM and get data ready for graphs
 			#----------------------------------------
 			WSMResults <- WSM(RawCriteriaMatrix, DamsData)
-			
-			results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, AllDataMatrix, Ind_NormalizedMatrix)
-			
+			#results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, AllDataMatrix, Ind_NormalizedMatrix)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
 			WSMMatrix <- round(WSMMatrix, 3)
@@ -1105,7 +1103,7 @@ server <- function(input, output, session) {
 			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
-			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
+			#shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
 			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
 
