@@ -237,12 +237,12 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
-	Ind_NormalizedMatrix[2:5,6,3] <- 1 #This replaces properties NaN at East Millinocket
-	Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
-	Ind_NormalizedMatrix[1,1,2] <- 1 #This fish habitat NaN at Medway
+	Ind_NormalizedMatrix[2:5,6,3] <- c(1,1,1,1)#This replaces properties NaN at East Millinocket
+	#Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
+	Ind_NormalizedMatrix[1,1,2] <- 1 #This  fish habitat NaN at Medway
 	Ind_NormalizedMatrix[5,3,1:3] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Millinocket
 	Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
-
+	
 	#message('Ind_Normalized column ', Ind_NormalizedMatrix[1,,1])
 
 	#----------------------------------------
