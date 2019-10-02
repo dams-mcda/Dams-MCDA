@@ -283,39 +283,53 @@ table.map-data tr td:nth-child(2){
 	margin:0 9%;
 }
 
-/* nav buttons */
 #nav-buttons {
-	position:fixed;
-	padding:4px;
-	width:14em;
-	right:1em;
-	padding-right:1px;
-	background-color:#FFFFFF55;
-	border-radius:4px;
-	z-index:9999 !important;
+	display:none;
 }
-#nav-buttons button{
-	display:inline;
-	width:48%;
-	z-index:9999 !important;
+#nav-buttons button {
+	display:none;
 }
 
-/* progress trackers that are near tab nav buttons */
-#Dam1Progress,
-#Dam2Progress,
-#Dam3Progress,
-#Dam4Progress,
-#Dam5Progress,
-#Dam6Progress,
-#Dam7Progress,
-#Dam8Progress{
-	position:fixed;
-	right:1em;
-	top:9em;
-	width:14em;
-	font-weight:700;
-	text-align:center;
-	background-color:#FFFFFF55;
-	border-radius:4px;
-	z-index:9999 !important;
+/* non mobile css only */
+@media all and (min-width:858px){
+
+	/* nav buttons */
+	#nav-buttons {
+		display:block;
+		position:fixed;
+		padding:4px;
+		width:14em;
+		right:1em;
+		top:5em;
+		padding-right:1px;
+		background-color:#FFFFFF55;
+		border-radius:4px;
+		z-index:9999 !important;
+	}
+	#nav-buttons button{
+		display:inline;
+		width:48%;
+		z-index:9999 !important;
+	}
+
+	/* progress trackers that are near tab nav buttons */
+	#Dam1Progress,
+	#Dam2Progress,
+	#Dam3Progress,
+	#Dam4Progress,
+	#Dam5Progress,
+	#Dam6Progress,
+	#Dam7Progress,
+	#Dam8Progress{
+		position:fixed;
+		right:1em;
+		top:10em;
+		width:14em;
+		font-weight:700;
+		font-size:0.8em;
+		text-align:center;
+		background-color:#FFFFFF94;
+		border-radius:4px;
+		z-index:9999 !important;
+	}
 }
