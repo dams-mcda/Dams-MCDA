@@ -1,9 +1,9 @@
 <VirtualHost *:80>
 	ServerAdmin thesythel@gmail.com
 	ServerName localhost
-	DocumentRoot /home/wsk4/code/shiny_server
+	DocumentRoot /code/shiny_server
 
-	ErrorLog /home/wsk4/code/shiny_server/logs/error_apache.log
+	ErrorLog /code/shiny_server/logs/error_apache.log
 
 	ProxyRequests Off
 	ProxyPreserveHost On
@@ -14,10 +14,21 @@
 		Require all granted
 	</Proxy>
 
+	Header add Set-Cookie "ROUTEID=.%{BALANCER_WORKER_ROUTE}e; path=/" env=BALANCER_ROUTE_CHANGED
 	# shiny server
-	ProxyPass /dams_mcda http://127.0.0.1:3838/dams_mcda nocanon
-	ProxyPassReverse /dams_mcda http://127.0.0.1:3838/dams_mcda
-	#ProxyPassReverse /dams_mcda http://shiny.gsscdev.com:3838/dams_mcda
+	<Proxy "balancer://shinycluster">
+		BalancerMember "http://127.0.0.1:3838/dams_mcda" route=1
+		BalancerMember "http://127.0.0.1:3737/dams_mcda" route=2
+		ProxySet stickysession=ROUTEID
+	</Proxy>
+
+	# load balance
+	ProxyPass /dams_mcda "balancer://shinycluster" nocanon
+	ProxyPassReverse /dams_mcda "balancer://shinycluster"
+
+	# no load balance
+	#ProxyPass /dams_mcda http://127.0.0.1:3838/dams_mcda nocanon
+	#ProxyPassReverse /dams_mcda http://127.0.0.1:3838/dams_mcda
 
 	# django auth and administration
 	ProxyPass / http://127.0.0.1:3939/ nocanon
@@ -48,26 +59,3 @@
 #	RewriteCond %{REQUEST_URI} ^/$
 #	RewriteRule ^(.*)$ https://shiny.gsscdev.com/dams_mcda/
 #
-#	SSLEngine On
-#	SSLProxyEngine On
-#	SSLProtocol all -TLSv1
-#	SSLCertificateFile /etc/letsencrypt/live/shiny.gsscdev.com/cert.pem
-#	SSLCertificateChainFile /etc/letsencrypt/live/shiny.gsscdev.com/fullchain.pem
-#	SSLCertificateKeyFile /etc/letsencrypt/live/shiny.gsscdev.com/privkey.pem
-#
-#	## as of apache 2.4+ this may be needed for proxying encypted requests to docker
-#	SSLProxyCheckPeerExpire off
-#	ProxyPreserveHost On
-#	AllowEncodedSlashes NoDecode
-#
-#	<Proxy *>
-#		Require all granted
-#	</Proxy>
-#
-#	ProxyPass / http://127.0.0.1:3838/ nocanon
-#	ProxyPassReverse / http://127.0.0.1:3838/
-#	ProxyPassReverse / http://shiny.gsscdev.com:3838/
-#
-#	#Include conf-enabled/maintenance.conf
-#</VirtualHost>
-#</IfModule>

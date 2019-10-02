@@ -46,7 +46,7 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		+ geom_bar(stat="identity")
 		+ geom_text(data=subset(df, score != 0), aes(label=score), position = position_stack(vjust=0.5), size=6)
 		+ coord_flip()
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(legend.position="none", text=element_text(size=20))
 		+ scale_x_discrete(limits=rev(x_names))
 		+ ylab(y_label)
@@ -105,7 +105,7 @@ renderCombinedBarPlot <- function(df, title, x_names, x_label, y_label, colors, 
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
 		+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -168,7 +168,7 @@ renderCombinedBarPlot2 <- function(df, title, x_names, x_label, y_label, colors,
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
 		+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -225,7 +225,7 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 		+ geom_bar(stat="identity") # ignore empty values
 		+ geom_text(size=4, position = position_stack(vjust = 0.5))
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -341,7 +341,7 @@ renderPlot2DDamAlts <- function(df, title, x_names, y_names, alt_names, x_label,
 		+ geom_bar(stat="identity") # ignore empty values
 		+ geom_text(size=4, position = position_stack(vjust = 0.5))
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -399,7 +399,7 @@ renderPlot2DR <- function(df, title, x_names, y_names, x_label, y_label, legend_
 		+ geom_bar(stat="identity") # ignore empty values
 		+ geom_text(size=4, position = position_stack(vjust = 0.5))
 		+ coord_flip() # sometimes helpful for better fitting graph on screen
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -451,7 +451,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
 		+ geom_text(data=subset(df, df$Score != 0), color="white", size=4, position = position_stack(vjust = 0.5))
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -505,7 +505,7 @@ renderPlot2DScaled100 <- function(df, title, x_names, y_names, x_label, y_label,
 		#+ geom_bar(data=subset(df, Score != 0), stat="identity") # ignore empty values
 		#+ coord_flip() # sometimes helpful for better fitting graph on screen
 		#+ geom_text(data=subset(df, Score != 0), size=4, position = position_stack(vjust = 0.5))
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(
 			text=element_text(size=16),
 			legend.position="bottom",
@@ -571,7 +571,7 @@ renderBarErrorPlot <- function(df, title, x_names, x_label, y_label, colors, x_l
 		)
 		+ geom_text(data=subset(df, score != 0), aes(label=score), position = position_stack(vjust=0.5), size=6)
 		+ coord_flip()
-		+ theme_minimal()
+		+ theme_classic()
 		+ theme(legend.position="none", text=element_text(size=20))
 		+ scale_x_discrete(limits=rev(x_names))
 		+ ylab(y_label)
