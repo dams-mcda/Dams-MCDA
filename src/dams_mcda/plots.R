@@ -233,7 +233,7 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 			axis.text.x = element_text(angle = 45, hjust = 1),
 			plot.margin=unit(c(0,1,0,1.5), "cm")
 		)
-		+ guides(fill=guide_legend(title=legend_label))
+		+ guides(fill=guide_legend(title=legend_label, nrow=5, byrow=FALSE))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
@@ -290,7 +290,7 @@ renderPlot2DCluster <- function(df, title, x_names, y_names, x_label, y_label, l
 			axis.text.x = element_text(angle = 45, hjust = 1),
 			plot.margin=unit(c(1,1,1,1.5), "cm")
 		)
-		+ guides(fill=guide_legend(title=legend_label))
+		+ guides(fill=guide_legend(title=legend_label, nrow=2, byrow=FALSE))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
@@ -407,7 +407,7 @@ renderPlot2DR <- function(df, title, x_names, y_names, x_label, y_label, legend_
 			#axis.text.x = element_text(angle = 45, hjust = 1),
 			plot.margin=unit(c(0,1,0,1.5), "cm")
 		)
-		+ guides(fill=guide_legend(title=legend_label))
+		+ guides(fill=guide_legend(title=legend_label, nrow=5, byrow=FALSE))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
@@ -436,7 +436,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 	#	'\n------------------'
 	#)
 
-	X <- c(rep(str_wrap(x_names, 24), each=length(1)))
+	X <- c(rep(str_wrap(x_names, 24), each=1))
 	Score <- unlist(as.data.frame(df))
 	df <- data.frame(X=X, Score=Score)
 
@@ -444,7 +444,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 	df$X <- factor(df$X, levels=unique(df$X))
 
 	result <- (
-		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, label=df$Score))
+		ggplot(data=df, mapping = aes(x=X, y=Score, label=Score))
 		# inclue empty values
 		+ geom_bar(stat="identity", fill="steelblue")
 		# ignore empty values (uncomment)

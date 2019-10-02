@@ -1462,7 +1462,7 @@ server <- function(input, output, session) {
 			"Total MCDA Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			c(0, max_slider_value) # y value limit (100 in this case)
+			NULL # y value limit (100 in this case)
 		)
 
 		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot(plotB)
