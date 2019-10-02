@@ -124,6 +124,7 @@ body{
 	font-weight:700;
 }
 
+
 /* file upload confirm button */
 
 #confirmUploadBtn{
@@ -296,5 +297,25 @@ table.map-data tr td:nth-child(2){
 #nav-buttons button{
 	display:inline;
 	width:48%;
+	z-index:9999 !important;
+}
+
+/* progress trackers that are near tab nav buttons */
+#Dam1Progress,
+#Dam2Progress,
+#Dam3Progress,
+#Dam4Progress,
+#Dam5Progress,
+#Dam6Progress,
+#Dam7Progress,
+#Dam8Progress{
+	position:fixed;
+	right:1em;
+	top:9em;
+	width:14em;
+	font-weight:700;
+	text-align:center;
+	background-color:#FFFFFF55;
+	border-radius:4px;
 	z-index:9999 !important;
 }
