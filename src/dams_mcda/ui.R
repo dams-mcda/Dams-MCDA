@@ -975,33 +975,33 @@ ui <- shinyUI(fluidPage(
 				   criterion and decision alternatives. Step 5 (individual dams) results provide more detail about each individual dam. \
 				   The outcome presented here is a recommendation designed to support the consideration of multiple dams, but the aggregated result shown here may not be optimal for coordinated, multi-dam decision making as described in Roy et al. (2018).\
            This result is intended to support brainstorming about what single-dam decision making means for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC.<br>\
-				   <br><br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
-				   once more to see how your results change (note: you may want to download your results from this session, first).Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one criterion increases, the value for another \
-				   criterion must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br>"
+				   <br><br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your decision criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
+				   once more to see how your results change (note: you may want to download your results from this session, first).Do these results make sense, given the tradeoffs you made in balancing the set of decision criteria for each dam? Recall that the decision criteria are fully compensating, meaning that as the preference value for one decision criterion increases, the value for another \
+				   decision criterion must necessarily decrease. The idea here is to emphasize tradeoffs between decision criteria.<br>"
 			  ),
 
 				h3('Figure 1. Comparison of Final MCDA Score for each Decision Alternative at each Dam'),
 				plotOutput("CombinedPlot3", height="35em"),
 				downloadButton("DownloadCombinedPlot3", "Download Graph", style="width:100%"),
-				HTML("<br><br><b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the alternative is. Use this graph to quickly see which decision\
-					 alternative is the most highly ranked for each dam and to see how close the \"next-best\" alternative was to the top-ranked alternative. Small differences between scores for decision alternatives may signal \
+				HTML("<br><br><b>Results Interpretation</b> for Figure 1. This graph shows the final MCDA score for each decision alternative at each dam. The taller the bar, the more preferred the decision alternative is. Use this graph to quickly see which decision\
+					 alternative is the most highly ranked for each dam and to see how close the \"next-best\" decision alternative was to the top-ranked decision alternative. Small differences between scores for decision alternatives may signal \
 					 a need to carefully consider multiple top-ranked alternatives for a specific dam for your final decision.<br>"),
 
 				h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Top-Ranked Dam Decision Alternatives'),
 				plotOutput("CombinedPlot2", height="35em"),
 				downloadButton("DownloadCombinedPlot2", "Download Graph", style="width:100%;"),
-				HTML("<br><br><b>Results Interpretation</b> for Figure 3. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the total score. \
+				HTML("<br><br><b>Results Interpretation</b> for Figure 2. This graph shows the final MCDA score for the top-ranked decision alternative for each dam, broken down by the relative contribution of each decision criterion to the final MCDA score. \
 					 Use this graph to give you an idea of how decision criteria scores (normalized data values x user-defined preference values) contribute to the final decision alternative selection for each dam. Consider this graph kind of a \"zoom-in\" \
 					 on the tallest bar for each dam in Figure 2.<br>"),
 
 				h3('Figure 3. Comparison of User-Defined Preferences for each Dam'),
 				plotOutput("CombinedPlot1", height="35em"),
 				downloadButton("DownloadCombinedPlot1", "Download Graph", style="width:100%;"),
-				HTML("<br><br><b>Results Interpretation</b> for Figure 4. This graph shows the results of the Step 3 Preference Elicitation. The numbers presented on the graph correspond to the position of the slider bars you moved in Step 3. \
+				HTML("<br><br><b>Results Interpretation</b> for Figure 3. This graph shows the results of the Step 3 Preference Elicitation. The numbers presented on the graph correspond to the position of the slider bars you moved in Step 3. \
 					 Use this graph to see how your preferences for each decision criterion vary across dam sites. For example, did you mark the same preference value for River Recreation for Ripogenus as for West Enfield? Are your fish \
 					 habitat preferences consistent across all dams? This graph is a good reality check to help you make sure you entered the right preferences in Step 3 for you. If you did not move the slider for a specific decision criterion \
 					 for any dam, it will not show up in this graph. For example, if you left the slider for River Recreation at zero for all dams, River Recreation will not appear in the graph or legend on this page. The numbers in this graph \
-					 do not include any researched data values for decision criteria (i.e., the data we compiled and/or calculated ahead of time and presented in the decision matrices for each dam). The graph only shows your own stated preference \
+					 do not include any researched data values for decision criteria (i.e., the data we compiled and/or calculated ahead of time and presented in the dam data for each dam). The graph only shows your own stated preference \
 					 values from Step 3.<br>"),
 
 				# download preferences (for UPLOAD DATA)
@@ -1027,10 +1027,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 1: West Enfield",
 			h2("Results: West Enfield Dam"),
-			HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-            Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-            values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-            results.<br>"),
+			HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 			# output post generate
 			div(id="generated-output-1",
@@ -1049,7 +1047,7 @@ ui <- shinyUI(fluidPage(
 				downloadButton("DownloadDam1Plota", "Download Graph", style="width:100%;"),
 				HTML(
 					"<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-					of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+					of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 					drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 					that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 					this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1085,7 +1083,7 @@ ui <- shinyUI(fluidPage(
 				DT::dataTableOutput("Dam1RawTable"),
 				HTML(
 				  "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-				  remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				  remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				  more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				  in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				  changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1124,10 +1122,8 @@ ui <- shinyUI(fluidPage(
 
 		         h2("Results: Medway Dam"),
 		         HTML(
-               "Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-               Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		           values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		           results.<br>"
+               "Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"
              ),
 
 		         # output post generate
@@ -1147,7 +1143,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam2Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1184,7 +1180,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam2RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-    				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+    				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
     				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
     				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
     				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1222,10 +1218,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 3: East Millinocket",
 		         h2("Results: East Millinocket Dam"),
-		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-                  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		              results.<br>"),
+		         HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 		         # output post generate
 		         div(id="generated-output-3",
@@ -1244,7 +1238,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam3Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1279,7 +1273,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam3RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1316,10 +1310,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 4: Dolby",
 		         h2("Results: Dolby Dam"),
-		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-					  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		              results.<br>"),
+		         HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 		         # output post generate
 		         div(id="generated-output-4",
@@ -1338,7 +1330,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam4Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1373,7 +1365,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam4RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1409,10 +1401,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 5: North Twin",
 		         h2("Results: North Twin Dam"),
-		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-					  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		              results.<br>"),
+		         HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 		         # output post generate
 		         div(id="generated-output-5",
@@ -1431,7 +1421,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam5Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1466,7 +1456,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam5RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1503,10 +1493,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 6: Millinocket/Quakish",
 		         h2("Results: Millinocket/Quakish Dam"),
-		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-					  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		              results.<br>"),
+		         HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 		         # output post generate
 		         div(id="generated-output-6",
@@ -1525,7 +1513,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam6Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1561,7 +1549,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam6RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1598,10 +1586,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 7: Millinocket Lake",
 		         h2("Results: Millinocket Lake Dam"),
-		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-					  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		              results.<br>"),
+		         HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 		         # output post generate
 		         div(id="generated-output-7",
@@ -1620,7 +1606,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam7Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1656,7 +1642,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam7RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1693,10 +1679,8 @@ ui <- shinyUI(fluidPage(
 
 		tabPanel("Dam 8: Ripogenus",
 		         h2("Results: Ripogenus Dam"),
-		         HTML("Now that you have seen the coordinated multi-dam alternative recommendation, we will drill down to explore the MCDA results for each individual dam.\
-					  Remember that these results have been estimated using site-specific data values, so the network-dependent criteria (e.g. sea-run fish habitat area, river recreation)\
-		              values are the average for the possible range, which is actually dependent on the network of dams. You should expect that these results will differ somewhat from the multi-dam\
-		              results.<br>"),
+		         HTML("Now that you have seen the combined, top-ranked dam decision alternatives, we will drill down to explore the MCDA results for each individual dam.\
+            Remember that these results have been estimated using site-specific data values.<br>"),
 
 		         # output post generate
 		         div(id="generated-output-8",
@@ -1715,7 +1699,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam8Plota", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
-		               of each decision criterion to the total score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
+		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
 		               drill down and see which decision criteria are making up the largest portion of the final score for each decision alternative and whether you agree that is the way it should be. Remember, however, \
 		               that these data take into account not only your preferences but also the research data. So, even if you gave a decision criterion a low rating in Step 3, it could still make up a large portion of \
 		               this graph (unless you marked it as zero) because the data values may be larger relative to the full set of data values for that decision criteria for this dam. For example, if you assigned a 0.1 \
@@ -1751,7 +1735,7 @@ ui <- shinyUI(fluidPage(
 		             DT::dataTableOutput("Dam8RawTable"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\

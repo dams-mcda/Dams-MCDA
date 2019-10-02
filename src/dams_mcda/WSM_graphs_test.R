@@ -17,7 +17,7 @@ library(data.table)
 DamsData <- read.csv('DamsData_Workshop.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
 
-TestData <- read.csv('EqualPrefs_forAppTesting.csv', row.names = "DAM")
+TestData <- read.csv('EqualPrefs_forLiveSite.csv', row.names = "DAM")
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
 
 # criteria input identifiers
@@ -257,7 +257,7 @@ is.nan.data.frame <- function(a){
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
 Ind_NormalizedMatrix[2:5,6,3] <- c(1,1,1,1)#This replaces properties NaN at East Millinocket
-Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
+#Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
 Ind_NormalizedMatrix[1,1,2] <- 1 #This  fish habitat NaN at Medway
 Ind_NormalizedMatrix[5,3,1:3] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Millinocket
 Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
