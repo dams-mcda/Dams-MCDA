@@ -4,21 +4,7 @@ source("WSM.R")
 #pull from WSM script
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
-NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
-Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
-Decisions <- as.matrix(Decisions) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
 
-DecisionsFix <- Decisions
-DecisionsFix[,1] <- Decisions[,8]
-DecisionsFix[,2] <- Decisions[,7]
-DecisionsFix[,3] <- Decisions[,6]
-DecisionsFix[,4] <- Decisions[,1]
-DecisionsFix[,5] <- Decisions[,4]
-DecisionsFix[,6] <- Decisions[,3]
-DecisionsFix[,7] <- Decisions[,2]
-DecisionsFix[,8] <- Decisions[,5]
-Decisions <- DecisionsFix
 
 library(abind)
 library(data.table)
@@ -26,24 +12,6 @@ library(dplyr)
 library(plotly, warn.conflicts =  FALSE)
 library(R.matlab)
 library(rjson)
-
-#--------------------------------------------------------------------------------
-# reorganize dams in NormalizedMatrix
-#--------------------------------------------------------------------------------
-# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
-# target is     WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
-# Normalized is 4 7 6 5 8 3 2 1
-# target is     1 2 3 4 5 6 7 8
-TestMatrix <- NormalizedMatrix
-TestMatrix[1,,] <- NormalizedMatrix[8,,]
-TestMatrix[2,,] <- NormalizedMatrix[7,,]
-TestMatrix[3,,] <- NormalizedMatrix[6,,]
-TestMatrix[4,,] <- NormalizedMatrix[1,,]
-TestMatrix[5,,] <- NormalizedMatrix[4,,]
-TestMatrix[6,,] <- NormalizedMatrix[3,,]
-TestMatrix[7,,] <- NormalizedMatrix[2,,]
-TestMatrix[8,,] <- NormalizedMatrix[5,,]
-NormalizedMatrix <- TestMatrix
 
 #--------------------------------------------------------------------------------
 # Global Variables
@@ -160,7 +128,6 @@ tabPanel_names <- c(
 	'<div id="Dam7" class="shiny-html-output"></div>',
 	'<div id="Dam8" class="shiny-html-output"></div>',
 	"Combined Results",
-	"Map Recommendation",
 	"Dam 1: West Enfield",
 	"Dam 2: Medway",
 	"Dam 3: East Millinocket",
@@ -173,8 +140,6 @@ tabPanel_names <- c(
 	"Acknowledgements"
 )
 
-# MOGA Scenarios, how many are there?
-num_scenarios <- 1412
 
 #--------------------------------------------------
 # User Interface Default Values
@@ -1115,7 +1080,10 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# run WSM and get data ready for graphs
 			#----------------------------------------
-			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
+			WSMResults <- WSM(RawCriteriaMatrix, DamsData)
+			
+			results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, AllDataMatrix, Ind_NormalizedMatrix)
+			
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
 			WSMMatrix <- round(WSMMatrix, 3)
@@ -1128,35 +1096,19 @@ server <- function(input, output, session) {
 			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
 			WSMIndScoreSum <- round(WSMIndScoreSum, 3)
 
-			# renamed from WSMSummedScore
-			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
-			WSMTotalScoreSum <- round(WSMTotalScoreSum, 3)
-
-			map_name <- WSMResults[4]
-
-			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			all_data_matrix <- array(unlist(WSMResults[3]), dim=c(5,14,8))
 			all_data_matrix <- round(all_data_matrix, 3)
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
-			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
 			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
 			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
-			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
 
-			# idxRank suggested scenaios in order
-			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
-			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
-
-			# idxRank suggested scenaios in order
-			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
-			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
-
-			# wsm for each scenario 8 x 14 x 995 (used for graph4)
-			multi_WSM <- array(unlist(WSMResults[8]), dim=c(8, 14, num_scenarios))
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1412,50 +1364,6 @@ server <- function(input, output, session) {
 				}
 			)
 
-			# process data for graph 4
-			# scores for each scenario/dam
-			multi_WSM_top5_scenario <- array(NA, dim=c(5,8))
-			multi_WSM_top5_scenario_alts <- array(NA, dim=c(5,8))
-			top5_list <- head(idxRank[,10], 5)
-			# top 5
-			for (scenarioId in top5_list){
-				scenarioSumScore <- 0
-				for (damId in 1:length(dam_names)){
-					dam_score <- sum(multi_WSM[damId,,scenarioId+1])
-					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- round(dam_score, 0)
-					multi_WSM_top5_scenario_alts[which(top5_list==scenarioId),damId] <- alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]]
-					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
-					scenarioSumScore <- (scenarioSumScore + round(dam_score, 0))
-				}
-				message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
-			}
-
-			# Graph4
-			# Preference scores for all dams
-			combinedPlot4 <- renderPlot2DDamAlts(
-				t(multi_WSM_top5_scenario), # data
-				"Combined Plot4 idxRank", # title
-				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
-				dam_names, # y_labels
-				multi_WSM_top5_scenario_alts, # SPECIAL CASE LABELS
-				"Coordinated Multi-Dam Outcome", # x axis label
-				"Final MCDA Scores", # y axis label
-				"Dam", # y axis label
-				colors, # colors
-				NULL, # x value limit
-				NULL # y value limit (100 in this case)
-			)
-			output$CombinedPlot4 <- renderPlot(combinedPlot4)
-
-			# download button for plot2
-			output$DownloadCombinedPlot4 <- downloadHandler(
-				filename = function() {
-					format(Sys.time(), "Combined_plot3_results_%Y-%m-%d_%H-%M-%S_%z.png")
-				},
-				content = function(file) {
-					ggsave(file, plot=combinedPlot4, device = "png", width=18, height=14)
-				}
-			)
 
 			# show output html elements (as of now generateOutput does all individual dams + combined)
 			shinyjs::show(id="generated-output-1")
