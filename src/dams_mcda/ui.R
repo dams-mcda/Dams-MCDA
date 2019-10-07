@@ -154,7 +154,7 @@ ui <- shinyUI(fluidPage(
 			  HTML('<a href="DecisionCriteriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>')
 			),
 			helpText(
-			  HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Dam Decision Matrices</a><br>')
+			  HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Dam Data</a><br>')
 			),
 			HTML("You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
 			),
@@ -1134,7 +1134,7 @@ ui <- shinyUI(fluidPage(
 		        downloadButton("DownloadDam1RawTable", "Download Table", style="width:100%;"),
 				HTML(
 					"<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-					remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+					remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 					more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 					in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 					changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1231,7 +1231,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam2RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-    				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+    				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
     				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
     				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
     				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1325,7 +1325,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam3RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1418,7 +1418,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam4RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1510,7 +1510,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam5RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1603,7 +1603,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam6RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-				      remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1696,7 +1696,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam7RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
@@ -1789,7 +1789,7 @@ ui <- shinyUI(fluidPage(
 		             downloadButton("DownloadDam8RawTable", "Download Table", style="width:100%;"),
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
-		               remember seeing these data when you clicked on the link for the data matrix for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
+		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
