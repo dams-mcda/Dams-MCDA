@@ -813,7 +813,7 @@ server <- function(input, output, session) {
 		#output$RawPrefsDam1 = renderTable({
 		output$RawPrefsDam1 = DT::renderDataTable({
 		  round(Dam1_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam1)
@@ -853,7 +853,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam2 = DT::renderDataTable({
 		  round(Dam2_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam2)
@@ -893,7 +893,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam3 = DT::renderDataTable({
 		  round(Dam3_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam3)
@@ -933,7 +933,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam4 = DT::renderDataTable({
 		  round(Dam4_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam4)
@@ -973,7 +973,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam5 = DT::renderDataTable({
 		  round(Dam5_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam5)
@@ -1014,7 +1014,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam6 = DT::renderDataTable({
 		  round(Dam6_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam6)
@@ -1055,7 +1055,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam7 = DT::renderDataTable({
 		  round(Dam7_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam7)
@@ -1096,7 +1096,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam8 = DT::renderDataTable({
 		  round(Dam8_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam8)
@@ -1524,7 +1524,7 @@ server <- function(input, output, session) {
 
 		output[[paste0("Dam", damId, "RawTable")]] = DT::renderDataTable({
 			round(RawTable, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# download for raw values
 		output[[paste0("DownloadDam", damId, "RawTable")]] <- downloadHandler(
@@ -1543,7 +1543,7 @@ server <- function(input, output, session) {
 
 		output[[paste0("Dam", damId, "NormTable")]] = DT::renderDataTable({
 			round(Dam1NormTable, 2)
-		})
+		}, options=list(searching=FALSE))
 
 		# download for normals
 		output[[paste0("DownloadDam", damId, "NormTable")]] <- downloadHandler(
@@ -1564,7 +1564,7 @@ server <- function(input, output, session) {
 
 		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
 			round(ScoreTablePlusSum, 2)
-		})
+		}, options=list(searching=FALSE))
 
 		# WSM Download button
 		output[[paste0("DownloadDam", damId, "ScoreTable")]] <- downloadHandler(
