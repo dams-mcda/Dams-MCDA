@@ -670,7 +670,7 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range # y value limit (0-100 value range)
+			score_range
 		)
 		#NOTE: ggplot2 Error Bar Example
 
