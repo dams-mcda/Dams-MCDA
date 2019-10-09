@@ -1039,6 +1039,7 @@ ui <- shinyUI(fluidPage(
 				  "It is a good idea to download your preferences for your records if you plan to use the Dam Decision Support Tool again.<br>"
 				),
 				downloadButton("downloadPreferenceSelection", "Download Preference Inputs (Step 3)", style="width:100%;"),
+				downloadButton("downloadAllZipped", "Download zip", style="width:100%;"),
 
 				# save preferences to server
 				h3("Save Preferences"),

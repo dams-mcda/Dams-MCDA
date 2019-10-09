@@ -360,6 +360,11 @@ server <- function(input, output, session) {
 	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
 	#message("session$userData$currentTab init")
 	session$userData$currentTab <- 1
+	# bind plots to session as they are created seperately and sometimes differently
+	for (damId in 1:length(dam_names)){
+		session$userData[[paste0("indPlots1", damId)]] <- NA # ind plot 1 
+		session$userData[[paste0("indPlots", damId)]] <- NA
+	}
 
 
 	#------------------------------------------------------------
@@ -703,6 +708,8 @@ server <- function(input, output, session) {
 				ggsave(file, plot=prefPlot, device = "png", width=18, height=14)
 		  }
 		)
+		session$userData[[paste0("indPlots",damId)]] <- prefPlot
+		message("new plots in userData ", session$userData[[paste0("indPlots",damId)]])
 		#NOTE: ggplot2 Error Bar Example
 
 		#output[[paste0("ErrorPlot", damId)]] <- renderBarErrorPlot(
@@ -2268,6 +2275,51 @@ server <- function(input, output, session) {
 	      quote=TRUE
 	    )
 	  }
+	)
+
+	output$downloadPreferenceSelection <- downloadHandler(
+	  filename = function() {
+	    format(Sys.time(), "mcda_preferences_%Y-%m-%d_%H-%M-%S_%z.csv")
+	  },
+	  content = function(file) {
+	    write.csv(
+	      preference_selection,
+	      file,
+	      row.names = TRUE,
+	      quote=TRUE
+	    )
+	  }
+	)
+
+	output$downloadAllZipped <- downloadHandler(
+	  filename = function() {
+		  # zip will have datetime information so no need for individual files
+	    format(Sys.time(), "mcda_all_%Y-%m-%d_%H-%M-%S_%z.zip")
+	  },
+	  content = function(file) {
+		  tmp_content_dir <- tempdir()
+		  setwd(tmp_content_dir)
+		  # preferences
+		  prefs_filename <- "mcda_prefs.csv"
+		  write.csv( preference_selection, prefs_filename, row.names = TRUE, quote=TRUE)
+
+		  # plots
+		  plot_filenames <- array(data=NA, dim=c(8))
+		  for (damId in 1:length(dam_names)){
+			plot_filenames[damId] <- paste0("mcda_plot_", 1, "_dam_", damId, ".png")
+			ggsave(plot_filenames[damId], plot=session$userData[[paste0("indPlots", damId)]], device = "png", width=12, height=9)
+		  }
+
+		  # tables
+		  csv_filenames <- c(
+			 "mcda_prefs.csv",
+			 "",
+			 "mcda_prefs.csv"
+		  )
+
+		  zip(file, c(prefs_filename, plot_filenames))
+	  },
+	  contentType = "application/zip"
 	)
 
 	observeEvent(input$Prev_Tab, {
