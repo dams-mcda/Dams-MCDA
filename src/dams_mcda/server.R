@@ -341,6 +341,8 @@ server <- function(input, output, session) {
 
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
+
+	# content for app introduction modal
 	intro_modal <- modalDialog(
 		title = "Group or Individual",
 		footer=NULL, # NULL to disable dismiss button
@@ -363,7 +365,33 @@ server <- function(input, output, session) {
 		)
 	)
 
-	# choose individual/group modal
+	# content for upload modal
+	upload_modal <- modalDialog(
+		title = "File Upload",
+		footer=NULL, # NULL to disable dismiss button
+		easyClose=FALSE, # False to disable closing by clicking outside of modal
+		div(
+			HTML(
+				"<h4>Instructions for Uploading</h4>\
+				Use this option only if you have done this activity before and have used the blank decision matrix to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+				for you or the average preference values for your group. <br><br>"
+			),
+
+			#TODO: add xlsx support?
+			fileInput("file1",
+				label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
+				width="100%",
+				multiple=FALSE,
+				accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+			),
+
+			# confirm upload
+			actionButton("cancelUploadBtn", width="49%", "Cancel"),
+			actionButton("confirmUploadBtn", width="49%", "Continue")
+		)
+	)
+
+	# choose individual/group modal on app start
 	showModal(intro_modal)
 
 	# track the user group
@@ -421,7 +449,7 @@ server <- function(input, output, session) {
 		upload_modal_visible <<- TRUE
 
 		# upload file modal
-		showModal(intro_modal)
+		showModal(upload_modal)
 	}
 
 
@@ -440,8 +468,7 @@ server <- function(input, output, session) {
 		intro_modal_visible <<- TRUE
 
 		# intro modal
-		showModal(
-		)
+		showModal(intro_modal)
 
 	}
 
