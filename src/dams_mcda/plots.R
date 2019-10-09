@@ -49,6 +49,7 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		+ theme_classic()
 		+ theme(legend.position="none", text=element_text(size=20))
 		+ scale_x_discrete(limits=rev(x_names))
+		+ scale_y_continuous(limits=y_limit)
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
