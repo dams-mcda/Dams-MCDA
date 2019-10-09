@@ -1541,7 +1541,7 @@ server <- function(input, output, session) {
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
-			"Total MCDA Score", # x axis label
+			"Final MCDA Score", # x axis label
 			"Decision Criteria", # y label
 			"", # no legend label
 			colors, # colors
@@ -1566,7 +1566,7 @@ server <- function(input, output, session) {
 			"D 2", # title
 			alternative_names, # x_labels
 			"Decision Alternative", # x label
-			"Total MCDA Score", # y axis label
+			"Final MCDA Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
 			NULL # y value limit (100 in this case)
