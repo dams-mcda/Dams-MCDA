@@ -392,6 +392,7 @@ server <- function(input, output, session) {
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
 
+	# intro modal
 	# choose individual/group modal
 	showModal(
 		modalDialog(
@@ -493,10 +494,52 @@ server <- function(input, output, session) {
 					),
 
 					# confirm upload
-					actionButton("confirmUploadBtn", width="100%", "Continue")
+					actionButton("cancelUploadBtn", width="49%", "Cancel"),
+					actionButton("confirmUploadBtn", width="49%", "Continue")
 				)
 			)
 		)
+	}
+
+	# ----------------------------------------
+	# cancelUploadFile
+	# return user to first decision modal
+	# ----------------------------------------
+	cancelUploadFile <- function(){
+		# hide other modal
+		if (upload_modal_visible){
+			removeModal()
+			upload_modal_visible <<- FALSE
+		}
+
+		# mark as visible
+		intro_modal_visible <<- TRUE
+
+		# intro modal
+		showModal(
+			modalDialog(
+				title = "Group or Individual",
+				footer=NULL, # NULL to disable dismiss button
+				easyClose=FALSE, # False to disable closing by clicking outside of modal
+				div(
+					HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+
+					actionButton("selectIndividualSessionMode", "Individual Preferences"),
+					actionButton("selectGroupSessionMode", "Group Preferences"),
+					actionButton("uploadBtn", "UPLOAD DATA"),
+
+					HTML(
+						"<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+						average preference values for the group. <br>"
+					)
+				)
+			)
+		)
+
 	}
 
 
@@ -624,6 +667,7 @@ server <- function(input, output, session) {
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
 	observeEvent(input$uploadBtn, { pickUploadFile() })
 	observeEvent(input$confirmUploadBtn, { uploadFile() })
+	observeEvent(input$cancelUploadBtn, { cancelUploadFile() })
 
 
 	#------------------------------------------------------------
