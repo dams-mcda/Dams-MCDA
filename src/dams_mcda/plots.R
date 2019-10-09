@@ -34,6 +34,8 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		df <- data.frame(criteria=x_names, score=df)
 	}
 
+	df$criteria <- factor(df$criteria, levels=unique(df$criteria))
+
 	plot <- ggplot(
 		data=df,
 		mapping = aes(x=criteria, y=score, fill=criteria)
@@ -49,6 +51,7 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		+ theme_classic()
 		+ theme(legend.position="none", text=element_text(size=20))
 		+ scale_x_discrete(limits=rev(x_names))
+		+ scale_y_continuous(limits=y_limit)
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
@@ -216,6 +219,7 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
+	df$Y <- factor(df$Y, levels=unique(df$Y))
 	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
 
 	result <- (
@@ -290,7 +294,7 @@ renderPlot2DCluster <- function(df, title, x_names, y_names, x_label, y_label, l
 			axis.text.x = element_text(angle = 45, hjust = 1),
 			plot.margin=unit(c(1,1,1,1.5), "cm")
 		)
-		+ guides(fill=guide_legend(title=legend_label))
+		+ guides(fill=guide_legend(title=legend_label, nrow=2, byrow=FALSE))
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)
@@ -392,6 +396,7 @@ renderPlot2DR <- function(df, title, x_names, y_names, x_label, y_label, legend_
 
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
+	df$Y <- factor(df$Y, levels=unique(df$Y))
 	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
 
 	result <- (
@@ -438,7 +443,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 	#	'\n------------------'
 	#)
 
-	X <- c(rep(str_wrap(x_names, 24), each=length(1)))
+	X <- c(rep(str_wrap(x_names, 24), each=1))
 	Score <- unlist(as.data.frame(df))
 	df <- data.frame(X=X, Score=Score)
 
@@ -446,7 +451,7 @@ renderPlot1D <- function(df, title, x_names, x_label, y_label, colors, x_limit, 
 	df$X <- factor(df$X, levels=unique(df$X))
 
 	result <- (
-		ggplot(data=df, mapping = aes(x=df$X, y=df$Score, label=df$Score))
+		ggplot(data=df, mapping = aes(x=X, y=Score, label=Score))
 		# inclue empty values
 		+ geom_bar(stat="identity", fill="steelblue")
 		# ignore empty values (uncomment)

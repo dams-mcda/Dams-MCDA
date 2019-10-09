@@ -2,48 +2,13 @@ source("plots.R")
 source("WSM.R")
 
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
-DamsData <- data.frame(DamsData)
-NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
-Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
-Decisions <- as.matrix(Decisions) #these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
-
-DecisionsFix <- Decisions
-DecisionsFix[,1] <- Decisions[,8]
-DecisionsFix[,2] <- Decisions[,7]
-DecisionsFix[,3] <- Decisions[,6]
-DecisionsFix[,4] <- Decisions[,1]
-DecisionsFix[,5] <- Decisions[,4]
-DecisionsFix[,6] <- Decisions[,3]
-DecisionsFix[,7] <- Decisions[,2]
-DecisionsFix[,8] <- Decisions[,5]
-Decisions <- DecisionsFix
-
+DamsData <- data.frame(DamsData) 
 
 library(abind)
 library(data.table)
 library(dplyr)
 library(plotly, warn.conflicts =  FALSE)
-library(R.matlab)
 library(rjson)
-
-#--------------------------------------------------------------------------------
-# reorganize dams in NormalizedMatrix
-#--------------------------------------------------------------------------------
-# Normalized is Dolby Milli Milli/Quak NorthTwin Ripo EastMilli Medway WestEnf
-# target is     WestEnf Medway EMill Dolby NorthTwin MilliDev Milli Ripo 
-# Normalized is 4 7 6 5 8 3 2 1
-# target is     1 2 3 4 5 6 7 8
-TestMatrix <- NormalizedMatrix
-TestMatrix[1,,] <- NormalizedMatrix[8,,]
-TestMatrix[2,,] <- NormalizedMatrix[7,,]
-TestMatrix[3,,] <- NormalizedMatrix[6,,]
-TestMatrix[4,,] <- NormalizedMatrix[1,,]
-TestMatrix[5,,] <- NormalizedMatrix[4,,]
-TestMatrix[6,,] <- NormalizedMatrix[3,,]
-TestMatrix[7,,] <- NormalizedMatrix[2,,]
-TestMatrix[8,,] <- NormalizedMatrix[5,,]
-NormalizedMatrix <- TestMatrix
 
 #--------------------------------------------------------------------------------
 # Global Variables
@@ -169,7 +134,6 @@ tabPanel_names <- c(
 	'<div id="Dam7" class="shiny-html-output"></div>',
 	'<div id="Dam8" class="shiny-html-output"></div>',
 	"Combined Results",
-	"Map Recommendation",
 	"Dam 1: West Enfield",
 	"Dam 2: Medway",
 	"Dam 3: East Millinocket",
@@ -182,8 +146,6 @@ tabPanel_names <- c(
 	"Acknowledgements"
 )
 
-# MOGA Scenarios, how many are there?
-num_scenarios <- 1412
 
 
 #--------------------------------------------------
@@ -211,14 +173,6 @@ lower_bound <- (max_slider_value - (smallest_increment/2))
 total_upper_bound <- (length(available_dams) * max_slider_value + (smallest_increment/2))
 total_lower_bound <- (length(available_dams) * max_slider_value - (smallest_increment/2))
 
-#----------------------------------------
-# Matlab
-#----------------------------------------
-# track matlab port for session
-#session_matlab_port <- 9998
-# for production make sure this is TRUE
-#retry_matlab_connection <- TRUE
-#max_retries <- 3
 
 #--------------------------------------------------------------------------------
 # End of global variables
@@ -387,51 +341,59 @@ server <- function(input, output, session) {
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
 
-	# intro modal
-	# choose individual/group modal
-	showModal(
-		modalDialog(
-			title = "Group or Individual",
-			footer=NULL, # NULL to disable dismiss button
-			easyClose=FALSE, # False to disable closing by clicking outside of modal
-			div(
-				HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
 
-				actionButton("selectIndividualSessionMode", "Individual Preferences"),
-				actionButton("selectGroupSessionMode", "Group Preferences"),
-				actionButton("uploadBtn", "UPLOAD DATA"),
+	# content for app introduction modal
+	intro_modal <- modalDialog(
+		title = "Group or Individual",
+		footer=NULL, # NULL to disable dismiss button
+		easyClose=FALSE, # False to disable closing by clicking outside of modal
+		div(
+			HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
 
-				HTML(
-					"<h4>Instructions for Uploading</h4>\
-					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-					and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
-					populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-					select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
-					average preference values for the group. <br>"
-				)
+			actionButton("selectIndividualSessionMode", "Individual Preferences"),
+			actionButton("selectGroupSessionMode", "Group Preferences"),
+			actionButton("uploadBtn", "UPLOAD DATA"),
+
+			HTML(
+				"<h4>Instructions for Uploading</h4>\
+				Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+				and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+				populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+				select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+				average preference values for the group. <br>"
 			)
 		)
 	)
 
-	# track the user group
-	# NOTE: only set when the user is using application in group input mode
-	# this is important because changing the value of this variable causes effects
-	observeEvent(input$session_user_group, {
-		if (input$session_user_group == "false"){
-			message("Group Mode Set with no group: ", input$session_user_group)
-			# no group attached to user, but they select group mode!
-		}else{
-			message("Group Mode Set for group_id: ", input$session_user_group)
-			removeModal()
-		}
-	})
+	# content for upload modal
+	upload_modal <- modalDialog(
+		title = "File Upload",
+		footer=NULL, # NULL to disable dismiss button
+		easyClose=FALSE, # False to disable closing by clicking outside of modal
+		div(
+			HTML(
+				"<h4>Instructions for Uploading</h4>\
+				Use this option only if you have done this activity before and have used the blank decision matrix to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
+				for you or the average preference values for your group. <br><br>"
+			),
 
-	# important
-	# for loading scores from js > input sliders
-	observeEvent(input$session_input_update, {
-		#message("session input update from js ", input$session_input_update, " length ", length(input$session_input_update))
-		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
-	})
+			#TODO: add xlsx support?
+			fileInput("file1",
+				label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
+				width="100%",
+				multiple=FALSE,
+				accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+			),
+
+			# confirm upload
+			actionButton("cancelUploadBtn", width="49%", "Cancel"),
+			actionButton("confirmUploadBtn", width="49%", "Continue")
+		)
+	)
+
+	# choose individual/group modal on app start
+	showModal(intro_modal)
+
 
 	# userHasGroup will query the users group relation
 	# will set the variable input$session_user_group on completion
@@ -439,7 +401,11 @@ server <- function(input, output, session) {
 		session$sendCustomMessage("checkUserHasGroup", "")
 	}
 
-	# on mode update
+  
+  # ----------------------------------------
+	# setSessionMode
+	# sets application mode (individual/group)
+	# ----------------------------------------
 	setSessionMode <- function(newMode){
 		session_mode <- newMode
 
@@ -455,8 +421,12 @@ server <- function(input, output, session) {
 		shinyjs::show(id="nav-buttons")
 		session$sendCustomMessage("loadScores", session_mode)
 	}
-
-	# on mode file upload
+  
+  
+  # ----------------------------------------
+	# pickUploadFile
+	# shows the upload file modal
+	# ----------------------------------------
 	pickUploadFile <- function(){
 		# hide other modal
 		if (intro_modal_visible){
@@ -468,34 +438,29 @@ server <- function(input, output, session) {
 		upload_modal_visible <<- TRUE
 
 		# upload file modal
-		showModal(
-			modalDialog(
-				title = "File Upload",
-				footer=NULL, # NULL to disable dismiss button
-				easyClose=FALSE, # False to disable closing by clicking outside of modal
-				div(
-					HTML(
-						"<h4>Instructions for Uploading</h4>\
-						Use this option only if you have done this activity before and have used the blank decision matrix to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-						for you or the average preference values for your group. <br><br>"
-					),
-
-					#TODO: add xlsx support?
-					fileInput("file1",
-						label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
-						width="100%",
-						multiple=FALSE,
-						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
-					),
-
-					# confirm upload
-					actionButton("cancelUploadBtn", width="49%", "Cancel"),
-					actionButton("confirmUploadBtn", width="49%", "Continue")
-				)
-			)
-		)
+		showModal(upload_modal)
 	}
 
+
+	# ----------------------------------------
+	# cancelUploadFile
+	# return user to first decision modal
+	# ----------------------------------------
+	cancelUploadFile <- function(){
+		# hide other modal
+		if (upload_modal_visible){
+			removeModal()
+			upload_modal_visible <<- FALSE
+		}
+
+		# mark as visible
+		intro_modal_visible <<- TRUE
+
+		# intro modal
+		showModal(intro_modal)
+	}
+
+  
 	# ----------------------------------------
 	# cancelUploadFile
 	# return user to first decision modal
@@ -663,6 +628,22 @@ server <- function(input, output, session) {
 	observeEvent(input$uploadBtn, { pickUploadFile() })
 	observeEvent(input$confirmUploadBtn, { uploadFile() })
 	observeEvent(input$cancelUploadBtn, { cancelUploadFile() })
+	# important: for loading scores from js > input sliders
+	observeEvent(input$session_input_update, {
+		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
+	})
+	# track the user group
+	# NOTE: only set when the user is using application in group input mode
+	# this is important because changing the value of this variable causes effects
+	observeEvent(input$session_user_group, {
+		if (input$session_user_group == "false"){
+			# no group attached to user, but they select group mode!
+			message("Group Mode Set with no group: ", input$session_user_group)
+		}else{
+			message("Group Mode Set for group_id: ", input$session_user_group)
+			removeModal()
+		}
+	})
 
 
 	#------------------------------------------------------------
@@ -735,7 +716,7 @@ server <- function(input, output, session) {
 			"Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			score_range # y value limit (0-100 value range)
+			score_range
 		)
 		output[[paste0("PrefPlot", damId)]] <- renderPlot(prefPlot)
 
@@ -1179,7 +1160,8 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# run WSM and get data ready for graphs
 			#----------------------------------------
-			WSMResults <- WSM(RawCriteriaMatrix, NormalizedMatrix, DamsData, Decisions)
+			WSMResults <- WSM(RawCriteriaMatrix, DamsData)
+			#results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, AllDataMatrix, Ind_NormalizedMatrix)
 
 			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
 			WSMMatrix <- round(WSMMatrix, 3)
@@ -1192,31 +1174,18 @@ server <- function(input, output, session) {
 			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
 			WSMIndScoreSum <- round(WSMIndScoreSum, 3)
 
-			# renamed from WSMSummedScore
-			WSMTotalScoreSum <- array(unlist(WSMResults[3]), dim=c(8,5))
-			WSMTotalScoreSum <- round(WSMTotalScoreSum, 3)
-
-			map_name <- WSMResults[4]
-
-			all_data_matrix <- array(unlist(WSMResults[5]), dim=c(5,14,8))
+			all_data_matrix <- array(unlist(WSMResults[3]), dim=c(5,14,8))
 			all_data_matrix <- round(all_data_matrix, 3)
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
-			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
 			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
-			shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
+			#shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
-			ind_normalized_matrix <- array(unlist(WSMResults[6]), dim=c(5,14,8))
-
-			# idxRank suggested scenaios in order
-			idxRank <- array(unlist(WSMResults[7]), dim=c(num_scenarios,10))
-			colnames(idxRank) <- c("Score", dam_names, "Map Scene Index")
-
-			# wsm for each scenario 8 x 14 x 995 (used for graph4)
-			multi_WSM <- array(unlist(WSMResults[8]), dim=c(8, 14, num_scenarios))
+			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1472,71 +1441,6 @@ server <- function(input, output, session) {
 				}
 			)
 
-			# process data for graph 4
-			# scores for each scenario/dam
-			multi_WSM_top5_scenario <- array(NA, dim=c(5,8))
-			multi_WSM_top5_scenario_alts <- array(NA, dim=c(5,8))
-			top5_list <- head(idxRank[,10], 5)
-			# top 5
-			for (scenarioId in top5_list){
-				scenarioSumScore <- 0
-				for (damId in 1:length(dam_names)){
-					dam_score <- sum(multi_WSM[damId,,scenarioId+1])
-					multi_WSM_top5_scenario[which(top5_list==scenarioId),damId] <- round(dam_score, 0)
-					multi_WSM_top5_scenario_alts[which(top5_list==scenarioId),damId] <- alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]]
-					#message("find alt of scenario for dam: ", idxRank[which(top5_list==scenarioId),1+damId], " name: ", alternative_names_min[1+idxRank[which(top5_list==scenarioId),1+damId]])
-					scenarioSumScore <- (scenarioSumScore + round(dam_score, 0))
-				}
-				#message("Scenario ", scenarioId, " Score ", scenarioSumScore, " row ", multi_WSM[,,scenarioId+1])
-			}
-
-			# Graph4
-			# Preference scores for all dams
-			combinedPlot4 <- renderPlot2DDamAlts(
-				t(multi_WSM_top5_scenario), # data
-				"Combined Plot4 idxRank", # title
-				c("Scenario 1","Scenario 2","Scenario 3","Scenario 4","Scenario 5"), # x_labels
-				dam_names, # y_labels
-				multi_WSM_top5_scenario_alts, # SPECIAL CASE LABELS
-				"Coordinated Multi-Dam Outcome", # x axis label
-				"Final MCDA Scores", # y axis label
-				"Dam", # legend axis label
-				colors, # colors
-				NULL, # x value limit
-				NULL # y value limit (100 in this case)
-			)
-			output$CombinedPlot4 <- renderPlot(combinedPlot4)
-
-			message("scenarios", dim(idxRank)[1])
-			message("dams", dim(idxRank)[2])
-
-			uncoded_idxRank <- array(NA, dim=c(5, (dim(idxRank)[2] - 2)))
-			for (scenId in 1:5){
-				for (critId in 2:(dim(idxRank)[2] - 1)){
-					val <- idxRank[scenId, critId]
-					altCodeIndex <- which(alternative_names_coded==val)
-					# 0 -> remove 4 -> improve both
-					result <- alternative_names[altCodeIndex]
-					uncoded_idxRank[scenId, critId-1] <- result
-				}
-			}
-			row.names(uncoded_idxRank) <- c("Top Scenario", "..", "..", "..", "Low-Top")
-			colnames(uncoded_idxRank) <- dam_names
-
-			# for debug
-			output$CombinedTable4 <- renderTable({head(idxRank,5)})
-			output$CombinedTable4Un <- renderTable(uncoded_idxRank)
-
-			# download button for plot2
-			output$DownloadCombinedPlot4 <- downloadHandler(
-				filename = function() {
-					format(Sys.time(), "Combined_plot3_results_%Y-%m-%d_%H-%M-%S_%z.png")
-				},
-				content = function(file) {
-					ggsave(file, plot=combinedPlot4, device = "png", width=18, height=14)
-				}
-			)
-
 			# show output html elements (as of now generateOutput does all individual dams + combined)
 			shinyjs::show(id="generated-output-1")
 			shinyjs::show(id="generated-output-2")
@@ -1628,7 +1532,7 @@ server <- function(input, output, session) {
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
-			"Total MCDA Score", # x axis label
+			"Final MCDA Score", # x axis label
 			"Decision Criteria", # y label
 			"", # no legend label
 			colors, # colors
@@ -1653,10 +1557,10 @@ server <- function(input, output, session) {
 			"D 2", # title
 			alternative_names, # x_labels
 			"Decision Alternative", # x label
-			"Total MCDA Score", # y axis label
+			"Final MCDA Score", # y axis label
 			colors, # colors
 			NULL, # x value limit
-			c(0, max_slider_value) # y value limit (100 in this case)
+			NULL # y value limit (100 in this case)
 		)
 
 		output[[paste0("WSMPlot", damId, "b")]] <- renderPlot(plotB)
@@ -2191,11 +2095,13 @@ server <- function(input, output, session) {
 			format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 		},
 		content = function(file) {
+			prefRow <- preference_selection[1,]
+			row.names(prefRow) <- c(dam_names[1])
 			write.csv(
-				preference_selection[1,],
-				file,
-				row.names=TRUE,
-				quote=TRUE
+			  prefRow,
+			  file,
+			  row.names = TRUE,
+			  quote=TRUE
 			)
 		}
 	)
@@ -2207,8 +2113,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Medway_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[2,]
+	  	row.names(prefRow) <- c(dam_names[2])
 	    write.csv(
-		  preference_selection[2,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2221,8 +2129,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "EastMillinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[3,]
+	  	row.names(prefRow) <- c(dam_names[3])
 	    write.csv(
-		  preference_selection[3,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2235,8 +2145,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Dolby_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[4,]
+	  	row.names(prefRow) <- c(dam_names[4])
 	    write.csv(
-		  preference_selection[4,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2249,8 +2161,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "NorthTwin_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[5,]
+	  	row.names(prefRow) <- c(dam_names[5])
 	    write.csv(
-		  preference_selection[5,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2263,8 +2177,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Millinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[6,]
+	  	row.names(prefRow) <- c(dam_names[6])
 	    write.csv(
-		  preference_selection[6,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2277,8 +2193,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "MillinocketLake_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[7,]
+	  	row.names(prefRow) <- c(dam_names[7])
 	    write.csv(
-		  preference_selection[7,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2291,8 +2209,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Ripogenus_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[8,]
+	  	row.names(prefRow) <- c(dam_names[8])
 	    write.csv(
-		  preference_selection[8,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE

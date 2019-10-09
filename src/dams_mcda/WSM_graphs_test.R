@@ -16,27 +16,6 @@ library(data.table)
 
 DamsData <- read.csv('DamsData_Workshop.csv') # this is the dataset for the individual dams, where rows = dams and cols = criteria
 DamsData <- data.frame(DamsData)
-NormalizedMatrix<- read.csv('f_nrge_Propfix_10-1-19.csv', header=FALSE)#these are the NORMALIZED dams data from Sam's MOGA fitness function, where the'levels' data are for all 1412 'scenarios' of 8 dams, 5 decision alts/dam
-NormalizedMatrix <- array(unlist(NormalizedMatrix), dim=c(8,14,1412))
-Decisions <- read.csv('x_Propfix_10-1-19.csv', header = FALSE) #this is 2 dimensions from f_nrge: rows = 1412 'scenarios' with their decision alternative code for each dam, cols = 8 dams
-Decisions <- as.matrix(Decisions)# need this for graphing
-#codes:
-#0 = remove dam
-#1 = keep as is
-#2 = improve hydropower
-#3 = improve fish passage
-#4 = improve both
-
-DecisionsFix <- Decisions
-DecisionsFix[,1] <- Decisions[,8]
-DecisionsFix[,2] <- Decisions[,7]
-DecisionsFix[,3] <- Decisions[,6]
-DecisionsFix[,4] <- Decisions[,1]
-DecisionsFix[,5] <- Decisions[,4]
-DecisionsFix[,6] <- Decisions[,3]
-DecisionsFix[,7] <- Decisions[,2]
-DecisionsFix[,8] <- Decisions[,5]
-Decisions <- DecisionsFix
 
 TestData <- read.csv('EqualPrefs_forLiveSite.csv', row.names = "DAM")
 RawCriteriaMatrix <- data.frame(TestData)#test preference data for 8 dams, 14 criteria each
@@ -82,11 +61,8 @@ matrix_rows <- length(available_dams) # 8 default
 matrix_levs_ind <- length(available_alternatives)# 5 default
 
 
-# MOGA Scenarios, how many are there?
-num_scenarios <- 1412
 
-
-message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind, "Scenarios", num_scenarios)
+message("Decision Criteria", matrix_cols, "Dams", matrix_rows, "Decision Alternatives", matrix_levs_ind)
 
 #----------------------------------------
 # SINGLE DAM PROCEDURE FOR PREFERENCES
@@ -135,30 +111,6 @@ MillLake_PrefMatrix <- subset(Ind_PrefMatrix[7,,])
 MillLake_PrefMatrix <- data.frame(t(MillLake_PrefMatrix))
 Rip_PrefMatrix <- subset(Ind_PrefMatrix[8,,])
 Rip_PrefMatrix <- data.frame(t(Rip_PrefMatrix))
-#------------------------------------------------------
-#  MULTI-DAM PROCEDURE FOR PREERENCES
-#------------------------------------------------------
-PrefMatrix <- array(data = NA, dim=c(8,14)) #This is a 3-D blank matrix 
-
-message("Fill User Preference Matrix")
-# weights in matrix
-for (k in 1:matrix_cols){
-	for (n in 1:matrix_rows){
-		x <- RawCriteriaMatrix[n,k]
-
-		PrefMatrix[n,k] <- tryCatch({
-			#message("A", x, ', ', crit_imp)
-			(x)
-		}, error=function(e){
-			(NA)
-		})
-	} #End dams (rows) for loop.
-} #End criteria (columns) for loop.
-
-PrefMatrix <- array(data=rep(PrefMatrix, num_scenarios), dim=c(dim(PrefMatrix), num_scenarios)) 
-
-
-message("fill multi-dam Pref Matrix")
 
 #----------------------------------------
 # SINGLE DAM DATA NORMALIATION PROCEDURE
@@ -305,7 +257,7 @@ is.nan.data.frame <- function(a){
 Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
 Ind_NormalizedMatrix[2:5,6,3] <- c(1,1,1,1)#This replaces properties NaN at East Millinocket
-Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
+#Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
 Ind_NormalizedMatrix[1,1,2] <- 1 #This  fish habitat NaN at Medway
 Ind_NormalizedMatrix[5,3,1:3] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Millinocket
 Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
@@ -358,82 +310,12 @@ colnames(Ind_scoresum) <- alternative_names
 Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
 colnames(Ind_WeightedScoreMatrix)<- criteria_inputs
 
-#----------------------------------------
-# MULTI-DAM PROCEDURE FOR WEIGHTED SCENARIOS
-##!!!!!!!!!!NOTE: this Normalized matrix hard-code for NaNs is no longer in WSM.R!!!!!!!!!!
-#----------------------------------------
-# reorganize dams in NormalizedMatrix
-# Normalized is Dolby Milli Quak NorthTwin Ripo EastMilli Medway WestEnf
-# target is WestEnf Medway EMill Dolby NorthTwin Quak Milli Ripo 
-# Normalized is 4 7 6 5 8 3 2 1
-# target is     1 2 3 4 5 6 7 8
-
-TestMatrix <- NormalizedMatrix
-TestMatrix[1,,] <- NormalizedMatrix[8,,]
-TestMatrix[2,,] <- NormalizedMatrix[7,,]
-TestMatrix[3,,] <- NormalizedMatrix[6,,]
-TestMatrix[4,,] <- NormalizedMatrix[1,,]
-TestMatrix[5,,] <- NormalizedMatrix[4,,]
-TestMatrix[6,,] <- NormalizedMatrix[3,,]
-TestMatrix[7,,] <- NormalizedMatrix[2,,]
-TestMatrix[8,,] <- NormalizedMatrix[5,,]
-NormMatrix <- TestMatrix
-message("size of NormalizedMatrix", dim(TestMatrix))
-
-WeightedScoreMatrix <- (NormMatrix*PrefMatrix)
-WeightedScoreMatrix <- round(WeightedScoreMatrix,3) 
-
-#----------------------------------------
-# MULTI-DAM WEIGHTED SUM SCORES
-
-# Weighted sum procedure:
-#  multiply all normalized scores by prefrence weights
-#  sum normalized, weighted criteria scores for each dam
-#  sum this across all dams for each scenario
-#-----------------------------------------
-
-#declare a weighted sum variable
-scoresum_total <- rep(0,dim(NormMatrix)[3])
-
-#multiply crit scores by user preferences
-for (i in 1:dim(NormMatrix)[3]){
-	WSMMatrix <- NormMatrix[,,i] * PrefMatrix[,,i]
-	scoresum_total[i] <- sum(WSMMatrix) #this sums everything in each scenario after they are preferenced. Should be fine as order doesn't matter at this point.
-}
-
-colnames(Decisions) <- dam_names
-scoresum_total<-array(unlist(scoresum_total))
-#----------------------------------------
-# Rank:
-#  may need to reshape the array produced by the weighted sum procedure
-#  sort the array by descending order, highest score comes first, and record the indices of the top ranked scenario
-# Retrieve table, map of highest ranked scenario:
-#  use server url or whatever, searching for map name with the matching index number
-#  take the map image, table, and stick them in the webpage
-#----------------------------------------
-
-#order scenarios by rank: largest score first
-idxScen <- c(0:(num_scenarios-1))
-scoresum_index <- data.frame(cbind(scoresum_total, Decisions, idxScen))
-idxRank <- setorder(scoresum_index, -scoresum_total)
-#message("idxRank ", idxRank, " dim ", dim(idxRank))
-
-#use scenario idxRank[1] to find corresponding map name
-fname <- sprintf('maps/Penobscot_MO_14_%d.png',idxRank[1,1])
-
 
 # call WSM
-results <- WSM(RawCriteriaMatrix, NormMatrix, DamsData, Decisions)
+results <- WSM(RawCriteriaMatrix, DamsData, Ind_WeightedScoreMatrix, Ind_scoresum)
 # results are list(Ind_WeightedScoreMatrix, Ind_scoresum, scoresum_total, fname)
 #message("WSM Results", results)
 
-TableMatrix <- results[1]
-
-Ind_MCDA_score <- results[2]
-
-MCDA_score <- results[3]
-
-map_name <- results[4]
 
 #----------------------------------------
 # Final Outputs: TABLES
