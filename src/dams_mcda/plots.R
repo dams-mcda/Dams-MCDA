@@ -34,6 +34,8 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		df <- data.frame(criteria=x_names, score=df)
 	}
 
+	df$criteria <- factor(df$criteria, levels=unique(df$criteria))
+
 	plot <- ggplot(
 		data=df,
 		mapping = aes(x=criteria, y=score, fill=criteria)
@@ -217,6 +219,7 @@ renderPlot2D <- function(df, title, x_names, y_names, x_label, y_label, legend_l
 
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
+	df$Y <- factor(df$Y, levels=unique(df$Y))
 	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
 
 	result <- (
@@ -391,6 +394,7 @@ renderPlot2DR <- function(df, title, x_names, y_names, x_label, y_label, legend_
 
 	# ordering by order of appearance
 	df$X <- factor(df$X, levels=unique(df$X))
+	df$Y <- factor(df$Y, levels=unique(df$Y))
 	#message("non zero values of score: ", subset(df$Score, df$Score != 0))
 
 	result <- (
