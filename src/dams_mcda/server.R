@@ -341,31 +341,30 @@ server <- function(input, output, session) {
 
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
+	intro_modal <- modalDialog(
+		title = "Group or Individual",
+		footer=NULL, # NULL to disable dismiss button
+		easyClose=FALSE, # False to disable closing by clicking outside of modal
+		div(
+			HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
 
-	# choose individual/group modal
-	showModal(
-		modalDialog(
-			title = "Group or Individual",
-			footer=NULL, # NULL to disable dismiss button
-			easyClose=FALSE, # False to disable closing by clicking outside of modal
-			div(
-				HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+			actionButton("selectIndividualSessionMode", "Individual Preferences"),
+			actionButton("selectGroupSessionMode", "Group Preferences"),
+			actionButton("uploadBtn", "UPLOAD DATA"),
 
-				actionButton("selectIndividualSessionMode", "Individual Preferences"),
-				actionButton("selectGroupSessionMode", "Group Preferences"),
-				actionButton("uploadBtn", "UPLOAD DATA"),
-
-				HTML(
-					"<h4>Instructions for Uploading</h4>\
-					Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-					and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
-					populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-					select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
-					average preference values for the group. <br>"
-				)
+			HTML(
+				"<h4>Instructions for Uploading</h4>\
+				Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+				and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+				populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+				select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+				average preference values for the group. <br>"
 			)
 		)
 	)
+
+	# choose individual/group modal
+	showModal(intro_modal)
 
 	# track the user group
 	# NOTE: only set when the user is using application in group input mode
@@ -422,31 +421,28 @@ server <- function(input, output, session) {
 		upload_modal_visible <<- TRUE
 
 		# upload file modal
+		showModal(intro_modal)
+	}
+
+
+	# ----------------------------------------
+	# cancelUploadFile
+	# return user to first decision modal
+	# ----------------------------------------
+	cancelUploadFile <- function(){
+		# hide other modal
+		if (upload_modal_visible){
+			removeModal()
+			upload_modal_visible <<- FALSE
+		}
+
+		# mark as visible
+		intro_modal_visible <<- TRUE
+
+		# intro modal
 		showModal(
-			modalDialog(
-				title = "File Upload",
-				footer=NULL, # NULL to disable dismiss button
-				easyClose=FALSE, # False to disable closing by clicking outside of modal
-				div(
-					HTML(
-						"<h4>Instructions for Uploading</h4>\
-						Use this option only if you have done this activity before and have used the blank decision matrix to organize your data. Press the UPLOAD button, and select the appropriate .xlsx or .csv file to upload the preference values\
-						for you or the average preference values for your group. <br><br>"
-					),
-
-					#TODO: add xlsx support?
-					fileInput("file1",
-						label=p(paste0("Upload File (Maximum size: ", max_file_size, " MB)")),
-						width="100%",
-						multiple=FALSE,
-						accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
-					),
-
-					# confirm upload
-					actionButton("confirmUploadBtn", width="100%", "Continue")
-				)
-			)
 		)
+
 	}
 
 
@@ -574,6 +570,7 @@ server <- function(input, output, session) {
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
 	observeEvent(input$uploadBtn, { pickUploadFile() })
 	observeEvent(input$confirmUploadBtn, { uploadFile() })
+	observeEvent(input$cancelUploadBtn, { cancelUploadFile() })
 
 
 	#------------------------------------------------------------
@@ -1998,7 +1995,7 @@ server <- function(input, output, session) {
 		},
 		content = function(file) {
 			write.csv(
-				response_data,
+				preference_selection[1,],
 				file,
 				row.names = TRUE,
 				quote=TRUE
@@ -2014,7 +2011,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[2,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2028,7 +2025,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[3,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2042,7 +2039,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[4,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2056,7 +2053,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[5,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2070,7 +2067,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[6,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2084,7 +2081,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[7,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2098,7 +2095,7 @@ server <- function(input, output, session) {
 	  },
 	  content = function(file) {
 	    write.csv(
-	      response_data,
+	      preference_selection[8,],
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
