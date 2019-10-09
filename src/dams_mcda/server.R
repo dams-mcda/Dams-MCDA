@@ -8,7 +8,6 @@ library(abind)
 library(data.table)
 library(dplyr)
 library(plotly, warn.conflicts =  FALSE)
-library(R.matlab)
 library(rjson)
 
 #--------------------------------------------------------------------------------
@@ -174,14 +173,6 @@ lower_bound <- (max_slider_value - (smallest_increment/2))
 total_upper_bound <- (length(available_dams) * max_slider_value + (smallest_increment/2))
 total_lower_bound <- (length(available_dams) * max_slider_value - (smallest_increment/2))
 
-#----------------------------------------
-# Matlab
-#----------------------------------------
-# track matlab port for session
-#session_matlab_port <- 9998
-# for production make sure this is TRUE
-#retry_matlab_connection <- TRUE
-#max_retries <- 3
 
 #--------------------------------------------------------------------------------
 # End of global variables
@@ -646,15 +637,15 @@ server <- function(input, output, session) {
 	# this is important because changing the value of this variable causes effects
 	observeEvent(input$session_user_group, {
 		if (input$session_user_group == "false"){
-			message("Group Mode Set with no group: ", input$session_user_group)
 			# no group attached to user, but they select group mode!
+			message("Group Mode Set with no group: ", input$session_user_group)
 		}else{
 			message("Group Mode Set for group_id: ", input$session_user_group)
 			removeModal()
 		}
 	})
 
-  
+
 	#------------------------------------------------------------
 	# initDamMap
 	# initialize the leaflet map for displaying dam location/attributes
