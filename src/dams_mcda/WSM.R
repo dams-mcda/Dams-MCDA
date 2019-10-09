@@ -52,7 +52,6 @@ matrix_levs_ind <- length(available_alternatives) # 5 default - alternatives
 
 WSM <- function(RawCriteriaMatrix, DamsData){
 	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind)
-
 	#----------------------------------------
 	# SINGLE DAM PROCEDURE FOR PREFERENCES
 	#
@@ -237,9 +236,9 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	}
 	Ind_NormalizedMatrix[is.nan.data.frame(Ind_NormalizedMatrix)] <- 0
 
-	Ind_NormalizedMatrix[2:5,6,3] <- c(1,1,1,1)#This replaces properties NaN at East Millinocket
+	Ind_NormalizedMatrix[2:5,6,3] <- 1 #This replaces properties NaN at East Millinocket
 	#Ind_NormalizedMatrix[1,5,3] <- 1 #This replaces damage 0 value for Remove at East Millinocket
-	Ind_NormalizedMatrix[1,1,2] <- 1 #This  fish habitat NaN at Medway
+	Ind_NormalizedMatrix[1,1,2] <- 1 #This fish habitat NaN at Medway
 	Ind_NormalizedMatrix[5,3,1:3] <- 1#This replaces the reservoir storage NaN at West Enfield, Medway, East Millinocket
 	Ind_NormalizedMatrix[1,2,7] <- 1 #This replaces the river rec NaN at Millinocket Lake
 	
@@ -299,7 +298,6 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	Ind_scoresum <- round(as.data.frame(ScoreSums, rownames=dam_names), 0)
 	colnames(Ind_scoresum)<- alternative_names
 
-	
 
 	# warning adding things to list has side effects!
 	results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, AllDataMatrix, Ind_NormalizedMatrix)

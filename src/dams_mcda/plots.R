@@ -43,7 +43,7 @@ renderBarPlot <- function(df, title, x_names, x_label, y_label, colors, x_limit,
 		#environment = environment(),
 	)
 
-	result <-  renderPlot(
+	result <- (
 		plot
 		+ geom_bar(stat="identity")
 		+ geom_text(data=subset(df, score != 0), aes(label=score), position = position_stack(vjust=0.5), size=6)
@@ -354,7 +354,9 @@ renderPlot2DDamAlts <- function(df, title, x_names, y_names, alt_names, x_label,
 			plot.margin=unit(c(0,1,0,1.5), "cm"),
 			legend.text=element_text(size=rel(0.7))
 		)
-		+ guides(fill=guide_legend(title=legend_label))
+		+ guides(
+			fill=guide_legend(title=legend_label, nrow=6, byrow=FALSE)
+		)
 		+ ylab(y_label)
 		+ xlab(x_label)
 		+ scale_fill_viridis(discrete=TRUE)

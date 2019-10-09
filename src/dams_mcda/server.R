@@ -1,10 +1,8 @@
 source("plots.R")
 source("WSM.R")
 
-#pull from WSM script
 DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
-
 
 library(abind)
 library(data.table)
@@ -89,6 +87,15 @@ alternative_names <- c(
 	"Keep and Maintain Dam"
 )
 
+# alternative_names coded values as appear on map output
+alternative_names_coded <- c(
+	0,
+	3,
+	2,
+	4,
+	1
+)
+
 # alternative display minimum length names (for graphs)
 alternative_names_min <- c(
 	"Remove",
@@ -139,6 +146,7 @@ tabPanel_names <- c(
 	"Developers",
 	"Acknowledgements"
 )
+
 
 
 #--------------------------------------------------
@@ -342,6 +350,7 @@ server <- function(input, output, session) {
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
 
+
 	# content for app introduction modal
 	intro_modal <- modalDialog(
 		title = "Group or Individual",
@@ -394,25 +403,6 @@ server <- function(input, output, session) {
 	# choose individual/group modal on app start
 	showModal(intro_modal)
 
-	# track the user group
-	# NOTE: only set when the user is using application in group input mode
-	# this is important because changing the value of this variable causes effects
-	observeEvent(input$session_user_group, {
-		if (input$session_user_group == "false"){
-			message("Group Mode Set with no group: ", input$session_user_group)
-			# no group attached to user, but they select group mode!
-		}else{
-			message("Group Mode Set for group_id: ", input$session_user_group)
-			removeModal()
-		}
-	})
-
-	# important
-	# for loading scores from js > input sliders
-	observeEvent(input$session_input_update, {
-		#message("session input update from js ", input$session_input_update, " length ", length(input$session_input_update))
-		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
-	})
 
 	# userHasGroup will query the users group relation
 	# will set the variable input$session_user_group on completion
@@ -420,7 +410,11 @@ server <- function(input, output, session) {
 		session$sendCustomMessage("checkUserHasGroup", "")
 	}
 
-	# on mode update
+  
+  # ----------------------------------------
+	# setSessionMode
+	# sets application mode (individual/group)
+	# ----------------------------------------
 	setSessionMode <- function(newMode){
 		session_mode <- newMode
 
@@ -436,8 +430,12 @@ server <- function(input, output, session) {
 		shinyjs::show(id="nav-buttons")
 		session$sendCustomMessage("loadScores", session_mode)
 	}
-
-	# on mode file upload
+  
+  
+  # ----------------------------------------
+	# pickUploadFile
+	# shows the upload file modal
+	# ----------------------------------------
 	pickUploadFile <- function(){
 		# hide other modal
 		if (intro_modal_visible){
@@ -469,6 +467,47 @@ server <- function(input, output, session) {
 
 		# intro modal
 		showModal(intro_modal)
+	}
+
+  
+	# ----------------------------------------
+	# cancelUploadFile
+	# return user to first decision modal
+	# ----------------------------------------
+	cancelUploadFile <- function(){
+		# hide other modal
+		if (upload_modal_visible){
+			removeModal()
+			upload_modal_visible <<- FALSE
+		}
+
+		# mark as visible
+		intro_modal_visible <<- TRUE
+
+		# intro modal
+		showModal(
+			modalDialog(
+				title = "Group or Individual",
+				footer=NULL, # NULL to disable dismiss button
+				easyClose=FALSE, # False to disable closing by clicking outside of modal
+				div(
+					HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
+
+					actionButton("selectIndividualSessionMode", "Individual Preferences"),
+					actionButton("selectGroupSessionMode", "Group Preferences"),
+					actionButton("uploadBtn", "UPLOAD DATA"),
+
+					HTML(
+						"<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+						average preference values for the group. <br>"
+					)
+				)
+			)
+		)
 
 	}
 
@@ -598,8 +637,24 @@ server <- function(input, output, session) {
 	observeEvent(input$uploadBtn, { pickUploadFile() })
 	observeEvent(input$confirmUploadBtn, { uploadFile() })
 	observeEvent(input$cancelUploadBtn, { cancelUploadFile() })
+	# important: for loading scores from js > input sliders
+	observeEvent(input$session_input_update, {
+		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
+	})
+	# track the user group
+	# NOTE: only set when the user is using application in group input mode
+	# this is important because changing the value of this variable causes effects
+	observeEvent(input$session_user_group, {
+		if (input$session_user_group == "false"){
+			message("Group Mode Set with no group: ", input$session_user_group)
+			# no group attached to user, but they select group mode!
+		}else{
+			message("Group Mode Set for group_id: ", input$session_user_group)
+			removeModal()
+		}
+	})
 
-
+  
 	#------------------------------------------------------------
 	# initDamMap
 	# initialize the leaflet map for displaying dam location/attributes
@@ -662,7 +717,7 @@ server <- function(input, output, session) {
 		Data1 <- data.frame(score=round(scoreVector, 0), criteria=Criteria)
 
 		# raw pref plot
-		output[[paste0("PrefPlot", damId)]] <- renderBarPlot(
+		prefPlot <- renderBarPlot(
 			Data1, # data
 			paste("Raw Preference Scores for", dam_names[damId], sep=" "), # title
 			criteria_names, # x_labels
@@ -671,6 +726,16 @@ server <- function(input, output, session) {
 			colors, # colors
 			NULL, # x value limit
 			score_range
+		)
+		output[[paste0("PrefPlot", damId)]] <- renderPlot(prefPlot)
+
+		output[[paste0("DownloadPrefPlot", damId)]]<- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_pref_%Y-%m-%d_%H-%M-%S_%z.png"))
+		  },
+		  content = function(file) {
+				ggsave(file, plot=prefPlot, device = "png", width=18, height=14)
+		  }
 		)
 		#NOTE: ggplot2 Error Bar Example
 
@@ -782,7 +847,7 @@ server <- function(input, output, session) {
 		#output$RawPrefsDam1 = renderTable({
 		output$RawPrefsDam1 = DT::renderDataTable({
 		  round(Dam1_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam1)
@@ -822,7 +887,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam2 = DT::renderDataTable({
 		  round(Dam2_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam2)
@@ -862,7 +927,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam3 = DT::renderDataTable({
 		  round(Dam3_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam3)
@@ -902,7 +967,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam4 = DT::renderDataTable({
 		  round(Dam4_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam4)
@@ -942,7 +1007,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam5 = DT::renderDataTable({
 		  round(Dam5_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam5)
@@ -983,7 +1048,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam6 = DT::renderDataTable({
 		  round(Dam6_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam6)
@@ -1024,7 +1089,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam7 = DT::renderDataTable({
 		  round(Dam7_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam7)
@@ -1065,7 +1130,7 @@ server <- function(input, output, session) {
 
 		output$RawPrefsDam8 = DT::renderDataTable({
 		  round(Dam8_Table, 0)
-		})
+		}, options=list(searching=FALSE))
 
 		# update dam specific graphs
 		updateDamGraph(damId, Dam8)
@@ -1130,7 +1195,6 @@ server <- function(input, output, session) {
 			#shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
 			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
-
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1386,7 +1450,6 @@ server <- function(input, output, session) {
 				}
 			)
 
-
 			# show output html elements (as of now generateOutput does all individual dams + combined)
 			shinyjs::show(id="generated-output-1")
 			shinyjs::show(id="generated-output-2")
@@ -1411,14 +1474,24 @@ server <- function(input, output, session) {
 	generateDam <- function(damId, DataMatrix, IndNrmlMatrix, ResultsMatrix, IndScoreSum, WSMScoreSum){
 		#message("generateDam: Output for Dam#: ", damId)
 
-		# preferences
+		# raw values
 		RawTable <- setDT(data.frame(DataMatrix[,,damId]))
 		row.names(RawTable) <- alternative_names
 		colnames(RawTable) <- criteria_inputs
 
 		output[[paste0("Dam", damId, "RawTable")]] = DT::renderDataTable({
 			round(RawTable, 0)
-		})
+		}, options=list(searching=FALSE))
+
+		# download for raw values
+		output[[paste0("DownloadDam", damId, "RawTable")]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+		  },
+		  content = function(file) {
+			write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
+		  }
+		)
 
 		# normals
 		Dam1NormTable <- setDT(data.frame(IndNrmlMatrix[,,damId]))
@@ -1427,7 +1500,17 @@ server <- function(input, output, session) {
 
 		output[[paste0("Dam", damId, "NormTable")]] = DT::renderDataTable({
 			round(Dam1NormTable, 2)
-		})
+		}, options=list(searching=FALSE))
+
+		# download for normals
+		output[[paste0("DownloadDam", damId, "NormTable")]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+		  },
+		  content = function(file) {
+			write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
+		  }
+		)
 
 		# WSM score
 		Dam1ScoreTable <- setDT(data.frame(ResultsMatrix[,,damId]))
@@ -1438,7 +1521,7 @@ server <- function(input, output, session) {
 
 		output[[paste0("Dam", damId, "ScoreTable")]] = DT::renderDataTable({
 			round(ScoreTablePlusSum, 2)
-		})
+		}, options=list(searching=FALSE))
 
 		# WSM Download button
 		output[[paste0("DownloadDam", damId, "ScoreTable")]] <- downloadHandler(
@@ -1447,7 +1530,7 @@ server <- function(input, output, session) {
 				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 			},
 			content = function(file) {
-				write.csv( ScoreTablePlusSum, file, row.names = TRUE, quote=TRUE)
+				write.csv( round(ScoreTablePlusSum, 2), file, row.names = TRUE, quote=TRUE)
 			}
 		)
 
@@ -1458,8 +1541,8 @@ server <- function(input, output, session) {
 			"D 1", # title
 			alternative_names, # x_labels
 			criteria_names, # y_labels
-			"Total MCDA Score", # y axis label
-			"Decision Criteria", # legend label
+			"Total MCDA Score", # x axis label
+			"Decision Criteria", # y label
 			"", # no legend label
 			colors, # colors
 			NULL, # x value limit
