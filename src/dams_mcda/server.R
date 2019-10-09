@@ -2021,11 +2021,13 @@ server <- function(input, output, session) {
 			format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 		},
 		content = function(file) {
+			prefRow <- preference_selection[1,]
+			row.names(prefRow) <- c(dam_names[1])
 			write.csv(
-				preference_selection[1,],
-				file,
-				row.names = TRUE,
-				quote=TRUE
+			  prefRow,
+			  file,
+			  row.names = TRUE,
+			  quote=TRUE
 			)
 		}
 	)
@@ -2037,8 +2039,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Medway_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[2,]
+	  	row.names(prefRow) <- c(dam_names[2])
 	    write.csv(
-	      preference_selection[2,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2051,8 +2055,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "EastMillinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[3,]
+	  	row.names(prefRow) <- c(dam_names[3])
 	    write.csv(
-	      preference_selection[3,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2065,8 +2071,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Dolby_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[4,]
+	  	row.names(prefRow) <- c(dam_names[4])
 	    write.csv(
-	      preference_selection[4,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2079,8 +2087,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "NorthTwin_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[5,]
+	  	row.names(prefRow) <- c(dam_names[5])
 	    write.csv(
-	      preference_selection[5,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2093,8 +2103,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Millinocket_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[6,]
+	  	row.names(prefRow) <- c(dam_names[6])
 	    write.csv(
-	      preference_selection[6,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2107,8 +2119,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "MillinocketLake_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[7,]
+	  	row.names(prefRow) <- c(dam_names[7])
 	    write.csv(
-	      preference_selection[7,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
@@ -2121,8 +2135,10 @@ server <- function(input, output, session) {
 	    format(Sys.time(), "Ripogenus_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 	  },
 	  content = function(file) {
+		prefRow <- preference_selection[8,]
+	  	row.names(prefRow) <- c(dam_names[8])
 	    write.csv(
-	      preference_selection[8,],
+	      prefRow,
 	      file,
 	      row.names = TRUE,
 	      quote=TRUE
