@@ -1490,8 +1490,9 @@ server <- function(input, output, session) {
 			format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.xlsx")
 		  },
 		  content = function(file) {
-			file.copy("DecisionMatrices_All.xlsx", file)
-		  }
+			file.copy("www/DecisionMatrices_All.xlsx", file)
+		  },
+		  contentType="application/xlsx"
 		)
 
 		# normals
