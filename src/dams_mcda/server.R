@@ -1477,11 +1477,22 @@ server <- function(input, output, session) {
 		# download for raw values
 		output[[paste0("DownloadDam", damId, "RawTable")]] <- downloadHandler(
 		  filename = function() {
-			format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+			  format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
 		  },
 		  content = function(file) {
-			write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
+			  write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
 		  }
+		)
+
+		# download for Decision Matrix
+		output[[paste0("DownloadDecisionMatrix", damId)]] <- downloadHandler(
+		  filename = function() {
+			  format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.xlsx")
+		  },
+		  content = function(file) {
+			  file.copy("www/DecisionMatrices_All.xlsx", file)
+		  },
+		  contentType="application/xlsx"
 		)
 
 		# normals
@@ -1496,10 +1507,10 @@ server <- function(input, output, session) {
 		# download for normals
 		output[[paste0("DownloadDam", damId, "NormTable")]] <- downloadHandler(
 		  filename = function() {
-			format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+			  format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
 		  },
 		  content = function(file) {
-			write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
+			  write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
 		  }
 		)
 
@@ -1518,7 +1529,7 @@ server <- function(input, output, session) {
 		output[[paste0("DownloadDam", damId, "ScoreTable")]] <- downloadHandler(
 			filename = function() {
 				# format date & time in filename, format( year, month, day, hour, minute, second, UTC offset )
-				format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+				format(Sys.time(), paste0(dam_names[damId], "_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv"))
 			},
 			content = function(file) {
 				write.csv( round(ScoreTablePlusSum, 2), file, row.names = TRUE, quote=TRUE)
@@ -1544,7 +1555,7 @@ server <- function(input, output, session) {
 		# download button for d1 plot as png
 		output[[paste0("DownloadDam", damId, "Plota")]] <- downloadHandler(
 			filename = function() {
-				format(Sys.time(), "WestEnfield_plota_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				format(Sys.time(), paste0(dam_names[damId], "_plota_results_%Y-%m-%d_%H-%M-%S_%z.png"))
 			},
 			content = function(file) {
 				ggsave(file, plot=plotA, device = "png", width=18, height=14)
@@ -1568,7 +1579,7 @@ server <- function(input, output, session) {
 		# download button for d2 plot as png
 		output[[paste0("DownloadDam", damId, "Plotb")]] <- downloadHandler(
 			filename = function() {
-				format(Sys.time(), "WestEnfield_plotb_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				format(Sys.time(), paste0(dam_names[damId], "_plotb_results_%Y-%m-%d_%H-%M-%S_%z.png"))
 			},
 			content = function(file) {
 				ggsave(file, plot=plotB, device = "png", width=18, height=14)
@@ -1592,7 +1603,7 @@ server <- function(input, output, session) {
 		# download button for d2 plot as png
 		output[[paste0("DownloadDam", damId, "Plotc")]] <- downloadHandler(
 			filename = function() {
-				format(Sys.time(), "WestEnfield_plotc_results_%Y-%m-%d_%H-%M-%S_%z.png")
+				format(Sys.time(), paste0(dam_names[damId], "_plotc_results_%Y-%m-%d_%H-%M-%S_%z.png"))
 			},
 			content = function(file) {
 				ggsave(file, plot=plotC, device = "png", width=18, height=14)
@@ -2092,7 +2103,7 @@ server <- function(input, output, session) {
 		filename = function() {
 			# format date & time in filename
 			# date format( year, month, day, hour, minute, second, UTC offset )
-			format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
+			format(Sys.time(), paste0(dam_names[damId], "_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv"))
 		},
 		content = function(file) {
 			prefRow <- preference_selection[1,]
