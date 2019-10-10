@@ -1483,11 +1483,17 @@ server <- function(input, output, session) {
 			write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
 		  }
 		)
-		
+
 		# download for Decision Matrix
-		output[[paste0("DownloadDecisionMatrix", damId, "Download Dam Data")]] <- downloadHandler(
-		  filename = "DecisionMatrices_All.csv"	)
-		
+		output[[paste0("DownloadDecisionMatrix", damId)]] <- downloadHandler(
+		  filename = function() {
+			format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.csv")
+		  },
+		  content = function(file) {
+			write.csv( Decisions, file, row.names = TRUE, quote=TRUE)
+		  }
+		)
+
 		# normals
 		Dam1NormTable <- setDT(data.frame(IndNrmlMatrix[,,damId]))
 		row.names(Dam1NormTable) <- alternative_names
