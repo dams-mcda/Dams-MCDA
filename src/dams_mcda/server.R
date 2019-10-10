@@ -1487,10 +1487,10 @@ server <- function(input, output, session) {
 		# download for Decision Matrix
 		output[[paste0("DownloadDecisionMatrix", damId)]] <- downloadHandler(
 		  filename = function() {
-			format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.xlsx")
+			  format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.xlsx")
 		  },
 		  content = function(file) {
-			file.copy("www/DecisionMatrices_All.xlsx", file)
+			  file.copy("www/DecisionMatrices_All.xlsx", file)
 		  },
 		  contentType="application/xlsx"
 		)
