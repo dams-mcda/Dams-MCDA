@@ -960,7 +960,7 @@ ui <- shinyUI(fluidPage(
 		# --------------------------------------------------------------------------------
 		# Combined Results Tab
 		# --------------------------------------------------------------------------------
-		HTML("<li> Step 5: Multi-Dam Results </li>"),
+		HTML("<li> Step 4: Multi-Dam Results </li>"),
 
 		tabPanel("Combined Results",
 		  h2('Multi-Dam Results'),
@@ -973,7 +973,7 @@ ui <- shinyUI(fluidPage(
 			  HTML(
 				   "<br>Based on the preference values you entered for each dam in Step 3 and the data we collected/generated previously about what will happen to each decision criterion if each of the five decision alternatives is adopted, we \
 				   have aggregated the top decision alternatives for the entire set of dams. In the figures below, you can compare the numeric score for each dam across decision \
-				   criterion and decision alternatives. Step 5 (individual dams) results provide more detail about each individual dam. \
+				   criteria and decision alternatives. Step 5 (individual dams) results provide more detail about each individual dam. \
 				   The outcome presented here is a recommendation designed to support the consideration of multiple dams, but the aggregated result shown here may not be optimal for coordinated, multi-dam decision making as described in Roy et al. (2018).\
            This result is intended to support brainstorming about what single-dam decision making means for the river. This recommendation is not representative of any federal agency prescription or license ruling from FERC.<br>\
 				   <br><br><b>Questions for consideration:</b> Do these results match your expectations? If not, why? If you feel discomfort at the result, you can return to the dam tabs and re-evaluate your decision criteria ratings. Remember to press \"Update\" under each tab. Then, return to this page and click GENERATE\
@@ -1087,6 +1087,8 @@ ui <- shinyUI(fluidPage(
 				h3("Table 2. Data Values for West Enfield Dam"),
 				DT::dataTableOutput("Dam1RawTable"),
 		        downloadButton("DownloadDam1RawTable", "Download Table", style="width:100%;"),
+				    downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+				
 				HTML(
 				  "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 				  remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1181,6 +1183,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Medway Dam"),
 		             DT::dataTableOutput("Dam2RawTable"),
 		             downloadButton("DownloadDam2RawTable", "Download Table", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
     				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1235,6 +1239,7 @@ ui <- shinyUI(fluidPage(
 		             h3('Figure 2. Contribution of Decision Criteria to Final MCDA Score for Dam Decision Alternatives'),
 		             plotOutput("WSMPlot3a", height=600, width="100%"),
 		             downloadButton("DownloadDam3Plota", "Download Graph", style="width:100%;"),
+		             
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 2: This graph displays a zoomed-in version of Figure 1, with the final MCDA score bars for each decision alternative divided up by the contribution \
 		               of each decision criterion to the final MCDA score. Similar to Figure 1, this graph includes your preference information and the researcher-defined data for each decision criterion. Use this graph to \
@@ -1273,6 +1278,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for East Millinocket Dam"),
 		             DT::dataTableOutput("Dam3RawTable"),
 		             downloadButton("DownloadDam3RawTable", "Download Table", style="width:100%;"),
+				         downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1364,6 +1371,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Dolby Dam"),
 		             DT::dataTableOutput("Dam4RawTable"),
 		             downloadButton("DownloadDam4RawTable", "Download Table", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1454,6 +1463,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for North Twin Dam"),
 		             DT::dataTableOutput("Dam5RawTable"),
 		             downloadButton("DownloadDam5RawTable", "Download Table", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1545,6 +1556,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6RawTable"),
 		             downloadButton("DownloadDam6RawTable", "Download Table", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 				      remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1636,6 +1649,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Millinocket Lake Dam"),
 		             DT::dataTableOutput("Dam7RawTable"),
 		             downloadButton("DownloadDam7RawTable", "Download Table", style="width:100%;"),
+				         downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
@@ -1727,6 +1742,8 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Ripogenus Dam"),
 		             DT::dataTableOutput("Dam8RawTable"),
 		             downloadButton("DownloadDam8RawTable", "Download Table", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
 		               remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
