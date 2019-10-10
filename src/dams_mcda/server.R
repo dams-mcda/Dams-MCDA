@@ -1485,7 +1485,7 @@ server <- function(input, output, session) {
 		)
 		
 		# download for Decision Matrix
-		output[[paste0("DownloadDecisionMatrix", damId, "Download Dam Data")]] <- downloadHandler(
+		output[[paste0("DownloadDecisionMatrix", damId)]] <- downloadHandler(
 		  filename = "DecisionMatrices_All.csv"	)
 		
 		# normals
