@@ -1087,7 +1087,7 @@ ui <- shinyUI(fluidPage(
 				h3("Table 2. Data Values for West Enfield Dam"),
 				DT::dataTableOutput("Dam1RawTable"),
 		        downloadButton("DownloadDam1RawTable", "Download Table", style="width:100%;"),
-				    downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+				    downloadButton("DownloadDecisionMatrix1", "Download Dam Data", style="width:100%;"),
 				
 				HTML(
 				  "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1183,7 +1183,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Medway Dam"),
 		             DT::dataTableOutput("Dam2RawTable"),
 		             downloadButton("DownloadDam2RawTable", "Download Table", style="width:100%;"),
-					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix2", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1278,7 +1278,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for East Millinocket Dam"),
 		             DT::dataTableOutput("Dam3RawTable"),
 		             downloadButton("DownloadDam3RawTable", "Download Table", style="width:100%;"),
-				         downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+				         downloadButton("DownloadDecisionMatrix3", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1371,7 +1371,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Dolby Dam"),
 		             DT::dataTableOutput("Dam4RawTable"),
 		             downloadButton("DownloadDam4RawTable", "Download Table", style="width:100%;"),
-					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix4", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1463,7 +1463,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for North Twin Dam"),
 		             DT::dataTableOutput("Dam5RawTable"),
 		             downloadButton("DownloadDam5RawTable", "Download Table", style="width:100%;"),
-					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix5", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1556,7 +1556,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Millinocket/Quakish Dam"),
 		             DT::dataTableOutput("Dam6RawTable"),
 		             downloadButton("DownloadDam6RawTable", "Download Table", style="width:100%;"),
-					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix6", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1649,7 +1649,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Millinocket Lake Dam"),
 		             DT::dataTableOutput("Dam7RawTable"),
 		             downloadButton("DownloadDam7RawTable", "Download Table", style="width:100%;"),
-				         downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+				         downloadButton("DownloadDecisionMatrix7", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
@@ -1742,7 +1742,7 @@ ui <- shinyUI(fluidPage(
 		             h3("Table 2. Data Values for Ripogenus Dam"),
 		             DT::dataTableOutput("Dam8RawTable"),
 		             downloadButton("DownloadDam8RawTable", "Download Table", style="width:100%;"),
-					       downloadButton("DownloadDecisionMatrix", "Download Dam Data", style="width:100%;"),
+					       downloadButton("DownloadDecisionMatrix8", "Download Dam Data", style="width:100%;"),
 					
 		             HTML(
 		               "<br><b>Results Interpretation</b> for Table 2. This table displays the raw data values we collected and/or calculated/generated through our research for each decision criterion and alternative. You may \
