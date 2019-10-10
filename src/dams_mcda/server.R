@@ -1477,20 +1477,20 @@ server <- function(input, output, session) {
 		# download for raw values
 		output[[paste0("DownloadDam", damId, "RawTable")]] <- downloadHandler(
 		  filename = function() {
-			format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+			  format(Sys.time(), paste0(dam_names[damId], "_raw_data_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
 		  },
 		  content = function(file) {
-			write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
+			  write.csv( round(RawTable, 0), file, row.names = TRUE, quote=TRUE)
 		  }
 		)
 
 		# download for Decision Matrix
 		output[[paste0("DownloadDecisionMatrix", damId)]] <- downloadHandler(
 		  filename = function() {
-			format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.csv")
+			  format(Sys.time(), "DecisionMatrices_All_%Y-%m-%d_%H-%M-%S_%z.csv")
 		  },
 		  content = function(file) {
-			write.csv( Decisions, file, row.names = TRUE, quote=TRUE)
+			  write.csv( Decisions, file, row.names = TRUE, quote=TRUE)
 		  }
 		)
 
@@ -1506,10 +1506,10 @@ server <- function(input, output, session) {
 		# download for normals
 		output[[paste0("DownloadDam", damId, "NormTable")]] <- downloadHandler(
 		  filename = function() {
-			format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
+			  format(Sys.time(), paste0(dam_names[damId], "_normalized_values_%Y-%m-%d_%H-%M-%S_%z.csv"))
 		  },
 		  content = function(file) {
-			write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
+			  write.csv( round(Dam1NormTable, 2), file, row.names = TRUE, quote=TRUE)
 		  }
 		)
 
