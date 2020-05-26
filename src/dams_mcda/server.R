@@ -53,10 +53,8 @@ criteria_inputs <- c(
 	"AvoidEmissions",
 	"IndigenousLifeways",
 	"IndustrialHistory",
-	"CommunityIdentity",
-	"Aesthetics",
-	"Health",
-	"Justice"
+	"TownCityIdentity",
+	"Aesthetics"
 )
 
 # criteria display names (for labeling tables and graphs)
@@ -71,10 +69,8 @@ criteria_names <- c(
 	"CO2 Emissions Reduction",
 	"Indigenous Cultural Traditions and Lifeways",
 	"Industrial Historical Value",
-	"Community Identity",
-	"Aesthetic Value",
-	"Public Health",
-	"Socio-Environmental Justice"
+	"Town/City Identity",
+	"Aesthetic Value"
 )
 
 # alternative display names (for labeling tables and graphs)
@@ -308,7 +304,7 @@ server <- function(input, output, session) {
 	# Preference Storage Container
 	# needed because updates to inputs only happen when inputs are visible
 	# when user clicks updat on each "Enter Preferences" tab this matrix is updated
-	# size is 8x14
+	# size is 8x12
 	#------------------------------------------------------------
 	#message("session$userData$selectedPreferences init")
 	session$userData$selectedPreferences <- array(data=0, dim=c(length(criteria_inputs), length(dam_names)))
@@ -555,8 +551,7 @@ server <- function(input, output, session) {
 				"FishHabitat", "RiverRec", "Reservoir",
 				"ProjectCost", "BreachDamage", "NumProperties",
 				"ElectricityGeneration", "AvoidEmissions", "IndigenousLifeways",
-				"IndustrialHistory", "CommunityIdentity", "Aesthetics",
-				"Health", "Justice"
+				"IndustrialHistory", "TownCityIdentity", "Aesthetics"
 			)
 
 			scores_valid <- TRUE # valid unless proven otherwise
@@ -771,10 +766,8 @@ server <- function(input, output, session) {
 			input[[paste0("AvoidEmissions", damIndex)]],
 			input[[paste0("IndigenousLifeways", damIndex)]],
 			input[[paste0("IndustrialHistory", damIndex)]],
-			input[[paste0("CommunityIdentity", damIndex)]],
-			input[[paste0("Aesthetics", damIndex)]],
-			input[[paste0("Health", damIndex)]],
-			input[[paste0("Justice", damIndex)]]
+			input[[paste0("TownCityIdentity", damIndex)]],
+			input[[paste0("Aesthetics", damIndex)]]
 		)
 		message("get dam ", damIndex, " preferences ", damPrefs)
 		return(damPrefs)
@@ -1163,7 +1156,7 @@ server <- function(input, output, session) {
 			WSMResults <- WSM(RawCriteriaMatrix, DamsData)
 			#results <- list(Ind_WeightedScoreMatrix, Ind_scoresum, AllDataMatrix, Ind_NormalizedMatrix)
 
-			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,14,8))
+			WSMMatrix <- array(unlist(WSMResults[1]), dim=c(5,12,8))
 			WSMMatrix <- round(WSMMatrix, 3)
 			rownames(WSMMatrix) <- alternative_names
 			colnames(WSMMatrix) <- criteria_names
@@ -1174,18 +1167,18 @@ server <- function(input, output, session) {
 			WSMIndScoreSum <- array(unlist(WSMResults[2]), dim=c(8,5))
 			WSMIndScoreSum <- round(WSMIndScoreSum, 3)
 
-			all_data_matrix <- array(unlist(WSMResults[3]), dim=c(5,14,8))
+			all_data_matrix <- array(unlist(WSMResults[3]), dim=c(5,12,8))
 			all_data_matrix <- round(all_data_matrix, 3)
 			rownames(all_data_matrix) <- alternative_names
 			colnames(all_data_matrix) <- criteria_names
 
-			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,12,8))
 			ind_normalized_matrix <- round(ind_normalized_matrix, 3)
 			rownames(ind_normalized_matrix) <- alternative_names
 			colnames(ind_normalized_matrix) <- criteria_names
 			#shinyjs::html("MapRecommendation", paste0("<img src='", map_name, "'>"))
 
-			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,14,8))
+			ind_normalized_matrix <- array(unlist(WSMResults[4]), dim=c(5,12,8))
 
 			#----------------------------------------
 			# Individual Dam Final Outputs
@@ -1290,7 +1283,7 @@ server <- function(input, output, session) {
 					for (altId in 1:length(possible_alts)){
 						#message("alt: ", altId, " name: ", alternative_names[altId])
 
-						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(14))
+						dam_WSMMatrix <- array(WSMMatrix[altId,,damId], dim=c(12))
 						max_crit <- which.max(dam_WSMMatrix)
 
 						# dam (West enfield, Medway, East Millinocket) crit (Reservior Storage)
@@ -1382,7 +1375,7 @@ server <- function(input, output, session) {
 				}
 
 				# grab row for chosen alt
-				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(14))
+				dam_WSMMatrix <- array(WSMMatrix[dam_top_alt_index[damId],,damId], dim=c(12))
 
 				for (critIndex in 1:length(dam_WSMMatrix)){
 					dam_top_alt_matrix[damId, critIndex] <- dam_WSMMatrix[critIndex]

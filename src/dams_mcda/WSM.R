@@ -33,10 +33,8 @@ criteria_inputs <- c(
 	 "AvoidEmissions",
 	 "IndigenousLifeways",
 	 "IndustrialHistory",
-	 "CommunityIdentity",
-	 "Aesthetics",
-	 "Health",
-	 "Justice"
+	 "TownCityIdentity",
+	 "Aesthetics"
 )
 
 # list of dams
@@ -45,12 +43,12 @@ available_dams <- seq(1:8)
 available_alternatives <- seq(1:5)
 
 # matrix setup
-matrix_cols <- length(criteria_inputs) # 14 default - criteria
+matrix_cols <- length(criteria_inputs) # 12 default - criteria
 matrix_rows <- length(available_dams) # 8 default - dams
 matrix_levs_ind <- length(available_alternatives) # 5 default - alternatives
 
 
-WSM <- function(RawCriteriaMatrix, DamsData){
+WSM <- function(RawCriteriaMatrix, DamsData_updated){
 	message("Decision Criteria ", matrix_cols, " Dams ", matrix_rows, " Decision Alternatives ", matrix_levs_ind)
 	#----------------------------------------
 	# SINGLE DAM PROCEDURE FOR PREFERENCES
@@ -60,7 +58,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#----------------------------------------
 	#Ind_* prefix indicates that we are dealing with individual or single dams, where the 5 decision alternatives are taken into account
 	#locally and not as a part of the larger set of 8 dams.
-	Ind_PrefMatrix <- array(data = NA, dim=c(8,14)) #This is a 2D blank matrix
+	Ind_PrefMatrix <- array(data = NA, dim=c(8,12)) #This is a 2D blank matrix
 
 	# weights in matrix
 	for (n in 1:matrix_rows){
@@ -110,27 +108,27 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#----------------------------------------
 
 	#retrieve DamsData to manipulate into DamsDataMatrix
-	Ind_DamsDataMatrix <- array(data=NA, dim = c(8, 14, 5)) #creates empty 3d array in shape we want
+	Ind_DamsDataMatrix <- array(data=NA, dim = c(8, 12, 5)) #creates empty 3d array in shape we want
 
 	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem,
 	                DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,
-	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$Community_Remove, DamsData$Aesthetics_Remove,
+	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$TownCity_Remove, DamsData$Aesthetics_Remove,
 	                DamsData$Health_Remove, DamsData$Justice_Remove)
 	Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage,
 						  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
-						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$Community_ImproveFish, DamsData$Aesthetics_ImproveFish,
+						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$TownCity_ImproveFish, DamsData$Aesthetics_ImproveFish,
 						  DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
 	Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage,
 	                       DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
-	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$Community_ImproveHydro, DamsData$Aesthetics_ImproveHydro,
+	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$TownCity_ImproveHydro, DamsData$Aesthetics_ImproveHydro,
 	                       DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
 	FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage,
 						  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
-						  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$Community_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
+						  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$TownCity_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
 						  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
 	KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage,
 	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
-	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$Community_KeepMaintain, DamsData$Aesthetics_KeepMaintain,
+	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$TownCity_KeepMaintain, DamsData$Aesthetics_KeepMaintain,
 	                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
 
 	#This abind creates our 3D matrix
@@ -154,7 +152,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	Rip_DataMatrix <- subset(Ind_DamsDataMatrix[8,,])
 	Rip_DataMatrix <- data.frame(t(Rip_DataMatrix))
 
-	AllDataMatrix <- array(data=NA, dim=c(5,14,8))
+	AllDataMatrix <- array(data=NA, dim=c(5,12,8))
 	AllDataMatrix <- provideDimnames(AllDataMatrix, sep="_", base=list("alternative", "criterion", "dam"))
 
 	AllDataMatrix[,,1] <- simplify2array(WestEnf_DataMatrix)
@@ -261,7 +259,7 @@ WSM <- function(RawCriteriaMatrix, DamsData){
 	#Ind_WeightedScoreMatrix <- as.data.frame(rbind(Dam1Results, Dam2Results, Dam3Results, Dam4Results, Dam5Results, Dam6Results, Dam7Results, Dam8Results))
 	#colnames(Ind_WeightedScoreMatrix) <- criteria_inputs
 	# new method
-	Ind_WeightedScoreMatrix <- array(data=NA, dim=c(5,14,8))
+	Ind_WeightedScoreMatrix <- array(data=NA, dim=c(5,12,8))
 	Ind_WeightedScoreMatrix[,,1] <- simplify2array(Dam1Results)
 	Ind_WeightedScoreMatrix[,,2] <- simplify2array(Dam2Results)
 	Ind_WeightedScoreMatrix[,,3] <- simplify2array(Dam3Results)

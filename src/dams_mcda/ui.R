@@ -30,29 +30,25 @@ or decrease with a dam decision alternative, represents functional area for whit
 resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\ 
 on its volume (Roy et al., 2018)."
 annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
-and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
+and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year financial lifetime."
 breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the \
 potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
 numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes \
 in viewshed or property value (Roy et al., 2018). "
-annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate \
-capacity from FERC licenses for each hydropower project."
+annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the 4-year average estimate based on licensee-reported \
+site-specific electricity generation values reported to FERC annually. Estimates for Penobscot Mills project developments are based on site-specific\
+average annual electricity generation values reported in the FERC license for the project)."
 GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an  \
 estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production (reservoir or diversion-design \
 dams); based on decreasing generation from the State's electricity generation mix; includes life cycle emissions impacts."
 indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving\
-or restoring the cultural traditions and lifeways of indigenous people."
-communityIdentityLabel <- "Community identity is a unitless rating to convey the importance of preserving the existing identity of \
-the community residents living along or on islands within the river."
+or restoring the culture and practices of indigenous people."
+townCityIdentityLabel <- "Town/city identity is a unitless rating to convey the importance of preserving the existing identity of \
+the existing town/city identity for residents living along the river."
 industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
 the industrial history of the site. "
 aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
-scenic value, smell, sound)."
-healthLabel <- "Public health is a unitless rating to convey the importance of public health connected to air, water, and land\
-pollution."
-justiceLabel <- "Socio-environmental justice is a unitless rating to convey the importance of socio-environmental justice issues\
-(e.g. negative environmental effects that target disadvantaged groups - people of lower socio-economic status or with less political \
-or economic power)."
+scenic value, smell, sound) at a dam site."
 
 
 
@@ -236,26 +232,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-1",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity1", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#townCityIdentity
+			div(id="townCity-1",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity1", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-1",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-1",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health1", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-1",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice1", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			# update alt 1 score
 			htmlOutput("UpdateDam1Progress"),
@@ -335,26 +322,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-2",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity2", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-2",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity2", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-2",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-2",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health2", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-2",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam2Progress"),
 			actionButton("updateBtn2", "Update")
@@ -434,26 +412,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-3",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity3", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-3",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity3", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-3",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-3",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health3", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-3",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam3Progress"),
 			actionButton("updateBtn3", "Update")
@@ -534,26 +503,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-4",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity4", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-4",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity4", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-4",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-4",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health4", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-4",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam4Progress"),
 			actionButton("updateBtn4", "Update")
@@ -633,26 +593,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-5",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity5", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-5",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity5", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-5",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-5",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health5", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-5",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam5Progress"),
 			actionButton("updateBtn5", "Update")
@@ -732,26 +683,17 @@ ui <- shinyUI(fluidPage(
 		      h3("Industrial Historical Importance"),
 		      sliderInput(inputId = "IndustrialHistory6", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
-		  #CommunityIdentity
-		  div(id="community-6",
-		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity6", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+		  #TownCityIdentity
+		  div(id="townCity-6",
+		      h3("Town/City Identity"),
+		      sliderInput(inputId = "TownCityIdentity6", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-6",
 		      h3("Aesthetic Value"),
 		      sliderInput(inputId = "Aesthetics6", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 		  ),
-		  #PublicHealth
-		  div(id="health-6",
-		      h3("Public Health"),
-		      sliderInput(inputId = "Health6", label = healthLabel, value=0, min=0, max=100, step = 5)
-		  ),
-		  #Justice
-		  div(id="justice-6",
-		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=100, step = 5)
-		  ),
+
 
 		  htmlOutput("UpdateDam6Progress"),
 		  actionButton("updateBtn6", "Update")
@@ -831,25 +773,15 @@ ui <- shinyUI(fluidPage(
 		      h3("Industrial Historical Importance"),
 		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
-		  #CommunityIdentity
-		  div(id="community-7",
-		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+		  #TownCityIdentity
+		  div(id="townCity-7",
+		      h3("Town/City Identity"),
+		      sliderInput(inputId = "TownCityIdentity7", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-7",
 		      h3("Aesthetic Value"),
 		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
-		  ),
-		  #PublicHealth
-		  div(id="health-7",
-		      h3("Public Health"),
-		      sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=100, step = 5)
-		  ),
-		  #Justice
-		  div(id="justice-7",
-		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
 
@@ -931,26 +863,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-8",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-8",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity8", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-8",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-8",
-				h3("Public Health"),
-				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-8",
-				h3("Socio-Environmental Justice"),
-				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam8Progress"),
 			actionButton("updateBtn8", "Update")
