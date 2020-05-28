@@ -337,6 +337,7 @@ server <- function(input, output, session) {
 	#------------------------------------------------------------
 	session_mode <<- "individual" # default mode of session
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
+	load_scores_modal_visible <<- FALSE # second modal > user picks either upload file, load saved scores (if avail), or skip
 	upload_modal_visible <<- FALSE # file upload modal
 
 
@@ -347,10 +348,22 @@ server <- function(input, output, session) {
 		easyClose=FALSE, # False to disable closing by clicking outside of modal
 		div(
 			HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
-
 			actionButton("selectIndividualSessionMode", "Individual Preferences"),
-			actionButton("selectGroupSessionMode", "Group Preferences"),
-			actionButton("uploadBtn", "UPLOAD DATA"),
+			actionButton("selectGroupSessionMode", "Group Preferences")
+		)
+	)
+
+	# content for load scores modal
+	load_scores_modal <- modalDialog(
+		title = "Load Scores or Create New",
+		footer=NULL, # NULL to disable dismiss button
+		easyClose=FALSE, # False to disable closing by clicking outside of modal
+		div(
+			HTML( "<h4>Are you loading scores from a previous session or creating a new run?</h4>"),
+
+			actionButton("uploadBtn", "Upload Scores From File"),
+			actionButton("loadScoresBtn", "Load Saved Session"),
+			actionButton("startNewBtn", "New Run"),
 
 			HTML(
 				"<h4>Instructions for Uploading</h4>\
@@ -399,44 +412,48 @@ server <- function(input, output, session) {
 		session$sendCustomMessage("checkUserHasGroup", "")
 	}
 
-  
-  # ----------------------------------------
+
+	# ----------------------------------------
 	# setSessionMode
 	# sets application mode (individual/group)
 	# ----------------------------------------
 	setSessionMode <- function(newMode){
 		session_mode <- newMode
-
 		if (newMode == "group"){
-			# check if user already picked a group
-			checkUserHasGroup()
-			session$sendCustomMessage("setAppMode", newMode)
-			removeModal()
-		}else if (intro_modal_visible){
-			removeModal()
-			intro_modal_visible <<- FALSE
+			checkUserHasGroup() # check if user already picked a group
 		}
-		shinyjs::show(id="nav-buttons")
-		session$sendCustomMessage("loadScores", session_mode)
+		session$sendCustomMessage("setAppMode", newMode)
+		removeModal()
+		intro_modal_visible <<- FALSE
+
+		# next up is picking how to load scores
+		showModal(load_scores_modal)
+		load_scores_modal_visible <<- TRUE
 	}
-  
-  
-  # ----------------------------------------
-	# pickUploadFile
-	# shows the upload file modal
+
+
 	# ----------------------------------------
-	pickUploadFile <- function(){
-		# hide other modal
-		if (intro_modal_visible){
-			removeModal()
-			intro_modal_visible <<- FALSE
+	# setLoadScoreMode
+	# sets the method of loading scores or starting a new run
+	# ----------------------------------------
+	setLoadScoreMode <- function(loadScoreMode){
+		# done with load score selection
+		removeModal()
+		load_scores_modal_visible <<- FALSE
+
+		if (loadScoreMode == "load"){
+			session$sendCustomMessage("loadScores", session_mode) # load from django/db
+			shinyjs::show(id="nav-buttons")
+
+		}else if (loadScoreMode == "new"){
+			# nothing to load
+			shinyjs::show(id="nav-buttons")
+
+		}else if (loadScoreMode == "upload"){
+			upload_modal_visible <<- TRUE # mark as visible
+			showModal(upload_modal) # upload file modal
+
 		}
-
-		# mark as visible
-		upload_modal_visible <<- TRUE
-
-		# upload file modal
-		showModal(upload_modal)
 	}
 
 
@@ -471,32 +488,10 @@ server <- function(input, output, session) {
 		}
 
 		# mark as visible
-		intro_modal_visible <<- TRUE
+		load_scores_modal_visible <<- TRUE
 
 		# intro modal
-		showModal(
-			modalDialog(
-				title = "Group or Individual",
-				footer=NULL, # NULL to disable dismiss button
-				easyClose=FALSE, # False to disable closing by clicking outside of modal
-				div(
-					HTML( "<h4>Are you entering <b>(a) individual</b> or <b>(b) group</b> preference information?</h4>"),
-
-					actionButton("selectIndividualSessionMode", "Individual Preferences"),
-					actionButton("selectGroupSessionMode", "Group Preferences"),
-					actionButton("uploadBtn", "UPLOAD DATA"),
-
-					HTML(
-						"<h4>Instructions for Uploading</h4>\
-						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
-						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
-						average preference values for the group. <br>"
-					)
-				)
-			)
-		)
+		showModal(load_scores_modal)
 
 	}
 
@@ -620,12 +615,19 @@ server <- function(input, output, session) {
 		}
 	}
 
-	# select mode / file upload event listeners
+	# select app mode listeners
 	observeEvent(input$selectGroupSessionMode, { setSessionMode("group") })
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
-	observeEvent(input$uploadBtn, { pickUploadFile() })
+
+	# load scores mode listeners
+	observeEvent(input$loadScoresBtn, { setLoadScoreMode("load") }) # load from django/db
+	observeEvent(input$startNewBtn, { setLoadScoreMode("new") }) # no load
+	observeEvent(input$uploadBtn, { setLoadScoreMode("upload") }) # proceeds to file upload modal
+
+	# file upload event listeners
 	observeEvent(input$confirmUploadBtn, { uploadFile() })
 	observeEvent(input$cancelUploadBtn, { cancelUploadFile() })
+
 	# important: for loading scores from js > input sliders
 	observeEvent(input$session_input_update, {
 		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
