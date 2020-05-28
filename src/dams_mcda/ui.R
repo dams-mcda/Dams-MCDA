@@ -1029,7 +1029,13 @@ ui <- shinyUI(fluidPage(
 					using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 					in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 					damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-					data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+					data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+					 <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		       range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		       and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		       (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		       consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		       (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 				),
 
 				#weighted score data table/Matrix
@@ -1126,7 +1132,13 @@ ui <- shinyUI(fluidPage(
 				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+				      <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		          range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		          and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		          (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		          consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		          (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1221,7 +1233,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		                <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1314,7 +1332,13 @@ ui <- shinyUI(fluidPage(
 				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+				      <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		          range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		          and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		          (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		          consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		          (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 		             
 		             #weighted score data table/Matrix
@@ -1406,7 +1430,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		               <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 		             
 		             #weighted score data table/Matrix
@@ -1499,7 +1529,13 @@ ui <- shinyUI(fluidPage(
 				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+				      <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		          range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		          and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		          (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		          consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		          (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1592,7 +1628,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		               <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1685,7 +1727,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		               <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1703,10 +1751,23 @@ ui <- shinyUI(fluidPage(
 		# Developer and aknowledgements secion
 		HTML("<li class='step-label'>About</li>"),
 
+		tabPanel("Limitations",
+		   h2("Limitations"),
+		   HTML(
+		    "This Dam Decision Support Tool is not in any way associated with FERC requirements for the relicensing process. While the Tool can be used to understand the impact of preferences on decision making, it reflects only the user's preference-driven outcomes. Other people will have different preferences, which may result \
+		    in different outcomes. Using the Tool to simulate others' preferences is one way of exploring the impact that different preferences have on the outcome.<br> \
+				<br>Note: all the decision criteria mentioned herein are defined specifically in relation to hydropower dams. This list is non-exhaustive; it does not include all decision criteria that may be important to all people. The criteria identified in this list are representative of current issues important to dam decision making \
+				as expressed by stakeholders in interview.  A more extensive discussion of decision criteria-specific limitations and ideas for future studies is included in the list of decision criteria. <br>\
+				<br>Existing state and federal laws also limit the usefulness of these results/outcomes. For example: (1) Penobscot Nation subsistence fishing law, (2) Endangered Species Act (often used as a regulatory 'hammer' in dam decisions by enforcing federal agencies), (3) Clean Water Act (401 water quality certification), \
+		    (4) Federal Power Act, (5) municipal ordinances (a town can explicitly specify that no new dams may be constructed or that no hydropower operations may be installed within town boundaries) all have direct legal bearing on the outcome of a FERC relicensing process. If brought to bear in the decision-making process, such \
+		    laws and regulations may exclude decision alternatives from the 'problem set' altogether. Future work could involve possible regulatory 'scenarios' under which particular 'problem sets' of decision alternatives are relevant.<br>"
+		         )
+		),
+		
 		tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
-				"<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
+				"<b>Dr. Emma Fox </b>- Lead Developer (Graduate Research Assistant, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
 				Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
 				<br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
 				definitions, revised app text.<br> \
