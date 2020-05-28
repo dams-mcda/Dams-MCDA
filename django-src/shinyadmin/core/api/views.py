@@ -31,7 +31,7 @@ class RunPreferenceViewSet(viewsets.ModelViewSet):
         if (_user and _group):
             query = query.filter(user=_user, group=_group)
         elif (_user):
-            query = query.filter(user=_user)
+            query = query.filter(user=_user, group__isnull=True)
         elif (_group):
             query = query.filter(group=_group)
 

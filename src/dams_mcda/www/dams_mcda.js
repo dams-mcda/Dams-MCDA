@@ -107,21 +107,34 @@ function userHasGroup(message){
  *
  */
 function saveRawJsonScores(message){
-	//console.log("saveRawJsonScores: ", message);
+	console.log("saveRawJsonScores: ", message);
 
-	// get params
-	// check if already saved preferences (see note above)
-	let getParams = {
-		'user': cachedContext["userId"],
-		'group': cachedContext["groupId"],
-	}
-
+	// get params: check if already saved preferences (see note above)
+	let getParams;
 	// params for update/create
-	let params = {
-		'session-id': cachedContext["session"],
-		'user': cachedContext["userId"],
-		'group': cachedContext["groupId"],
-		'scores': message
+	let params;
+
+	if (cachedContext["appMode"] == "group"){
+		getParams = {
+			'user': cachedContext["userId"],
+			'group': cachedContext["groupId"],
+		}
+		params = {
+			'session-id': cachedContext["session"],
+			'user': cachedContext["userId"],
+			'group': cachedContext["groupId"],
+			'scores': message
+		}
+	}else{
+		getParams = {
+			'user': cachedContext["userId"],
+		}
+		params = {
+			'session-id': cachedContext["session"],
+			'user': cachedContext["userId"],
+			'group':'',
+			'scores': message
+		}
 	}
 
 	// check if save for this user/group exists
@@ -199,6 +212,7 @@ function bindCritNames(message){
  *
  */
 function loadScores(input_mode){
+	console.log("loadScores", input_mode);
 	let group_mode = (cachedContext["appMode"] == "group");
 
 	let params;
@@ -209,7 +223,6 @@ function loadScores(input_mode){
 	}else{
 		params = {
 			'user': cachedContext["userId"],
-			'group': cachedContext["groupId"]
 		}
 	}
 
@@ -223,6 +236,9 @@ function loadScores(input_mode){
 	}).done(function(data){
 		if (group_mode){
 			//console.log("loadScores group results: ", data);
+			if (data.length == 0){
+				console.log("first time running as group")
+			}
 
 			// return average of each result
 			let num_records = data.length;
@@ -251,7 +267,10 @@ function loadScores(input_mode){
 			// combine results
 			return data;
 		}else{
-			//console.log("loadScores indiv results: ", data);
+			console.log("loadScores indiv results: ", data);
+			if (data.length == 0){
+				console.log("first time running as indiv")
+			}
 			// return first result
 			let scores = data[0]["scores"]
 			for (let damId in damNames){
