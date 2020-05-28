@@ -30,29 +30,25 @@ or decrease with a dam decision alternative, represents functional area for whit
 resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\ 
 on its volume (Roy et al., 2018)."
 annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
-and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year lifetime."
+and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year financial lifetime."
 breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the \
 potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
 numPropertiesLabel <- "Number of properties is the estimated number of properties impacted near the dam, based on potential changes \
 in viewshed or property value (Roy et al., 2018). "
-annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the average estimate based on nameplate \
-capacity from FERC licenses for each hydropower project."
+annualElectricityLabel <- "Annual electricity generation is measured in GWh/year. It is the 4-year average estimate based on licensee-reported \
+site-specific electricity generation values reported to FERC annually. Estimates for Penobscot Mills project developments are based on site-specific\
+average annual electricity generation values reported in the FERC license for the project)."
 GHGEmissionsLabel <- "Annual carbon dioxide (CO2) emissions reduction is measured in metric kilotonnes of CO2/year. It is an  \
 estimate of avoided carbon dioxide emissions from annual hydropower-generated electricity production (reservoir or diversion-design \
 dams); based on decreasing generation from the State's electricity generation mix; includes life cycle emissions impacts."
 indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving\
-or restoring the cultural traditions and lifeways of indigenous people."
-communityIdentityLabel <- "Community identity is a unitless rating to convey the importance of preserving the existing identity of \
-the community residents living along or on islands within the river."
+or restoring the culture and practices of indigenous people."
+townCityIdentityLabel <- "Town/city identity is a unitless rating to convey the importance of preserving the existing identity of \
+the existing town/city identity for residents living along the river."
 industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
 the industrial history of the site. "
 aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
-scenic value, smell, sound)."
-healthLabel <- "Public health is a unitless rating to convey the importance of public health connected to air, water, and land\
-pollution."
-justiceLabel <- "Socio-environmental justice is a unitless rating to convey the importance of socio-environmental justice issues\
-(e.g. negative environmental effects that target disadvantaged groups - people of lower socio-economic status or with less political \
-or economic power)."
+scenic value, smell, sound) at a dam site."
 
 
 
@@ -151,7 +147,7 @@ ui <- shinyUI(fluidPage(
 				HTML('<a href="DecisionCriteriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>')
 			),
 			helpText(
-			  HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Dam Data.</a><br>')
+			  HTML('<a href="DecisionMatrices_updated.xlsx" target="_blank">Click to download Dam Data.</a><br>')
 			),
 			HTML(
 				"You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
@@ -236,26 +232,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-1",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity1", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#townCityIdentity
+			div(id="townCity-1",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity1", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-1",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-1",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health1", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-1",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice1", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			# update alt 1 score
 			htmlOutput("UpdateDam1Progress"),
@@ -335,26 +322,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-2",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity2", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-2",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity2", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-2",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-2",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health2", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-2",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice2", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam2Progress"),
 			actionButton("updateBtn2", "Update")
@@ -434,26 +412,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-3",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity3", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-3",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity3", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-3",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-3",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health3", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-3",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice3", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam3Progress"),
 			actionButton("updateBtn3", "Update")
@@ -534,26 +503,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-4",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity4", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-4",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity4", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-4",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-4",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health4", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-4",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice4", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam4Progress"),
 			actionButton("updateBtn4", "Update")
@@ -633,26 +593,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-5",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity5", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-5",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity5", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-5",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-5",
-			    h3("Public Health"),
-			    sliderInput(inputId = "Health5", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-5",
-			    h3("Socio-Environmental Justice"),
-			    sliderInput(inputId = "Justice5", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam5Progress"),
 			actionButton("updateBtn5", "Update")
@@ -732,26 +683,17 @@ ui <- shinyUI(fluidPage(
 		      h3("Industrial Historical Importance"),
 		      sliderInput(inputId = "IndustrialHistory6", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
-		  #CommunityIdentity
-		  div(id="community-6",
-		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity6", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+		  #TownCityIdentity
+		  div(id="townCity-6",
+		      h3("Town/City Identity"),
+		      sliderInput(inputId = "TownCityIdentity6", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-6",
 		      h3("Aesthetic Value"),
 		      sliderInput(inputId = "Aesthetics6", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 		  ),
-		  #PublicHealth
-		  div(id="health-6",
-		      h3("Public Health"),
-		      sliderInput(inputId = "Health6", label = healthLabel, value=0, min=0, max=100, step = 5)
-		  ),
-		  #Justice
-		  div(id="justice-6",
-		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice6", label = justiceLabel, value=0, min=0, max=100, step = 5)
-		  ),
+
 
 		  htmlOutput("UpdateDam6Progress"),
 		  actionButton("updateBtn6", "Update")
@@ -831,25 +773,15 @@ ui <- shinyUI(fluidPage(
 		      h3("Industrial Historical Importance"),
 		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 		  ),
-		  #CommunityIdentity
-		  div(id="community-7",
-		      h3("Community Identity"),
-		      sliderInput(inputId = "CommunityIdentity7", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+		  #TownCityIdentity
+		  div(id="townCity-7",
+		      h3("Town/City Identity"),
+		      sliderInput(inputId = "TownCityIdentity7", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-7",
 		      h3("Aesthetic Value"),
 		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
-		  ),
-		  #PublicHealth
-		  div(id="health-7",
-		      h3("Public Health"),
-		      sliderInput(inputId = "Health7", label = healthLabel, value=0, min=0, max=100, step = 5)
-		  ),
-		  #Justice
-		  div(id="justice-7",
-		      h3("Socio-Environmental Justice"),
-		      sliderInput(inputId = "Justice7", label = justiceLabel, value=0, min=0, max=100, step = 5)
 		  ),
 
 
@@ -931,26 +863,17 @@ ui <- shinyUI(fluidPage(
 				h3("Industrial Historical Importance"),
 				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
 			),
-			#CommunityIdentity
-			div(id="community-8",
-				h3("Community Identity"),
-				sliderInput(inputId = "CommunityIdentity8", label = communityIdentityLabel, value=0, min=0, max=100, step = 5)
+			#TownCityIdentity
+			div(id="townCity-8",
+				h3("Town/City Identity"),
+				sliderInput(inputId = "TownCityIdentity8", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-8",
 				h3("Aesthetic Value"),
 				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
 			),
-			#PublicHealth
-			div(id="health-8",
-				h3("Public Health"),
-				sliderInput(inputId = "Health8", label = healthLabel, value=0, min=0, max=100, step = 5)
-			),
-			#Justice
-			div(id="justice-8",
-				h3("Socio-Environmental Justice"),
-				sliderInput(inputId = "Justice8", label = justiceLabel, value=0, min=0, max=100, step = 5)
-			),
+
 
 			htmlOutput("UpdateDam8Progress"),
 			actionButton("updateBtn8", "Update")
@@ -1072,7 +995,8 @@ ui <- shinyUI(fluidPage(
 				downloadButton("DownloadPrefPlot1", "Download Graph", style="width:100%;"),
 				HTML(
 					"<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-					under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+					under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside \
+					from Indigenous Cultural Traditions and Lifeways. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 				),
 
 				h3("Table 1. User-Defined Preference Scores for West Enfield Dam"),
@@ -1094,7 +1018,8 @@ ui <- shinyUI(fluidPage(
 				  remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				  more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				  in each column by clicking on the arrow next to the column header. Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
-				  changes. They are presented here as the average of a range of possible values for this dam.<br>"
+				  changes. They are presented here as the average of a range of possible values for this dam.<br>
+				  <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 				),
 
 				#normalized data table/Matrix
@@ -1106,7 +1031,13 @@ ui <- shinyUI(fluidPage(
 					using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 					in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 					damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-					data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+					data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+					 <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		       range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		       and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		       (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		       consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		       (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 				),
 
 				#weighted score data table/Matrix
@@ -1170,7 +1101,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot2", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 		             
 		             h3("Table 1. User-Defined Preference Scores for Medway Dam"),
@@ -1191,7 +1123,8 @@ ui <- shinyUI(fluidPage(
     				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
     				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
     				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-    				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+    				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1203,7 +1136,13 @@ ui <- shinyUI(fluidPage(
 				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+				      <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		          range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		          and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		          (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		          consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		          (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1265,7 +1204,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot3", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for East Millinocket Dam"),
@@ -1286,7 +1226,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1298,7 +1239,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		                <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1358,7 +1305,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot4", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 		             
 		             h3("Table 1. User-Defined Preference Scores for Dolby Dam"),
@@ -1379,7 +1327,8 @@ ui <- shinyUI(fluidPage(
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 		             
 		             #normalized data table/Matrix
@@ -1391,7 +1340,13 @@ ui <- shinyUI(fluidPage(
 				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+				      <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		          range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		          and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		          (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		          consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		          (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 		             
 		             #weighted score data table/Matrix
@@ -1450,7 +1405,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot5", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for North Twin Dam"),
@@ -1471,7 +1427,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 		             
 		             #normalized data table/Matrix
@@ -1483,7 +1440,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		               <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 		             
 		             #weighted score data table/Matrix
@@ -1543,7 +1506,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot6", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from\
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for Millinocket/Quakish Dam"),
@@ -1564,7 +1528,8 @@ ui <- shinyUI(fluidPage(
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1576,7 +1541,13 @@ ui <- shinyUI(fluidPage(
 				      using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 				      in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 				      damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+				      data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+				      <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		          range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		          and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		          (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		          consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		          (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1636,7 +1607,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot7", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for Millinocket Lake Dam"),
@@ -1657,7 +1629,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1669,7 +1642,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		               <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1729,7 +1708,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot8", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for Ripogenus Dam"),
@@ -1750,7 +1730,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1762,7 +1743,13 @@ ui <- shinyUI(fluidPage(
 		               using a min/max procedure: each raw data value was subtracted from the ideal value in the set (e.g., the maximum fish habitat area, for example) and divided by the difference between the maximum and minimum values\
 		               in the set. The highest normalized values for most decision criteria, then, equal 1, and the lowest values equal 0. For decision criteria where lower values are more preferable (e.g. annuitized project cost, breach \
 		               damage potential, number of properties impacted), the highest values equal 0, and the lowest values equal 1. This allows us to indicate that, for example, high costs are less desirable than low costs. The normalized \
-		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>"
+		               data values in this table are multiplied by the preference weights displayed in Figure 3 and Table 1 to calculate the weighted scores in Table 4.<br>
+		               <br><b>Normalization</b> is a mathematical procedure that sets data values relative to their actual range, where the least desirable value (e.g., highest cost, lowest greenhouse gas emission reductions) in the existing data \
+		               range is set equal to 0 and the most desirable value (e.g., lowest cost, highest greenhouse gas emissions reductions) in the existing data range is set equal to 1. In this way, normalization allows us to compare apples \
+		               and oranges as if they were apples and apples. The normalization (minimax, maximin) procedure for the Dam Decision Support Tool bounds data within a range specific to the individual dam, not to the entire set of dams \
+		               (i.e., the normalization operation makes the criteria data comparable for decision alternatives at an individual dam). Just as it does not consider data values for decision criteria at other dams, normalization does not \
+		               consider possible improvements to the existing data. The highest and lowest values for the decision criterion for the specific dam site at set equal to zero or one, depending on what is considered desirable for the criterion \
+		               (e.g., for cost, the lowest value is most desirable). Future studies could update the normalization procedure to work not only within the range for a specific dam but also across the entire set of dams. <br>"
 		             ),
 
 		             #weighted score data table/Matrix
@@ -1780,10 +1767,23 @@ ui <- shinyUI(fluidPage(
 		# Developer and aknowledgements secion
 		HTML("<li class='step-label'>About</li>"),
 
+		tabPanel("Limitations",
+		   h2("Limitations"),
+		   HTML(
+		    "This Dam Decision Support Tool is not in any way associated with FERC requirements for the relicensing process. While the Tool can be used to understand the impact of preferences on decision making, it reflects only the user's preference-driven outcomes. Other people will have different preferences, which may result \
+		    in different outcomes. Using the Tool to simulate others' preferences is one way of exploring the impact that different preferences have on the outcome.<br> \
+				<br>Note: all the decision criteria mentioned herein are defined specifically in relation to hydropower dams. This list is non-exhaustive; it does not include all decision criteria that may be important to all people. The criteria identified in this list are representative of current issues important to dam decision making \
+				as expressed by stakeholders in interview.  A more extensive discussion of decision criteria-specific limitations and ideas for future studies is included in the list of decision criteria. <br>\
+				<br>Existing state and federal laws also limit the usefulness of these results/outcomes. For example: (1) Penobscot Nation subsistence fishing law, (2) Endangered Species Act (often used as a regulatory 'hammer' in dam decisions by enforcing federal agencies), (3) Clean Water Act (401 water quality certification), \
+		    (4) Federal Power Act, (5) municipal ordinances (a town can explicitly specify that no new dams may be constructed or that no hydropower operations may be installed within town boundaries) all have direct legal bearing on the outcome of a FERC relicensing process. If brought to bear in the decision-making process, such \
+		    laws and regulations may exclude decision alternatives from the 'problem set' altogether. Future work could involve possible regulatory 'scenarios' under which particular 'problem sets' of decision alternatives are relevant.<br>"
+		         )
+		),
+		
 		tabPanel("Developers",
 			 h2("Developers"),
 			 HTML(
-				"<b>Emma Fox </b>- Lead Developer (Ph.D. candidate, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
+				"<b>Dr. Emma Fox </b>- Lead Developer (Graduate Research Assistant, University of Maine Ecology and Environmental Science Program) for the Dam Decision Support Tool. Designed user interface and initial server functionality. Adjusted WSM function for new dam decision application and advised model-related changes. \
 				Designed and wrote app text, and designed accompanying multi-dam decision example fact sheets, designed and wrote text for Dam Toolbox.<br> \
 				<br><b>Dr. Sharon J. W. Klein </b>- Development Advisor (Associate Professor, University of Maine School of Economics). Helped develop and advise concept for the Dam Decision Support Tool, advised user-friendliness enhancements to the Dam Decision Support Tool and user interface/features, refined criteria \
 				definitions, revised app text.<br> \
