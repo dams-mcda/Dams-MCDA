@@ -336,8 +336,6 @@ server <- function(input, output, session) {
 	#   could be expanded to include different modes depending on the application state requirements
 	#------------------------------------------------------------
 	session_mode <<- "individual" # default mode of session
-	session$sendCustomMessage("setAppMode", session_mode)
-
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	upload_modal_visible <<- FALSE # file upload modal
 

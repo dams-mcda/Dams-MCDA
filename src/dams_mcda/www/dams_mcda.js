@@ -11,6 +11,7 @@ let critNames = [];
  */
 function init(){
 	console.log("frame: init");
+	cachedContext['django_found'] = false;
 	window.parent.setUpFrame();
 	return true;
 }
@@ -46,7 +47,7 @@ function setContext(user, userId, group, groupId, csrf, sess){
  * useful for debugging and essential for proof of concept
  */
 function validateSession(message){
-	console.log("validateSession need csrftoken", message);
+	console.log("validateSession: checks for django & csrftoken", message);
 
 	// ajax request user data
 	$.ajax({
@@ -58,10 +59,11 @@ function validateSession(message){
 			'group': cachedContext["group"],
 		}
 	}).done(function(data){
-		console.log("Valid Session");
+		console.log("Valid Session - Django available for save/loads");
+		cachedContext['django_found'] = true;
 	}).fail(function(response){
-		console.log("Invalid Session", response);
-		alert('Invalid Session, Please try reloading.');
+		console.log("Invalid Session - No Django Server", response);
+		alert('Invalid Session. Cannot save or load results. You can continue to use. File uploads will still work.');
 	});
 }
 
@@ -110,18 +112,37 @@ function saveRawJsonScores(message){
 	//console.log("saveRawJsonScores: ", message);
 
 	// get params
-	// check if already saved preferences (see note above)
-	let getParams = {
-		'user': cachedContext["userId"],
-		'group': cachedContext["groupId"],
+	let group_mode = (cachedContext["appMode"] == "group");
+	let getParams; // check if already saved preferences (see note above)
+	let params; // params for saving
+
+	if (group_mode){
+		getParams = {
+			'user': cachedContext["userId"],
+			'group': cachedContext["groupId"],
+		}
+	}else{
+		getParams = {
+			'user': cachedContext["userId"],
+			'group': ''
+		}
 	}
 
 	// params for update/create
-	let params = {
-		'session-id': cachedContext["session"],
-		'user': cachedContext["userId"],
-		'group': cachedContext["groupId"],
-		'scores': message
+	if (group_mode){
+		params = {
+			'session-id': cachedContext["session"],
+			'user': cachedContext["userId"],
+			'group': cachedContext["groupId"],
+			'scores': message
+		}
+	}else{
+		params = {
+			'session-id': cachedContext["session"],
+			'group': "",
+			'user': cachedContext["userId"],
+			'scores': message
+		}
 	}
 
 	// check if save for this user/group exists
@@ -209,7 +230,6 @@ function loadScores(input_mode){
 	}else{
 		params = {
 			'user': cachedContext["userId"],
-			'group': cachedContext["groupId"]
 		}
 	}
 
@@ -221,56 +241,61 @@ function loadScores(input_mode){
 		data: params
 
 	}).done(function(data){
-		if (group_mode){
-			//console.log("loadScores group results: ", data);
+		if (data[0] != undefined){
+			if (group_mode){
+				//console.log("loadScores group results: ", data);
+				// return average of each result
+				let num_records = data.length;
 
-			// return average of each result
-			let num_records = data.length;
+				for (let damId in damNames){
 
-			for (let damId in damNames){
-
-				let damIndex = parseInt(damId) + 1; // R index starts at 1
-				//console.log("data for dam ", damId, damData);
-				for (let critId in critNames){
-					let summed_score = 0;
-					for (let recordId=0;recordId<num_records;recordId++){
-						//console.log("record: ", recordId, " val: ", data[recordId]["scores"][damNames[damId]][critId])
-						summed_score += data[recordId]["scores"][damNames[damId]][critId]
+					let damIndex = parseInt(damId) + 1; // R index starts at 1
+					//console.log("data for dam ", damId, damData);
+					for (let critId in critNames){
+						let summed_score = 0;
+						for (let recordId=0;recordId<num_records;recordId++){
+							//console.log("record: ", recordId, " val: ", data[recordId]["scores"][damNames[damId]][critId])
+							summed_score += data[recordId]["scores"][damNames[damId]][critId]
+						}
+						summed_score = (summed_score/num_records)
+						//console.log("final summed_score: ", summed_score)
+						// fires event on server to update input slider
+						Shiny.setInputValue(
+							"session_input_update",
+							[(critNames[critId] + damIndex.toString()), summed_score],
+							{priority: "event"}
+						)
 					}
-					summed_score = (summed_score/num_records)
-
-					//console.log("final summed_score: ", summed_score)
-					// fires event on server to update input slider
-					Shiny.setInputValue(
-						"session_input_update",
-						[(critNames[critId] + damIndex.toString()), summed_score],
-						{priority: "event"}
-					)
 				}
+				alert("Saved Group Scores Loaded")
+			}else{
+				//console.log("loadScores indiv results: ", data);
+				// return first result
+				let scores = data[0]["scores"];
+				for (let damId in damNames){
+					let damData = scores[damNames[damId]];
+					let damIndex = parseInt(damId) + 1; // R index starts at 1
+					//console.log("data for dam ", damId, damData);
+					for (let critId in critNames){
+						//console.log("InputId: ", critNames[critId] + damIndex.toString())
+						// fires event on server to update input slider
+						Shiny.setInputValue(
+							"session_input_update",
+							[(critNames[critId] + damIndex.toString()), damData[critId]],
+							{priority: "event"}
+						)
+					}
+				}
+				alert("Saved Scores Loaded")
 			}
-			// combine results
-			return data;
+			//return data;
 		}else{
-			//console.log("loadScores indiv results: ", data);
-			// return first result
-			let scores = data[0]["scores"]
-			for (let damId in damNames){
-				let damData = scores[damNames[damId]];
-				let damIndex = parseInt(damId) + 1; // R index starts at 1
-				//console.log("data for dam ", damId, damData);
-				for (let critId in critNames){
-					//console.log("InputId: ", critNames[critId] + damIndex.toString())
-					// fires event on server to update input slider
-					Shiny.setInputValue(
-						"session_input_update",
-						[(critNames[critId] + damIndex.toString()), damData[critId]],
-						{priority: "event"}
-					)
-				}
-			}
+			// successfull request but there are no data returned
+			console.log("first time running, no scores to load");
 		}
 
 	}).fail(function(response){
+		// failed request
 		console.log("loadScores failed: ", response);
 	});
 }
