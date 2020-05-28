@@ -147,7 +147,7 @@ ui <- shinyUI(fluidPage(
 				HTML('<a href="DecisionCriteriaDescriptions.pdf" target="_blank">Click for more information about decision criteria</a><br>')
 			),
 			helpText(
-			  HTML('<a href="DecisionMatrices_All.xlsx" target="_blank">Click to download Dam Data.</a><br>')
+			  HTML('<a href="DecisionMatrices_updated.xlsx" target="_blank">Click to download Dam Data.</a><br>')
 			),
 			HTML(
 				"You may wish to refer to the resource links above and the watershed map below throughout the activity. <br>"
@@ -995,7 +995,8 @@ ui <- shinyUI(fluidPage(
 				downloadButton("DownloadPrefPlot1", "Download Graph", style="width:100%;"),
 				HTML(
 					"<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-					under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+					under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside \
+					from Indigenous Cultural Traditions and Lifeways. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 				),
 
 				h3("Table 1. User-Defined Preference Scores for West Enfield Dam"),
@@ -1100,7 +1101,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot2", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 		             
 		             h3("Table 1. User-Defined Preference Scores for Medway Dam"),
@@ -1202,7 +1204,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot3", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for East Millinocket Dam"),
@@ -1302,7 +1305,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot4", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 		             
 		             h3("Table 1. User-Defined Preference Scores for Dolby Dam"),
@@ -1401,7 +1405,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot5", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for North Twin Dam"),
@@ -1501,7 +1506,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot6", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from\
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for Millinocket/Quakish Dam"),
@@ -1601,7 +1607,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot7", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for Millinocket Lake Dam"),
@@ -1701,7 +1708,8 @@ ui <- shinyUI(fluidPage(
 					downloadButton("DownloadPrefPlot8", "Download Graph", style="width:100%;"),
 		             HTML(
 		               "<br><br><b>Results Interpretation</b> for Figure 3: This graph shows you the preferences you entered in Step 3 for each decision criterion. The scores are pulled directly from your slider bar settings \
-		               under the West Enfield Dam tab and are not changed in any way. If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
+		               under the West Enfield Dam tab and are not changed in any way. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for these social decision criteria aside from \
+		               Indigenous Cultural Traditions and Lifeways.If you wish to go back and change your settings, please do so before continuing. Remember to click GENERATE under Step 5. Multi-Dam Results. <br>"
 		             ),
 
 		             h3("Table 1. User-Defined Preference Scores for Ripogenus Dam"),
