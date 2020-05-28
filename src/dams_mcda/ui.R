@@ -1017,7 +1017,8 @@ ui <- shinyUI(fluidPage(
 				  remember seeing these data when you clicked on the link for the data for this dam during the preference elicitation in Step 3. We include the raw data values again here to help make the MCDA calculations \
 				  more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				  in each column by clicking on the arrow next to the column header. Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
-				  changes. They are presented here as the average of a range of possible values for this dam.<br>"
+				  changes. They are presented here as the average of a range of possible values for this dam.<br>
+				  <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 				),
 
 				#normalized data table/Matrix
@@ -1120,7 +1121,8 @@ ui <- shinyUI(fluidPage(
     				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
     				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
     				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-    				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+    				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1221,7 +1223,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1320,7 +1323,8 @@ ui <- shinyUI(fluidPage(
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 		             
 		             #normalized data table/Matrix
@@ -1418,7 +1422,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 		             
 		             #normalized data table/Matrix
@@ -1517,7 +1522,8 @@ ui <- shinyUI(fluidPage(
 				      more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1616,7 +1622,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1715,7 +1722,8 @@ ui <- shinyUI(fluidPage(
 		               more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
-		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>"
+		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
