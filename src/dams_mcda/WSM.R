@@ -15,11 +15,18 @@
 #     RawCriteriaMatrix: 2D raw score matrix
 #     DamsData: 2D criteria data (not normalized) for individual dams, including social/cultural pre-survey data
 
+#setwd("~/R_ELF/R_NEST/MCDA_App_Shiny/MCDA_11042019/src/dams_mcda") #for local offline work only
 
 source("plots.R")
 library(plotly, warn.conflicts =  FALSE)
 library(abind)
 library(data.table)
+
+#DamsData <- read.csv('DamsData_updated.csv') #individual dams criteria data, including social/cultural from pre-survey, for local offline work only
+#DamsData <- data.frame(DamsData) #for local offline work only
+#RawCriteriaMatrix <- read.csv('TestData.csv') #for local offline work only
+#row.names(RawCriteriaMatrix) <- dam_names #for local offline work only
+#colnames(RawCriteriaMatrix) <- criteria_names #for local offline work only
 
 # criteria input identifiers
 criteria_inputs <- c(
@@ -112,24 +119,19 @@ WSM <- function(RawCriteriaMatrix, DamsData_updated){
 
 	Remove <- cbind(DamsData$FishBiomass_Remove, DamsData$RiverRec_Rem, DamsData$ResStorage_Rem, DamsData$Cost_Remove, DamsData$Damage_Rem,
 	                DamsData$Properties_Rem, DamsData$AvgAnnualGen_Rem, DamsData$EmissionsReduc_Rem,
-	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$TownCity_Remove, DamsData$Aesthetics_Remove,
-	                DamsData$Health_Remove, DamsData$Justice_Remove)
+	                DamsData$Culture_Remove, DamsData$History_Remove, DamsData$TownCity_Remove, DamsData$Aesthetics_Remove)
 	Improve_Fish <- cbind(DamsData$FishBiomass_ImproveFish, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveFish, DamsData$Damage,
 						  DamsData$Properties,DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
-						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$TownCity_ImproveFish, DamsData$Aesthetics_ImproveFish,
-						  DamsData$Health_ImproveFish, DamsData$Justice_ImproveFish)
+						  DamsData$Culture_ImproveFish, DamsData$History_ImproveFish, DamsData$TownCity_ImproveFish, DamsData$Aesthetics_ImproveFish)
 	Improve_Hydro <- cbind(DamsData$FishBiomass_ImproveHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_ImproveHydro, DamsData$Damage,
 	                       DamsData$Properties,DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
-	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$TownCity_ImproveHydro, DamsData$Aesthetics_ImproveHydro,
-	                       DamsData$Health_ImproveHydro, DamsData$Justice_ImproveHydro)
+	                       DamsData$Culture_ImproveHydro, DamsData$History_ImproveHydro, DamsData$TownCity_ImproveHydro, DamsData$Aesthetics_ImproveHydro)
 	FishANDHydro <- cbind(DamsData$FishBiomass_FishANDHydro, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_FishANDHydro, DamsData$Damage,
 						  DamsData$Properties, DamsData$AvgAnnualGen_Add, DamsData$EmissionsReduc_Add,
-						  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$TownCity_FishANDHydro, DamsData$Aesthetics_FishANDHydro,
-						  DamsData$Health_FishANDHydro, DamsData$Justice_FishANDHydro)
+						  DamsData$Culture_FishANDHydro, DamsData$History_FishANDHydro, DamsData$TownCity_FishANDHydro, DamsData$Aesthetics_FishANDHydro)
 	KeepMaintain <- cbind(DamsData$FishBiomass_KeepMaintain, DamsData$RiverRec, DamsData$ResStorage, DamsData$Cost_KeepMaintain, DamsData$Damage,
 	                      DamsData$Properties, DamsData$AvgAnnualGen, DamsData$EmissionsReduc,
-	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$TownCity_KeepMaintain, DamsData$Aesthetics_KeepMaintain,
-	                      DamsData$Health_KeepMaintain, DamsData$Justice_KeepMaintain)
+	                      DamsData$Culture_KeepMaintain, DamsData$History_KeepMaintain, DamsData$TownCity_KeepMaintain, DamsData$Aesthetics_KeepMaintain)
 
 	#This abind creates our 3D matrix
 	Ind_DamsDataMatrix <- abind(Remove, Improve_Fish, Improve_Hydro, FishANDHydro, KeepMaintain, along = 3, force.array=TRUE)

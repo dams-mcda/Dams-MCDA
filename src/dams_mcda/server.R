@@ -1,7 +1,7 @@
 source("plots.R")
 source("WSM.R")
 
-DamsData <- read.csv('DamsData_Workshop.csv') #individual dams criteria data, including social/cultural from pre-survey
+DamsData <- read.csv('DamsData_updated.csv') #individual dams criteria data, including social/cultural from pre-survey
 DamsData <- data.frame(DamsData) 
 
 library(abind)
