@@ -172,7 +172,7 @@ ui <- shinyUI(fluidPage(
 			h2("West Enfield Dam (FERC No. P-2600)"),
 			HTML('Please consider and rate your preference for the decision criteria listed below for West Enfield Dam. <a href="Factsheet_WestEnfield.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_WestEnfield.pdf" target="_blank">Open in new tab</a>. \
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-         bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "WestEnfield_RawDecisionMatrix.pdf" target="_blank">Click to view West Enfield Data</a>.<br>\
+         bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "WestEnfield_DamDataTable_updated.pdf" target="_blank">Click to view West Enfield Data</a>.<br>\
          <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 				 increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 				 <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -352,7 +352,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for East Millinocket Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>.<br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_DamDataTable_updated.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>.<br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -442,7 +442,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Dolby Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a><br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>.<br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_DamDataTable_updated.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>.<br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -533,7 +533,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for North Twin Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a><br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_DamDataTable_updated.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a><br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -623,7 +623,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Millinocket/Quakish Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_DamDataTable_updated.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -713,7 +713,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Millinocket Lake Dam. <a href="Factsheet_PenobscotMills.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_PenobscotMills.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_RawDecisionMatrix.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "PenobscotMills_DamDataTable_updated.pdf" target="_blank">Click to view Penobscot Mills Data (PDF has information on all 5 dams, scroll to view)</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -803,7 +803,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Ripogenus Dam. <a href="Factsheet_Ripogenus.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Ripogenus.pdf" target="_blank">Open in new tab</a>. <br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "Ripogenus_RawDecisionMatrix.pdf" target="_blank">Click to view Ripogenus Data</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "Ripogenus_DamDataTable_updated.pdf" target="_blank">Click to view Ripogenus Data</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -1019,7 +1019,7 @@ ui <- shinyUI(fluidPage(
 				  more transparent, so you can clearly see what goes into the final calculation that produces Figures 1 and 2 above. In addition, you can use this table to sort decision alternatives in ascending or descending order\
 				  in each column by clicking on the arrow next to the column header. Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				  changes. They are presented here as the average of a range of possible values for this dam.<br>
-				  <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+				  <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 				),
 
 				#normalized data table/Matrix
@@ -1124,7 +1124,7 @@ ui <- shinyUI(fluidPage(
     				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
     				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
     				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1227,7 +1227,7 @@ ui <- shinyUI(fluidPage(
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
 		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1328,7 +1328,7 @@ ui <- shinyUI(fluidPage(
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
 				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 		             
 		             #normalized data table/Matrix
@@ -1428,7 +1428,7 @@ ui <- shinyUI(fluidPage(
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
 		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 		             
 		             #normalized data table/Matrix
@@ -1529,7 +1529,7 @@ ui <- shinyUI(fluidPage(
 				      in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 				      changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
 				      modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1630,7 +1630,7 @@ ui <- shinyUI(fluidPage(
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
 		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
@@ -1731,7 +1731,7 @@ ui <- shinyUI(fluidPage(
 		               in each column by clicking on the arrow next to the column header . Note: fish survival values shown here are discrete, but in reality, the values are network-dependent and would be impacted by upstream or downstream\
 		               changes. They are presented here as the average of a range of possible values for this dam, depending on what happens at other dams. This interaction between decisions at other dams and these decision criteria are\
 		               modeled in the multi-objective optimization that leads to the final Map Recommendation.<br>
-		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by researcher observations of informal conversations with Penobscot Nation citizens and representatives.<br>"
+		               <br>Indigenous cultural traditions and lifeways data come from a survey of Penobscot Nation citizens (N=2), supported by informal conversations with Penobscot Nation citizens and representatives.<br>"
 		             ),
 
 		             #normalized data table/Matrix
