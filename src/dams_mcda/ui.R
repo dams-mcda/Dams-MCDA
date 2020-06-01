@@ -1802,10 +1802,19 @@ ui <- shinyUI(fluidPage(
 				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.<br>\
 				 <br> The Data Discovery Center at the University of New Hampshire is the host for this Dam Decision Support Tool. https://ddc.unh.edu <br>"
 			 ),
-			 h2("Citations"),
+			 h2("Citations (in alphabetical order)"),
 			 HTML(
-				 "Roy, S.G., Uchida, E., de Souza, S.P., Blachly, B., Fox, E., Gardner, K., Gold, A.J., Jansujwicz, J., Klein, S., McGreavy, B., Mo, W., Smith, S.M.C., Vogler, E., Wilson, K., Zydlewski, J., & Hart, D. (2018). A multiscale approach to balance trade-offs among dam infrastructure, river restoration, and cost. Proceedings of the National \
+				 "B. Blachly and E. Uchida, Estimating the Marginal Cost of Dam Removal, in Environmental and Natural Resource Economics Working Papers, 2017, vol. Paper 2.<br>\
+				 <br>C. Song, K. H. Gardner, S. J. W. Klein, S. P. Souza, and W. Mo, Cradle-to-grave greenhouse gas emissions from dams in the United States of America, Renew. Sustain. Energy Rev., vol. 90, pp. 945-956, Jul. 2018, doi: 10.1016/j.rser.2018.04.014.<br>\
+				 <br>D. G. Hall, K. S. Reeves, J. Brizzee, R. D. Lee, G. R. Carroll, and G. L. Sommers, Feasibility Assessment of the Water Energy Resources of the United States for New Low Power and Small Hydro Classes of Hydroelectric Plants, Idaho National Laboratory, DOE-ID-11263, Jan. 2006. Accessed: Jun. 06, 2016. [Online]. \
+				 Available: http://www1.eere.energy.gov/water/pdfs/doewater-11263.pdf.<br>\
+				 <br>FERC: Documents & Filing - FERC Online - eLibrary. https://www.ferc.gov/docs-filing/elibrary.asp (accessed Mar. 13, 2020).<br>\
+				 <br>Form EIA-923 detailed data with previous form data (EIA-906/920). https://www.eia.gov/electricity/data/eia923/ (accessed Jan. 16, 2020).<br>\
+				 <br>P. W. O'Connor, S. T. DeNeale, D. R. Chalise, E. Centurion, and A. Maloof, Hydropower Baseline Cost Modeling, Version 2, Oak Ridge National Laboratory (ORNL), ORNL/TM-2015/471, Sep. 2015. Accessed: Apr. 20, 2016. [Online]. Available: http://info.ornl.gov/sites/publications/files/Pub58666.pdf.<br>\
+				 <br>Roy, S.G., Uchida, E., de Souza, S.P., Blachly, B., Fox, E., Gardner, K., Gold, A.J., Jansujwicz, J., Klein, S., McGreavy, B., Mo, W., Smith, S.M.C., Vogler, E., Wilson, K., Zydlewski, J., & Hart, D. (2018). A multiscale approach to balance trade-offs among dam infrastructure, river restoration, and cost. Proceedings of the National \
 				 Academy of Sciences, 201807437. doi:10.1073/pnas.1807437115.<br>\
+				 <br>S. J. Klein and S. Whalley, Comparing the sustainability of US electricity options through multi-criteria decision analysis, Energy Policy, vol. 79, pp. 127-149, 2015.<br>\
+				 <br>W. Short, D. J. Packey, and T. Holt, A manual for the economic evaluation of energy efficiency and renewable energy technologies, NREL/TP--462-5173, 35391, Mar. 1995. doi: 10.2172/35391.<br>
 				 "
 			 )
 		)
