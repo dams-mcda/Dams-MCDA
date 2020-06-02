@@ -701,6 +701,22 @@ server <- function(input, output, session) {
 		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
 	})
 
+	# important: for updating ui after all scores loaded
+	observeEvent(input$session_load_complete, {
+		 message("session load complete")
+		 if (input$session_load_complete == "TRUE"){
+			 # set raw preferences
+			 updateDam1(FALSE)
+			 updateDam2(FALSE)
+			 updateDam3(FALSE)
+			 updateDam4(FALSE)
+			 updateDam5(FALSE)
+			 updateDam6(FALSE)
+			 updateDam7(FALSE)
+			 updateDam8(FALSE)
+		 }
+	})
+
 	# track the user group
 	# NOTE: only set when the user is using application in group input mode
 	# this is important because changing the value of this variable causes effects

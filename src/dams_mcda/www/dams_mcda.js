@@ -290,7 +290,6 @@ function loadScores(score_type){
 	}).done(function(data){
 		if (data[0] != undefined){
 			if (group_mode && score_type=="group"){
-				//console.log("loadScores group results: ", data);
 				// return average of each result
 				let num_records = data.length;
 
@@ -315,18 +314,14 @@ function loadScores(score_type){
 					}
 				}
 				//alert("Saved Group Scores Loaded")
-
 			}else{
-				//console.log("loadScores indiv results: ", data);
 				// return first result
 				let scores = data[0]["scores"];
 				for (let damId in damNames){
 					let damData = scores[damNames[damId]];
 					let damIndex = parseInt(damId) + 1; // R index starts at 1
-					//console.log("data for dam ", damId, damData);
+
 					for (let critId in critNames){
-						//console.log("InputId: ", critNames[critId] + damIndex.toString())
-						// fires event on server to update input slider
 						Shiny.setInputValue(
 							"session_input_update",
 							[(critNames[critId] + damIndex.toString()), damData[critId]],
@@ -336,15 +331,17 @@ function loadScores(score_type){
 				}
 				//alert("Saved Scores Loaded")
 			}
-			//return data;
+			Shiny.setInputValue( "session_load_complete", "TRUE");
 		}else{
 			// successfull request but there are no data returned
 			console.log("first time running, no scores to load");
+			Shiny.setInputValue( "session_load_complete", "FALSE");
 		}
 
 	}).fail(function(response){
 		// failed request
 		console.log("loadScores failed: ", response);
+		Shiny.setInputValue( "session_load_complete", "FALSE");
 	});
 }
 
