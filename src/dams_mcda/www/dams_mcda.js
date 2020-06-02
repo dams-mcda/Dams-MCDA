@@ -90,10 +90,10 @@ function setAppMode(message){
 function userHasGroup(message){
 	if (cachedContext['group'] != undefined){
 		console.log("userHasGroup?: ", cachedContext['group']);
-		Shiny.setInputValue('user_group', cachedContext['group'])
+		Shiny.setInputValue('session_user_group', cachedContext['group'])
 	}else{
 		//console.log("userHasGroup? False, context: ", cachedContext);
-		Shiny.setInputValue('user_group', "false")
+		Shiny.setInputValue('session_user_group', "false")
 	}
 }
 
@@ -216,23 +216,68 @@ function bindCritNames(message){
 
 
 /*
+ * checkForPreviousRun
+ *
+ * limits options to the user depending if they have saves results before
+ */
+function checkForPreviousRun(score_type){
+	let group_mode = (cachedContext["appMode"] == "group");
+	console.log("checkForPreviousRun appMode: " + cachedContext['appMode'] + " score_type: "+ score_type);
+
+	let params;
+	if (group_mode){
+		params = {
+			'user': cachedContext["userId"],
+			'group': cachedContext["groupId"]
+		}
+	}else{
+		params = { 'user': cachedContext["userId"] }
+	}
+
+	// ajax request user data
+	$.ajax({
+		url: "/core/api/preference/",
+		method: 'GET',
+		dataType:'json',
+		data: params
+	}).done(function(data){
+		if (data[0] !== undefined){
+			console.log("checkForPrevRun success: ", data);
+			Shiny.setInputValue('session_user_prev_session', "TRUE")
+		}else{
+			console.log("checkForPrevRun no data: ", data);
+			Shiny.setInputValue('session_user_prev_session', "FALSE")
+		}
+	}).fail(function(response){
+		// failed request
+		console.log("checkForPrevRun failed: ", response);
+		Shiny.setInputValue('session_user_prev_session', "FALSE")
+	});
+}
+
+
+/*
  * loadScores
  *
  * get preferences from a saved session
  *
  */
-function loadScores(input_mode){
+function loadScores(score_type){
+	console.log("loadScores: "+ score_type);
 	let group_mode = (cachedContext["appMode"] == "group");
 
 	let params;
 	if (group_mode){
-		params = {
-			'group': cachedContext["groupId"]
+		if (score_type=="group"){
+			params = { 'group': cachedContext["groupId"] }
+		}else{
+			params = {
+				'user': cachedContext["userId"],
+				'group': cachedContext["groupId"]
+			}
 		}
 	}else{
-		params = {
-			'user': cachedContext["userId"],
-		}
+		params = { 'user': cachedContext["userId"] }
 	}
 
 	// ajax request user data
@@ -244,7 +289,7 @@ function loadScores(input_mode){
 
 	}).done(function(data){
 		if (data[0] != undefined){
-			if (group_mode){
+			if (group_mode && score_type=="group"){
 				//console.log("loadScores group results: ", data);
 				// return average of each result
 				let num_records = data.length;
@@ -269,7 +314,8 @@ function loadScores(input_mode){
 						)
 					}
 				}
-				alert("Saved Group Scores Loaded")
+				//alert("Saved Group Scores Loaded")
+
 			}else{
 				//console.log("loadScores indiv results: ", data);
 				// return first result
@@ -288,7 +334,7 @@ function loadScores(input_mode){
 						)
 					}
 				}
-				alert("Saved Scores Loaded")
+				//alert("Saved Scores Loaded")
 			}
 			//return data;
 		}else{
@@ -329,6 +375,7 @@ function invalidFileSelected(message){
  * binds a string handler name to actual function
  */
 Shiny.addCustomMessageHandler("validateSession", validateSession);
+Shiny.addCustomMessageHandler("checkForPreviousRun", checkForPreviousRun);
 Shiny.addCustomMessageHandler("saveResultsToDjango", saveRawJsonScores);
 Shiny.addCustomMessageHandler("loadScores", loadScores);
 Shiny.addCustomMessageHandler("noFileSelected", noFileSelected);
