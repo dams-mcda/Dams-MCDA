@@ -203,6 +203,14 @@ print2d <- function(table) {
 	#}
 }
 
+# capStringFirst
+#----------------------------------------
+# uppercase first character in string
+capStringFirst <- function(y) {
+	c <- strsplit(y, " ")[[1]]
+	paste(toupper(substring(c, 1,1)), substring(c, 2), sep="", collapse=" ")
+}
+
 
 # epochTime
 #----------------------------------------
@@ -349,29 +357,6 @@ server <- function(input, output, session) {
 		)
 	)
 
-	# content for load scores modal
-	load_scores_modal <- modalDialog(
-		title = "Load Scores or Create New",
-		footer=NULL, # NULL to disable dismiss button
-		easyClose=FALSE, # False to disable closing by clicking outside of modal
-		div(
-			HTML( "<h4>Are you loading scores from a previous session or creating a new run?</h4>"),
-
-			actionButton("uploadBtn", "Upload Scores From File"),
-			actionButton("loadScoresBtn", "Load Saved Session"),
-			actionButton("startNewBtn", "New Run"),
-
-			HTML(
-				"<h4>Instructions for Uploading</h4>\
-				Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-				and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
-				populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
-				select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
-				average preference values for the group. <br>"
-			)
-		)
-	)
-
 	# content for upload modal
 	upload_modal <- modalDialog(
 		title = "File Upload",
@@ -414,7 +399,7 @@ server <- function(input, output, session) {
 	# sets application mode (individual/group)
 	# ----------------------------------------
 	setSessionMode <- function(newMode){
-		session_mode <- newMode
+		session_mode <<- newMode
 		if (newMode == "group"){
 			checkUserHasGroup() # check if user already picked a group
 		}
@@ -422,23 +407,25 @@ server <- function(input, output, session) {
 		removeModal()
 		intro_modal_visible <<- FALSE
 
-		# next up is picking how to load scores
-		showModal(load_scores_modal)
-		load_scores_modal_visible <<- TRUE
+		# check if user has previous session
+		session$sendCustomMessage("checkForPreviousRun", newMode)
+		# on response of checking for previous run the loadScore menu will appear
 	}
 
 
 	# ----------------------------------------
 	# setLoadScoreMode
 	# sets the method of loading scores or starting a new run
+	# loadScoreMode: "upload", "load" or "new"
+	# score_type: "individual" or "group" average
 	# ----------------------------------------
-	setLoadScoreMode <- function(loadScoreMode){
+	setLoadScoreMode <- function(loadScoreMode, score_type){
 		# done with load score selection
 		removeModal()
 		load_scores_modal_visible <<- FALSE
 
 		if (loadScoreMode == "load"){
-			session$sendCustomMessage("loadScores", session_mode) # load from django/db
+			session$sendCustomMessage("loadScores", score_type) # load from django/db
 			shinyjs::show(id="nav-buttons")
 
 		}else if (loadScoreMode == "new"){
@@ -450,6 +437,91 @@ server <- function(input, output, session) {
 			showModal(upload_modal) # upload file modal
 
 		}
+	}
+
+
+	# ----------------------------------------
+	# setLoadScoreMode
+	# ----------------------------------------
+	# 2nd occuring modal in introduction
+	# modal for selecting upload file, load from db, or new run
+	# re render modal each time with individual or group context
+	showLoadScoresModal <- function(has_previous_session){
+		message("updateLoadScoresModal")
+		message(session_mode)
+
+		has_previous_session <- TRUE
+
+		if (session_mode == "individual"){
+			if (has_previous_session){
+				modal_div <- div(
+					HTML( "<h4>Are you loading scores from a previous session or creating a new run?</h4>"),
+					actionButton("uploadBtn", "Upload Scores From File"),
+					actionButton("loadIndivScoresBtn", paste0("Load Saved ", sapply(session_mode, capStringFirst), " Session")),
+					actionButton("startNewBtn", "New Run"),
+					HTML( "<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+						average preference values for the group. <br>"
+					)
+				)
+			}else{
+				modal_div <- div(
+					HTML( "<h4>Are you loading scores from a previous session or creating a new run?</h4>"),
+					actionButton("uploadBtn", "Upload Scores From File"),
+					actionButton("startNewBtn", "New Run"),
+					HTML( "<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+						average preference values for the group. <br>"
+					)
+				)
+			}
+		}else{
+			if (has_previous_session){
+				modal_div <- div(
+					HTML( "<h4>Are you loading scores from a previous session or creating a new run?</h4>"),
+					actionButton("uploadBtn", "Upload Scores From File"),
+					actionButton("loadIndivGroupScoresBtn", paste0("Load Saved Preferences")),
+					actionButton("loadGroupScoresBtn", paste0("Load Saved ", sapply(session_mode, capStringFirst), " Average Preferences")),
+					actionButton("startNewBtn", "New Run"),
+					HTML( "<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+						average preference values for the group. <br>"
+					)
+				)
+			}else{
+				modal_div <- div(
+					HTML( "<h4>Are you loading scores from a previous session or creating a new run?</h4>"),
+					actionButton("uploadBtn", "Upload Scores From File"),
+					actionButton("loadGroupScoresBtn", paste0("Load Saved ", sapply(session_mode, capStringFirst), " Average Preferences")),
+					actionButton("startNewBtn", "New Run"),
+					HTML( "<h4>Instructions for Uploading</h4>\
+						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
+						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
+						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
+						average preference values for the group. <br>"
+					)
+				)
+			}
+		}
+		new_modal <- modalDialog(
+			title = "Load Scores or Create New",
+			footer=NULL, # NULL to disable dismiss button
+			easyClose=FALSE, # False to disable closing by clicking outside of modal
+			modal_div
+		)
+
+		showModal(new_modal)
+		load_scores_modal_visible <<- TRUE
 	}
 
 
@@ -615,7 +687,9 @@ server <- function(input, output, session) {
 	observeEvent(input$selectIndividualSessionMode, { setSessionMode("individual") })
 
 	# load scores mode listeners
-	observeEvent(input$loadScoresBtn, { setLoadScoreMode("load") }) # load from django/db
+	observeEvent(input$loadIndivScoresBtn, { setLoadScoreMode("load", "individual") }) # load from django/db
+	observeEvent(input$loadIndivGroupScoresBtn, { setLoadScoreMode("load", "individial") }) # load users selection for group
+	observeEvent(input$loadGroupScoresBtn, { setLoadScoreMode("load", "group") }) # load avg of group
 	observeEvent(input$startNewBtn, { setLoadScoreMode("new") }) # no load
 	observeEvent(input$uploadBtn, { setLoadScoreMode("upload") }) # proceeds to file upload modal
 
@@ -627,6 +701,7 @@ server <- function(input, output, session) {
 	observeEvent(input$session_input_update, {
 		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
 	})
+
 	# track the user group
 	# NOTE: only set when the user is using application in group input mode
 	# this is important because changing the value of this variable causes effects
@@ -638,6 +713,14 @@ server <- function(input, output, session) {
 			message("Group Mode Set for group_id: ", input$session_user_group)
 			removeModal()
 		}
+	})
+
+	# track if user has saved run for selected mode: "group" or "individual"
+	# after checking can show load score options
+	observeEvent(input$session_user_prev_session, {
+		message("Previous session for user: ", input$session_user_prev_session)
+		# next up is picking how to load scores
+		showLoadScoresModal(input$session_user_prev_session) # update "group" and "individual" text on modal
 	})
 
 
