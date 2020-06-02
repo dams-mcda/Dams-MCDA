@@ -90,10 +90,10 @@ function setAppMode(message){
 function userHasGroup(message){
 	if (cachedContext['group'] != undefined){
 		console.log("userHasGroup?: ", cachedContext['group']);
-		Shiny.setInputValue('user_group', cachedContext['group'])
+		Shiny.setInputValue('session_user_group', cachedContext['group'])
 	}else{
 		//console.log("userHasGroup? False, context: ", cachedContext);
-		Shiny.setInputValue('user_group', "false")
+		Shiny.setInputValue('session_user_group', "false")
 	}
 }
 
