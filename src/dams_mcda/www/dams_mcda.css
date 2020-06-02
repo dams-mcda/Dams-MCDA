@@ -325,7 +325,7 @@ table.map-data tr td:nth-child(2){
 		position:fixed;
 		right:1em;
 		top:10em;
-		width:14em;
+		min-width:14em;
 		font-weight:700;
 		font-size:0.8em;
 		text-align:center;
