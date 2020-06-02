@@ -314,7 +314,7 @@ function loadScores(score_type){
 						)
 					}
 				}
-				alert("Saved Group Scores Loaded")
+				//alert("Saved Group Scores Loaded")
 
 			}else{
 				//console.log("loadScores indiv results: ", data);
@@ -334,7 +334,7 @@ function loadScores(score_type){
 						)
 					}
 				}
-				alert("Saved Scores Loaded")
+				//alert("Saved Scores Loaded")
 			}
 			//return data;
 		}else{
