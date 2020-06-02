@@ -698,12 +698,13 @@ server <- function(input, output, session) {
 
 	# important: for loading scores from js > input sliders
 	observeEvent(input$session_input_update, {
-		updateSliderInput(session, input$session_input_update[1], value=input$session_input_update[2])
+		# data is critId, damIndex, value
+		updateSliderInput(session, paste0(criteria_inputs[strtoi(input$session_input_update[1])+1], strtoi(input$session_input_update[2])), value=input$session_input_update[3])
+		setDamPreference(strtoi(input$session_input_update[2]), strtoi(input$session_input_update[1])+1, strtoi(input$session_input_update[3]))
 	})
 
 	# important: for updating ui after all scores loaded
 	observeEvent(input$session_load_complete, {
-		 message("session load complete")
 		 if (input$session_load_complete == "TRUE"){
 			 # set raw preferences
 			 updateDam1(FALSE)
@@ -895,6 +896,10 @@ server <- function(input, output, session) {
 	# assign a cell of session$userData$selectedPreferences
 	#------------------------------------------------------------
 	setDamPreference <- function(damIndex, critIndex, value){
+		message("setDam#: ")
+		message(damIndex)
+		message("crit: ")
+		message(critIndex)
 		session$userData$selectedPreferences[critIndex, damIndex] <- value
 	}
 
