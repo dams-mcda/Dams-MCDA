@@ -308,7 +308,7 @@ function loadScores(score_type){
 						// fires event on server to update input slider
 						Shiny.setInputValue(
 							"session_input_update",
-							[(critNames[critId] + damIndex.toString()), summed_score],
+							[critId, damIndex, summed_score],
 							{priority: "event"}
 						)
 					}
@@ -324,7 +324,7 @@ function loadScores(score_type){
 					for (let critId in critNames){
 						Shiny.setInputValue(
 							"session_input_update",
-							[(critNames[critId] + damIndex.toString()), damData[critId]],
+							[critId, damIndex, damData[critId]],
 							{priority: "event"}
 						)
 					}
