@@ -1824,7 +1824,7 @@ ui <- shinyUI(fluidPage(
 			   "Alex Couture-Beil (2018). rjson: JSON for R. R package version 0.2.20. https://CRAN.R-project.org/package=rjson . <br>\
 			   <br>Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 1.1. https://CRAN.R-project.org/package=shinyjs . <br>\
 			   <br>Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2. https://CRAN.R-project.org/package=RColorBrewer . <br>\
-			   <br>Hadley Wickham, Romain Francois, Lionel Henry and Kirill Muller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.6. https://CRAN.R-project.org/package=dplyr . <br>\
+			   <br>Hadley Wickham, Romain Fran&#231;ois, Lionel Henry and Kirill M&#252;ller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.6. https://CRAN.R-project.org/package=dplyr . <br>\
 			   <br>Hadley Wickham (2009). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. <br>\
 			   <br>Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2019). leaflet: Create Interactive Web Maps with the JavaScript Leaflet Library. R package version 2.0.3. https://CRAN.R-project.org/package=leaflet . <br>\
 			   <br>R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/. <br>\
