@@ -340,6 +340,7 @@ server <- function(input, output, session) {
 	#   could be expanded to include different modes depending on the application state requirements
 	#------------------------------------------------------------
 	session_mode <<- "individual" # default mode of session
+	has_prev_session <<- FALSE
 	intro_modal_visible <<- TRUE # intro modal is visible on page load
 	load_scores_modal_visible <<- FALSE # second modal > user picks either upload file, load saved scores (if avail), or skip
 	upload_modal_visible <<- FALSE # file upload modal
@@ -449,8 +450,7 @@ server <- function(input, output, session) {
 	showLoadScoresModal <- function(has_previous_session){
 		message("updateLoadScoresModal")
 		message(session_mode)
-
-		has_previous_session <- TRUE
+		has_prev_session <<- has_previous_session
 
 		if (session_mode == "individual"){
 			if (has_previous_session){
@@ -559,8 +559,7 @@ server <- function(input, output, session) {
 		load_scores_modal_visible <<- TRUE
 
 		# intro modal
-		showModal(load_scores_modal)
-
+		showLoadScoresModal(has_prev_session)
 	}
 
 
