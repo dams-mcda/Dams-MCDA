@@ -896,10 +896,6 @@ server <- function(input, output, session) {
 	# assign a cell of session$userData$selectedPreferences
 	#------------------------------------------------------------
 	setDamPreference <- function(damIndex, critIndex, value){
-		message("setDam#: ")
-		message(damIndex)
-		message("crit: ")
-		message(critIndex)
 		session$userData$selectedPreferences[critIndex, damIndex] <- value
 	}
 
