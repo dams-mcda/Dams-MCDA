@@ -592,7 +592,7 @@ server <- function(input, output, session) {
 		row_count <- length(head(t(df),n=1))
 		column_count <- length(head(df,n=1))
 		required_rows <- 8
-		required_cols <- 15
+		required_cols <- 13
 
 		# valid unless proven otherwise
 		file_valid <- TRUE
