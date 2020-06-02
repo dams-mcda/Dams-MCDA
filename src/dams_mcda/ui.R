@@ -1816,6 +1816,22 @@ ui <- shinyUI(fluidPage(
 				 <br>S. J. Klein and S. Whalley, Comparing the sustainability of US electricity options through multi-criteria decision analysis, Energy Policy, vol. 79, pp. 127-149, 2015.<br>\
 				 <br>W. Short, D. J. Packey, and T. Holt, A manual for the economic evaluation of energy efficiency and renewable energy technologies, NREL/TP--462-5173, 35391, Mar. 1995. doi: 10.2172/35391.<br>
 				 "
+			 ),
+			 h2("Software and Programs Used (in alphabetical order)"),
+			 HTML(
+			   "Alex Couture-Beil (2018). rjson: JSON for R. R package version 0.2.20. https://CRAN.R-project.org/package=rjson . <br>\
+			   <br>Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 1.1. https://CRAN.R-project.org/package=shinyjs . <br>\
+			   <br>Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2. https://CRAN.R-project.org/package=RColorBrewer . <br>\
+			   <br>Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.6. https://CRAN.R-project.org/package=dplyr . <br>\
+			   <br>Hadley Wickham (2009). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. <br>\
+			   <br>Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2019). leaflet: Create Interactive Web Maps with the JavaScript Leaflet Library. R package version 2.0.3. https://CRAN.R-project.org/package=leaflet . <br>\
+			   <br>R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/. <br>\
+			   <br>RStudio Team (2015). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/. <br>\
+			   <br>Simon Urbanek and Jeffrey Horner (2020). Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output.R package version 1.5-12. https://CRAN.R-project.org/package=Cairo . <br>\
+			   <br>Tony Plate and Richard Heiberger (2016). abind: Combine Multidimensional Arrays. R package version 1.4-5. https://CRAN.R-project.org/package=abind . <br>\
+			   <br>Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny . <br>\
+			   <br>Yihui Xie, Joe Cheng and Xianying Tan (2020). DT: A Wrapper of the JavaScript Library 'DataTables'. R package version 0.13. https://CRAN.R-project.org/package=DT . <br>
+			   "
 			 )
 		)
 	) # end of navigation panel
