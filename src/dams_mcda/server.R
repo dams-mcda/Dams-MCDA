@@ -461,7 +461,7 @@ server <- function(input, output, session) {
 					actionButton("startNewBtn", "New Run"),
 					HTML( "<h4>Instructions for Uploading</h4>\
 						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						and your data should be organized in 9 rows (criteria header, dams) with 13 columns (dam names, decision criteria). Cells should be\
 						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
 						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 						average preference values for the group. <br>"
@@ -474,7 +474,7 @@ server <- function(input, output, session) {
 					actionButton("startNewBtn", "New Run"),
 					HTML( "<h4>Instructions for Uploading</h4>\
 						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						and your data should be organized in 9 rows (criteria header, dams) with 13 columns (dam names, decision criteria). Cells should be\
 						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
 						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 						average preference values for the group. <br>"
@@ -491,7 +491,7 @@ server <- function(input, output, session) {
 					actionButton("startNewBtn", "New Run"),
 					HTML( "<h4>Instructions for Uploading</h4>\
 						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						and your data should be organized in 9 rows (criteria header, dams) with 13 columns (dam names, decision criteria). Cells should be\
 						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
 						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 						average preference values for the group. <br>"
@@ -505,7 +505,7 @@ server <- function(input, output, session) {
 					actionButton("startNewBtn", "New Run"),
 					HTML( "<h4>Instructions for Uploading</h4>\
 						Use this option only if you have done this activity before. Your input file should be in .CSV format, \
-						and your data should be organized in 9 rows (criteria header, dams) with 15 columns (dam names, decision criteria). Cells should be\
+						and your data should be organized in 9 rows (criteria header, dams) with 13 columns (dam names, decision criteria). Cells should be\
 						populated with preference values for each criterion at each dam. Press the UPLOAD button, then browse and \
 						select the appropriate .CSV file to upload for you or (if you are using the tool as part of a group) the \
 						average preference values for the group. <br>"
