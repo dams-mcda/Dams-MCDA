@@ -29,7 +29,7 @@ riverRecLabel <- "River recreation is measured in square kilometers. It is the e
 or decrease with a dam decision alternative, represents functional area for whitewater recreation defined by Roy et al. (2018)."
 resStorageLabel <- "Reservoir storage is measured in cubic kilometers. It is the estimated storage potential of the reservoir, based\ 
 on its volume (Roy et al., 2018)."
-annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2018 $USD/year. It is the estimated total project costs (capital \
+annuitizedProjCostsLabel <- "Annuitized project cost is measured in 2019 $USD/year. It is the estimated total project costs (capital \
 and operation & maintenance) on an annual basis using a 6.2% discount rate and a 20-year financial lifetime."
 breachDamageLabel <- "Breach damange potential is a unitless proxy for safety based on the State hazard rating, which indicates the \
 potential for downstream property damage, injury, and death in the case of dam breach (Roy et al., 2018)."
@@ -44,11 +44,14 @@ dams); based on decreasing generation from the State's electricity generation mi
 indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving\
 or restoring the culture and practices of indigenous people."
 townCityIdentityLabel <- "Town/city identity is a unitless rating to convey the importance of preserving the existing identity of \
-the existing town/city identity for residents living along the river."
+the existing town/city identity for residents living along the river. Note: Users may slide bars to indicate level of preference, \
+but as of May 2020 we do not have data for this criterion."
 industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
-the industrial history of the site. "
+the industrial history of the site. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data \
+for this criterion."
 aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
-scenic value, smell, sound) at a dam site."
+scenic value, smell, sound) at a dam site.Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data\
+for this criterion."
 
 
 
@@ -262,7 +265,7 @@ ui <- shinyUI(fluidPage(
 
 			HTML('Please consider and rate your preference for the decision criteria listed below for Medway Dam. <a href="Factsheet_Medway.pdf" download>Download Dam Factsheet</a> or <a href="Factsheet_Medway.pdf" target="_blank">Open in new tab</a>.<br>\
 				 Move the slider bar for each decision criterion you care about to a position that represents the relative amount of preference you have for that decision criterion compared to others in the list. Once you have made your selections, click UPDATE at the \
-			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "Medway_RawDecisionMatrix.pdf" target="_blank">Click to view Medway Data</a>. <br>\
+			     bottom of the page when you are done moving the slider bars to mark this tab Complete. <a href = "Medway_DamDataTable_updated.pdf" target="_blank">Click to view Medway Data</a>. <br>\
 			     <br><b>Warning: decision criteria ratings must sum to 100!</b> The tracking indicator will help you keep track of the sum. Be aware that decision criteria are directly compensating (i.e., if the sum of all ratings is 100, then\ 
 			     increasing the rating on one criterion requires another criterion rating to decrease to keep the sum equal to 100). <br>\
 			     <br><b>For ratings, 0 = not at all important and 100 = extremely important.</b><br>'
@@ -1802,6 +1805,7 @@ ui <- shinyUI(fluidPage(
 				 U.S. Geological Survey Grant No. G16AP00057 through the Senator George J. Mitchell Center at the University of Maine.<br>\
 				 <br> The Data Discovery Center at the University of New Hampshire is the host for this Dam Decision Support Tool. https://ddc.unh.edu <br>"
 			 ),
+			 
 			 h2("Citations (in alphabetical order)"),
 			 HTML(
 				 "B. Blachly and E. Uchida, Estimating the Marginal Cost of Dam Removal, in Environmental and Natural Resource Economics Working Papers, 2017, vol. Paper 2.<br>\
@@ -1816,6 +1820,25 @@ ui <- shinyUI(fluidPage(
 				 <br>S. J. Klein and S. Whalley, Comparing the sustainability of US electricity options through multi-criteria decision analysis, Energy Policy, vol. 79, pp. 127-149, 2015.<br>\
 				 <br>W. Short, D. J. Packey, and T. Holt, A manual for the economic evaluation of energy efficiency and renewable energy technologies, NREL/TP--462-5173, 35391, Mar. 1995. doi: 10.2172/35391.<br>
 				 "
+			 ),
+			 
+			 h2("Software and Programs Used (in alphabetical order)"),
+			 HTML(
+			   "Alex Couture-Beil (2018). rjson: JSON for R. R package version 0.2.20. https://CRAN.R-project.org/package=rjson . <br>\
+			   <br> C. Sievert (2020). Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida. <br>\
+			   <br>Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 1.1. https://CRAN.R-project.org/package=shinyjs . <br>\
+			   <br>Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2. https://CRAN.R-project.org/package=RColorBrewer . <br>\
+			   <br>Hadley Wickham, Romain Fran&#231;ois, Lionel Henry and Kirill M&#252;ller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.6. https://CRAN.R-project.org/package=dplyr . <br>\
+			   <br>Hadley Wickham (2009). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. <br>\
+			   <br>Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2019). leaflet: Create Interactive Web Maps with the JavaScript Leaflet Library. R package version 2.0.3. https://CRAN.R-project.org/package=leaflet . <br>\
+			   <br>Matt Dowle and Arun Srinivasan (2019). data.table: Extension of data.frame. R package version 1.12.8.https://CRAN.R-project.org/package=data.table . <br>\
+			   <br>R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/. <br>\
+			   <br>RStudio Team (2015). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/. <br>\
+			   <br>Simon Urbanek and Jeffrey Horner (2020). Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output.R package version 1.5-12. https://CRAN.R-project.org/package=Cairo . <br>\
+			   <br>Tony Plate and Richard Heiberger (2016). abind: Combine Multidimensional Arrays. R package version 1.4-5. https://CRAN.R-project.org/package=abind . <br>\
+			   <br>Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny . <br>\
+			   <br>Yihui Xie, Joe Cheng and Xianying Tan (2020). DT: A Wrapper of the JavaScript Library DataTables. R package version 0.13. https://CRAN.R-project.org/package=DT . <br>
+			   "
 			 )
 		)
 	) # end of navigation panel
