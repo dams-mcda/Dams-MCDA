@@ -1839,7 +1839,7 @@ ui <- shinyUI(fluidPage(
 			   <br>Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny . <br>\
 			   <br>Yihui Xie, Joe Cheng and Xianying Tan (2020). DT: A Wrapper of the JavaScript Library DataTables. R package version 0.13. https://CRAN.R-project.org/package=DT . <br>
 			   "
-			 )
+			 ),
 
 			 h2("(Python) Software and Programs Used (in alphabetical order)"),
 			 HTML(
