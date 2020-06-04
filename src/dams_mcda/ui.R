@@ -1818,7 +1818,7 @@ ui <- shinyUI(fluidPage(
 				 <br>Roy, S.G., Uchida, E., de Souza, S.P., Blachly, B., Fox, E., Gardner, K., Gold, A.J., Jansujwicz, J., Klein, S., McGreavy, B., Mo, W., Smith, S.M.C., Vogler, E., Wilson, K., Zydlewski, J., & Hart, D. (2018). A multiscale approach to balance trade-offs among dam infrastructure, river restoration, and cost. Proceedings of the National \
 				 Academy of Sciences, 201807437. doi:10.1073/pnas.1807437115.<br>\
 				 <br>S. J. Klein and S. Whalley, Comparing the sustainability of US electricity options through multi-criteria decision analysis, Energy Policy, vol. 79, pp. 127-149, 2015.<br>\
-				 <br>W. Short, D. J. Packey, and T. Holt, A manual for the economic evaluation of energy efficiency and renewable energy technologies, NREL/TP--462-5173, 35391, Mar. 1995. doi: 10.2172/35391.<br>
+				 <br>W. Short, D. J. Packey, and T. Holt, A manual for the economic evaluation of energy efficiency and renewable energy technologies, NREL/TP--462-5173, 35391, Mar. 1995. doi: 10.2172/35391.<br>\
 				 "
 			 ),
 			 
@@ -1839,6 +1839,13 @@ ui <- shinyUI(fluidPage(
 			   <br>Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny . <br>\
 			   <br>Yihui Xie, Joe Cheng and Xianying Tan (2020). DT: A Wrapper of the JavaScript Library DataTables. R package version 0.13. https://CRAN.R-project.org/package=DT . <br>
 			   "
+			 )
+
+			 h2("(Python) Software and Programs Used (in alphabetical order)"),
+			 HTML(
+				  "Python Software Foundation. Python Language Reference, version 3.7. https://docs.python.org/3/reference/. <br>\
+				  <br>Django (2020). Django version 2.2. Retrieved from https://djangoproject.com.<br>\
+				  "
 			 )
 		)
 	) # end of navigation panel
