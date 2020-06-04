@@ -41,7 +41,7 @@ available_dams <- seq(1:8)
 # list of alternatives
 available_alternatives <- seq(1:5)
 
-# criteria input identifiers
+# criteria input identifiers (count: 12)
 criteria_inputs <- c(
 	"FishHabitat",
 	"RiverRec",
@@ -240,7 +240,13 @@ saveResponse <- function(table_data) {
 #----------------------------------------
 # save preference input selection
 savePreferences <- function(pref_data) {
+	message("savePreferences")
+	message("dim ", dim(pref_data))
 	preference_selection <<- pref_data
+	for( value in available_dams){
+		message("savepref for dam: ", value)
+		message(preference_selection[value,])
+	}
 }
 
 
@@ -734,7 +740,7 @@ server <- function(input, output, session) {
 	# track if user has saved run for selected mode: "group" or "individual"
 	# after checking can show load score options
 	observeEvent(input$session_user_prev_session, {
-		message("Previous session for user: ", input$session_user_prev_session)
+		#message("Previous session for user: ", input$session_user_prev_session)
 		# next up is picking how to load scores
 		showLoadScoresModal(input$session_user_prev_session) # update "group" and "individual" text on modal
 	})
@@ -868,7 +874,7 @@ server <- function(input, output, session) {
 			input[[paste0("TownCityIdentity", damIndex)]],
 			input[[paste0("Aesthetics", damIndex)]]
 		)
-		message("get dam ", damIndex, " preferences ", damPrefs)
+		#message("get dam ", damIndex, " preferences ", damPrefs)
 		return(damPrefs)
 	}
 
@@ -887,6 +893,9 @@ server <- function(input, output, session) {
 	# assign a list of values for each criteria in a dam
 	#------------------------------------------------------------
 	setDamPreferences <- function(damIndex, preferences){
+		#message("setDamPreferences> index, val array")
+		#message(damIndex)
+		#message(preferences)
 		session$userData$selectedPreferences[,damIndex] <- preferences
 	}
 
@@ -1243,8 +1252,9 @@ server <- function(input, output, session) {
 			#----------------------------------------
 			# Retreive Inputs
 			#----------------------------------------
+			session_scores <- getRawScores()
 			# raw preference scores
-			RawCriteriaMatrix <- data.frame(matrix(getRawScores(), nrow=length(available_dams), byrow=length(criteria_inputs)))
+			RawCriteriaMatrix <- data.frame(matrix(session_scores, nrow=length(available_dams), byrow=length(criteria_inputs)))
 			row.names(RawCriteriaMatrix) <- dam_names
 			colnames(RawCriteriaMatrix) <- criteria_names
 			savePreferences(RawCriteriaMatrix)
@@ -1339,7 +1349,7 @@ server <- function(input, output, session) {
 			# Graph1
 			# Preference scores by criteria
 			combinedPlot1 <- renderPlot2DR(
-				t(round(RawCriteriaMatrix,0)), # data
+			    t(round(RawCriteriaMatrix,0)), # data
 				"Criteria preference values for all dams", # title
 				dam_names, # x_labels
 				criteria_names, # y_labels
@@ -1399,7 +1409,7 @@ server <- function(input, output, session) {
 								dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
 								assigned <- TRUE
 								#
-								message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
+								#message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 							}
 						}
 
@@ -1414,7 +1424,7 @@ server <- function(input, output, session) {
 								# prioritize remove
 								dam_top_alt_index[damId] <- which(alternative_names == "Remove Dam")
 								assigned <- TRUE
-								message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
+								#message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 							}
 						}
 
@@ -1434,13 +1444,13 @@ server <- function(input, output, session) {
 									# preference
 									dam_top_alt_index[damId] <- which(alternative_names == "Keep and Maintain Dam")
 									assigned <- TRUE
-									message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
+									#message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 								}else if (remove_dam %in% possible_alts){
 									updated_possible_alts <- which(possible_alts!=remove_dam)
 									# any but remove random from list
 									dam_top_alt_index[damId] <- sample(updated_possible_alts, 1)
 									assigned <- TRUE
-									message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
+									#message("ASSIGN alt: ", altId, " name: ", alternative_names[altId])
 								}
 							}
 						}
@@ -1452,7 +1462,7 @@ server <- function(input, output, session) {
 				# normal method if not assigned already
 				if (assigned == FALSE){
 					alt_index <- which.max(WSMIndScoreSum[damId,])
-					message("Single> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1))
+					#message("Single> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1))
 					# display_name
 					dam_names_with_max_alt[damId] <- paste0(
 						dam_names_with_max_alt[damId],
@@ -1464,7 +1474,7 @@ server <- function(input, output, session) {
 				}else{
 					alt_index <- which.max(WSMIndScoreSum[damId,])
 					# chosen alt already assaigned
-					message("Multi> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1), " selected top alt ", dam_top_alt_index[damId])
+					#message("Multi> Dam: ", dam_names[damId], " Alt: ", alternative_names[alt_index], " Alt index ", alt_index, " map alt index: ", (alt_index-1), " selected top alt ", dam_top_alt_index[damId])
 					# display_name
 					dam_names_with_max_alt[damId] <- paste0(
 						dam_names_with_max_alt[damId],
@@ -2192,10 +2202,11 @@ server <- function(input, output, session) {
 
 	# Downloadable csv of selected dataset
 	output$downloadData1 <- downloadHandler(
+		damId <- 1
 		filename = function() {
 			# format date & time in filename
 			# date format( year, month, day, hour, minute, second, UTC offset )
-			format(Sys.time(), paste0(dam_names[damId], "_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv"))
+			format(Sys.time(), "WestEnfield_mcda_results_%Y-%m-%d_%H-%M-%S_%z.csv")
 		},
 		content = function(file) {
 			prefRow <- preference_selection[1,]
