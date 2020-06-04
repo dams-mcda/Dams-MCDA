@@ -24,22 +24,8 @@ services:
     restart: always
     entrypoint:
       - bash
-      - /srv/shiny-server/install-matlab.sh
-
-      #  shiny_server3:
-      #    build:
-      #      context: .
-      #      dockerfile: Dockerfile
-      #    ports:
-      #      - "3636:3838"
-      #    volumes:
-      #      - ./src:/srv/shiny-server:rw
-      #    # restart always can be problematic when not launching a production server
-      #    restart: always
-      #    entrypoint:
-      #      - bash
-      #      - /srv/shiny-server/install-matlab.sh
-
+      - /srv/shiny-server/run.sh
+      #- /srv/shiny-server/install-matlab.sh # old version tries to install matlab in docker container
 
   shiny_db:
     # could upgrade postgres 9.5+ if needed
