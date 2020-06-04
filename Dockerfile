@@ -1,8 +1,8 @@
 FROM rocker/shiny:3.5.1
 
 RUN mkdir -p /var/lib/shiny-server/bookmarks/shiny
-RUN mkdir -p /srv/matlab-source
-RUN mkdir -p /srv/matlab-working-dir
+#RUN mkdir -p /srv/matlab-source
+#RUN mkdir -p /srv/matlab-working-dir
 
 RUN apt-get update
 RUN apt-get install -y \
@@ -32,7 +32,7 @@ USER root
 # make sure shiny user has access to server
 RUN chown -R shiny:shiny /srv/shiny-server && chmod -R 775 /srv/shiny-server
 RUN chown -R shiny:shiny /var/log/shiny-server && chmod -R 775 /var/log/shiny-server
-RUN chown -R shiny:shiny /srv/matlab-working-dir && chmod -R 775 /srv/matlab-working-dir
+#RUN chown -R shiny:shiny /srv/matlab-working-dir && chmod -R 775 /srv/matlab-working-dir
 
 RUN addgroup docker
 RUN adduser shiny docker
