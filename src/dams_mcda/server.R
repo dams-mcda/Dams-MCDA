@@ -2202,7 +2202,6 @@ server <- function(input, output, session) {
 
 	# Downloadable csv of selected dataset
 	output$downloadData1 <- downloadHandler(
-		damId <- 1
 		filename = function() {
 			# format date & time in filename
 			# date format( year, month, day, hour, minute, second, UTC offset )
