@@ -1824,28 +1824,27 @@ ui <- shinyUI(fluidPage(
 			 
 			 h2("Software and Programs Used (in alphabetical order)"),
 			 HTML(
-			   "Alex Couture-Beil (2018). rjson: JSON for R. R package version 0.2.20. https://CRAN.R-project.org/package=rjson . <br>\
-			   <br> C. Sievert (2020). Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida. <br>\
-			   <br>Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 1.1. https://CRAN.R-project.org/package=shinyjs . <br>\
-			   <br>Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2. https://CRAN.R-project.org/package=RColorBrewer . <br>\
-			   <br>Hadley Wickham, Romain Fran&#231;ois, Lionel Henry and Kirill M&#252;ller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.6. https://CRAN.R-project.org/package=dplyr . <br>\
-			   <br>Hadley Wickham (2009). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. <br>\
-			   <br>Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2019). leaflet: Create Interactive Web Maps with the JavaScript Leaflet Library. R package version 2.0.3. https://CRAN.R-project.org/package=leaflet . <br>\
-			   <br>Matt Dowle and Arun Srinivasan (2019). data.table: Extension of data.frame. R package version 1.12.8.https://CRAN.R-project.org/package=data.table . <br>\
-			   <br>R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/. <br>\
-			   <br>RStudio Team (2015). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/. <br>\
-			   <br>Simon Urbanek and Jeffrey Horner (2020). Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output.R package version 1.5-12. https://CRAN.R-project.org/package=Cairo . <br>\
-			   <br>Tony Plate and Richard Heiberger (2016). abind: Combine Multidimensional Arrays. R package version 1.4-5. https://CRAN.R-project.org/package=abind . <br>\
-			   <br>Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny . <br>\
-			   <br>Yihui Xie, Joe Cheng and Xianying Tan (2020). DT: A Wrapper of the JavaScript Library DataTables. R package version 0.13. https://CRAN.R-project.org/package=DT . <br>
+			   "Alex Couture-Beil (2018). rjson: JSON for R. R package version 0.2.20. https://CRAN.R-project.org/package=rjson&nbsp;. <br>\
+			   <br>Alex Gaynor, Carlton Gibson (2020) django-filter, version 2.3.0. https://django-filter.readthedocs.io/en/stable/&nbsp;.<br>\
+			   <br>C. Sievert (2020). Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida. <br>\
+			   <br>Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 1.1. https://CRAN.R-project.org/package=shinyjs&nbsp;. <br>\
+			   <br>Django (2020). Django version 2.2. Retrieved from https://djangoproject.com&nbsp;.<br>\
+			   <br>Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2. https://CRAN.R-project.org/package=RColorBrewer&nbsp;. <br>\
+			   <br>Federico Di Gregorio, Daniele Varrazzo, The Psycopg Team (2020). psycopg2. https://www.psycopg.org/docs/index.html&nbsp;. <br>\
+			   <br>Hadley Wickham, Romain Fran&#231;ois, Lionel Henry and Kirill M&#252;ller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.6. https://CRAN.R-project.org/package=dplyr&nbsp;. <br>\
+			   <br>Hadley Wickham (2009). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. https://cran.r-project.org/web/packages/ggplot2/index.html&nbsp;.<br>\
+			   <br>Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2019). leaflet: Create Interactive Web Maps with the JavaScript Leaflet Library. R package version 2.0.3. https://CRAN.R-project.org/package=leaflet&nbsp;. <br>\
+			   <br>Matt Dowle and Arun Srinivasan (2019). data.table: Extension of data.frame. R package version 1.12.8.https://CRAN.R-project.org/package=data.table&nbsp;. <br>\
+			   <br>Python Software Foundation (2020). Python Language Reference, version 3.7. https://docs.python.org/3/reference/&nbsp;. <br>\
+			   <br>The PostgreSQL Global Development Group (2020). PostgreSQL database, version 9.6. https://www.postgresql.org/docs/9.6/reference.html&nbsp;.<br>\
+			   <br>Tom Christie, Encode OSS Ltd. (2020). Django REST Framework, version 3.11. https://www.django-rest-framework.org/&nbsp;.<br>\
+			   <br>R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/&nbsp;.<br>\
+			   <br>RStudio Team (2015). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/&nbsp;.<br>\
+			   <br>Simon Urbanek and Jeffrey Horner (2020). Cairo: R Graphics Device using Cairo Graphics Library for Creating High-Quality Bitmap (PNG, JPEG, TIFF), Vector (PDF, SVG, PostScript) and Display (X11 and Win32) Output.R package version 1.5-12. https://CRAN.R-project.org/package=Cairo&nbsp;.<br>\
+			   <br>Tony Plate and Richard Heiberger (2016). abind: Combine Multidimensional Arrays. R package version 1.4-5. https://CRAN.R-project.org/package=abind&nbsp;.<br>\
+			   <br>Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web Application Framework for R. R package version 1.4.0.2. https://CRAN.R-project.org/package=shiny&nbsp;.<br>\
+			   <br>Yihui Xie, Joe Cheng and Xianying Tan (2020). DT: A Wrapper of the JavaScript Library DataTables. R package version 0.13. https://CRAN.R-project.org/package=DT&nbsp;.<br>\
 			   "
-			 ),
-
-			 h2("(Python) Software and Programs Used (in alphabetical order)"),
-			 HTML(
-				  "Python Software Foundation. Python Language Reference, version 3.7. https://docs.python.org/3/reference/. <br>\
-				  <br>Django (2020). Django version 2.2. Retrieved from https://djangoproject.com.<br>\
-				  "
 			 )
 		)
 	) # end of navigation panel
