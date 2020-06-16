@@ -43,16 +43,16 @@ estimate of avoided carbon dioxide emissions from annual hydropower-generated el
 dams); based on decreasing generation from the State's electricity generation mix; includes life cycle emissions impacts."
 indigenousLifewaysLabel <- "Indigenous cultural traditions and lifeways is a unitless rating to convey the importance of preserving\
 or restoring the culture and practices of indigenous people."
-townCityIdentityLabel <- "Town/city identity is a unitless rating to convey the importance of preserving the existing identity of \
-the existing town/city identity for residents living along the river. Note: Users may slide bars to indicate level of preference, \
-but as of May 2020 we do not have data for this criterion."
-industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
-the industrial history of the site. Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data \
-for this criterion."
-aestheticsLabel <- "Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
-scenic value, smell, sound) at a dam site.Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data\
-for this criterion."
 
+# labels that need noDataWarning
+townCityIdentityLabel <- "Town/city identity is a unitless rating to convey the importance of preserving the existing identity of \
+the existing town/city identity for residents living along the river."
+industrialHistoryLabel <- "Industrial historical importance is a unitless rating to convey the importance of preserving or restoring\
+the industrial history of the site."
+aestheticsLabel <- 'Aesthetic value is a rating to convey the importance of improving or preserving the aesthetics (e.g, appearance,\
+scenic value, smell, sound) at a dam site.'
+
+noDataWarning <- 'Note: Users may slide bars to indicate level of preference, but as of May 2020 we do not have data for this criterion.'
 
 
 # Define UI for Shiny web application
@@ -233,17 +233,23 @@ ui <- shinyUI(fluidPage(
 			#IndustrialHistory
 			div(id="industrial-1",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory1", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+				p(industrialHistoryLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "IndustrialHistory1", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#townCityIdentity
 			div(id="townCity-1",
 				h3("Town/City Identity"),
-				sliderInput(inputId = "TownCityIdentity1", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+				p(townCityIdentityLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "TownCityIdentity1", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-1",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics1", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+				p(aestheticsLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "Aesthetics1", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 
 
@@ -323,17 +329,23 @@ ui <- shinyUI(fluidPage(
 			#IndustrialHistory
 			div(id="industrial-2",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory2", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+				p(industrialHistoryLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "IndustrialHistory2", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#TownCityIdentity
 			div(id="townCity-2",
 				h3("Town/City Identity"),
-				sliderInput(inputId = "TownCityIdentity2", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+				p(townCityIdentityLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "TownCityIdentity2", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-2",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics2", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+				p(aestheticsLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "Aesthetics2", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 
 
@@ -413,17 +425,23 @@ ui <- shinyUI(fluidPage(
 			#IndustrialHistory
 			div(id="industrial-3",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory3", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+				p(industrialHistoryLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "IndustrialHistory3", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#TownCityIdentity
 			div(id="townCity-3",
 				h3("Town/City Identity"),
-				sliderInput(inputId = "TownCityIdentity3", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+				p(townCityIdentityLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "TownCityIdentity3", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-3",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics3", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+				p(aestheticsLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "Aesthetics3", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 
 
@@ -504,17 +522,23 @@ ui <- shinyUI(fluidPage(
 			#IndustrialHistory
 			div(id="industrial-4",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory4", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+				p(industrialHistoryLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "IndustrialHistory4", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#TownCityIdentity
 			div(id="townCity-4",
 				h3("Town/City Identity"),
-				sliderInput(inputId = "TownCityIdentity4", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+				p(townCityIdentityLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "TownCityIdentity4", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-4",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics4", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+				p(aestheticsLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "Aesthetics4", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 
 
@@ -594,17 +618,23 @@ ui <- shinyUI(fluidPage(
 			#IndustrialHistory
 			div(id="industrial-5",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory5", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+				p(industrialHistoryLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "IndustrialHistory5", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#TownCityIdentity
 			div(id="townCity-5",
 				h3("Town/City Identity"),
-				sliderInput(inputId = "TownCityIdentity5", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+				p(townCityIdentityLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "TownCityIdentity5", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-5",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics5", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+				p(aestheticsLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "Aesthetics5", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 
 
@@ -684,17 +714,23 @@ ui <- shinyUI(fluidPage(
 		  #IndustrialHistory
 		  div(id="industrial-6",
 		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory6", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+			  p(industrialHistoryLabel),
+			  span(noDataWarning, style="color:red;"),
+			  sliderInput(inputId = "IndustrialHistory6", label = NULL, value=0, min=0, max=100, step = 5)
 		  ),
 		  #TownCityIdentity
 		  div(id="townCity-6",
 		      h3("Town/City Identity"),
-		      sliderInput(inputId = "TownCityIdentity6", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+			  p(townCityIdentityLabel),
+			  span(noDataWarning, style="color:red;"),
+			  sliderInput(inputId = "TownCityIdentity6", label = NULL, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-6",
 		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics6", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+			  p(aestheticsLabel),
+			  span(noDataWarning, style="color:red;"),
+			  sliderInput(inputId = "Aesthetics6", label = NULL, value=0, min=0, max=100, step = 5)
 		  ),
 
 
@@ -774,17 +810,23 @@ ui <- shinyUI(fluidPage(
 		  #IndustrialHistory
 		  div(id="industrial-7",
 		      h3("Industrial Historical Importance"),
-		      sliderInput(inputId = "IndustrialHistory7", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+			  p(industrialHistoryLabel),
+			  span(noDataWarning, style="color:red;"),
+			  sliderInput(inputId = "IndustrialHistory7", label = NULL, value=0, min=0, max=100, step = 5)
 		  ),
 		  #TownCityIdentity
 		  div(id="townCity-7",
 		      h3("Town/City Identity"),
-		      sliderInput(inputId = "TownCityIdentity7", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+			  p(townCityIdentityLabel),
+			  span(noDataWarning, style="color:red;"),
+			  sliderInput(inputId = "TownCityIdentity7", label = NULL, value=0, min=0, max=100, step = 5)
 		  ),
 		  #Aesthetics
 		  div(id="aesthetics-7",
 		      h3("Aesthetic Value"),
-		      sliderInput(inputId = "Aesthetics7", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+			  p(aestheticsLabel),
+			  span(noDataWarning, style="color:red;"),
+			  sliderInput(inputId = "Aesthetics7", label = NULL, value=0, min=0, max=100, step = 5)
 		  ),
 
 
@@ -864,17 +906,23 @@ ui <- shinyUI(fluidPage(
 			#IndustrialHistory
 			div(id="industrial-8",
 				h3("Industrial Historical Importance"),
-				sliderInput(inputId = "IndustrialHistory8", label = industrialHistoryLabel, value=0, min=0, max=100, step = 5)
+				p(industrialHistoryLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "IndustrialHistory8", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#TownCityIdentity
 			div(id="townCity-8",
 				h3("Town/City Identity"),
-				sliderInput(inputId = "TownCityIdentity8", label = townCityIdentityLabel, value=0, min=0, max=100, step = 5)
+				p(townCityIdentityLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "TownCityIdentity8", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 			#Aesthetics
 			div(id="aesthetics-8",
 				h3("Aesthetic Value"),
-				sliderInput(inputId = "Aesthetics8", label = aestheticsLabel, value=0, min=0, max=100, step = 5)
+				p(aestheticsLabel),
+				span(noDataWarning, style="color:red;"),
+				sliderInput(inputId = "Aesthetics8", label = NULL, value=0, min=0, max=100, step = 5)
 			),
 
 
